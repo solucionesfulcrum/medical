@@ -1,0 +1,6 @@
+<RCC>
+    <qresource prefix="/">
+        <file>qtbase_es.qm</file>
+        <file>MedicalBox_en.qm</file>
+    </qresource>
+</RCC>
