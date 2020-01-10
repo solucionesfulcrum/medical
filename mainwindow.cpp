@@ -380,8 +380,8 @@ void MainWindow::setMainWidget(){
     _historical->setQueueWidget(_queue);
     connect(_historical,SIGNAL(loadStudyId(int)),this,SLOT(loadStudy(int)));
 
-    _main->addWidget(_study);
-    _main->addWidget(_visor);
+    _main->addWidget(_study);           // Index 0
+    _main->addWidget(_visor);           // Index 1
     _main->addWidget(_configuration);
     _main->addWidget(_historical);
     _main->addWidget(_operatores);

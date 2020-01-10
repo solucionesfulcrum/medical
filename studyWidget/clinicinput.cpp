@@ -1,4 +1,4 @@
-#include "clinicinput.h"
+ #include "clinicinput.h"
 #include <QDebug>
 
 
@@ -30,7 +30,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         qDebug() << "Select found, name is: " + textName;
     }
 
-    label->setFixedWidth(250);
+    //label->setFixedWidth(250);        // Christiam
     foreach(QJsonValue s, obj.value("items").toArray())
         item.append(s.toString());
     foreach(QJsonValue s, obj.value("default").toArray())
@@ -43,10 +43,9 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
     if(textName == "Fecha de ultrasonido previo")
     {
         qDebug() << "Found the calendar that needs checkbox";
-
         QCheckBox * uecb = new QCheckBox("Primer Ultrasonido", this);
         uecb->setObjectName("uecb");
-//        connect(uecb, SIGNAL(stateChange()), this, SLOT(firstUltrasoundCheck()));
+//      connect(uecb, SIGNAL(stateChange()), this, SLOT(firstUltrasoundCheck()));
         connect(uecb, SIGNAL(clicked()), this, SLOT(firstUltrasoundCheck()));
         l->addWidget(uecb, 0, Qt::AlignLeft);
     }
@@ -149,6 +148,38 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         std_input = input;
     }
 
+    if(obj.value("type").toString() == "mix"){
+        QStringList itemAux;
+        QStringList defaultsAux;
+        QHBoxLayout * h = new QHBoxLayout(this);
+
+        itemAux.append(item.at(1));
+        checkboxes * checkLatidos = new checkboxes(itemAux,defaultsAux);
+        checkLatidos->setObjectName("checkLatidos");
+        l->addWidget(checkLatidos);
+        std_input = checkLatidos;
+
+        l->addWidget(std_input);
+
+        //QLabel * labelFreq = new QLabel(item.at(3));
+        //h->addWidget(labelFreq);
+
+        QVkLineEdit *in = new QVkLineEdit;
+        in->setText("");
+        in->setEnabled(false);
+        //h->addWidget(in);
+        std_input = in;
+
+        l->addWidget(std_input);
+
+        connect(checkLatidos,SIGNAL(stateChanged(int)),this,SLOT(EnableLatidosCardiacos(int)));
+
+        //l->addLayout(h);
+        return;
+
+
+    }
+
     if(!type.contains(obj.value("type").toString())){
         QVkLineEdit *input = new QVkLineEdit;
         input->setText(defaults.at(0));
@@ -158,6 +189,15 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
     l->addWidget(std_input);
 
 }
+
+
+void clinicInput::EnableLatidosCardiacos(int)
+{
+    QCheckBox* chk = this->findChild<QCheckBox*>("checkLatidos");
+    chk->setEnabled(chk->checkState());
+}
+
+
 
 //AVISO(jobenas): Esta es una funcion de prueba para evaluar la
 //capacidad de interconexion de los calendarios. Cuando los

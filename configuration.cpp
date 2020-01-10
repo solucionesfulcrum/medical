@@ -518,12 +518,13 @@ void configuration::RunCmd(QString comando){
     qDebug()<<"entry";
     if (entry!=0) return;
     accesor::mw->setEnabled(false);
+    //accesor::mw->
     entry=1;
     QApplication::setOverrideCursor(Qt::WaitCursor);
     proceso.Argumento(comando);
     proceso.start();
     Sleep(2000);
-    accesor::mw->showMinimized();
+    //accesor::mw->showMinimized();
     QApplication::restoreOverrideCursor();
 
 //  Christiam

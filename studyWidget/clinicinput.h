@@ -21,6 +21,7 @@ signals:
 private slots:
     void calendarSelectedTestNoStr();
     void firstUltrasoundCheck();
+    void EnableLatidosCardiacos(int);
 
 private :
     QStringList type;
