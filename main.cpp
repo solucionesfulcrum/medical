@@ -92,7 +92,9 @@ int main(int argc, char *argv[])
 
     QFontDatabase::addApplicationFont(":/fonts/res/font/Soft-Elegance.ttf");
 
-    QFont newFont("Soft Elegance", 12);
+ // Christiam
+ // Font of version and date
+    QFont newFont("Soft Elegance", 16);
     newFont.setLetterSpacing(QFont::AbsoluteSpacing,1.8);
     QApplication::setFont(newFont);//set font of application
 

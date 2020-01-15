@@ -15,7 +15,7 @@ QScrollBar::add-page:vertical,QScrollBar::sub-page:vertical {background: none;}
 
 
 /* Button */
-QPushButton {font-size:16px; background-color:transparent; border:0;  padding:15px 10px;}
+QPushButton {font-size:14px; background-color:transparent; border:0;  padding:15px 10px;}
 QPushButton::pressed { background-color:transparent; border:0;  }
 QPushButton::disabled { background-color:transparent; border:0; ;}
 
@@ -38,7 +38,7 @@ QPushButton#yellowButton::disabled { background-color:rgba(200,200,200,255);  co
 
 /* Message Box */
 QMessageBox {background:#272727; border:0; color:#FFF; }
-QMessageBox QLabel{color:#FFF; font-size:16px;}
+QMessageBox QLabel{color:#FFF; font-size:14px;}
 QWidget#footer QMessageBox QLabel{color:#FFF; font-size:14px;}
 
 QMessageBox QPushButton {background-color:#00D4D8;  color:#FFF; padding:10px 20px; border-radius:5px;}
@@ -64,13 +64,13 @@ QWidget#loginWidget{background-color:rgba(254,254,254,60); border-radius:35px;}
 QWidget#passLine{background-color:rgba(255,255,255,0); border-radius:0px; border-bottom:1px solid #FFF;}
 
 /* Login Username */
-QLabel#loginUsername{ font-family: 'Barrio'; background-color:transparent; font-size:45px; color:#FFF;}
+QLabel#loginUsername{ font-family: 'Barrio'; background-color:transparent; font-size:40px; color:#FFF;}
 
 /* Login Widget */
 QWidget#login{}
 QWidget#login QLabel#block{ color:#FFF;  font-size:18px; padding:12px;}
-QWidget#login QLineEdit{background:transparent; font-size:18px; padding:12px; color:#FFF;}
-QWidget#login QPushButton{border-radius:5px; border:0px solid #FFF; background-color:#00D4D8 ; color:#FFF; font-size:22px; padding:15px 10px;  }
+QWidget#login QLineEdit{background:transparent; font-size:25px; padding:12px; color:#FFF;}
+QWidget#login QPushButton{border-radius:5px; border:0px solid #FFF; background-color:#00D4D8 ; color:#FFF; font-size:30px; padding:15px 10px;  }
 QWidget#login QPushButton::pressed{  }
 QWidget#passLine QPushButton#changeOpeButton{text-align:center; border-radius:5px;  background-color:#00D4D8 ; color:#FFF; font-size:20px; padding:15px 10px;  }
 QWidget#passLine QPushButton#changeOpeButton::pressed{ }
@@ -78,7 +78,7 @@ QWidget#passLine QPushButton#changeOpeButton::pressed{ }
 /* Login Operator List */
 QScrollArea#loginArea {background:transparent; color:#FFF; font-size:14px; }
 QWidget#_listWidg{background:transparent;}
-QWidget#_listWidg QPushButton{text-align:left; background:transparent; border-bottom:1px solid #FFF; color:#FFF; font-size:16px; padding:15px 10px;}
+QWidget#_listWidg QPushButton{text-align:left; background:transparent; border-bottom:1px solid #FFF; color:#FFF; font-size:14px; padding:15px 10px;}
 QWidget#_listWidg QPushButton::pressed{background-color:rgba(255,255,255,50);}
 QScrollArea#loginArea QScrollBar:vertical {border:0; background-color:rgba(255,255,255,05); width: 30px;margin: 30px 0 30px 0;}
 QScrollArea#loginArea QScrollBar::handle:vertical {background-color:rgba(255,255,255,20); min-height: 20px; }
@@ -94,7 +94,7 @@ QPushButton#loginCancelButton{text-align:center; border-radius:5px; border:1px s
 QPushButton#loginCancelButton::pressed{  background-color:rgba(255,255,255,50)  }
 
 /* Login Error */
-QLabel#loginerror{background-color:transparent; color:#e74c3c ; font-size:18px; padding:12px;}
+QLabel#loginerror{background-color:transparent; color:#e74c3c ; font-size:16px; padding:12px;}
 
 /* -------------- End of Login Widget  ------------------------- */
 
@@ -108,7 +108,7 @@ QWidget#dialog { border:3px solid #1f7bb6 ; }
 QLabel#versionLabel {color:#9a9a9a; padding:10px;}
 
 QWidget#header{background:#272727;}
-QWidget#header QLabel#user{color:#FFF; font-size:20px; }
+QWidget#header QLabel#user{color:#FFF; font-size:30px; }
 QWidget#header QLabel{}
 QWidget#header QToolButton#menuClose{ background-color:rgba(255,255,255, 30);  border:0;  }
 QWidget#header QToolButton#QueueLookButton::pressed{background-color:transparent; color:#FFF; border:0;  }
@@ -116,7 +116,7 @@ QWidget#header QToolButton#QueueLookButton::pressed{background-color:transparent
 
 /*MENU */
 QWidget#menu{background:#4D4D4E;}
-QWidget#menu QToolButton{color:#ECEDED; font-size:22px;  background-color:transparent; border:0; padding:0; }
+QWidget#menu QToolButton{color:#ECEDED; font-size:30px;  background-color:transparent; border:0; padding:0; }
 QWidget#menu QToolButton::pressed{}
 QWidget#menu QToolButton::checked{color:#00D3D7; }
 QWidget#menu QToolButton#QueueLookButton{ color:#FFF;  }
@@ -124,7 +124,7 @@ QWidget#menu QToolButton#QueueLookButton{ color:#FFF;  }
 
 /*Footer*/
 QWidget#footer{background:#FFF;}
-QWidget#footer QLabel{color:#3e3e3e; font-size:14px;}
+QWidget#footer QLabel{color:#3e3e3e; font-size:30px;}
 QWidget#footer QToolButton{ background-color:transparent; color:#3e3e3e; font-size:13px;  border:0; padding:0;}
 QWidget#footer QToolButton::pressed{ color:#FFF; }
 QWidget#footer QToolButton::checked{background-color:#27b6af;  border:0; color:#FFF;}
@@ -137,16 +137,16 @@ QWidget#footer QToolButton#QueueLookButton::checked{background-color:#f0f0f0;;  
 QWidget#checkBandwith{background:#999;}
 
 /*TouchComboBox */
-QLineEdit#TouchComboBox{border:0; padding:15px 10px; color:#3e3e3e; font-size:22px; }
+QLineEdit#TouchComboBox{border:0; padding:15px 10px; color:#3e3e3e; font-size:14px; }
 QDialog#pop{background-color:#FFF; border:3px solid #00d4d8 ; padding:3px; }
-QLabel#TouchButton{ background-color:#FFF; color:#4d4d4d; border-bottom:1px solid #f0f0f0; font-size:20px;  text-align:center;}
+QLabel#TouchButton{ background-color:#FFF; color:#4d4d4d; border-bottom:1px solid #f0f0f0; font-size:16px;  text-align:center;}
 QLabel#TouchButton::pressed{background:#00d4d8;}
 QLabel#TouchButton[checked="true"]{background:#00d4d8; color:#FFF; }
 
 
 /*studyInfoWidget*/
 QWidget#studyInfoWidget { border-left:3px solid #E1E3E3;   }
-QWidget#studyInfoWidget QLabel{ background:#FFF; color:#3e3e3e; font-size:18px;  padding:10px 10px;}
+QWidget#studyInfoWidget QLabel{ background:#FFF; color:#3e3e3e; font-size:30px;  padding:10px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetTitle{background-color:rgba(0,0,0,40); color:#FFF; font-size:18px;  padding:14px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetDatetime{background:transparent; color:#3e3e3e; font-size:30px; line-height:10px;  padding:15px 10px;}
 QWidget#studyInfoWidget QTextEdit{ border:0; color:#3e3e3e; font-size:14px;  padding:10px 10px 10px 50px; background-color:#FFF;}
@@ -155,7 +155,7 @@ QWidget#studyInfoWidget QLabel#icons{background:#00D4D8; border-radius:5px; colo
 
 /* Patient Form */
 QWidget#patientForm{background-color:#dae0e0;  border:0px solid #e2e2e2;}
-QWidget#patientForm QLabel{color:#3e3e3e; font-size:18px;  padding:0px 0px;}
+QWidget#patientForm QLabel{color:#3e3e3e; font-size:30px;  padding:0px 0px;}
 QLabel#titlePatient {color:#FFF; font-size:16px;  padding:5px 10px; }
 QWidget#patientSearchHeader {border:1px solid #f0f0f0; background-color:#FFF;}
 QWidget#patientSearchHeader QLineEdit{background-color:rgba(255,255,255,40); color:#3e3e3e;}
@@ -165,7 +165,7 @@ QScrollArea#areaFindPatient {background-color:rgba(255,255,255,255); border:1px 
 /*_studyProtocolsFrom*/
 QWidget#studyProtocolsFrom QLabel{}
 QWidget#reasonWidget {background:transparent; border:0px solid #f0f0f0;}
-QWidget#reasonWidget QLabel{color:#3e3e3e; font-size:26px; font-weight:bold; background:transparent; padding:10px 0px;}
+QWidget#reasonWidget QLabel{color:#3e3e3e; font-size:30px; font-weight:bold; background:transparent; padding:10px 0px;}
 
 /*_clinicdata*/
 QWidget#_clinicdata {background:transparent;}
@@ -176,24 +176,24 @@ QWidget#_clinicdata {background:transparent;}
 QLabel#sweeplinetitle{color:#4D4D4E; font-size:20px; padding:10px 5px;}
 QWidget#sweepsWidget {background-color:transparent; border:0;}
 QWidget#captureWidget {background-color:rgba(0,0,0,10);}
-QWidget#captureWidget QLabel{ color:#FFF; font-size:16px;}
+QWidget#captureWidget QLabel{ color:#FFF; font-size:14px;}
 QWidget#captureWidget QPushButton{background-color:#1c7dfa; border:0; border-radius:90px;}
 QWidget#captureWidget QPushButton:disabled{ background:rgba(0,0,0,30);}
 QWidget#captureWidget QPushButton:pressed{background:#448ACA;  background:rgba(0,0,0,60);}
 
 QWidget#toolbox{background-color:transparent; border:0;}
-QWidget#toolbox QToolButton{color:#FFF; font-size:13px; border-radius:5px;  background-color:#00D4D8; border:0; padding:0;}
+QWidget#toolbox QToolButton{color:#FFF; font-size:30px; border-radius:5px;  background-color:#00D4D8; border:0; padding:0;}
 QWidget#toolbox QToolButton::pressed{ }
 QWidget#toolbox QToolButton::checked{}
 
-QToolButton#sender{ color:#fff; font-size:16px; background-color:rgba(52,152,219,180); border:0; padding:10px;}
+QToolButton#sender{ color:#fff; font-size:20px; background-color:rgba(52,152,219,180); border:0; padding:10px;}
 QToolButton#sender::pressed{ background-color:rgba(52,152,219,204); border:0 }
 QToolButton#sender::checked{background-color:rgba(0,0,0,10); border:0;}
 
 
 /*Update dialog*/
 QDialog#upProtDialog{background:#272727;}
-QDialog#upProtDialog QLabel{color:#FFF; font-size:20px; padding:25px;}
+QDialog#upProtDialog QLabel{color:#FFF; font-size:30px; padding:25px;}
 
 
 /*Queue*/
@@ -212,7 +212,7 @@ QWidget#queueObject QProgressBar {border: 0px;}
 QWidget#queueObject QProgressBar::chunk {background-color: #00d4d8; width: 20px;}
 
 /*QueueInfoWidget*/
-QWidget#QueueInfoWidget QLabel{color:#3e3e3e; padding:5px 0; font-size:14px;}
+QWidget#QueueInfoWidget QLabel{color:#3e3e3e; padding:5px 0; font-size:12px;}
 QWidget#QueueInfoWidget QLabel#statut{background:#f1c40f; }
 QWidget#QueueInfoWidget QLabel#statut[run="true"]{background:#1abc9c;}
 
@@ -234,7 +234,7 @@ QLabel#SerieTitle{background-color:rgba(0,0,0,15); font-weight:bold; color:#FFF;
 
 /*StudyInfo*/
 QWidget#studyInfo QLabel#studyInfoTitle{background-color:rgba(0,0,0,80); color:#FFF; font-size:14px;  padding:15px 10px;}
-QWidget#studyInfo QLabel{ color:#3e3e3e; font-size:14px;  padding:10px 10px;}
+QWidget#studyInfo QLabel{ color:#3e3e3e; font-size:30px;  padding:10px 10px;}
 
 
 
@@ -246,11 +246,11 @@ QWidget#studyBox QLabel{padding:15px 0px;}
 
 /*Study Set*/
 QWidget#StudyComponents{}
-QWidget#StudyComponents QLabel{color:#FFF; background-color:rgba(0,0,0,20); font-size:14px; padding:15px 10px; font-weight:bold; }
+QWidget#StudyComponents QLabel{color:#FFF; background-color:rgba(0,0,0,20); font-size:30px; padding:15px 10px; font-weight:bold; }
 QWidget#StudyComponents QLineEdit
 ,QWidget#StudyComponents QTimeEdit
 ,QWidget#StudyComponents QDateEdit
-{border:0; padding:15px 10px; font-weight:bold;  color:#FFF; font-size:14px; background-color:rgba(0,0,0,30);}
+{border:0; padding:15px 10px; font-weight:bold;  color:#FFF; font-size:30px; background-color:rgba(0,0,0,30);}
 
 
 /*Configuration*/
@@ -259,15 +259,15 @@ QTabWidget#configWidget {background-color:transparent;}
 QTabWidget#configWidget QLabel{padding:0; color:#3e3e3e; background:transparent;}
 QTabWidget#configWidget::pane { background-color:transparent; border:0;}
 QTabWidget#configWidget::tab-bar {}
-QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:260px; height:50px; font-size:22px; padding:0px;   }
+QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:180px; height:50px; font-size:16px; padding:0px;   }
 QTabWidget#configWidget QTabBar::tab:selected { color:#808081;  border-bottom:2px solid #00D4D8;}
 
 
 /*Form*/
 QWidget#form {}
-QWidget#form QLabel{width:100%; font-weight:normal; background-color:transparent; color:#3e3e3e; font-size:14px; padding:0px 0px; }
-QWidget#form QPushButton{width:100%; background-color:#00D4D8;  color:#FFF; font-size:25px; padding:15px 10px;  }
-QWidget#form QPushButton::pressed{width:100%; background-color:#00D4D8; color:#FFF; font-size:25px; padding:15px 10px;  }
+QWidget#form QLabel{width:100%; font-weight:normal; background-color:transparent; color:#3e3e3e; font-size:30px; padding:0px 0px; }
+QWidget#form QPushButton{width:100%; background-color:#00D4D8;  color:#FFF; font-size:20px; padding:15px 10px;  }
+QWidget#form QPushButton::pressed{width:100%; background-color:#00D4D8; color:#FFF; font-size:20px; padding:15px 10px;  }
 
 /*Default Editor*/
 QLineEdit
@@ -442,17 +442,17 @@ QScrollArea#studyinfoarea QWidget#historial{background-color:#FFF;  }
 
 
 QWidget#historialSearch QLineEdit{border:1px solid #f0f0f0;}
-QWidget#historialSearch QLabel{font-size:26px; color:#4e4e4f; background-color:transparent ; padding:4px 0px;}
-QWidget#historialSearch QLineEdit{color:#3e3e3e; font-size:22px;}
-QWidget#historialSearch QPushButton{font-size:35px;}
+QWidget#historialSearch QLabel{font-size:16px; color:#4e4e4f; background-color:transparent ; padding:4px 0px;}
+QWidget#historialSearch QLineEdit{color:#3e3e3e;}
+QWidget#historialSearch QPushButton{font-size:16px;}
 
 QWidget#studieWidget {background-color:rgba(0,0,0,0); border-bottom:1px solid #f0f0f0; font-size:14px; padding:0 5px; }
 QWidget#studieWidget {background-color:rgba(0,0,0,0); border-bottom:1px solid #f0f0f0; font-size:14px; padding:0 5px; }
 
-QWidget#studieWidget QLabel{color:#3e3e3e; font-size:22px;  padding:0px 5px;}
-QWidget#studieWidget QLabel#datetime{/*font-weight:bold;*/ font-size:16px;}
+QWidget#studieWidget QLabel{color:#3e3e3e; font-size:14px;  padding:0px 5px;}
+QWidget#studieWidget QLabel#datetime{font-weight:bold;}
 
-QWidget#studieWidget QLabel#statut{font-size:11px; padding:0 0;}
+QWidget#studieWidget QLabel#statut{font-size:10px; padding:3px 0}
 
 QWidget#studieWidget QLabel#statutPending{background-color:#CCCCCC; border-radius:20px;}
 QWidget#studieWidget QLabel#statutFinished{background-color:#CCCCCC; border-radius:20px;}
@@ -460,7 +460,7 @@ QWidget#studieWidget QLabel#statutConfirmed{background-color:#3498db; border-rad
 QWidget#studieWidget QLabel#statutAsigned{background-color:#3498db; border-radius:20px;}
 QWidget#studieWidget QLabel#statutDiagnostic{background-color:#00D4D8; border-radius:20px;}
 
-QWidget#studieWidget QLabel#patient{font-size:23px; font-style:italic;}
+QWidget#studieWidget QLabel#patient{font-size:13px; font-style:italic;}
 
 QPushButton#studieWidgetButton { background-color:transparent; color:#00D4D8; padding:4px; }
 QPushButton#studieWidgetButton::pressed { background-color:transparent; }
@@ -473,7 +473,7 @@ QMenu#studyMenu{
 
 QMenu#studyMenu::item{
     padding:25px 10px;
-    font-size:18px;
+    font-size:14px;
     background-color: transparent;
 }
 QMenu#studyMenu::item:selected{

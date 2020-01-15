@@ -145,7 +145,6 @@ void study::startStudy(){
             return;
         }
 
-
         MuestraUltimoUltrasonido();
         // Falta verificar si la fecha de ultimo ultrasonido ha sido
         // colocada correctamente (check desactivado y fecha diferente al dia de hoy)
@@ -338,6 +337,7 @@ bool study::Falta_trimestre(){
     int pos;
 
     datos=_clinicdatawidget->getJson();
+    qDebug()<<datos;
 
     pos=datos.indexOf("trimestre");
     if (pos<1) return false;

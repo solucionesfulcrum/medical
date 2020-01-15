@@ -355,12 +355,15 @@ void dialogPatient::savePatient(){
     QString s = addPatientSex->text();
     QString sz = addPatientSize->text();
 
-    int idSize = i.size();
+ //   int idSize = i.size();    //Christiam
 
+ // Christiam
     if(i == "" || n == "" || l == ""   || s == ""  || sz == ""  ){
-        QMessageBox::information(this,tr("Campos vacios"), tr("¡Por favor, ingrese todo los datos!"));
+        QMessageBox::information(this,tr("Campos vacios"), tr("Falta ingresar datos del paciente"));
         return;
     }
+
+/*  Christiam comento esto
     QRegularExpression regex("^[0-9a-zA-Z]+$");
     //AVISO (jobenas): se ha agregado verificacion para que el tamaño del DNI
     //sea exactamente de 8 digitos.
@@ -368,7 +371,22 @@ void dialogPatient::savePatient(){
     {
         QMessageBox::information(this,tr("DNI incorecto"), tr("¡El DNI del paciente es incorrecto!"));
         return;
+    }*/
+
+ //------------------------------------------------------------------------
+ // Christiam
+    if(i.length()!=8){
+        QMessageBox::information(this,tr("DNI incorecto"), tr("Incorrecta cantidad de digitos"));
+        return;
     }
+
+    for(uint8_t x=0;x<8;x++){
+        if( (i.at(x)<'0') || (i.at(x)>'9') ){
+            QMessageBox::information(this,tr("DNI incorecto"), tr("El DNI tiene valores no numericos"));
+            return;
+        }
+    }
+//------------------------------------------------------------------------
 
     if(!toEdit && p.exist(i)){
         QMessageBox::information(this,tr("DNI existente"), tr("¡El DNI del paciente ya existe!"));

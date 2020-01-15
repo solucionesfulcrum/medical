@@ -4,7 +4,7 @@
 
 clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 {
-    type << "text" << "date" << "checkbox" << "number" << "select" << "radiobutton";
+    type << "text" << "date" << "checkbox" << "number" << "select" << "radiobutton"<<"mix";
     obj = object;
 
     QString textName;
@@ -108,6 +108,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
             }
             else if(textName == "Fecha de ultrasonido previo")
             {
+                input->setMaximumDate(QDate::currentDate());// JB20200114 Validacion  FUU debe ser menor o igual a la fecha actual.
                 input->setObjectName("FUU");
             }
             connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
@@ -149,7 +150,30 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
     }
 
     if(obj.value("type").toString() == "mix"){
-        QStringList itemAux;
+        QHBoxLayout * h1 = new QHBoxLayout(this);
+        QCheckBox * chk = new QCheckBox();
+        chk->setObjectName("latidosChk");
+        connect(chk,SIGNAL(stateChanged(int)),this,SLOT(EnableLatidosCardiacos(int)));
+        QLabel *labelCheckbox = new QLabel(item.at(0));
+        h1->addWidget(chk);
+        h1->addWidget(labelCheckbox);
+        h1->addSpacing(500);
+        l->addLayout(h1);
+
+        QHBoxLayout * h2 = new QHBoxLayout(this);
+        QLabel *labelFrecuencia = new QLabel(item.at(1));
+        QVkLineEdit *input = new QVkLineEdit;
+        input->setObjectName("latidosLine");
+        input->setEnabled(false);
+        h2->addWidget(labelFrecuencia);
+        h2->addWidget(input);
+        h2->addSpacing(500);
+
+        l->addLayout(h2);
+        return;
+
+
+        /*QStringList itemAux;
         QStringList defaultsAux;
         QHBoxLayout * h = new QHBoxLayout(this);
 
@@ -175,7 +199,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         connect(checkLatidos,SIGNAL(stateChanged(int)),this,SLOT(EnableLatidosCardiacos(int)));
 
         //l->addLayout(h);
-        return;
+        return;*/
 
 
     }
@@ -193,8 +217,12 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
 void clinicInput::EnableLatidosCardiacos(int)
 {
-    QCheckBox* chk = this->findChild<QCheckBox*>("checkLatidos");
-    chk->setEnabled(chk->checkState());
+    QVkLineEdit* line = this->findChild<QVkLineEdit*>("latidosLine");
+    QCheckBox*   chk  = this->findChild<QCheckBox*>("latidosChk");
+
+    if(line && chk)
+        line->setEnabled(chk->checkState());
+
 }
 
 
@@ -296,6 +324,7 @@ void clinicInput::firstUltrasoundCheck()
 }
 
 QJsonObject clinicInput::getJsonObject(){
+
     QJsonObject object;
     object.insert("label",obj.value("label"));
     object.insert("name",obj.value("name"));
@@ -307,7 +336,6 @@ QJsonObject clinicInput::getJsonObject(){
         QVkLineEdit * input = (QVkLineEdit*)std_input;
         values.append(input->text());
     }
-
 
     //AVISO (jobenas):
     //Sospecho que aqui esta el problema de porque se
@@ -326,7 +354,7 @@ QJsonObject clinicInput::getJsonObject(){
 //    }
 
     if(obj.value("type").toString() == "checkbox"){
-        checkboxes * input = (checkboxes*)std_input;
+        checkboxes * input = (checkboxes*)(std_input);
         foreach(QString s, input->getChecked())
         values.append(s);
     }
@@ -343,6 +371,11 @@ QJsonObject clinicInput::getJsonObject(){
 
     if(obj.value("type").toString() == "radiobutton"){
         radiobuttons * input = (radiobuttons*)std_input;
+        values.append(input->text());
+    }
+
+    if(obj.value("type").toString() == "mix"){
+        QVkLineEdit * input = (QVkLineEdit*)std_input;
         values.append(input->text());
     }
 

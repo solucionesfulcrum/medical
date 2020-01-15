@@ -5,7 +5,8 @@ MainWindow::MainWindow(QWidget *parent)
 {
     isclosing = false;
     setSizes();
-    //Init Pointer Global
+
+//  Init Pointer Global
     captureProcess::_captureProcess = new captureProcess();
     accesor::mw = (QMainWindow*) this;
     myffplay::player = new myffplay;
@@ -30,7 +31,7 @@ MainWindow::MainWindow(QWidget *parent)
     _studycheck = new studyCheck;
 
 
-    //Create mainWindow
+//  Create mainWindow
     mainwindow = new QWidget;
 
     //Set Header
@@ -175,30 +176,40 @@ void MainWindow::menu(){
     _menu->setObjectName("menu");
     _menu->setFixedWidth(180);
 
+//-----------------------------------------------------------------------------------
+//  Christiam
+    int size = 24;
+
     menuUS = new QToolButton();
+    menuUS->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuUS->setText(tr("Ecografía"));
     menuUS->setCheckable(true);
     connect(menuUS,SIGNAL(clicked()),this,SLOT(setmenuUS()));
 
     menuConfig = new QToolButton();
+    menuConfig->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuConfig->setText(tr("Ajustes"));
     menuConfig->setCheckable(true);
     connect(menuConfig,SIGNAL(clicked()),this,SLOT(setmenuConfig()));
 
     menuHist = new QToolButton();
+    menuHist->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuHist->setText(tr("Historial"));
     menuHist->setCheckable(true);
     connect(menuHist,SIGNAL(clicked()),this,SLOT(setmenuHist()));
 
     menuAddOp = new QToolButton();
+    menuAddOp->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuAddOp->setText(tr("Operadores"));
     menuAddOp->setCheckable(true);
     connect(menuAddOp,SIGNAL(clicked()),this,SLOT(setmenuOperador()));
 
     menuHelp = new QToolButton();
+    menuHelp->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuHelp->setText(tr("Tutoriales"));
     menuHelp->setCheckable(true);
     connect(menuHelp,SIGNAL(clicked()),this,SLOT(setmenuHelp()));
+//-----------------------------------------------------------------------------------
 
     toolButtons << menuUS
                 << menuHist
@@ -206,9 +217,10 @@ void MainWindow::menu(){
                 << menuAddOp
                 << menuHelp ;
 
+    //QSize toolButtonSize(180,95);
+    //QSize toolIconSize(64,64);
     QSize toolButtonSize(180,95);
-    QSize toolIconSize(64,64);
-
+    QSize toolIconSize(70,70);
 
     QVBoxLayout * layout = new QVBoxLayout(_menu);
     layout->setMargin(0);

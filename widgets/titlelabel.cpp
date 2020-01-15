@@ -40,7 +40,8 @@ void titlelabel::paintEvent(QPaintEvent *){
     /*Draw Time*/
     painter.setPen(pen);
 
-    painter.setFont(QFont("Arial",15));
+    //painter.setFont(QFont("Arial",15));   //Christiam
+    painter.setFont(QFont("Arial",16));
     painter.drawText(QRect(0,0,width(),40),textalign | Qt::AlignVCenter ,title);
 
     int diff = (width()-lineWidth)/2;

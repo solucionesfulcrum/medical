@@ -50,8 +50,15 @@ configuration::~configuration()
 }
 
 void configuration::refreshOpe(){
-    for(int x=0; x<configWidget->count(); x++)
-        configWidget->removeTab(x);
+//--------------------------------------------------------------
+/*  Christiam
+    configWidget->setCurrentIndex(0);
+    for(int x=0; x<length; x++)
+        configWidget->removeTab(x);*/
+
+//  Christiam
+    setMaintenanceForm();
+    configWidget->clear();
 
     if(operators::isAdmin()){
         configWidget->addTab(_serverForm,tr("Servidor"));
@@ -60,9 +67,9 @@ void configuration::refreshOpe(){
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
     }
     else {
-//        configWidget->addTab(_acquisitionForm,tr("Adquisición"));
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
     }
+//--------------------------------------------------------------
 }
 
 void configuration::setInputs(){
@@ -284,11 +291,12 @@ void configuration::setMaintenanceForm()
 {
 
     QSize bsize(200,200);
-    QPushButton * videoButton = new QPushButton(tr("Probar la captura"));
+    QPushButton * videoButton = new QPushButton(tr("Probar")+"\n"+tr("la captura"));
     connect(videoButton,SIGNAL(clicked()),this,SLOT(checkVideo()));
     videoButton->setFixedSize(bsize);
 
-    cleanButton = new QPushButton(tr("Borrar TODOS los")+"\n"+tr("estudios pendientes"));
+    //cleanButton = new QPushButton(tr("Borrar TODOS los")+"\n"+tr("estudios pendientes"));
+    cleanButton = new QPushButton(tr("Borrar TODOS")+"\n"+tr("los estudios")+"\n"+tr("pendientes"));    //Christiam
     connect(cleanButton,SIGNAL(clicked()),this,SLOT(cleanStudies()));
     cleanButton->setFixedSize(bsize);
 
@@ -298,22 +306,22 @@ void configuration::setMaintenanceForm()
 
     _maintenanceForm = new QWidget;
     _maintenanceForm->setObjectName("form");
-    //_maintenanceForm->setWindowModality(Qt::ApplicationModal);
     QGridLayout * fl = new  QGridLayout(_maintenanceForm);
     setLayoutForm(fl);
-    fl->setSpacing(30);
+    fl->setSpacing(10);
     fl->addWidget(videoButton,0,0);
-
     fl->addWidget(setvideoButton,0,1);
     fl->addWidget(cleanButton,0,2);
 
     if(operators::isAdmin())
     {
         setvideoButton->setHidden(false);
+        cleanButton->setHidden(false);
     }
     else
     {
         setvideoButton->setHidden(true);
+        cleanButton->setHidden(true);
     }
 
 }
@@ -518,19 +526,19 @@ void configuration::RunCmd(QString comando){
     qDebug()<<"entry";
     if (entry!=0) return;
     accesor::mw->setEnabled(false);
-    //accesor::mw->
+
     entry=1;
     QApplication::setOverrideCursor(Qt::WaitCursor);
     proceso.Argumento(comando);
     proceso.start();
     Sleep(2000);
-    //accesor::mw->showMinimized();
+    accesor::mw->showMinimized();
     QApplication::restoreOverrideCursor();
 
 //  Christiam
     while (proceso.isRunning())
     {
-        //accesor::mw->showMinimized();
+        accesor::mw->showMinimized();
         QCoreApplication::processEvents();
     }
 
