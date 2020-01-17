@@ -7,13 +7,15 @@
 #include <form/checkboxes.h>
 #include <form/touchcombobox.h>
 #include <form/calform.h>
+#include <form/checkboxline.h>
+#include <dialog/dialogpatient.h>
 
 
 class clinicInput : public QWidget
 {
     Q_OBJECT
 public:
-    explicit clinicInput(QJsonObject, QWidget *parent = 0);
+    explicit clinicInput(QJsonObject, QWidget *parent = nullptr);
     QJsonObject getJsonObject();
     QDate calcFPP(QDate fur);
 signals:
@@ -21,7 +23,6 @@ signals:
 private slots:
     void calendarSelectedTestNoStr();
     void firstUltrasoundCheck();
-    void EnableLatidosCardiacos(int);
 
 private :
     QStringList type;

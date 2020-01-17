@@ -61,11 +61,17 @@ void clinicDataWidget::setProtocols(int id){
 void clinicDataWidget::createDataForm(){
     reset();
 
+//-----------------------------------------------------
+//  Christiam: Pensaria que hay que retirarlas
     foreach(clinicInput *w, datas){
         dataLayout->removeWidget(w);
         delete w;
     }
-    datas.clear();
+//-----------------------------------------------------
+    datas.clear();  // Christiam
+//-----------------------------------------------------
+
+
     QByteArray json = protocol.getJson().toStdString().c_str();
 
     QJsonDocument doc = QJsonDocument::fromJson(json);

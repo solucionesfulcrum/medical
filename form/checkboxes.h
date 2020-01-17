@@ -7,7 +7,7 @@ class checkboxes : public QWidget
 {
     Q_OBJECT
 public:
-    explicit checkboxes(QStringList, QStringList, QWidget *parent = 0);
+    explicit checkboxes(QStringList, QStringList, QWidget *parent = nullptr);
     QString text();
     QStringList getChecked();
 
@@ -24,7 +24,7 @@ class radiobuttons : public QWidget
 {
     Q_OBJECT
 public:
-    explicit radiobuttons(QStringList, QStringList, QWidget *parent = 0);
+    explicit radiobuttons(QStringList, QStringList, QWidget *parent = nullptr);
     QString text();
 
 signals:

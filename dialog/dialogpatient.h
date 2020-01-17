@@ -13,7 +13,7 @@ class patientBox : public QWidget
 {
     Q_OBJECT
 public:
-    patientBox(int, QString, QString, QWidget* = 0);
+    patientBox(int, QString, QString, QWidget* = nullptr);
     ~patientBox();
 signals:
     void edit(int);
@@ -33,6 +33,8 @@ class dialogPatient : public QWidget
 public:
     dialogPatient(QWidget* parent =0);
     ~dialogPatient();
+    patient p;
+
 signals:
     void selected(int );
 protected:
@@ -74,7 +76,6 @@ private:
     QPushButton * save;
     //#######################################
 
-    patient p;
     bool toEdit;
     int IdToEdit;
 

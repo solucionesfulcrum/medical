@@ -355,9 +355,8 @@ void dialogPatient::savePatient(){
     QString s = addPatientSex->text();
     QString sz = addPatientSize->text();
 
- //   int idSize = i.size();    //Christiam
-
- // Christiam
+//------------------------------------------------------------------------
+//  int idSize = i.size();    //Christiam
     if(i == "" || n == "" || l == ""   || s == ""  || sz == ""  ){
         QMessageBox::information(this,tr("Campos vacios"), tr("Falta ingresar datos del paciente"));
         return;
@@ -373,8 +372,8 @@ void dialogPatient::savePatient(){
         return;
     }*/
 
- //------------------------------------------------------------------------
- // Christiam
+//------------------------------------------------------------------------
+//  Christiam
     if(i.length()!=8){
         QMessageBox::information(this,tr("DNI incorecto"), tr("Incorrecta cantidad de digitos"));
         return;
@@ -401,7 +400,6 @@ void dialogPatient::savePatient(){
         QMessageBox::information(this,tr("Fecha de nacimiento incorecto"), tr("¡La fecha de nacimiento debe ser antes que hoy!"));
         return;
     }
-
 
     QHash<QString,QString> d;
     d.insert("name",n);

@@ -43,6 +43,7 @@ void study::setForm(){
 
 void study::setPatientForm(){
     patientWidget = new dialogPatient;
+    patientWidget->setObjectName("PacienteWidget");
     connect(patientWidget,SIGNAL(selected(int)),this,SLOT(patientLoaded(int)));
 }
 
@@ -139,11 +140,29 @@ void study::startStudy(){
             return;
         }
         if (Falta_FUR_o_FPP()){
-            //QMessageBox::information(this,QString::fromUtf8("Protocolo Obstétrico"),QString::fromUtf8("Fechas no válidas.\nVerifique las fechas FUR y FPP."),QMessageBox::Ok);
             QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Fechas no válidas.\nVerifique las fechas FUR y FPP."),QMessageBox::Ok);
             start->setEnabled(true);
             return;
         }
+
+        //---------------------------------------------------------------------------------------------
+        //  Christiam
+        uint8_t e = validateCardiacBeat();
+        if( (e==3) || (e==1) )
+        {
+            if(e==3){
+                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca colocada no es numero."),QMessageBox::Ok);
+                start->setEnabled(true);
+                return;
+            }
+            else {
+                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera de rango [1,300]."),QMessageBox::Ok);
+                start->setEnabled(true);
+                return;
+            }
+        }
+        //---------------------------------------------------------------------------------------------
+
 
         MuestraUltimoUltrasonido();
         // Falta verificar si la fecha de ultimo ultrasonido ha sido
@@ -170,6 +189,7 @@ void study::startStudy(){
             data.insert("urgent","1");
         else
             data.insert("urgent","0");
+        qDebug()<<QString(_clinicdatawidget->getJson());
         data.insert("data",QString(_clinicdatawidget->getJson()));
         data.insert("state","-1");
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
@@ -329,6 +349,38 @@ bool study::Falta_FUR_o_FPP(){
     return false;
 }
 
+//---------------------------------------------------------------------------------------------
+//  Christiam
+uint8_t study::validateCardiacBeat()
+{
+    QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
+    QJsonDocument jdoc = QJsonDocument::fromJson(json);
+    QJsonArray jsonList = jdoc.array();
+
+    foreach(QJsonValue jasonV,jsonList){
+        QJsonObject obj = jasonV.toObject();
+        if(obj["type"]=="mix"){
+            bool ok;
+            int frequency;
+            QJsonValue jvalue;
+            jvalue = obj["values"].toArray().at(0);
+            frequency = jvalue.toString().toInt(&ok,10);
+            if(!ok)
+                return 3;
+            else {
+                if(frequency==-32768)
+                    return 2;
+                if( (frequency<1) || (frequency>300) )
+                    return 1;
+                else
+                    return 0;
+            }
+        }
+
+    }
+    return 4;
+}
+//---------------------------------------------------------------------------------------------
 
 bool study::Falta_trimestre(){
 

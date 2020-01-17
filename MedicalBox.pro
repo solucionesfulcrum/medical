@@ -13,6 +13,7 @@ TEMPLATE = app
 
 SOURCES += main.cpp\
     form/calform.cpp \
+    form/checkboxline.cpp \
         mainwindow.cpp \
     sqlite.cpp \
     queuewidget.cpp \
@@ -61,6 +62,7 @@ SOURCES += main.cpp\
 
 HEADERS  += mainwindow.h \
     form/calform.h \
+    form/checkboxline.h \
     sqlite.h \
     queuewidget.h \
     study.h \

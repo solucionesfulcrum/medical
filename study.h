@@ -40,6 +40,7 @@ private:
     bool Falta_FUR_o_FPP();
     bool Falta_trimestre();
     void MuestraUltimoUltrasonido();
+    uint8_t validateCardiacBeat();
 
     QPushButton * start;
 
