@@ -108,7 +108,7 @@ void sweepInfo::view(){
 studyInfo::studyInfo(int id, QDialog *parent) : QDialog(parent){
     setWindowFlags( Qt::Tool |  Qt::FramelessWindowHint );
     setModal(true);
-    setFixedSize(1000,600);
+    setFixedSize(1200,600);
 
     accesor::startEffect();
 

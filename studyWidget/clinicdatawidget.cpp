@@ -23,6 +23,7 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     reasonLayout->setMargin(0);
 
     protocolname = new titlelabel();
+    protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
     dataWidget = new QWidget();
     dataWidget->setObjectName("_clinicdata");
     dataLayout = new QVBoxLayout(dataWidget);

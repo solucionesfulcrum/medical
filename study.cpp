@@ -421,7 +421,7 @@ void study::MuestraUltimoUltrasonido()
 
     if(uecb->isChecked())
     {
-        QMessageBox::information(this, tr("Información de Ultrasonido"), tr("Se ha marcado como primer Ultrasonido"));
+        //QMessageBox::information(this, tr("Información de Ultrasonido"), tr("Se ha marcado como primer Ultrasonido")); //JB 24012020 se retiro mensaje porque no aportaba valor cambio Benjamin
         start->setEnabled(true);
         return;
     }
@@ -431,7 +431,7 @@ void study::MuestraUltimoUltrasonido()
         now = now.currentDate();
         QDate calDate = fuu->selectedDate();
         QString msgString = "La fecha marcada para último ultrasonido es: " + calDate.toString();
-        QMessageBox::information(this, tr("Información de Ultrasonido"), tr(msgString.toStdString().c_str()));
+        //QMessageBox::information(this, tr("Información de Ultrasonido"), tr(msgString.toStdString().c_str())); //JB 24012020 se retiro mensaje porque no aportaba valor cambio Benjamin
         start->setEnabled(true);
     }
 }

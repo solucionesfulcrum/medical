@@ -240,7 +240,7 @@ QWidget#studyInfo QLabel{ color:#3e3e3e; font-size:14px;  padding:10px 10px;}
 
 QWidget#StudyHist{background:#ECEDED; border:1px solid #272727;}
 QWidget#studyBox{}
-QWidget#studyBox QLabel{padding:15px 0px;}
+QWidget#studyBox QLabel{padding:15px 0px; font-size:14px;}
 
 
 
@@ -485,8 +485,8 @@ QWidget#videoToolBar QToolButton{color:#FFF; font-size:13px;  border:0; padding:
 QWidget#videoToolBar QToolButton::pressed{background-color:rgba(0,0,0,60); color:#FFF; }
 
 
-QLabel#VisorListTitle {background-color:#f8f8f8; font-weight:bold; padding:10px 15px;  border-bottom:1px solid #e8e8e8}
-QLabel#VisorListItem {padding:20px 15px; border-bottom:1px solid #e8e8e8;}
+QLabel#VisorListTitle {background-color:#f8f8f8; font-weight:bold; padding:10px 15px;  border-bottom:1px solid #e8e8e8; font-size:18px;}
+QLabel#VisorListItem {padding:20px 15px; border-bottom:1px solid #e8e8e8; font-size:16px}
 QLabel#VisorListItem[checked="false"]{padding:20px 15px;  background:#ffffff}
 QLabel#VisorListItem[checked="true"]{background-color:#00D4D8; color:#FFF; padding:20px 15px; }
 QPushButton#visorPlayButton{background-color:#9a9a9a; color:#FFF; }

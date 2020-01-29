@@ -97,6 +97,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         {
             if(textName == "FUR" || textName == "LMP")
             {
+                input->setMaximumDate(QDate::currentDate());// JB20200120 Validacion  FUR debe ser menor o igual a la fecha actual.
                 input->setObjectName("FUR");
             }
             else if(textName == "Fecha de ultrasonido previo")
