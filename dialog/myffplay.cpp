@@ -1,6 +1,6 @@
 #include "myffplay.h"
 
-myffplay* myffplay::player = NULL;
+myffplay* myffplay::player = nullptr;
 QString myffplay::basicOption = "-x 1024 -y 768 -autoexit";
 
 myffplay::myffplay() : QObject()

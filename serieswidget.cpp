@@ -283,7 +283,7 @@ void SeriesWidget::look(){
     p = p.replace("[FPS]",conf.getValue("fps").toString());
     p = p.replace("[SIZE]",conf.getValue("SIZE").toString());
     p = p.replace("[PIXELCONF]",conf.getValue("PIXELCONF").toString());
-    qDebug() << p;
+    //qDebug() << p;
     myffplay::player->start(p);
 }
 void SeriesWidget::send(){

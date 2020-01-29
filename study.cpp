@@ -148,19 +148,18 @@ void study::startStudy(){
         //---------------------------------------------------------------------------------------------
         //  Christiam
         uint8_t e = validateCardiacBeat();
-        if( (e==3) || (e==1) )
-        {
-            if(e==3){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca colocada no es numero."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
-            else {
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera de rango [1,300]."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
+
+        if(e==3){
+            QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca colocada no es numero."),QMessageBox::Ok);
+            start->setEnabled(true);
+            return;
         }
+        else if (e==1){
+            QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera de rango [1,300]."),QMessageBox::Ok);
+            start->setEnabled(true);
+            return;
+        }
+
         //---------------------------------------------------------------------------------------------
 
 
@@ -189,7 +188,7 @@ void study::startStudy(){
             data.insert("urgent","1");
         else
             data.insert("urgent","0");
-        qDebug()<<QString(_clinicdatawidget->getJson());
+        //qDebug()<<QString(_clinicdatawidget->getJson());
         data.insert("data",QString(_clinicdatawidget->getJson()));
         data.insert("state","-1");
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
@@ -333,7 +332,6 @@ bool study::Falta_FUR_o_FPP(){
     if (pos<1) return false;
     pos=datos.indexOf("\"",pos+8);
     fecha=datos.mid(pos+1,10);
-    qDebug()<<"FUR: "<<fecha;
     if (fecha==now.toString("dd/MM/yyyy")) return true;
 
     pos=datos.indexOf("FPP");
@@ -342,10 +340,8 @@ bool study::Falta_FUR_o_FPP(){
     if (pos<1) return false;
     pos=datos.indexOf("\"",pos+8);
     fecha=datos.mid(pos+1,10);
-    qDebug()<<"FPP: "<<fecha;
     if (fecha==now.toString("dd/MM/yyyy")) return true;
 
-    qDebug()<<"Now: "<<now.toString("dd/MM/yyyy");
     return false;
 }
 
@@ -365,25 +361,19 @@ uint8_t study::validateCardiacBeat()
             QJsonValue jvalue;
             jvalue = obj["values"].toArray().at(0);
             frequency = jvalue.toString().toInt(&ok,10);
-            if(!ok)
-                return 3;
+            if(!ok) return 3;
             else {
-                if(frequency==-32768)
-                    return 2;
-                if( (frequency<1) || (frequency>300) )
-                    return 1;
-                else
-                    return 0;
+                if(frequency==-32768)   return 2;
+                if( (frequency<1) || (frequency>300) )  return 1;
+                else    return 0;
             }
         }
-
     }
     return 4;
 }
 //---------------------------------------------------------------------------------------------
 
 bool study::Falta_trimestre(){
-
 
     QString datos,trimestre;
     int pos;

@@ -14,7 +14,7 @@ class study : public QMedicalBoxWidget
 {
     Q_OBJECT
 public:
-    study(QMedicalBoxWidget *parent = 0);
+    study(QMedicalBoxWidget *parent = nullptr);
     ~study();
 public slots:
     void patientLoaded(int);
