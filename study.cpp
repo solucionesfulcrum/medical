@@ -101,8 +101,6 @@ void study::setStudyProtocolsForm(){
     headerLayout->setSpacing(0);
     headerLayout->setMargin(0);
 
-
-
     //Buttons
     QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
     connect(changepatient,SIGNAL(clicked()),this,SLOT(changePatient()));
@@ -288,12 +286,17 @@ void study::newStudy(bool b){
 }
 
 
-
+//  Load data when select patient
 void study::patientLoaded(int s){
     patient p;
     p.loadData(s);
     studyInfo->setStudyInfoPatient(p.getValue("name").toString(),p.getValue("last_name").toString());
     _patient_id = s;
+//----------------------------------------------------------------
+//  Christiam
+    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M');
+    else _studyDesc->loadWithSex('X');
+//----------------------------------------------------------------
     studyForm->slideInNext();
 }
 

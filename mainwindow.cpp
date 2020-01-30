@@ -15,7 +15,8 @@ MainWindow::MainWindow(QWidget *parent)
 
     //QVirtualKeyboard::vk->setVisibleKeyboard(false);
     //version = "1.4.2 (29/05/2019)";
-    version = "1.4.3 (08/11/2019)";
+    //version = "1.4.3 (08/11/2019)";
+    version = "2.0.0 (30/01/2020)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;

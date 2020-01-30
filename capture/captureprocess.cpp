@@ -45,6 +45,7 @@ bool captureProcess::startRecord(){
     conf.load();
 
     QString program = "ffmpeg -f dshow -crossbar_video_input_pin_number [VIDEOPIN] -i video=\"[VIDEODEVICE]\" -vcodec rawvideo -pix_fmt [PIXELCONF] -s [SIZE] -r [FPS] [FOLDER]/[VIDEONAME] -loglevel 16";
+    qDebug()<<program;
     QSettings settings("ffmpeg.ini", QSettings::IniFormat);
     settings.beginGroup("COMMAND");
     QString pg = settings.value("line").toString();
@@ -57,7 +58,11 @@ bool captureProcess::startRecord(){
     settings.setValue("default",program);
     settings.endGroup();
 
+
+    qDebug()<<conf.getValue("device").toString();
+    qDebug()<<program;
     program = program.replace("[VIDEODEVICE]",conf.getValue("device").toString());
+    qDebug()<<program;
     program = program.replace("[VIDEOPIN]",conf.getValue("VIDEOINPUT").toString());
     program = program.replace("[FOLDER]",folder);
     program = program.replace("[VIDEONAME]",uncompressedvideoname);

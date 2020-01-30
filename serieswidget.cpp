@@ -274,7 +274,6 @@ void SeriesWidget::processData(){
     }
 }
 
-
 void SeriesWidget::look(){
     config conf;
     QString folder =  QDir::currentPath()+"/"+f;
@@ -283,8 +282,13 @@ void SeriesWidget::look(){
     p = p.replace("[FPS]",conf.getValue("fps").toString());
     p = p.replace("[SIZE]",conf.getValue("SIZE").toString());
     p = p.replace("[PIXELCONF]",conf.getValue("PIXELCONF").toString());
-    //qDebug() << p;
     myffplay::player->start(p);
+
+//---------------------------------------------
+//  Christiam
+    myffplay::player->waitForFinished();
+//---------------------------------------------
+
 }
 void SeriesWidget::send(){
     int id = _sweepsline->actualId();

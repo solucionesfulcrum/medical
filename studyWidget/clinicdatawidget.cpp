@@ -63,7 +63,7 @@ void clinicDataWidget::createDataForm(){
     reset();
 
 //-----------------------------------------------------
-//  Christiam: Pensaria que hay que retirarlas
+//  Christiam: Pensaria que hay que no es necesario esta parte de codigo
     foreach(clinicInput *w, datas){
         dataLayout->removeWidget(w);
         delete w;
@@ -71,7 +71,6 @@ void clinicDataWidget::createDataForm(){
 //-----------------------------------------------------
     datas.clear();  // Christiam
 //-----------------------------------------------------
-
 
     QByteArray json = protocol.getJson().toStdString().c_str();
 

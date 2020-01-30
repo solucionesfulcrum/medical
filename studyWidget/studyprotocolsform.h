@@ -6,7 +6,7 @@
 class studyProtocolsForm : public QWidget
 {
 public:
-    studyProtocolsForm(QWidget * parent = 0);
+    studyProtocolsForm(QWidget * parent = nullptr);
     ~studyProtocolsForm();
 
 

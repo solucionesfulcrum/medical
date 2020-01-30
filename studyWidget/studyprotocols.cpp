@@ -11,8 +11,7 @@ studyProtocols::studyProtocols( QWidget *parent)  : QWidget(parent){
 
 void studyProtocols::updateProtocols(){
     dg = new QDialog();
-    dg->setWindowFlags( Qt::Tool |
-                        Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    dg->setWindowFlags( Qt::Tool |Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
     dg->setModal(true);
     dg->setObjectName("upProtDialog");
     dg->setFixedSize(400,200);
@@ -45,6 +44,47 @@ void studyProtocols::updated(){
 
 }
 
+//----------------------------------------------------------------
+//  Christiam
+void studyProtocols::loadWithSex(char sex)
+{
+    foreach(TouchButton *tb, touchButtons){
+        layout->removeWidget(tb);
+        delete tb;
+    }
+    items.clear();
+    touchButtons.clear();
+    studydesc sdc;
+    items = sdc.get();
+    int x = 0;
+    foreach(int s, items){
+        sd.loadData(s);
+        QString protocolType = sd.getValue("name").toString();
+
+        QList<QString> listpt; //Se modifico para que acepte cualquier palabra con obstetrico
+        listpt.append("obstetrico");
+        listpt.append("obstétrico");
+        listpt.append("protocolo obstetrico");
+        listpt.append("protocolo obstétrico");
+        listpt.append("obstetric");
+        listpt.append("obstetric protocol");
+        QSet<QString> setPt = listpt.toSet();
+
+        //if((protocolType == "Obstetrico") && (sex == 'M') )    continue;
+        if((setPt.contains(protocolType.toLower())==true) && (sex == 'M') )    continue;
+        TouchButton *tb = new TouchButton(protocolType);
+        connect(tb,SIGNAL(sendId(int)),this,SLOT(save(int)));
+        tb->setId(s);
+        tb->setText(sd.getValue("name").toString());
+        touchButtons.append(tb);
+        layout->addWidget(tb,x/3,x%3);
+        x++;
+    }
+    return;
+}
+//----------------------------------------------------------------
+
+//  Load clinical studies: Obstetrico, CSD, Tiroides.
 void studyProtocols::load(){
 
     foreach(TouchButton *tb, touchButtons){
@@ -58,6 +98,7 @@ void studyProtocols::load(){
     int x = 0;
     foreach(int s, items){
         sd.loadData(s);
+        qDebug()<< sd.getValue("name").toString();
         TouchButton *tb = new TouchButton(sd.getValue("name").toString());
         connect(tb,SIGNAL(sendId(int)),this,SLOT(save(int)));
         tb->setId(s);

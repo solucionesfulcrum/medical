@@ -10,8 +10,11 @@ public:
     myffplay();
     ~myffplay();
     void start(QString = "");
+    bool waitForFinished();
     static myffplay *player;
     static QString basicOption;
+    bool isplaying;
+
 protected:
     void closeEvent(QCloseEvent *);
 private slots:
@@ -28,7 +31,6 @@ private:
     void setToolBar();
     QProcess * videoplayer;
     QWidget * videoToolBar, *videoHideBar;
-    bool isplaying;
     QToolButton
     * button_quit,
     * button_pause,

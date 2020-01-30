@@ -16,7 +16,7 @@ class SeriesWidget : public QWidget
 {
     Q_OBJECT
 public:
-    SeriesWidget(QWidget *parent = 0);
+    SeriesWidget(QWidget *parent = nullptr);
     ~SeriesWidget();
     void setStudy(int);
     bool isCapturingVideo();

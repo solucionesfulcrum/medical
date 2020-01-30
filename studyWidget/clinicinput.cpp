@@ -47,20 +47,6 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         l->addWidget(uecb, 0, Qt::AlignLeft);
     }
 
-/*
-//  Christiam: Probando
-    if( (obj.value("type").toString() == "date") && (textName == "FUR") )
-    {
-        QObject* p = this->parent();
-        dialogPatient* patient = p->findChild<dialogPatient*>("PacienteWidget");
-        if(patient)
-        {
-            qDebug()<< patient->p.birthday();
-        }
-    }
-*/
-
-
     if(obj.value("type").toString() == "text"){
         QVkLineEdit *input = new QVkLineEdit;
         input->setText(defaults.at(0));
@@ -109,7 +95,14 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         }
         std_input =  input;
     }
+//---------------------------------------------------------------------------------
+//  Christiam: Falto terminar
+//    if( (obj.value("type").toString() == "date") && (textName == "FUR") )
+//    {
 
+
+//    }
+//---------------------------------------------------------------------------------
 //    if(obj.value("type").toString() == "date"){
 //        datebox * input = new datebox;
 //        if (defaults.at(0) != "")

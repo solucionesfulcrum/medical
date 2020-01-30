@@ -1,7 +1,8 @@
 #include "myffplay.h"
 
 myffplay* myffplay::player = nullptr;
-QString myffplay::basicOption = "-x 1024 -y 768 -autoexit";
+//QString myffplay::basicOption = "-x 1024 -y 768 -autoexit"; //JB 30012020 se agrego linea inferior
+QString myffplay::basicOption = "-x 1024 -y 768 -autoexit -fs";
 
 myffplay::myffplay() : QObject()
 {
@@ -36,9 +37,18 @@ myffplay::~myffplay()
 }
 
 void myffplay::start(QString ffplay){
-//    setToolBar();
+//  setToolBar();
     videoplayer->start(ffplay);
 }
+
+//---------------------------------------------
+//  Christiam
+bool myffplay::waitForFinished()
+{
+    return videoplayer->waitForFinished();
+}
+//---------------------------------------------
+
 
 void myffplay::setToolBar(){
     QHBoxLayout * layout = new QHBoxLayout(videoToolBar);

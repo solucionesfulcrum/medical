@@ -19,6 +19,7 @@ signals:
 public slots:
     void updateProtocols();
     void load();
+    void loadWithSex(char sex);
     void updated();
     void save(int s);
 private slots:

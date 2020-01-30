@@ -350,7 +350,7 @@ void configuration::checkVideo(){
     RunCmd(comando);
     return;
 
-    myffplay::player->start("ffplay "+myffplay::basicOption+"  -f dshow -crossbar_video_input_pin_number "+cf.getValue("VIDEOINPUT").toString()+" -i video=\""+cf.getValue("device").toString()+"\"");
+    //myffplay::player->start("ffplay "+myffplay::basicOption+"  -f dshow -crossbar_video_input_pin_number "+cf.getValue("VIDEOINPUT").toString()+" -i video=\""+cf.getValue("device").toString()+"\"");
 
 
     // qDebug() << "ffplay "+myffplay::basicOption+"  -f dshow -crossbar_video_input_pin_number "+cf.getValue("VIDEOINPUT").toString()+" -i video=\""+cf.getValue("device").toString()+"\"";
@@ -369,7 +369,6 @@ void configuration::setVideoDevice(){
         QMessageBox::information(this,tr("Dispositivo de captura"),QString::fromUtf8("No se encontro dispositivo de captura válido\nVerifique conexiones."),QMessageBox::Ok);
         return;
     }
-
 
     QString comando = "ffmpeg  -f dshow -show_video_device_dialog true -crossbar_video_input_pin_number 1 -i video=\""+device+"\"";
     RunCmd(comando);
@@ -520,17 +519,17 @@ void configuration::cleanFinished(){
 
 
 void configuration::RunCmd(QString comando){
+
     static int entry=0;
-    Ejecuta proceso;
-
-    qDebug()<<"entry";
     if (entry!=0) return;
-    accesor::mw->setEnabled(false);
 
+    Ejecuta proceso;
+    accesor::mw->setEnabled(false);
     entry=1;
     QApplication::setOverrideCursor(Qt::WaitCursor);
     proceso.Argumento(comando);
     proceso.start();
+
     Sleep(2000);
     accesor::mw->showMinimized();
     QApplication::restoreOverrideCursor();
@@ -546,9 +545,7 @@ void configuration::RunCmd(QString comando){
     accesor::mw->showMaximized();
     accesor::mw->setEnabled(true);
     return;
-
 }
-
 
 QString configuration::CheckAdquisitionDevice(void)
 {
