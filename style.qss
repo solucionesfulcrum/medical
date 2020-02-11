@@ -169,11 +169,11 @@ QWidget#reasonWidget QLabel{color:#3e3e3e; font-size:26px; font-weight:bold; bac
 
 /*_clinicdata*/
 QWidget#_clinicdata {background:transparent;}
-
+QWidget#_clinicdata QLineEdit{background-color:#E0ECF8; border: 1px solid #2E64FE; font-size:14px; font-weight: bold;}
+QWidget#_clinicdata QLineEdit:disabled{background-color:#E6E6E6; border:1px solid #848484}
 
 /*Capture Widget*/
 /*sweepline*/
-QLabel#sweeplinetitle{color:#4D4D4E; font-size:20px; padding:10px 5px;}
 QWidget#sweepsWidget {background-color:transparent; border:0;}
 QWidget#captureWidget {background-color:rgba(0,0,0,10);}
 QWidget#captureWidget QLabel{ color:#FFF; font-size:16px;}

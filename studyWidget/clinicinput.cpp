@@ -8,9 +8,10 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
     obj = object;
 
     QString textName;
-    QVBoxLayout * l = new QVBoxLayout(this);
-    QLabel * label = new QLabel(obj.value("label").toString());
     textName = obj.value("label").toString();
+    QVBoxLayout * l = new QVBoxLayout(this);
+    QLabel * label = new QLabel(textName);
+
 
     if(obj.value("type").toString() == "date")
     {

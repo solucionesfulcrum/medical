@@ -33,11 +33,11 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
 
     //Set Windows Capture Widget
     QVBoxLayout * hl = new QVBoxLayout(this);
-    hl->addSpacing(30);
+    //hl->addSpacing(30);
     hl->addWidget(listBox);
     hl->addWidget(cpt,5,Qt::AlignCenter);
     hl->addWidget(finishStudyButton,0,Qt::AlignCenter | Qt::AlignTop);
-    hl->addSpacing(30);
+    hl->addSpacing(80);
     hl->setSpacing(0);
     hl->setMargin(0);
 }
