@@ -215,7 +215,7 @@ void studyInfo::createStudyBox(){
 void studyInfo::createSweepsBox(){
     sweepsBox = new QWidget;
     QWidget *listBox = new QWidget;
-    listBox->setObjectName("historial");
+    listBox->setObjectName(tr("historial"));//JB18022020
     area = new QScrollArea();
     QVBoxLayout *lb = new QVBoxLayout(listBox);
     lb->setSpacing(15);

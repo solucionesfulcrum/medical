@@ -1,7 +1,6 @@
  #include "clinicinput.h"
 #include <QDebug>
 
-
 clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 {
     type << "text" << "date" << "checkbox" << "number" << "select" << "radiobutton"<<"mix";
@@ -40,9 +39,11 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
     l->addWidget(label,0,Qt::AlignTop);
 
-    if(textName == "Fecha de ultrasonido previo")
+    QString strFechaUltrasonidoPrevioEs="Fecha de ultrasonido previo"; //JB18022020
+    QString strFechaUltrasonidoPrevioEn="Previous ultrasound date"; //JB18022020
+    if(textName == strFechaUltrasonidoPrevioEs || textName == strFechaUltrasonidoPrevioEn) //JB18022020
     {
-        QCheckBox * uecb = new QCheckBox("Primer Ultrasonido", this);
+        QCheckBox * uecb = new QCheckBox(tr("Primer Ultrasonido"), this);
         uecb->setObjectName("uecb");
         connect(uecb, SIGNAL(clicked()), this, SLOT(firstUltrasoundCheck()));
         l->addWidget(uecb, 0, Qt::AlignLeft);
@@ -87,7 +88,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
                 input->setMaximumDate(QDate::currentDate());// JB20200120 Validacion  FUR debe ser menor o igual a la fecha actual.
                 input->setObjectName("FUR");
             }
-            else if(textName == "Fecha de ultrasonido previo")
+            else if(textName == strFechaUltrasonidoPrevioEs || textName == strFechaUltrasonidoPrevioEn)
             {
                 input->setMaximumDate(QDate::currentDate());// JB20200114 Validacion  FUU debe ser menor o igual a la fecha actual.
                 input->setObjectName("FUU");

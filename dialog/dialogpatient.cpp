@@ -174,7 +174,8 @@ void dialogPatient::setForm(){
     addPatientSex = new TouchComboBox;
 
     QStringList s;
-    s << tr("Masculino") << tr("Femenino") << tr("Otro");
+    //s << tr("Masculino") << tr("Femenino") << tr("Otro");// JB17022020
+    s << tr("Masculino") << tr("Femenino");
     addPatientSize = new TouchComboBox;
     QStringList sz;
     sz << "S" << "M" << "L";

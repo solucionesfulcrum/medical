@@ -5,7 +5,7 @@ sqlite::sqlite() {
     if (QFile::exists(base))
         init();
     else {
-        QMessageBox::critical(0,QObject::tr("¡Base de datos inexistante!"),QObject::tr("La base de datos es inexistante"));
+        QMessageBox::critical(0,QObject::tr("¡Base de datos inexistente!"),QObject::tr("La base de datos es inexistente"));
     }
 }
 

@@ -117,7 +117,7 @@ void TouchComboBox::createPopUpWidget(){
 
     lay->addWidget(area);
 
-    QPushButton * cancel = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),"Anular");
+    QPushButton * cancel = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),tr("Anular"));
     connect(cancel,SIGNAL(clicked()),this,SLOT(cancel()));
     cancel->setIconSize(QSize(32,32));
     cancel->setObjectName("redButton");

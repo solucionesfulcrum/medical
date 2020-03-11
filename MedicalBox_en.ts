@@ -4,62 +4,62 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="141"/>
+        <location filename="mainwindow.cpp" line="144"/>
         <source>Cerrar</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="178"/>
+        <location filename="mainwindow.cpp" line="186"/>
         <source>Ecografía</source>
         <translation>Ultrasound</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="183"/>
+        <location filename="mainwindow.cpp" line="192"/>
         <source>Ajustes</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="188"/>
-        <source>Historial</source>
-        <translation>Record</translation>
-    </message>
-    <message>
-        <location filename="mainwindow.cpp" line="193"/>
-        <source>Operadores</source>
-        <translation>Operators</translation>
-    </message>
-    <message>
         <location filename="mainwindow.cpp" line="198"/>
+        <source>Historial</source>
+        <translation>Records</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="204"/>
+        <source>Operadores</source>
+        <translation>Users</translation>
+    </message>
+    <message>
+        <location filename="mainwindow.cpp" line="210"/>
         <source>Tutoriales</source>
-        <translation>Tutorials</translation>
+        <translation>Tutoriales</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="259"/>
+        <location filename="mainwindow.cpp" line="273"/>
         <source>Ver cola</source>
-        <translation>Show queue</translation>
+        <translation>See Queue</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="407"/>
+        <location filename="mainwindow.cpp" line="423"/>
         <source>Adquisición en proceso</source>
-        <translation>Acquisition in process</translation>
+        <translation>Acquisition in progress</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="407"/>
+        <location filename="mainwindow.cpp" line="423"/>
         <source>Un barrido esta en proceso de adqusición, por favor terminé la adqusición actual, antes de realizar otra acción.</source>
-        <translation>A sweep is in the process of being purchased, please finish the current purchase, before taking another action.</translation>
+        <translation>One sweep is being acquired, please finish the current sweep before executing another action.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="492"/>
+        <location filename="mainwindow.cpp" line="508"/>
         <source>Salir</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="492"/>
+        <location filename="mainwindow.cpp" line="508"/>
         <source>¿Está seguro de salir del sistema?</source>
         <translation>Are you sure to exit the system?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="508"/>
+        <location filename="mainwindow.cpp" line="524"/>
         <source>Cerrando</source>
         <translation>Closing</translation>
     </message>
@@ -82,12 +82,12 @@
     <message>
         <location filename="qhistwidget.cpp" line="304"/>
         <source>Continuar el estudio</source>
-        <translation>Continue the study</translation>
+        <translation>Continue study</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="307"/>
         <source>Borrar el estudio</source>
-        <translation>Delete the study</translation>
+        <translation>Delete study</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="319"/>
@@ -97,12 +97,12 @@
     <message>
         <location filename="qhistwidget.cpp" line="386"/>
         <source>¿Seguro?</source>
-        <translation>Sure?</translation>
+        <translation>Are you sure?</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="386"/>
         <source>¿Esta seguro de borrar el estudio?</source>
-        <translation>Be sure to delete the study?</translation>
+        <translation>Are you sure to delete the study?</translation>
     </message>
     <message>
         <source>Esta seguro de borrar el estudio</source>
@@ -116,40 +116,36 @@
     <message>
         <location filename="qhistwidget.cpp" line="391"/>
         <source>El estudio no se ha podido borrar, por favor reinicie el sistema para poder borrarlo</source>
-        <translation>The study could not be deleted, please restart the system in order to erase it</translation>
+        <translation>The study could not be deleted, please restart the system</translation>
     </message>
 </context>
 <context>
     <name>QObject</name>
     <message>
         <location filename="sqlite.cpp" line="8"/>
-        <source>¡Base de datos inexistante!</source>
-        <translation>Non-existent database!</translation>
+        <source>¡Base de datos inexistente!</source>
+        <oldsource>¡Base de datos inexistante!</oldsource>
+        <translation>Database not exist!</translation>
     </message>
     <message>
-        <location filename="sqlite.cpp" line="8"/>
-        <source>La base de datos es inexistante</source>
-        <translation>The database is inexistent</translation>
-    </message>
-    <message>
-        <location filename="main.cpp" line="30"/>
+        <location filename="main.cpp" line="32"/>
         <source>Base de datos actualizado</source>
-        <translation>Updated database</translation>
+        <translation>Database updated</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="30"/>
+        <location filename="main.cpp" line="32"/>
         <source>La base de datos se actualizó con éxito</source>
-        <translation>The database was updated successfully</translation>
+        <translation>Database  updated successfully</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="104"/>
+        <location filename="main.cpp" line="125"/>
         <source>Verficación de la base de datos</source>
-        <translation>Verification of the database</translation>
+        <translation>Database verification</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="106"/>
+        <location filename="main.cpp" line="127"/>
         <source>Creación de la interfaz</source>
-        <translation>Creation of the interface</translation>
+        <translation>System starting</translation>
     </message>
 </context>
 <context>
@@ -170,12 +166,12 @@
     <message>
         <location filename="queuewidget.cpp" line="599"/>
         <source>Lista de envío</source>
-        <translation>Mailing list</translation>
+        <translation>Sending queue</translation>
     </message>
     <message>
         <location filename="queuewidget.cpp" line="715"/>
         <source>Envío (</source>
-        <translation>Sending (</translation>
+        <translation>Send (</translation>
     </message>
     <message>
         <location filename="queuewidget.cpp" line="715"/>
@@ -187,7 +183,7 @@
     <message>
         <location filename="queuewidget.cpp" line="724"/>
         <source>Error (</source>
-        <translation>Erro (</translation>
+        <translation>Error (</translation>
     </message>
     <message>
         <location filename="queuewidget.cpp" line="740"/>
@@ -212,7 +208,7 @@ estudio</oldsource>
     <message>
         <location filename="serieswidget.cpp" line="72"/>
         <location filename="serieswidget.cpp" line="87"/>
-        <location filename="serieswidget.cpp" line="295"/>
+        <location filename="serieswidget.cpp" line="299"/>
         <source>Toca para grabar</source>
         <translation>Touch to record</translation>
     </message>
@@ -229,7 +225,7 @@ adquisición</source>
     <message>
         <location filename="serieswidget.cpp" line="113"/>
         <source>adquisición</source>
-        <translation>acquisition</translation>
+        <translation>recording</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="122"/>
@@ -241,7 +237,7 @@ la captura</oldsource>
     <message>
         <location filename="serieswidget.cpp" line="122"/>
         <source>la captura</source>
-        <translation>the capture</translation>
+        <translation>the acquisition</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="165"/>
@@ -256,49 +252,57 @@ la captura</oldsource>
     <message>
         <location filename="serieswidget.cpp" line="222"/>
         <source>Problema con la grabación</source>
-        <translation>Problem with recording</translation>
+        <translation>Recording problem</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="227"/>
         <source>Grabación finalizada</source>
         <oldsource>Grabación terminada</oldsource>
-        <translation>Finished recording</translation>
+        <translation>Recording finished</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="239"/>
         <location filename="serieswidget.cpp" line="241"/>
         <source>Error de captura</source>
-        <translation>Capture error</translation>
+        <translation>Capturing Error</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="242"/>
         <source>No se pudo capturar el barrido&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Verifique que el capturador esta bien connectado.&lt;/li&gt;&lt;li&gt;Contacte su administrador para verificar que el capturador esta bien configurado&lt;/li&gt;&lt;/ul&gt;</source>
-        <translation>Could not capture the sweep&lt;br /&gt;&lt;ul&gt;&lt;li&gt; Verify that the grabber is well connected.&lt;/li&gt;&lt;li&gt; Contact your administrator to verify that the trap is properly configured&lt;/li&gt;&lt;/ul&gt;</translation>
+        <translation>Sweep could not be captured.&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Please verify that video capture device is connected.&lt;/li&gt;&lt;li&gt; Contact your administrator to check settings.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="310"/>
+        <location filename="serieswidget.cpp" line="314"/>
         <source>¿Nuevo Estudio?</source>
         <translation>New Study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="310"/>
+        <location filename="serieswidget.cpp" line="314"/>
         <source>¿Empezar un nuevo estudio con el mismo paciente?</source>
-        <translation>Start a new study with the same patient?</translation>
+        <translation>New study with the same patient?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="328"/>
+        <location filename="serieswidget.cpp" line="332"/>
         <source>Grabación</source>
         <translation>Recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="333"/>
+        <location filename="serieswidget.cpp" line="337"/>
         <source>¿Reiniciar la adquisición?</source>
-        <translation>Restart the acquisition?</translation>
+        <translation>Restart acquisition process?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="333"/>
+        <location filename="serieswidget.cpp" line="337"/>
         <source>¿Esta seguro de realizar nuevamente la adquisicón?</source>
-        <translation>Are you sure to make the acquisition again?</translation>
+        <translation>Are you sure to redo the acquisition ?</translation>
+    </message>
+</context>
+<context>
+    <name>TouchComboBox</name>
+    <message>
+        <location filename="form/touchcombobox.cpp" line="120"/>
+        <source>Anular</source>
+        <translation>Cancel</translation>
     </message>
 </context>
 <context>
@@ -316,7 +320,7 @@ la captura</oldsource>
     <message>
         <location filename="widgets/wlogin.cpp" line="159"/>
         <source>Regresar</source>
-        <translation>To return</translation>
+        <translation>Back</translation>
     </message>
     <message>
         <location filename="widgets/wlogin.cpp" line="227"/>
@@ -342,27 +346,27 @@ la captura</oldsource>
     <message>
         <location filename="widgets/captureprocesswidget.cpp" line="62"/>
         <source>Desea detener el proceso de captura</source>
-        <translation>You want to stop the capture process</translation>
+        <translation>Do you want to stop the acquisition process?</translation>
     </message>
     <message>
         <location filename="widgets/captureprocesswidget.cpp" line="73"/>
         <source>Capturador no detectado</source>
-        <translation>Capture not detected</translation>
+        <translation>Capture Device not detected</translation>
     </message>
     <message>
         <location filename="widgets/captureprocesswidget.cpp" line="73"/>
         <source>No se ha detectado el capturador: </source>
-        <translation>The trap has not been detected:</translation>
+        <translation>Capture Device not detected:</translation>
     </message>
     <message>
         <location filename="widgets/captureprocesswidget.cpp" line="75"/>
         <source>Capturador detectado</source>
-        <translation>Capturer detected</translation>
+        <translation>Capture Device detected</translation>
     </message>
     <message>
         <location filename="widgets/captureprocesswidget.cpp" line="75"/>
         <source>Se ha detectado el capturador: </source>
-        <translation>The grabber has been detected:</translation>
+        <translation>Capture Device detected:</translation>
     </message>
 </context>
 <context>
@@ -373,47 +377,47 @@ la captura</oldsource>
         <translation>Unknown</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="84"/>
+        <location filename="checkbandwith.cpp" line="85"/>
         <source>Sin conexión</source>
-        <translation>Without connection</translation>
+        <translation>No connection</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="94"/>
+        <location filename="checkbandwith.cpp" line="95"/>
         <source>b/sec</source>
         <translation>b/sec</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="96"/>
+        <location filename="checkbandwith.cpp" line="97"/>
         <source>Kb/sec</source>
         <translation>Kb/sec</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="98"/>
+        <location filename="checkbandwith.cpp" line="99"/>
         <source>Mb/sec</source>
         <translation>Mb/sec</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="100"/>
+        <location filename="checkbandwith.cpp" line="101"/>
         <source>Gb/sec</source>
         <translation>Gb/sec</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="143"/>
+        <location filename="checkbandwith.cpp" line="144"/>
         <source>b</source>
         <translation>b</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="145"/>
+        <location filename="checkbandwith.cpp" line="146"/>
         <source>Kb</source>
         <translation>Kb</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="147"/>
+        <location filename="checkbandwith.cpp" line="148"/>
         <source>Mb</source>
         <translation>Mb</translation>
     </message>
     <message>
-        <location filename="checkbandwith.cpp" line="149"/>
+        <location filename="checkbandwith.cpp" line="150"/>
         <source>Gb</source>
         <translation>Gb</translation>
     </message>
@@ -432,6 +436,14 @@ la captura</oldsource>
     </message>
 </context>
 <context>
+    <name>clinicInput</name>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="46"/>
+        <source>Primer Ultrasonido</source>
+        <translation>First Ultrasound</translation>
+    </message>
+</context>
+<context>
     <name>configuration</name>
     <message>
         <location filename="configuration.cpp" line="32"/>
@@ -439,181 +451,217 @@ la captura</oldsource>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="57"/>
+        <location filename="configuration.cpp" line="64"/>
         <source>Servidor</source>
         <translation>Server</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="58"/>
-        <location filename="configuration.cpp" line="63"/>
+        <location filename="configuration.cpp" line="65"/>
         <source>Adquisición</source>
         <translation>Acquisition</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="59"/>
+        <location filename="configuration.cpp" line="66"/>
         <source>Compresión</source>
         <translation>Compression</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="60"/>
-        <location filename="configuration.cpp" line="64"/>
+        <location filename="configuration.cpp" line="67"/>
+        <location filename="configuration.cpp" line="70"/>
         <source>Mantenimiento</source>
         <translation>Maintenance</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="85"/>
+        <location filename="configuration.cpp" line="92"/>
         <source>No se ha detectado ningún dispositivo conectado</source>
-        <translation>No connected device detected</translation>
+        <translation>No device detected</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="98"/>
+        <location filename="configuration.cpp" line="105"/>
         <source>10</source>
         <translation>10</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="101"/>
         <source>864x768</source>
-        <translation>864x768</translation>
+        <translation type="vanished">864x768</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="104"/>
+        <location filename="configuration.cpp" line="105"/>
+        <source>30</source>
+        <translation>30</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="111"/>
         <source>yuv420p</source>
         <translation>yuv420p</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="139"/>
+        <location filename="configuration.cpp" line="146"/>
         <source>IP</source>
         <translation>IP</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="140"/>
+        <location filename="configuration.cpp" line="147"/>
         <source>Nombre</source>
-        <translation>First name</translation>
+        <translation>Name</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="141"/>
+        <location filename="configuration.cpp" line="148"/>
         <source>Contraseña</source>
         <translation>Password</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="142"/>
+        <location filename="configuration.cpp" line="149"/>
         <source>Video Input</source>
         <translation>Video Input</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="143"/>
+        <location filename="configuration.cpp" line="150"/>
         <source>Video Bitrate (default)</source>
         <translation>Video Bitrate (default)</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="144"/>
+        <location filename="configuration.cpp" line="151"/>
         <source>FPS</source>
         <translation>FPS</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="145"/>
+        <location filename="configuration.cpp" line="152"/>
         <source>Tamaño</source>
         <translation>Size</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="146"/>
+        <location filename="configuration.cpp" line="153"/>
         <source>Pixel Conf</source>
         <translation>Pixel Conf</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="147"/>
+        <location filename="configuration.cpp" line="154"/>
         <source>Video Bitrate mínimo</source>
-        <translation>Minimum Video Bitrate</translation>
+        <translation>Minimum video bitrate</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="148"/>
+        <location filename="configuration.cpp" line="155"/>
         <source>Video Bitrate máximo</source>
-        <translation>Maximum Bitrate Video</translation>
+        <translation>Maximum video bitrate</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="149"/>
+        <location filename="configuration.cpp" line="156"/>
         <source>Modelo del Ecógrafo</source>
-        <translation>Model of the Echograph</translation>
+        <translation>Ultrasound model</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="150"/>
+        <location filename="configuration.cpp" line="157"/>
         <source>Guardar adquisición original</source>
         <translation>Save original acquisition</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="151"/>
+        <location filename="configuration.cpp" line="158"/>
         <source>Capturador</source>
         <translation>Capturer</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="180"/>
+        <location filename="configuration.cpp" line="187"/>
         <source>Configuración guardada</source>
         <translation>Saved configuration</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="180"/>
+        <location filename="configuration.cpp" line="187"/>
         <source>La configuración ha sido guardada.</source>
-        <translation>The configuration has been saved.</translation>
+        <translation>Configuration was saved.</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="287"/>
+        <location filename="configuration.cpp" line="294"/>
+        <source>Probar</source>
+        <translation>Test</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="294"/>
+        <source>la captura</source>
+        <translation>Capture</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="299"/>
+        <source>Borrar TODOS</source>
+        <translation>Delete ALL</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="299"/>
+        <source>los estudios</source>
+        <translation>studies</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="299"/>
+        <source>pendientes</source>
+        <translation>pendings</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="335"/>
+        <location filename="configuration.cpp" line="369"/>
+        <source>Dispositivo de captura</source>
+        <translation>Capture Device</translation>
+    </message>
+    <message>
+        <location filename="configuration.cpp" line="580"/>
+        <source>No se ha detectado  ningún dispositivo conectado.</source>
+        <translation>No device detected.</translation>
+    </message>
+    <message>
         <source>Probar la captura</source>
-        <translation>Test the capture</translation>
+        <translation type="vanished">Test the capture</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="291"/>
+        <location filename="configuration.cpp" line="303"/>
         <source>Configuración</source>
         <oldsource>Configuración
 del video</oldsource>
-        <translation>Video</translation>
+        <translation>Configuration</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="291"/>
+        <location filename="configuration.cpp" line="303"/>
         <source>del video</source>
-        <translation>configuration</translation>
+        <translation>of video</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="295"/>
         <source>Borrar TODOS los</source>
-        <translation>Delete all</translation>
+        <translation type="vanished">Delete all</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="295"/>
         <source>estudios pendientes</source>
-        <translation>pending studies</translation>
+        <translation type="vanished">pending studies</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="354"/>
+        <location filename="configuration.cpp" line="488"/>
         <source>Borrar</source>
-        <translation>Delete</translation>
+        <translation>Delete ALL</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="354"/>
+        <location filename="configuration.cpp" line="488"/>
         <source>¿Esta seguro de borrar los </source>
-        <translation>Be sure to delete the</translation>
+        <translation>Are you sure to delete</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="354"/>
+        <location filename="configuration.cpp" line="488"/>
         <source> estudios pendientes?</source>
-        <translation>pending studies?</translation>
+        <translation>the pending studies?</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="378"/>
+        <location filename="configuration.cpp" line="512"/>
         <source> Borrando los </source>
         <translation>Deleting</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="378"/>
+        <location filename="configuration.cpp" line="512"/>
         <source> estudios pendientes </source>
         <translation>pending studies</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="383"/>
+        <location filename="configuration.cpp" line="517"/>
         <source>Borrar TODOS los </source>
         <translation>Delete ALL</translation>
     </message>
     <message>
-        <location filename="configuration.cpp" line="383"/>
+        <location filename="configuration.cpp" line="517"/>
         <source>estudios pendientes </source>
         <translation>pending studies</translation>
     </message>
@@ -709,47 +757,47 @@ del video</oldsource>
     <message>
         <location filename="dialog/dialogoperator.cpp" line="103"/>
         <source>Busca el operador por nombre o DNI</source>
-        <translation>Find the operator by name or DNI</translation>
+        <translation>Search the user by name or ID</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="151"/>
+        <location filename="dialog/dialogoperator.cpp" line="153"/>
         <source>Nombre</source>
-        <translation>First name</translation>
+        <translation>Name</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="152"/>
+        <location filename="dialog/dialogoperator.cpp" line="154"/>
         <source>Contraseña</source>
         <translation>Password</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="153"/>
+        <location filename="dialog/dialogoperator.cpp" line="155"/>
         <source>¿Admin?</source>
-        <translation>Admin?</translation>
+        <translation>Administrator?</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="162"/>
+        <location filename="dialog/dialogoperator.cpp" line="164"/>
         <source>Guardar</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="166"/>
+        <location filename="dialog/dialogoperator.cpp" line="168"/>
         <source>Anular</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="225"/>
+        <location filename="dialog/dialogoperator.cpp" line="227"/>
         <source>Campos vacios</source>
-        <translation>Empty fields</translation>
+        <translation>Empty entries</translation>
     </message>
     <message>
-        <location filename="dialog/dialogoperator.cpp" line="225"/>
+        <location filename="dialog/dialogoperator.cpp" line="227"/>
         <source>¡Por favor, ingrese todo los datos!</source>
-        <translation>Please, enter all the data!</translation>
+        <translation>Please, enter all data entries!</translation>
     </message>
     <message>
         <location filename="dialog/dialogoperator.h" line="62"/>
         <source>No hay ninguna coincidencia</source>
-        <translation>There is no coincidence</translation>
+        <translation>No matches</translation>
     </message>
 </context>
 <context>
@@ -757,7 +805,7 @@ del video</oldsource>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="109"/>
         <source>Busca el paciente por nombre o DNI</source>
-        <translation>Search the patient by name or DNI</translation>
+        <translation>Search the patient by name or ID</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="178"/>
@@ -770,26 +818,25 @@ del video</oldsource>
         <translation>Female</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="178"/>
         <source>Otro</source>
-        <translation>Other</translation>
+        <translation type="vanished">Other</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="184"/>
         <source>DNI</source>
-        <translation>DNI</translation>
+        <translation>ID</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="185"/>
         <location filename="dialog/dialogpatient.cpp" line="192"/>
         <source>Nombre</source>
-        <translation>First name</translation>
+        <translation>Name</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="186"/>
         <location filename="dialog/dialogpatient.cpp" line="193"/>
         <source>Apellidos</source>
-        <translation>Last name</translation>
+        <translation>Lastname</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="187"/>
@@ -811,84 +858,116 @@ del video</oldsource>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="191"/>
         <source>DNI del paciente</source>
-        <translation>DNI of the patient</translation>
+        <translation>Patient ID</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="208"/>
+        <location filename="dialog/dialogpatient.cpp" line="198"/>
+        <source>Revisar DNI</source>
+        <translation>Check ID</translation>
+    </message>
+    <message>
+        <location filename="dialog/dialogpatient.cpp" line="218"/>
         <source>Guardar</source>
         <translation>Save</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="212"/>
+        <location filename="dialog/dialogpatient.cpp" line="224"/>
         <source>Anular</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="261"/>
+        <location filename="dialog/dialogpatient.cpp" line="277"/>
+        <location filename="dialog/dialogpatient.cpp" line="453"/>
         <source>Editar paciente</source>
         <translation>Edit patient</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="275"/>
+        <location filename="dialog/dialogpatient.cpp" line="305"/>
         <source>Agregar paciente</source>
         <translation>Add patient</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="318"/>
+        <location filename="dialog/dialogpatient.cpp" line="362"/>
         <source>Campos vacios</source>
-        <translation>Empty fields</translation>
+        <translation>Empty entries</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="318"/>
+        <location filename="dialog/dialogpatient.cpp" line="448"/>
+        <source>Paciente Existe</source>
+        <translation>Patient exists</translation>
+    </message>
+    <message>
+        <location filename="dialog/dialogpatient.cpp" line="448"/>
+        <source>El paciente ya se encuentra registrado</source>
+        <translation>Patient already registered</translation>
+    </message>
+    <message>
         <source>¡Por favor, ingrese todo los datos!</source>
-        <translation>Please, enter all the data!</translation>
+        <translation type="vanished">Please, enter all the data!</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="324"/>
+        <location filename="dialog/dialogpatient.cpp" line="379"/>
+        <location filename="dialog/dialogpatient.cpp" line="385"/>
+        <location filename="dialog/dialogpatient.cpp" line="438"/>
         <source>DNI incorecto</source>
-        <translation>DNI incorrect</translation>
+        <translation>Wrong ID</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="324"/>
+        <location filename="dialog/dialogpatient.cpp" line="438"/>
         <source>¡El DNI del paciente es incorrecto!</source>
-        <translation>The patient&apos;s DNI is incorrect!</translation>
+        <translation>Wrong Patient ID!</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="329"/>
-        <location filename="dialog/dialogpatient.cpp" line="333"/>
+        <location filename="dialog/dialogpatient.cpp" line="392"/>
+        <location filename="dialog/dialogpatient.cpp" line="396"/>
         <source>DNI existente</source>
-        <translation>Existing DNI</translation>
+        <translation>ID exist</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="329"/>
-        <location filename="dialog/dialogpatient.cpp" line="333"/>
+        <location filename="dialog/dialogpatient.cpp" line="362"/>
+        <source>Falta ingresar datos del paciente</source>
+        <translation>Patient data is missing</translation>
+    </message>
+    <message>
+        <location filename="dialog/dialogpatient.cpp" line="379"/>
+        <source>Incorrecta cantidad de digitos</source>
+        <translation>Wrong number of digits</translation>
+    </message>
+    <message>
+        <location filename="dialog/dialogpatient.cpp" line="385"/>
+        <source>El DNI tiene valores no numericos</source>
+        <translation>ID only accepts numeric characters</translation>
+    </message>
+    <message>
+        <location filename="dialog/dialogpatient.cpp" line="392"/>
+        <location filename="dialog/dialogpatient.cpp" line="396"/>
         <source>¡El DNI del paciente ya existe!</source>
-        <translation>The patient&apos;s DNI already exists!</translation>
+        <translation>Patient ID already exist!</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="338"/>
+        <location filename="dialog/dialogpatient.cpp" line="401"/>
         <source>Fecha de nacimiento incorecto</source>
-        <translation>Date of birth incorecto</translation>
+        <translation>Wrong DOB</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="338"/>
+        <location filename="dialog/dialogpatient.cpp" line="401"/>
         <source>¡La fecha de nacimiento debe ser antes que hoy!</source>
-        <translation>The date of birth must be before today!</translation>
+        <translation>DOB must be before today!</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="359"/>
+        <location filename="dialog/dialogpatient.cpp" line="421"/>
         <source>Error de creación</source>
         <translation>Creation error</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.cpp" line="359"/>
+        <location filename="dialog/dialogpatient.cpp" line="421"/>
         <source>¡Hubo un problema para guardar el paciente, intenté nuevamente!</source>
-        <translation>There was a problem keeping the patient, I tried again!</translation>
+        <translation>There was a problem saving the patient, try again!</translation>
     </message>
     <message>
-        <location filename="dialog/dialogpatient.h" line="67"/>
+        <location filename="dialog/dialogpatient.h" line="70"/>
         <source>No hay ninguna coincidencia</source>
-        <translation>There is no coincidence</translation>
+        <translation>No matches</translation>
     </message>
 </context>
 <context>
@@ -921,12 +1000,12 @@ del video</oldsource>
     <message>
         <location filename="historical.cpp" line="62"/>
         <source>Personalizado</source>
-        <translation>Personalized</translation>
+        <translation>Customized</translation>
     </message>
     <message>
         <location filename="historical.cpp" line="70"/>
         <source>Todos</source>
-        <translation>Everyone</translation>
+        <translation>All</translation>
     </message>
     <message>
         <location filename="historical.cpp" line="80"/>
@@ -941,7 +1020,7 @@ del video</oldsource>
     <message>
         <location filename="historical.cpp" line="86"/>
         <source>Fecha predeterminada</source>
-        <translation>Default date</translation>
+        <translation>Specific date</translation>
     </message>
     <message>
         <location filename="historical.cpp" line="87"/>
@@ -951,39 +1030,39 @@ del video</oldsource>
     <message>
         <location filename="historical.cpp" line="88"/>
         <source>Fecha (De - Hasta)</source>
-        <translation>Date (From - Until)</translation>
+        <translation>Date ( From - To)</translation>
     </message>
 </context>
 <context>
     <name>myffplay</name>
     <message>
-        <location filename="dialog/myffplay.cpp" line="50"/>
+        <location filename="dialog/myffplay.cpp" line="61"/>
         <source>Cerrar</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="dialog/myffplay.cpp" line="58"/>
-        <location filename="dialog/myffplay.cpp" line="100"/>
+        <location filename="dialog/myffplay.cpp" line="69"/>
+        <location filename="dialog/myffplay.cpp" line="111"/>
         <source>Pausa</source>
         <translation>Pause</translation>
     </message>
     <message>
-        <location filename="dialog/myffplay.cpp" line="66"/>
+        <location filename="dialog/myffplay.cpp" line="77"/>
         <source>Siguiente</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="dialog/myffplay.cpp" line="74"/>
+        <location filename="dialog/myffplay.cpp" line="85"/>
         <source>-10s</source>
         <translation>-10s</translation>
     </message>
     <message>
-        <location filename="dialog/myffplay.cpp" line="82"/>
+        <location filename="dialog/myffplay.cpp" line="93"/>
         <source>+10s</source>
         <translation>+10s</translation>
     </message>
     <message>
-        <location filename="dialog/myffplay.cpp" line="104"/>
+        <location filename="dialog/myffplay.cpp" line="115"/>
         <source>Reproducir</source>
         <translation>Play</translation>
     </message>
@@ -1000,7 +1079,7 @@ y seguir</oldsource>
     <message>
         <location filename="studyWidget/sendbutton.cpp" line="54"/>
         <source>y seguir</source>
-        <translation>and continue</translation>
+        <translation>and Next</translation>
     </message>
     <message>
         <location filename="studyWidget/sendbutton.cpp" line="59"/>
@@ -1008,12 +1087,12 @@ y seguir</oldsource>
         <oldsource>Grabación
 Finalizada
 </oldsource>
-        <translation>Finalized</translation>
+        <translation>Recording</translation>
     </message>
     <message>
         <location filename="studyWidget/sendbutton.cpp" line="59"/>
         <source>Finalizada</source>
-        <translation>recording</translation>
+        <translation>Finished</translation>
     </message>
 </context>
 <context>
@@ -1024,7 +1103,7 @@ Finalizada
         <translation>New Study</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="54"/>
+        <location filename="study.cpp" line="55"/>
         <source>Iniciar</source>
         <translation>Start</translation>
     </message>
@@ -1034,44 +1113,83 @@ Finalizada
         <translation type="vanished">Change \nprotocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="59"/>
+        <location filename="study.cpp" line="60"/>
         <source>Cambiar</source>
         <translation>Change</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="59"/>
+        <location filename="study.cpp" line="60"/>
         <source>de protocolo</source>
-        <translation>protocol</translation>
+        <translation>of Protocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="89"/>
+        <location filename="study.cpp" line="90"/>
         <source>Protocolos</source>
         <translation>Protocols</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="106"/>
+        <location filename="study.cpp" line="105"/>
         <source>Cambiar de paciente</source>
         <translation>Change of patient</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="183"/>
+        <location filename="study.cpp" line="136"/>
+        <location filename="study.cpp" line="141"/>
+        <location filename="study.cpp" line="151"/>
+        <location filename="study.cpp" line="156"/>
+        <source>Protocolo Obstétrico</source>
+        <translation>Obstetric Protocol</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="136"/>
+        <source>Falta seleccionar trimestre.</source>
+        <translation>Trimester info is missing.</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="141"/>
+        <source>Fechas no válidas.
+Verifique las fechas FUR y FPP.</source>
+        <translation>Invalid dates. Check LPD and EDD dates.</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="151"/>
+        <source>La frecuencia cardiaca colocada no es numero.</source>
+        <translation>heart rate must be a number.</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="156"/>
+        <source>La frecuencia cardiaca esta fuera de rango [1,300].</source>
+        <translation>heart rate number is out of range (1-300).</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="223"/>
         <source>Información requerida</source>
         <translation>Required information</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="183"/>
+        <location filename="study.cpp" line="223"/>
         <source>Por favor, complete toda la información requerida</source>
-        <translation>Please complete all the required information</translation>
+        <translation>Please complete all required information</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="223"/>
+        <location filename="study.cpp" line="264"/>
         <source>¿Finalizar el estudio?</source>
-        <translation>Finish the study?</translation>
+        <translation>Finish study?</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="223"/>
+        <location filename="study.cpp" line="264"/>
         <source>¿El estudio esta incompleto, esta seguro de finalizarlo?</source>
-        <translation>Is the study incomplete, are you sure to finalize it?</translation>
+        <translation>Study is incomplete, are you sure to finish?</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="410"/>
+        <source>Falta Información</source>
+        <translation>Information missing</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="410"/>
+        <source>No se encontraron los objetos de ultimo ultrasonido</source>
+        <translation>Objects of last ultrasound not found</translation>
     </message>
 </context>
 <context>
@@ -1089,7 +1207,7 @@ Finalizada
     <message>
         <location filename="qhistwidget.cpp" line="184"/>
         <source>DNI del Paciente:</source>
-        <translation>DNI of the Patient:</translation>
+        <translation>Patient ID :</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="187"/>
@@ -1124,12 +1242,17 @@ Finalizada
     <message>
         <location filename="qhistwidget.cpp" line="205"/>
         <source>Estado:</source>
-        <translation>State:</translation>
+        <translation>Status :</translation>
+    </message>
+    <message>
+        <location filename="qhistwidget.cpp" line="218"/>
+        <source>historial</source>
+        <translation>Record</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="240"/>
         <source>Recuperando...</source>
-        <translation>Recovering ...</translation>
+        <translation>Recovering…</translation>
     </message>
     <message>
         <location filename="qhistwidget.cpp" line="264"/>
@@ -1140,14 +1263,14 @@ Finalizada
 <context>
     <name>studyProtocols</name>
     <message>
-        <location filename="studyWidget/studyprotocols.cpp" line="21"/>
+        <location filename="studyWidget/studyprotocols.cpp" line="20"/>
         <source>Anular</source>
         <translation>Cancel</translation>
     </message>
     <message>
-        <location filename="studyWidget/studyprotocols.cpp" line="28"/>
+        <location filename="studyWidget/studyprotocols.cpp" line="27"/>
         <source>Actualización...</source>
-        <translation>Upgrade...</translation>
+        <translation>Updating…</translation>
     </message>
 </context>
 </TS>
