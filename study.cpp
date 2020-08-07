@@ -55,12 +55,14 @@ void study::setClinicsData(){
     start = new QPushButton(QIcon(":/icon/res/img/player_play.png"),tr("Iniciar"));
     connect(start,SIGNAL(clicked()),this,SLOT(startStudy()));
     start->setObjectName("redButton");
-    start->setFixedSize(200,60);
+    start->setFixedSize(220,70);
+    start->setStyleSheet({"font-size: 22px; font-weight: bold;"}); //JB-06082020
     //Buttons
     QPushButton * changeprotocolsbutton = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar")+"\n"+tr("de protocolo"));
     connect(changeprotocolsbutton,SIGNAL(clicked()),this,SLOT(changeProtocol()));
     changeprotocolsbutton->setObjectName("greenButton");
-    changeprotocolsbutton->setFixedSize(200,60);
+    changeprotocolsbutton->setFixedSize(220,70);
+    changeprotocolsbutton->setStyleSheet({"font-size: 18px; font-weight: bold;"});//JB-06082020
 
     QWidget * buttonWidget = new QWidget;
     // buttonWidget->setFixedHeight(50);

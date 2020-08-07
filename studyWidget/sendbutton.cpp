@@ -49,7 +49,6 @@ void sendbutton::paintEvent(QPaintEvent *){
     QPointF playPoints[4] = {a,b,c,d};
     painter.drawPolygon(playPoints,4);
 
-
     painter.setPen(pen);
     painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,tr("Enviar")+"\n"+tr("y seguir"));
 

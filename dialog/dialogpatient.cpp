@@ -203,7 +203,7 @@ void dialogPatient::setForm(){
     //###############################################################
 
     foreach(QLabel *l, formLabel)
-        l->setFixedWidth(160);
+        l->setFixedWidth(216);
     addPatientSex->setItems(s);
     addPatientSize->setItems(sz);
 

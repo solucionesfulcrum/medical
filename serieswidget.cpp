@@ -18,8 +18,9 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
     //Create and add Signal to finish study button
     finishStudyButton = new QPushButton(QIcon(":/icon/res/img/capture_button/close.png"),tr("Cerrar")+"\n"+tr("estudio"));
     finishStudyButton->setObjectName("greenButton");
-    finishStudyButton->setFixedSize(200,60);
+    finishStudyButton->setFixedSize(220,70);
     finishStudyButton->setIconSize(QSize(42,42));
+    finishStudyButton->setStyleSheet({"font-size: 18px; font-weight: bold;"}); //JB-06082020
     connect(finishStudyButton,&QPushButton::clicked,this,&SeriesWidget::finishStudy);
 
     //Create slidinwidget for study capture
@@ -97,9 +98,10 @@ void SeriesWidget::createToolBox()
     resultLabel->setFixedHeight(60);
 
     QSize is(42,42);
-    int bw = 150;
+    int bw = 190;
 
-    sendButton = new sendbutton();
+    sendButton = new sendbutton();    
+    sendButton->setStyleSheet({"font-size: 21px; font-weight: bold"});//JB-06082020
     connect(sendButton,SIGNAL(clicked()),this,SLOT(send()));
 
     QWidget * lb = new QWidget();
@@ -112,6 +114,8 @@ void SeriesWidget::createToolBox()
     lookButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     lookButton->setText(tr("Ver la")+"\n"+tr("adquisición"));
     lookButton->setObjectName("greenButton");
+    lookButton->setFixedSize(380,60);
+    lookButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
     lookButton->setFixedWidth(bw);
     connect(lookButton,SIGNAL(clicked()),this,SLOT(look()));
 
@@ -121,6 +125,8 @@ void SeriesWidget::createToolBox()
     restartButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     restartButton->setText(tr("Rehacer")+"\n"+tr("la captura"));
     restartButton->setObjectName("greenButton");
+    restartButton->setFixedSize(400,60);
+    restartButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
     restartButton->setFixedWidth(bw);
     connect(restartButton,SIGNAL(clicked()),this,SLOT(restartSerie()));
 

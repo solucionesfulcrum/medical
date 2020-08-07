@@ -44,6 +44,7 @@ protected:
 
 private slots:
     void download();
+    void refresh();
     void replyFinished(QNetworkReply*);
     void dl(qint64 a ,qint64 n);
 
@@ -51,7 +52,9 @@ private :
     void createStudyBox();
     void createSweepsBox();
     void openFile();
- QPushButton *dlButton ;
+    QPushButton *dlButton ;
+    QPushButton *refreshButton;
+    uint8_t typeDownload;
     patient _patient;
     studies _studies;
     series _series;

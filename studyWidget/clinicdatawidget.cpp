@@ -6,8 +6,9 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     QLabel * reasonIcon = new QLabel(tr("Razón: "));
     _reason = new QVkLineEdit;
     _reason->setFixedHeight(50);
+    //_reason->setFixedWidth(150);
     urgente = new QCheckBox(tr("¿Urgente?"));
-    urgente->setFixedWidth(130);
+    urgente->setFixedWidth(170);
 
 
     QWidget * reasonWidget = new QWidget;
