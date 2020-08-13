@@ -54,7 +54,7 @@ void sendbutton::paintEvent(QPaintEvent *){
 
     pen.setColor(QColor("#333333"));
     painter.setPen(pen);
-    painter.setFont(QFont("Arial",15));
+    painter.setFont(QFont("Arial",12));
     painter.drawText(textRect,Qt::AlignCenter,tr("Grabación")+"\n"+tr("Finalizada")+"\n"+time);
 
 

@@ -107,7 +107,7 @@ void study::setStudyProtocolsForm(){
     QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
     connect(changepatient,SIGNAL(clicked()),this,SLOT(changePatient()));
     changepatient->setObjectName("greenButton");
-    changepatient->setFixedSize(200,60);
+    changepatient->setFixedSize(240,60);
 
     QWidget * buttonWidget = new QWidget;
     // buttonWidget->setFixedHeight(50);
