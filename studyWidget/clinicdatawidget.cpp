@@ -5,23 +5,32 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     //Reason
     QLabel * reasonIcon = new QLabel(tr("Razón: "));
     _reason = new QVkLineEdit;
-    _reason->setFixedHeight(50);
-    //_reason->setFixedWidth(150);
+    //_reason->setFixedHeight(50);
+    //_reason->setFixedWidth(600);
     urgente = new QCheckBox(tr("¿Urgente?"));
-    urgente->setFixedWidth(170);
-
+    //urgente->setFixedWidth(170);
+    trainning = new QCheckBox(tr("¿Entrenamiento?"));
+    //trainning->setFixedWidth(170);
 
     QWidget * reasonWidget = new QWidget;
-    reasonWidget->setFixedHeight(50);
+    //reasonWidget->setFixedHeight(100);
     reasonWidget->setObjectName("reasonWidget");
     reasonWidget->setContentsMargins(1,1,1,1);
-    QHBoxLayout *reasonLayout = new QHBoxLayout(reasonWidget);
+/*    QHBoxLayout *reasonLayout = new QHBoxLayout(reasonWidget);
     reasonLayout->addWidget(reasonIcon,0);
-    reasonLayout->addWidget(_reason,10);
+    reasonLayout->addWidget(_reason,10);    
     reasonLayout->addSpacing(10);
     reasonLayout->addWidget(urgente,0,Qt::AlignCenter);
+    reasonLayout->addSpacing(10);
+    reasonLayout->addWidget(trainning,0,Qt::AlignCenter);
     reasonLayout->setSpacing(0);
-    reasonLayout->setMargin(0);
+    reasonLayout->setMargin(0);*/
+
+    QGridLayout *reasonLayout = new QGridLayout(reasonWidget);
+    reasonLayout->addWidget(reasonIcon,0,0,2,1);
+    reasonLayout->addWidget(_reason,0,1,2,5);
+    reasonLayout->addWidget(urgente,0,6,1,1);
+    reasonLayout->addWidget(trainning,1,6,1,1);
 
     protocolname = new titlelabel();
     protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
@@ -98,6 +107,11 @@ QString clinicDataWidget::getReason(){
     return _reason->text();
 }
 
-bool clinicDataWidget::getUrgent(){
+bool clinicDataWidget::getUrgent(){    
     return urgente->isChecked();
 }
+
+bool clinicDataWidget::getTrainnning(){
+    return trainning->isChecked();
+}
+

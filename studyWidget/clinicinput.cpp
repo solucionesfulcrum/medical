@@ -81,7 +81,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
             input->setObjectName("FPP");
             input->setEnabled(false);
         }
-        else
+        /*else
         {
             if(textName == "FUR" || textName == "LMP")
             {
@@ -94,6 +94,21 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
                 input->setObjectName("FUU");
             }
             connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
+        }*/
+
+        else if(textName == "FUR" || textName == "LMP"){
+                input->setMaximumDate(QDate::currentDate());// JB20200120 Validacion  FUR debe ser menor o igual a la fecha actual.
+                input->setObjectName("FUR");
+                connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
+        }
+
+        else if(textName == strFechaUltrasonidoPrevioEs || textName == strFechaUltrasonidoPrevioEn){
+                input->setMaximumDate(QDate::currentDate());// JB20200114 Validacion  FUU debe ser menor o igual a la fecha actual.
+                input->setObjectName("FUU");
+                connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
+            }
+        else {
+            input->setMaximumDate(QDate::currentDate());
         }
         std_input =  input;
     }

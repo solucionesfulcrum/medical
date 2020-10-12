@@ -1,6 +1,16 @@
 #ifndef STUDY_H
 #define STUDY_H
 
+
+#define CardiacFreqMin 0
+#define CardiacFreqMax 300
+#define RespiratoryFreqMin 0
+#define RespiratoryFreqMax 40
+#define OxySaturationMin 0
+#define OxySaturationMax 100
+#define TemperaturaMin 25
+#define TemperaturaMax 45
+
 #include <qmedicalboxwidget.h>
 #include <serieswidget.h>
 #include <entitites/operators.h>
@@ -41,6 +51,11 @@ private:
     bool Falta_trimestre();
     void MuestraUltimoUltrasonido();
     uint8_t validateCardiacBeat();
+
+
+    uint8_t PulmonaryProtocol_Validation(QJsonArray *);
+    QString PulmonaryProtocol_GetValue(QJsonArray *,QString);
+    bool PulmonaryProtocol_FindString(QJsonArray *,QString,QString);
 
     QPushButton * start;
 

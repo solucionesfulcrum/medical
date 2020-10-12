@@ -1,15 +1,39 @@
-#include "queuewidget.h"
+   #include "queuewidget.h"
 
 QString HTTPsender::API= apiurlsend;
 
 HTTPsender::HTTPsender(QObject *o) : QObject(o)
-{
+{       
+    //connect(&m_WebCtrl,SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),SLOT(provideAuth(QNetworkReply*, QAuthenticator*)));
     connect(&m_WebCtrl,SIGNAL(finished(QNetworkReply*)),this,SLOT(finished(QNetworkReply*)));
+    connect(&m_WebCtrl,&QNetworkAccessManager::authenticationRequired,this,&HTTPsender::provideAuth);
+    connect(&m_WebCtrl,&QNetworkAccessManager::sslErrors,this,&HTTPsender::sslErrors);
+
+    //connect(&m_WebCtrl,SIGNAL(sslErrors),this,SLOT(SSL))
 }
 
-HTTPsender::~HTTPsender()
-{
+HTTPsender::~HTTPsender(){
 }
+
+void HTTPsender::sslErrors(QNetworkReply* reply,const QList<QSslError>& errors){
+    qDebug()<<"CR: SSL Errors";
+    QString errorstring;
+    for (const QSslError &error:errors) {
+        if(!errorstring.isEmpty())
+            errorstring += '\n';
+        errorstring +=error.errorString();
+    }
+    reply->ignoreSslErrors();
+}
+
+
+void HTTPsender::provideAuth(QNetworkReply*, QAuthenticator* auth)
+{
+    qDebug()<<"Auth.......";
+    auth->setUser("MEDICALBOX1");
+    auth->setPassword("123123");
+}
+
 
 void HTTPsender::send(int i)
 {
@@ -23,10 +47,37 @@ void HTTPsender::send(int i)
     QString meta_c = folder+"/"+cryptedmetafilename;
     QString video_c = folder+"/"+cryptedcompressedvideoname;
 
-    url.setUrl(_cfg.ip()+HTTPsender::API );
+
+
+    url.setUrl(_cfg.ip()+HTTPsender::API+"?api-key=$2gyf$10a$nRLwp4Ea2R9MMoIqJ4ateloceT6ua59LMuC5WLlQamGKT5PU8GVcXfDukO");
     request.setUrl(url);
+
     mtp = new QHttpMultiPart(QHttpMultiPart::FormDataType);
 
+//  Add apikey
+    addPart("api-key",apikey);
+
+    file = new QFile(video_c);
+    QHttpPart videopart;
+    videopart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"videofile\""));
+    file->open(QIODevice::ReadOnly);
+    qint64 videoFileSize = file->size();
+    qDebug()<<"Video size: " +QString::number(videoFileSize);
+    videopart.setBodyDevice(file);
+    file->setParent(mtp);
+    mtp->append(videopart);
+
+    filemeta = new QFile(meta_c);
+    QHttpPart metapart;
+    metapart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"metadata\""));
+    filemeta->open(QIODevice::ReadOnly);
+    qint64 metaFileSize = filemeta->size();
+    metapart.setBodyDevice(filemeta);
+    filemeta->setParent(mtp);
+    mtp->append(metapart);
+
+
+/*
     //Add video file
     file = new QFile(video_c);
     file->open(QIODevice::ReadOnly);
@@ -40,6 +91,8 @@ void HTTPsender::send(int i)
     qint64 metaFileSize = filemeta->size();
     addDevicePart("metadata", filemeta);
     filemeta->setParent(mtp);
+*/
+
 
     //Add Meta Size
     addPart("msize",QString::number(metaFileSize));
@@ -131,8 +184,9 @@ void HTTPsender::send(int i)
     //Add Study Urgent Value
     addPart("study[urgent]",_studies.getValue("urgent").toString());
 
-    //API KEY
-    addPart("api-key",apikey);
+
+    //Add Study Trainning Value
+    addPart("study[trainning]",_studies.getValue("trainning").toString());
 
     //qDebug() << "Send serie into :" << url.toString() << request.url().toString();
 
@@ -145,19 +199,28 @@ void HTTPsender::send(int i)
     }
     QNetworkReply *p = m_WebCtrl.post(request,mtp);
     connect(p,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
+    connect(p,SIGNAL(finished()), this, SLOT(GetReply()));
+    connect(p,SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT (UploadError(QNetworkReply::NetworkError)));
+    qDebug()<<"CR: Initialize sending";
 
 }
 
-void HTTPsender::addPart(QString key, QString value, QString type){
-    //qDebug() << "Add HTTP PART " << type << ":" << key << " => " << value;
-    QHttpPart Part;
+void HTTPsender::GetReply(){
+    qDebug()<<"Termino post";
+}
+
+void HTTPsender::UploadError(QNetworkReply::NetworkError err){
+    qDebug()<<"Network Reply error: "<<err;
+}
+
+void HTTPsender::addPart(QString key, QString value, QString type){    
+    QHttpPart Part;    
     Part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(type+"; name=\""+key+"\""));
     Part.setBody(value.toStdString().c_str());
     mtp->append(Part);
 }
 
-void HTTPsender::addDevicePart(QString key, QFile* value, QString type){
-    //qDebug() << "Add DEVICE HTTP PART " << type << ":" << key ;
+void HTTPsender::addDevicePart(QString key, QFile* value, QString type){    
     QHttpPart Part;
     Part.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(type+"; name=\""+key+"\""));
     Part.setBodyDevice(value);
@@ -174,14 +237,15 @@ void HTTPsender::dl(qint64 a ,qint64 n){
 }
 
 void HTTPsender::state(){
-    //qDebug() << id << rp->url() <<rp->errorString() << rp->canReadLine() << rp->isOpen() << rp->isFinished();
+    qDebug() << id << rp->url() <<rp->errorString() << rp->canReadLine() << rp->isOpen() << rp->isFinished();
 }
 
 void HTTPsender::finished(QNetworkReply* pReply){
+    qDebug()<<"CR: Post finished";
     QByteArray res = pReply->readAll();
-    //qDebug() << "Finished " << id << pReply->errorString() << res ;
+    qDebug() << "CR: Finished " << id << pReply->errorString() << res ;
 
-    QFile errfile("HTTPres.txt");
+    QFile errfile("HTTPrefs.txt");
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
         QTextStream out(&errfile);
@@ -236,7 +300,7 @@ void HTTPsender::finished(QNetworkReply* pReply){
         emit isFinished(id,1);
     }
     else{
-        //qDebug() << rootObject.value("error").toString();
+        qDebug() << rootObject.value("error").toString();
         emit isError(id);
     }
 }
@@ -314,29 +378,6 @@ void Queue::run(){
                 compress->start(program);
                 qDebug() << "Start Compression" << program;
                 qDebug() << "Result:" << compress->waitForFinished(60000);
-
-
-                /*DEMO
-                QString ffmpeg ="ffmpeg -rtbufsize 1500M -f rawvideo -vcodec "
-                                "rawvideo -s [SIZE] "
-                                "-r [FPS] -pix_fmt [PIXELCONF] "
-                                "-i "+video+" -c:v libx264 "
-                                            "-pix_fmt yuv420p -b";
-
-                ffmpeg = ffmpeg.replace("[FPS]",cf.getValue("fps").toString());
-                ffmpeg = ffmpeg.replace("[SIZE]",cf.getValue("SIZE").toString());
-                ffmpeg = ffmpeg.replace("[PIXELCONF]",cf.getValue("PIXELCONF").toString());
-
-
-                for(int j = 200 ; j < 900 ; j = j+100){
-                    qDebug() << ffmpeg +" "+QString::number(j)+"k "+folder+"/"+QString::number(j)+".mp4";
-                    compress->start(ffmpeg +" "+QString::number(j)+"k "+folder+"/"+QString::number(j)+".mp4");
-                    qDebug() << "Result ffmpeg: "+QString::number(j)+"k " << compress->waitForFinished(60000);
-                }
-                 FIN DEMO*/
-
-
-
 
                 delete compress;
                 emit isCompressed(i);
@@ -698,7 +739,11 @@ void QueueWidget::waitingThread(bool b){
 void QueueWidget::setUpProgress(qint64 v ,qint64 m,int id){
     QueueObject * q = queueObject(id);
     if(q != NULL)
+    {
         q->setProgress(v,m);
+        qDebug()<<"CR: "<< v << m ;
+    }
+
 }
 
 void QueueWidget::isCompressed(int id){
@@ -710,7 +755,7 @@ void QueueWidget::isCompressed(int id){
 void QueueWidget::isCrypted(int id){
     QueueObject * q = queueObject(id);
     if(q != NULL){
-        q->isCrypted();
+        q->isCrypted();        
         _httpsend->send(id);
         infoLabel->setText(tr("Envío (")+QString::number(id)+tr(")"));
     }

@@ -29,7 +29,6 @@
 
 // Need to link with shell32.lib
 #pragma comment(lib, "shell32.lib")
-
 #pragma comment(lib, "strmiids")
 
 class MainWindow : public QMainWindow

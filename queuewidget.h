@@ -9,10 +9,11 @@
 #include <entitites/config.h>
 #include <entitites/operators.h>
 #include <entitites/studydesc.h>
-#include<QNetworkAccessManager>
-#include<QHttpMultiPart>
-#include<QHttpPart>
-#include<QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QAuthenticator>
+#include <QHttpMultiPart>
+#include <QHttpPart>
+#include <QNetworkReply>
 #include <medisecure/include/medisecure.h>
 #include "include.h"
 #include "accesor.h"
@@ -28,10 +29,19 @@ public:
     ~HTTPsender();
     void state();
     void send(int);
+
 private slots:
     void finished(QNetworkReply*);
+
     void dl(qint64,qint64);
     void showError(QNetworkReply::NetworkError);
+
+    void GetReply(void);
+    void UploadError(QNetworkReply::NetworkError);
+
+    void provideAuth(QNetworkReply*,QAuthenticator*);
+    void sslErrors(QNetworkReply*,const QList<QSslError>&);
+
 signals:
     void isFinished(int,int);
     void progress(qint64,qint64,int);

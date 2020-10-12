@@ -18,7 +18,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "1.4.3 (08/11/2019)";
     //version = "2.0.1 (20/02/2020)";
     //version = "2.0.2 (17/07/2020)";
-    version = "2.0.5 (13/08/2020)";
+    //version = "2.0.5 (13/08/2020)";
+    version = "2.0.6 (11/10/2020)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -530,6 +531,6 @@ void MainWindow::closeSystem(){
 
 }
 
-void MainWindow::closeEvent(QCloseEvent *ev){
+void MainWindow::closeEvent(QCloseEvent *){
     //ExitWindowsEx(EWX_SHUTDOWN,0);
 }

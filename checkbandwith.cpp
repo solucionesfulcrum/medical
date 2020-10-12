@@ -66,7 +66,7 @@ void checkBandwith::send(int s){
     multiPart->append(textPart);
 
     //timer.start();
-    qDebug()<<m_WebCtrl.post(request,multiPart)->error();
+    //qDebug()<<m_WebCtrl.post(request,multiPart)->error();
 }
 
 void checkBandwith::finished(QNetworkReply* pReply){
@@ -161,9 +161,8 @@ void checkBandwith::start(){
     conf.load();
     pruebas = 0;
     _valueLabel->setText(tr(""));
-    _valueLabel->setMovie (loader);
-    qDebug()<<conf.ip()+"/api/check";
-    setURL(conf.ip()+"/api/check");;
+    _valueLabel->setMovie (loader);    
+    setURL(conf.ip()+"/api/check");
     nextvalue = 0;
     bestPack = step.at(nextvalue);
     send(bestPack);

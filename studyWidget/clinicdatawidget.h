@@ -16,6 +16,7 @@ public:
     QString getReason();
     void reset();
     bool getUrgent();
+    bool getTrainnning();
 signals:
 
 private:
@@ -29,6 +30,7 @@ private:
     QList<QWidget*> datasWidget;
     QList<clinicInput*> datas;
     QCheckBox *urgente;
+    QCheckBox *trainning;
 };
 
 #endif // CLINICDATAWIDGET_H
