@@ -16,6 +16,7 @@ studies::studies() : entities(){
          << "id_operators"
          << "data"
          << "urgent"
+         << "trainning"
          << "new_report";
 }
 

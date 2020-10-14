@@ -61,11 +61,11 @@ QVariant entities::getValue(QString k){
 void entities::loadData(int id){
     if (id!=0){
         QString q = "SELECT * FROM "+table+" WHERE "+id_name+" = "+QString::number(id)+" LIMIT 0,1";
-        //qDebug() << q;
+        qDebug() << q;
         QSqlQuery query(q);
         while (query.next()){
-            foreach(QString s , keys){
-                data[s] = query.value(s);
+            foreach(QString s , keys){                
+                data[s] = query.value(s);                
             }
         }
     }

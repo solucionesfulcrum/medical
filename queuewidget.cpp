@@ -186,6 +186,7 @@ void HTTPsender::send(int i)
 
 
     //Add Study Trainning Value
+    qDebug()<<_studies.getValue("trainning").toString();
     addPart("study[trainning]",_studies.getValue("trainning").toString());
 
     //qDebug() << "Send serie into :" << url.toString() << request.url().toString();
