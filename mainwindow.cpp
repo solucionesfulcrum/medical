@@ -20,7 +20,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.0.2 (17/07/2020)";
     //version = "2.0.5 (13/08/2020)";
     //version = "2.0.6 (11/10/2020)";
-    version = "2.0.7 (14/10/2020)";
+    //version = "2.0.7 (14/10/2020)";
+    version = "2.0.8 (20/10/2020)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;

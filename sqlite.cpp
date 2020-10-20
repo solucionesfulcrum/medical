@@ -102,7 +102,7 @@ bool sqlite::insert(QHash<QString, QString> hash, QString table) {
     }
     query += ")";
     QSqlQuery q;
-    qDebug() << query;
+
     if (q.prepare(query)){
         if (q.exec(query)){
             lastId = q.lastInsertId().toInt();

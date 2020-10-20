@@ -23,6 +23,7 @@ public:
     QStringList getPending();
     QString getState();
     QString getData();
+    int getLastElement(QString name);
 
     bool updateStudy(QHash<QString, QString> data, QString uid);
     int getIdFromUID(QString);

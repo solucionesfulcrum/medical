@@ -185,11 +185,12 @@ void HTTPsender::send(int i)
     addPart("study[urgent]",_studies.getValue("urgent").toString());
 
 
-    //Add Study Trainning Value
-    qDebug()<<_studies.getValue("trainning").toString();
+    //Add Study Trainning Value    
     addPart("study[trainning]",_studies.getValue("trainning").toString());
 
-    //qDebug() << "Send serie into :" << url.toString() << request.url().toString();
+    //Add Study Trainning Value
+    addPart("study[ConsentimientoInformado]",_studies.getValue("ConsentimientoInformado").toString());
+
 
     QFile errfile("HTTPres.txt");
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))

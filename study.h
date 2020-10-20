@@ -12,6 +12,7 @@
 #define TemperaturaMax 45
 
 #include <qmedicalboxwidget.h>
+#include <QMessageBox>
 #include <serieswidget.h>
 #include <entitites/operators.h>
 #include <studyWidget/studyprotocols.h>
@@ -56,6 +57,9 @@ private:
     uint8_t PulmonaryProtocol_Validation(QJsonArray *);
     QString PulmonaryProtocol_GetValue(QJsonArray *,QString);
     bool PulmonaryProtocol_FindString(QJsonArray *,QString,QString);
+    bool PulmonaryProtocol_Checked(QJsonArray *,QString);
+
+    QString id_ci;
 
     QPushButton * start;
 
@@ -74,6 +78,7 @@ private:
 
     int studyId;
     int _patient_id;
+    QString _patient_Document;
     int last_serie;
     bool started;
 

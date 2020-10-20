@@ -17,10 +17,25 @@ studies::studies() : entities(){
          << "data"
          << "urgent"
          << "trainning"
+         << "ConsentimientoInformado"
          << "new_report";
 }
 
 studies::~studies(){
+}
+
+int studies::getLastElement(QString element){
+    QString query = "SELECT "+ element +" FROM studies ORDER BY ID DESC LIMIT 1";
+    QSqlQuery q;
+    int id=-1;
+
+    if(q.exec(query)==false) return -1;
+
+    while(q.next()){
+        id = q.value(0).toInt();
+    }
+    return id;
+
 }
 
 QList<int> studies::listeID(QString s){
