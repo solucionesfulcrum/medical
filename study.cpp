@@ -257,7 +257,6 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     bool ok;
     int number;
 
-
 //  Validate reason
     if(_clinicdatawidget->getReason()==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar Razón de estudio."),QMessageBox::Ok);
@@ -266,12 +265,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate cellphone number
-    value = PulmonaryProtocol_GetValue(jarray,"txtCelular");
+    /*value = PulmonaryProtocol_GetValue(jarray,"txtCelular");
     number = value.toInt(&ok,10);
     if((value.count()!=9) || (ok==false) ){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Número celular incorrecto."),QMessageBox::Ok);
         return 0;
-    }
+    }*/
 
 //  Validate country of infection
     value = PulmonaryProtocol_GetValue(jarray,"txtLPIPais");
@@ -297,7 +296,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 //  Validate address
     value = PulmonaryProtocol_GetValue(jarray,"txtDomicilioActual");
     if(value==""){
-        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar distrito de infección."),QMessageBox::Ok);
+        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar domicilio actual."),QMessageBox::Ok);
         return 0;
     }
 
@@ -424,6 +423,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 
     if( (value_symptoms=="Si") && (PulmonaryProtocol_Checked(jarray,"chkCondicionesComorbilidad")==false) ){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Se selecciono presencia de síntomas pero no se selecciono ninguna comorbilidad."),QMessageBox::Ok);
+        return 0;
+    }
+
+    value = PulmonaryProtocol_GetValue(jarray,"chkAspectoGeneralPaciente");
+    if(value==""){
+        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar al menos un campo de aspecto general del paciente"),QMessageBox::Ok);
         return 0;
     }
 

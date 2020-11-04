@@ -296,7 +296,7 @@ void HTTPsender::finished(QNetworkReply* pReply){
         }
 
         //Remove Crypted File
-        QFile::remove(video_c);
+        QFile::remove(video_c);        
         QFile::remove(meta_c);
 
         emit isFinished(id,1);
