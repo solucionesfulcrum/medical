@@ -247,7 +247,7 @@ void HTTPsender::finished(QNetworkReply* pReply){
     QByteArray res = pReply->readAll();
     qDebug() << "CR: Finished " << id << pReply->errorString() << res ;
 
-    QFile errfile("HTTPrefs.txt");
+    QFile errfile("HTTPres.txt");
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
         QTextStream out(&errfile);

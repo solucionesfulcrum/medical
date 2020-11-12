@@ -315,6 +315,17 @@ void studyInfo::replyFinished(QNetworkReply* pReply){
 
    }
 
+    //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/"+QString::number(id);
+    //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/";
+    //QString video = folderOrig+"/"+uncompressedvideoname;
+
+
+    QDir dir("uncompressed/"+QString::number(studyID));
+
+    if(dir.exists()){
+        dir.removeRecursively();
+    }
+
     typeDownload = 0;
 
 }

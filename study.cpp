@@ -134,9 +134,6 @@ void study::startStudy(){
     start->setEnabled(false);
     if (_patient_id > 0){
 
-
-
-
 //      Obstetric protocol survey validation        
         if(_studyDesc->getValue()==1){
             if(_clinicdatawidget->getReason()==""){
@@ -144,7 +141,6 @@ void study::startStudy(){
                 start->setEnabled(true);
                 return;
             }
-
 
             if (Falta_trimestre()){
                 QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta seleccionar trimestre."),QMessageBox::Ok);
@@ -256,6 +252,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     QString value, value_symptoms;
     bool ok;
     int number;
+    return 1;
 
 //  Validate reason
     if(_clinicdatawidget->getReason()==""){
