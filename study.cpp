@@ -174,8 +174,7 @@ void study::startStudy(){
         }
 
 //      Pulmonary protocol survey validation
-
-        else if(_studyDesc->getValue()==6){
+        else if(_studyDesc->getValue()==3){
             QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
             QJsonDocument jdoc = QJsonDocument::fromJson(json);
             QJsonArray jsonList = jdoc.array();
@@ -199,6 +198,7 @@ void study::startStudy(){
         data.insert("finishtime",QString::number(now.toMSecsSinceEpoch()));
         data.insert("reason",_clinicdatawidget->getReason());
         data.insert("ConsentimientoInformado",id_ci);
+        data.insert("study_created",QString::number(study_created));
 
         if (_clinicdatawidget->getUrgent())
             data.insert("urgent","1");
@@ -215,11 +215,13 @@ void study::startStudy(){
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
         data.insert("id_patients",QString::number(_patient_id));
         data.insert("id_operators",QString::number(ope.lastOp()));
+        data.insert("study_created",QString::number(0));
+
         _studies.insert(data);
         studyInfo->setStudyInfoDateTime(now.toString("dd/MM/yyyy <br /> hh:mm:ss"));
         studyId = _studies.getLastId();
 
-        //Create Series
+//      Create Series
         studydesc dsc;
         QList<int> sweeps = dsc.getSweepId(_studyDesc->getValue());
         foreach(int s, sweeps){
@@ -252,7 +254,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     QString value, value_symptoms;
     bool ok;
     int number;
-    return 1;
+//    return 1;
 
 //  Validate reason
     if(_clinicdatawidget->getReason()==""){
@@ -511,6 +513,11 @@ void study::loadStudy(int id){
 }
 
 void study::isnewStudy(bool b){
+
+    QHash<QString,QString> data;
+    data.insert("study_created",QString::number(study_finished));
+    _studies.insert(data);
+
     started = false;
     newStudy(b);
 }
@@ -553,7 +560,7 @@ void study::patientLoaded(int s){
     studyInfo->setStudyInfoPatient(p.getValue("name").toString(),p.getValue("last_name").toString());
     _patient_id = s;
 //----------------------------------------------------------------
-//  Christiam
+//  CR:
     if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M');
     else _studyDesc->loadWithSex('X');
 //----------------------------------------------------------------
@@ -575,6 +582,10 @@ bool study::isCapturing(){
 }
 
 void study::protocolSelected(){
+
+    if(wifi_status==false){
+    QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
+    }
 
     int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
                                         "Su respuesta se tomará como una declaración jurada, <br />"
@@ -703,4 +714,8 @@ void study::MuestraUltimoUltrasonido()
         //QMessageBox::information(this, tr("Información de Ultrasonido"), tr(msgString.toStdString().c_str())); //JB 24012020 se retiro mensaje porque no aportaba valor cambio Benjamin
         start->setEnabled(true);
     }
+}
+
+void study::Wifi_status(bool m){
+    wifi_status = m;
 }

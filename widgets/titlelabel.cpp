@@ -3,6 +3,8 @@
 titlelabel::titlelabel(QString t, QWidget *parent) : QWidget(parent)
 {
     title = t;
+
+//  CR: 02/02/21
     setFixedSize(300,60);
     line = true;
     update();
@@ -41,7 +43,8 @@ void titlelabel::paintEvent(QPaintEvent *){
     painter.setPen(pen);
 
     //painter.setFont(QFont("Arial",15));   //Christiam
-    painter.setFont(QFont("Arial",16));
+    //painter.setFont(QFont("Arial",16));
+    painter.setFont(QFont("Arial",12));
     painter.drawText(QRect(0,0,width(),40),textalign | Qt::AlignVCenter ,title);
 
     int diff = (width()-lineWidth)/2;

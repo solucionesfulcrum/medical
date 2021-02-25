@@ -11,6 +11,10 @@
 #define TemperaturaMin 25
 #define TemperaturaMax 45
 
+#define study_created   -1
+#define study_finished  0
+#define study_sended    1
+
 #include <qmedicalboxwidget.h>
 #include <QMessageBox>
 #include <serieswidget.h>
@@ -27,6 +31,8 @@ class study : public QMedicalBoxWidget
 public:
     study(QMedicalBoxWidget *parent = nullptr);
     ~study();
+    bool wifi_status;
+
 public slots:
     void patientLoaded(int);
     void loadStudy(int);
@@ -36,6 +42,7 @@ public slots:
     void changeProtocol();
     bool isCapturing();
     void isnewStudy(bool = false);
+    void Wifi_status(bool);
 
 signals:
     void studyStarted(bool);

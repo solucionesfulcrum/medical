@@ -28,12 +28,10 @@ void HTTPsender::sslErrors(QNetworkReply* reply,const QList<QSslError>& errors){
 
 
 void HTTPsender::provideAuth(QNetworkReply*, QAuthenticator* auth)
-{
-    qDebug()<<"Auth.......";
+{    
     auth->setUser("MEDICALBOX1");
     auth->setPassword("123123");
 }
-
 
 void HTTPsender::send(int i)
 {
@@ -77,27 +75,10 @@ void HTTPsender::send(int i)
     mtp->append(metapart);
 
 
-/*
-    //Add video file
-    file = new QFile(video_c);
-    file->open(QIODevice::ReadOnly);
-    qint64 videoFileSize = file->size();
-    addDevicePart("videofile", file);
-    file->setParent(mtp);
-
-    //Add MetaFile
-    filemeta = new QFile(meta_c);
-    filemeta->open(QIODevice::ReadOnly);
-    qint64 metaFileSize = filemeta->size();
-    addDevicePart("metadata", filemeta);
-    filemeta->setParent(mtp);
-*/
-
-
-    //Add Meta Size
+//  Add Meta Size
     addPart("msize",QString::number(metaFileSize));
 
-    //Add Video Size
+//  Add Video Size
     addPart("vsize",QString::number(videoFileSize));
 
     //Add check
@@ -503,26 +484,46 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
     qo->setObjectName("queueObject");
     QHBoxLayout * m = new QHBoxLayout(this);
     m->addWidget(qo);
-    m->setSpacing(0);
-    m->setMargin(0);
+    qo->setFixedWidth(270);
+//    m->setSpacing(0);
+//    m->setMargin(0);
     _series.loadData(id);
-    QLabel * title = new QLabel(studies::datetimetoFormat(_series.datetime()));
+    //QLabel * title = new QLabel(studies::datetimetoFormat(_series.datetime()));
+
+//------------------------------------------------------------------
+//  CR:
+    QLabel * title = new QLabel(studies::datetimetoFormat(_series.datetime(),"dd/MM/yy <br /> hh:mm:ss"));
+//------------------------------------------------------------------
+
+    title->setFixedWidth(100);
+    //title->setFixedHeight(21);
+    QFont f( "Arial", 9);
+    title->setFont(f);
     title->setObjectName("queueObjectTitle");
 
     compressed = new QLabel("");
     crypted = new QLabel("");
+
+    QFont fsent( "Arial", 11);
     sent = new QLabel("");
-    sent->setAlignment(Qt::AlignCenter);
+    sent->setFont(fsent);
+
+    compressed->setAlignment(Qt::AlignLeft);
+    crypted->setAlignment(Qt::AlignLeft);
+    sent->setAlignment(Qt::AlignLeft);
+
 
     statut << compressed << crypted << sent;
     foreach(QLabel *l, statut)
     {
         l->setFixedHeight(21);
+        l->setFixedWidth(40);
         l->setObjectName("queueObjectStatut");
     }
 
     pb = new QProgressBar;
     pb->setFixedHeight(5);
+    //pb->setFixedWidth(270);
     pb->setTextVisible(false);
 
     del = new QPushButton(QIcon(":/icon/res/img/close.png"),"");
@@ -531,11 +532,11 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
     connect(del,SIGNAL(clicked()),this,SLOT(deleteQueue()));
 
     QHBoxLayout * adv = new QHBoxLayout;
-    adv->addWidget(title);
-    adv->addWidget(compressed);
-    adv->addWidget(crypted);
-    adv->addWidget(sent);
-    adv->addWidget(del);
+    adv->addWidget(title,Qt::AlignLeft);
+    adv->addWidget(compressed,Qt::AlignLeft);
+    adv->addWidget(crypted,Qt::AlignLeft);
+    adv->addWidget(sent,Qt::AlignLeft);
+    adv->addWidget(del,Qt::AlignLeft);
     adv->setSpacing(1);
     adv->setMargin(0);
 
@@ -543,9 +544,11 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
     QVBoxLayout *wl = new QVBoxLayout(qo);
     wl->addLayout(adv);
     wl->addWidget(pb);
+    wl->setSpacing(0);
+    wl->setMargin(0);
 
-    wl->setSpacing(1);
-    wl->setMargin(5);
+    //wl->setSpacing(1);
+    //wl->setMargin(5);
     pb->show();
     _id = id;
     numError = 0;
@@ -616,36 +619,47 @@ int QueueObject::id(){
 }
 
 
-//* QueueWidget
+//  QueueWidget
 QueueWidget::QueueWidget(QWidget *parent) : QWidget(parent)
 {
     isRunning = false;
     QHBoxLayout * l = new QHBoxLayout(this);
     QWidget * queueWidget = new QWidget();
     queueWidget->setObjectName("QueueWidget");
-    queueWidget->setFixedWidth(380);
+
+//------------------------------------------------
+//  CR: 01/02/21
+//  queueWidget->setFixedWidth(380);
+    queueWidget->setFixedWidth(280);
+//------------------------------------------------
+
     l->addWidget(queueWidget);
-    l->setSpacing(0);
-    l->setMargin(0);
+//    l->setSpacing(0);
+//    l->setMargin(0);
 
     QVBoxLayout * layout = new QVBoxLayout(queueWidget);
 
-    //Create Header
+//  Create Header
     QWidget * header = new QWidget();
     header->setObjectName("QueueWidgetHeader");
-    header->setMaximumHeight(50);
+    header->setMaximumHeight(70);
+
     QPushButton * cleanButton = new QPushButton(QIcon(":/icon/res/img/clean.png"),"");
-    cleanButton->setIconSize(QSize(30,30));
-    cleanButton->setMaximumSize(50,50);
+    cleanButton->setIconSize(QSize(50,50));
+    cleanButton->setMaximumSize(60,60);
     cleanButton->setObjectName("greenButton");
     connect(cleanButton,SIGNAL(clicked()),this,SLOT(clean()));
+
     titlelabel * htitle = new titlelabel(tr("Lista de envío"));
     htitle->setAlignment(Qt::AlignLeft);
+
     QHBoxLayout * hlayout = new QHBoxLayout(header);
     hlayout->addWidget(htitle,Qt::AlignCenter);
     hlayout->addWidget(cleanButton);
-    hlayout->setSpacing(0);
-    hlayout->setMargin(0);
+
+//  CR: 01/02/21
+//  hlayout->setSpacing(0);
+//  hlayout->setMargin(0);
 
     _infoWidget = new QWidget;
     _infoWidget->setObjectName("QueueInfoWidget");
@@ -668,7 +682,12 @@ QueueWidget::QueueWidget(QWidget *parent) : QWidget(parent)
     //cb = new checkBandwith;
     QueueWidgetList = new QWidget;
     QueueWidgetList->setObjectName("QueueWidgetList");
-    QueueWidgetList->setFixedWidth(342);
+
+//----------------------------------------------------------
+//  CR: Set size of list of queus
+//----------------------------------------------------------
+    QueueWidgetList->setFixedWidth(290);
+
     queueLayout = new QVBoxLayout(QueueWidgetList);
     queueLayout->setMargin(0);
     queueLayout->setSpacing(1);
@@ -695,6 +714,9 @@ QueueWidget::QueueWidget(QWidget *parent) : QWidget(parent)
     connect(_httpsend,SIGNAL(isError(int)),this,SLOT(isError(int)));
     connect(_httpsend,SIGNAL(progress(qint64,qint64,int)),this,SLOT(setUpProgress(qint64,qint64,int)));
 
+//-----------------------------------------------------
+//  CR: q is a thread
+//-----------------------------------------------------
     connect(&q,SIGNAL(isCrypted(int)),this,SLOT(isCrypted(int)));
     connect(&q,SIGNAL(isCompressed(int)),this,SLOT(isCompressed(int)));
     connect(&q,SIGNAL(isError(int)),this,SLOT(isError(int)));
@@ -782,8 +804,7 @@ void QueueWidget::isFinished(int id, int v){
     _series.update(data,id);
     QueueObject * quee = queueObject(id);
     if(quee != NULL){
-        quee->isSent();
-        //qDebug() << "Enviado ("+QString::number(id)+")";
+        quee->isSent();        
         infoLabel->setText(tr("Enviado (")+QString::number(id)+tr(")"));
     }
     q.next();

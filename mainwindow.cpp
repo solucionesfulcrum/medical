@@ -24,7 +24,10 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.0.8 (20/10/2020)";
     //version = "2.0.9 (25/10/2020)";
     //version = "2.1.0 (03/11/2020)";
-    version = "2.2.0 (11/11/2020)";
+    //version = "2.2.0 (11/11/2020)";
+    //version = "2.2.2 (21/01/2021)";
+    //version = "2.2.3 (02/02/2021)";
+    version = "2.2.4 (21/02/2021)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -45,24 +48,35 @@ MainWindow::MainWindow(QWidget *parent)
 
     //Set Header
     header();
-    //Set Queue
+
+//  Queue: Contains the list of studies send it to the server
     setQueueWidget();
+
     //Set Main Widget
     setMainWidget();
+
     //SetMenu
     menu();
+
     //Set Footer
     footer();
 
     QGridLayout * l = new QGridLayout(mainwindow);
-    l->addWidget(_header,0,0,1,2);
+    l->addWidget(_header,0,0,1,3);
     l->addWidget(_menu,1,0);
     l->addWidget(_main,1,1);
-    l->addWidget(_footer,2,0,1,2);
+
+//--------------------------------------------------
+//  CR: 20/01/21
+    l->addWidget(_queue,1,2,Qt::AlignRight);
+//--------------------------------------------------
+
+    l->addWidget(_footer,2,0,1,3);
     l->setMargin(0);
     l->setSpacing(0);
 
-    //Create Login Screen
+
+//  Create Login Screen
     login = new WLogin;
     connect(login,SIGNAL(logged()),this,SLOT(setMainWindow()));
     connect(login,SIGNAL(canceled()),this,SLOT(closeSystem()));
@@ -71,6 +85,8 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->addWidget(login);
     mainWidget->addWidget(mainwindow);
     mainWidget->setAnimation(QEasingCurve::InOutCubic);
+
+    mainWidget->setFixedSize(1920,1080);
 
     setCentralWidget(mainWidget);
     setQueueGeometry();
@@ -228,14 +244,15 @@ void MainWindow::menu(){
 
     //QSize toolButtonSize(180,95);
     //QSize toolIconSize(64,64);
-    QSize toolButtonSize(180,95);
+    //QSize toolButtonSize(180,95);
+    QSize toolButtonSize(140,95);
     QSize toolIconSize(70,70);
 
     QVBoxLayout * layout = new QVBoxLayout(_menu);
     layout->setMargin(0);
-    layout->setSpacing(25);
+    layout->setSpacing(10);
     layout->setAlignment(Qt::AlignCenter | Qt::AlignTop);
-    layout->addSpacing(15);
+    layout->addSpacing(10);
     foreach (QToolButton * bt, toolButtons){
         bt->setFixedSize(toolButtonSize);
         bt->setIconSize(toolIconSize);
@@ -256,8 +273,12 @@ void MainWindow::footer(){
     battery *bt = new battery();
     diskSpace *ds = new diskSpace();
     cb = new checkBandwith;
+//--------------------------------------------------------------------------------------
+//  CR: 21/01/20
+//  If Wifi connection is ok, it updates a variable of _study.
+    connect(cb,&checkBandwith::Wifi_status,_study,&study::Wifi_status);
+//--------------------------------------------------------------------------------------
     captureProcessWidget *cpw = new captureProcessWidget();
-
 
     _footer = new QWidget();
     _footer->setFixedHeight(footerheight);
@@ -283,7 +304,10 @@ void MainWindow::footer(){
     menueQueue->setObjectName("QueueLookButton");
     menueQueue->setCheckable(true);
     menueQueue->setChecked(false);
-    connect(menueQueue,SIGNAL(clicked()),this,SLOT(toggleQueue()));
+
+//  CR: 20/01/21
+//  Comment this line to disable toggle of queue widget.
+//    connect(menueQueue,SIGNAL(clicked()),this,SLOT(toggleQueue()));
 
     QList<QToolButton*> footerButton;
     footerButton << menueQueue;
@@ -422,8 +446,16 @@ void MainWindow::setQueueWidget(){
 }
 
 void MainWindow::logout(){
+
+//----------------------------------------------------
+//  CR: 20/01/21
+    if(_queue->_series.listeIDtoQueue().count()!=0){
+        if(QMessageBox::question(this,tr("Advertencia"),tr("Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::No) return;
+    }
+//----------------------------------------------------
+
     if(!isCapturing())
-        setLogin();
+        setLogin();   
 }
 
 bool MainWindow::isCapturing(){
@@ -458,6 +490,8 @@ void MainWindow::toggleQueue(){
 
     showQueueAnimation->stop();
     _queue->raise();
+
+
     if(isQueue){
         //Hide
         showQueueAnimation->setStartValue(_queue->geometry());
@@ -513,6 +547,7 @@ void MainWindow::wifiConfig(){
 
 
 void MainWindow::closeSystem(){
+
     if(QMessageBox::question(this,tr("Salir"),tr("¿Está seguro de salir del sistema?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
         _queue->stop();
         //qDebug() << "Kill Capture process if running";

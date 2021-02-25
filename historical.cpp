@@ -192,6 +192,7 @@ void historical::load(){
     QList<int> o = _studies.listeID(query);
     for(int i = 0; i<o.size(); i++){
         _studies.loadData(o.at(i));
+        qDebug()<<"CR:"<<o.at(i);
         QHistWidget * t = new QHistWidget(o.at(i));
         connect(t,SIGNAL(loadStudyId(int)),this,SLOT(loadStudy(int)));
         connect(t,SIGNAL(deletedStudy(QHistWidget*)),this,SLOT(deletedStudy(QHistWidget*)));

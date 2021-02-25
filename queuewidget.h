@@ -177,10 +177,13 @@ private:
     Queue q;
     void load();
     QVBoxLayout *queueLayout;
-    series _series;
+
     checkBandwith * cb;
     QScrollArea * _area;
     QList<QueueObject *> queuesObjects;
+
+public:
+    series _series;
 };
 
 #endif // QUEUEWIDGET_H

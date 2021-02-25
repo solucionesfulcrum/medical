@@ -35,6 +35,7 @@ public slots:
 signals:
     void result(QString);
     void changed();
+    void Wifi_status(bool);
 private:
     config conf;
     int pruebas;

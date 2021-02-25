@@ -31,6 +31,7 @@
 #pragma comment(lib, "shell32.lib")
 #pragma comment(lib, "strmiids")
 
+
 class MainWindow : public QMainWindow
 {
     Q_OBJECT

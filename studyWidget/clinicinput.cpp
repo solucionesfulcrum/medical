@@ -162,7 +162,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
     if(!type.contains(obj.value("type").toString())){
         QVkLineEdit *input = new QVkLineEdit;
-        input->setText(defaults.at(0));
+        input->setText(defaults.at(0));        
         std_input = input;
 
     }

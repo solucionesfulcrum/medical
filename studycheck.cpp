@@ -16,25 +16,29 @@ void saveJson::run(){
     foreach(QString s, json_studies.keys()){
         QJsonObject study = json_studies.value(s).toObject();
         QHash<QString, QString> data;
+
+
         QString status = _cfg.JsonToString(study.value("status"));
         if(status == "0")
             data.insert("state","-1");
-        else data.insert("state",status);
+        else
+            data.insert("state",status);
         data.insert("report_link",study.value("url").toString());
         if(status == "3")
             data.insert("new_report","1");
         _studies.updateStudy(data,s);
+
         QJsonArray series = study.value("series").toArray();
         for(int y=0; y<series.size() ; y++){
             QJsonObject serie = series.at(y).toObject();
             QHash<QString, QString> data;
             data.insert("confirmed","1");
             data.insert("image_number" , _cfg.JsonToString(study.value("number_images")));
-            _series.updateSerie(data,serie.value("uid").toString());
-            //qDebug() << serie.value("uid").toString();
+            _series.updateSerie(data,serie.value("uid").toString());            
         }
+
         if(status == "3"){
-            //DELETE VIDEO FILES
+        //  DELETE VIDEO FILES
             studies::deleteFolder(s);
         }
 

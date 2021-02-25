@@ -15,7 +15,7 @@ checkBandwith::checkBandwith(QWidget *parent)
 
     connect(_startCheck,SIGNAL(clicked()),this,SLOT(start()));
     _valueLabel = new QLabel(tr("Desconocido"));
-    _valueLabel->setFixedWidth(100);
+    _valueLabel->setFixedWidth(300);
     _valueLabel->setStyleSheet("background:#fafafa; padding:5px;");
 
     showResult();
@@ -55,9 +55,17 @@ void checkBandwith::setStep(){
 }
 
 void checkBandwith::send(int s){
+
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
     QByteArray ba;
     size = s;
+
+//-------------------------------------------
+//  CR: 21/01/20
+    isfinish = false;
+    emit Wifi_status(isfinish);
+//-------------------------------------------
+
     for(int x=0; x<size; x++)
         ba.append("a");
     QHttpPart textPart;
@@ -65,11 +73,27 @@ void checkBandwith::send(int s){
     textPart.setBody(apikey.toStdString().c_str());
     multiPart->append(textPart);
 
+    m_WebCtrl.post(request,multiPart);
+
     //timer.start();
     //qDebug()<<m_WebCtrl.post(request,multiPart)->error();
 }
 
 void checkBandwith::finished(QNetworkReply* pReply){
+//-----------------------------------------------------
+//  CR: 20/01/20
+    if(pReply->error() == QNetworkReply::NoError){
+        _valueLabel->setText(tr("WiFi: Con Conexión"));
+        isfinish = true;
+    }
+    else{
+        _valueLabel->setText(tr("WiFi: Sin conexión"));
+        isfinish = false;
+    }
+
+    emit Wifi_status(isfinish);
+//-----------------------------------------------------
+/*  CR: 20/01/20
     qint64 tnano = timer.nsecsElapsed();
     elapsedTime = tnano;
     //qDebug() << pReply->error() << pReply->errorString() << pReply->readAll();
@@ -80,12 +104,14 @@ void checkBandwith::finished(QNetworkReply* pReply){
         if (pruebas < 3){
             pruebas++;
             send(bestPack);
+            qDebug()<<"------------------------------------";
         }
         else{
             _valueLabel->setText(tr("Sin conexión"));
-            isfinish = true;
+            isfinish = true;                        
         }
     }
+    */
 }
 
 void checkBandwith::findBestPack(){
@@ -157,7 +183,6 @@ qint64 checkBandwith::getBestPack(){
 
 void checkBandwith::start(){
 
-    //qDebug() << "Start CBW";
     conf.load();
     pruebas = 0;
     _valueLabel->setText(tr(""));

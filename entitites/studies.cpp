@@ -18,7 +18,8 @@ studies::studies() : entities(){
          << "urgent"
          << "trainning"
          << "ConsentimientoInformado"
-         << "new_report";
+         << "new_report"
+         << "study_created";
 }
 
 studies::~studies(){
@@ -129,7 +130,7 @@ int studies::id_doctor(){
     return getValue("id_operators").toInt();
 }
 
-QString studies::getState(){
+QString studies::getState(){    
     return studies::getStateName(getValue("state").toInt());
 }
 
@@ -145,6 +146,10 @@ QString studies::getStateName(int v){
     case 1: return "Confirmado"; break;
     case 2: return "Asignado"; break;
     case 3: return "Diagnosticado"; break;
+    case 4: return "Enviado"; break;
+    case 5: return "Firmado"; break;
+    case 6: return "Rechazado"; break;
+    case 7: return "Desactivado"; break;
     }
 }
 

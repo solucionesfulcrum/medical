@@ -372,9 +372,9 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     QAction * deleteStudy = new QAction(tr("Borrar el estudio"));
     connect(deleteStudy,SIGNAL(triggered()),this, SLOT(deleteStudy()));
     studyMenu->addAction(deleteStudy);
-     studyMenu->setObjectName("studyMenu");
-     QLabel * statutLabel = new QLabel(_studies.getState());
+    studyMenu->setObjectName("studyMenu");
 
+    QLabel * statutLabel = new QLabel(_studies.getState());
 
     if (_studies.getValue("state").toInt() > -1){
         restartStudy->setDisabled(true);

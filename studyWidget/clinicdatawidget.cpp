@@ -73,7 +73,7 @@ void clinicDataWidget::createDataForm(){
     reset();
 
 //-----------------------------------------------------
-//  Christiam: Pensaria que hay que no es necesario esta parte de codigo
+//  CR: Pensaria que hay que no es necesario esta parte de codigo
     foreach(clinicInput *w, datas){
         dataLayout->removeWidget(w);
         delete w;

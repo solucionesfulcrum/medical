@@ -319,7 +319,8 @@ void SeriesWidget::send(){
         _studies.update(data,idStudy);
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
-        else emit finishedStudy(false);
+        else
+            emit finishedStudy(false);
     }
 }
 
