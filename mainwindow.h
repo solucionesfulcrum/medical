@@ -2,26 +2,33 @@
 #define MAINWINDOW_H
 
 #include <QtWidgets>
+#include <QNetworkConfigurationManager>
+
 #include <queuewidget.h>
 #include <configuration.h>
+#include <include.h>
 #include <study.h>
 #include <visor.h>
 #include <historical.h>
+#include <studyfinished.h>
+#include <studycheck.h>
+#include <checkbandwith.h>
+#include <accesor.h>
+
 #include <widgets/wlogin.h>
 #include "form/qvirtualkeyboard.h"
-#include "studycheck.h"
-#include "dialog/dialogoperator.h"
 #include "entitites/operators.h"
-#include "include.h"
-#include "accesor.h"
+
+#include "dialog/dialogoperator.h"
 #include "dialog/myffplay.h"
-#include "checkbandwith.h"
+
 #include <widgets/battery.h>
 #include <widgets/diskspace.h>
-#include "QNetworkConfigurationManager"
-#include "widgets/slidingstackedwidget.h"
-#include "capture/captureprocess.h"
-#include "widgets/captureprocesswidget.h"
+#include <widgets/slidingstackedwidget.h>
+#include <widgets/captureprocesswidget.h>
+
+#include <capture/captureprocess.h>
+
 
 
 #include <windows.h>
@@ -108,6 +115,8 @@ private:
     QStackedWidget * _main;
 
     studyCheck *_studycheck;
+    StudyFinished *pStudyFinished;
+
     study * _study;
     visor * _visor;
     configuration * _configuration;

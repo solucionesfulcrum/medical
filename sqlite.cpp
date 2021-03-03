@@ -134,13 +134,15 @@ bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, QSt
             query += ", ";
     }
     query += " WHERE " + id + " = '" + idValue + "' ";
-    //qDebug() << query;
+
     QSqlQuery q;
     if (q.prepare(query))
         return q.exec(query);
     else
         return false;
 }
+
+
 
 bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, int idValue) {
     QString query;
@@ -159,6 +161,30 @@ bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, int
         return q.exec(query);
     else
         return false;
+}
+
+
+bool sqlite::UpdateLastElement(QHash<QString,QString> hash,QString table){
+    QString query;
+    QList<QString> key = hash.keys();
+    query = "UPDATE " + table + " SET ";
+    for (int i = 0; i < key.size(); ++i) {
+        query += "" + key[i] + " = ";
+        query += "'" + this->addslashs(hash.value(key[i])) + "'";
+        if (i + 1 < key.size())
+            query += ", ";
+    }
+    //query += " WHERE " + id + " = " + QString::number(idValue);
+    query += " where id = (SELECT max(ID) as last FROM "+table+" )";
+    qDebug() << query;
+    QSqlQuery q;
+    if (q.prepare(query))
+        return q.exec(query);
+    else
+        return false;
+
+
+
 }
 
 bool sqlite::exec(QString query) {

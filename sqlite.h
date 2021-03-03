@@ -32,6 +32,7 @@ public:
     bool exec(QString query);
     bool del(QString table, QString id, int idValue );
     int getLastId();
+    bool UpdateLastElement(QHash<QString,QString> hash,QString table);
     QSqlDatabase getDB();
 private:
     QString base;

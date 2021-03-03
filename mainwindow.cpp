@@ -27,7 +27,9 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.2.0 (11/11/2020)";
     //version = "2.2.2 (21/01/2021)";
     //version = "2.2.3 (02/02/2021)";
-    version = "2.2.4 (21/02/2021)";
+    //version = "2.2.4 (21/02/2021)";
+    //version = "2.2.5 (25/02/2021)";
+    version = "2.2.6 (01/03/2021)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -39,9 +41,11 @@ MainWindow::MainWindow(QWidget *parent)
     showFullScreen();
     setObjectName("mw");
 
-    //Create the process of checking studies
+//  Create the process of checking studies
     _studycheck = new studyCheck;
 
+//  Create the process for alert server that studies had been created
+    pStudyFinished = new StudyFinished;
 
 //  Create mainWindow
     mainwindow = new QWidget;
@@ -138,9 +142,14 @@ void MainWindow::setMainWindow(){
     operators op;
     user->setText(op.opName());
 
-    //Start Checking studies
+//  Start Checking studies
     _studycheck->start();
-    //Start Check bandwith
+
+//  Start review of studies registered on server
+    pStudyFinished->start();
+
+
+//  Start Check bandwith
     cb->start();
 
     setmenuUS();

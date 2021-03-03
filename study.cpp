@@ -6,6 +6,10 @@ study::study( QMedicalBoxWidget *parent) : QMedicalBoxWidget(parent)
     _seriesWidget = new SeriesWidget;
     _seriesWidget->hide();
 
+    pStudyFinished = new StudyFinished(this);
+
+    wifi_status = 0;
+
     connect(_seriesWidget,SIGNAL(finished(bool)),this,SLOT(newStudy(bool)));
     connect(_seriesWidget,SIGNAL(finishedStudy(bool)),this,SLOT(isnewStudy(bool)));
     connect(_seriesWidget,SIGNAL(sendToQueue(int)),this,SLOT(sendToQueue(int)));
@@ -198,7 +202,7 @@ void study::startStudy(){
         data.insert("finishtime",QString::number(now.toMSecsSinceEpoch()));
         data.insert("reason",_clinicdatawidget->getReason());
         data.insert("ConsentimientoInformado",id_ci);
-        data.insert("study_created",QString::number(study_created));
+        data.insert("study_state",study_created);
 
         if (_clinicdatawidget->getUrgent())
             data.insert("urgent","1");
@@ -214,8 +218,7 @@ void study::startStudy(){
         data.insert("state","-1");        
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
         data.insert("id_patients",QString::number(_patient_id));
-        data.insert("id_operators",QString::number(ope.lastOp()));
-        data.insert("study_created",QString::number(0));
+        data.insert("id_operators",QString::number(ope.lastOp()));        
 
         _studies.insert(data);
         studyInfo->setStudyInfoDateTime(now.toString("dd/MM/yyyy <br /> hh:mm:ss"));
@@ -514,10 +517,12 @@ void study::loadStudy(int id){
 
 void study::isnewStudy(bool b){
 
+//  Modify study_state in DB
     QHash<QString,QString> data;
-    data.insert("study_created",QString::number(study_finished));
-    _studies.insert(data);
+    data.insert("study_state",study_finished);
+    _studies.UpdateLastElement(data);
 
+//  Send message to server
     started = false;
     newStudy(b);
 }
@@ -583,7 +588,7 @@ bool study::isCapturing(){
 
 void study::protocolSelected(){
 
-    if(wifi_status==false){
+    if(wifi_status==-1){
     QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
     }
 
@@ -716,6 +721,6 @@ void study::MuestraUltimoUltrasonido()
     }
 }
 
-void study::Wifi_status(bool m){
+void study::Wifi_status(int8_t m){
     wifi_status = m;
 }

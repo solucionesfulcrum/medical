@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     sqlite.cpp \
     queuewidget.cpp \
     study.cpp \
+    studyfinished.cpp \
     visor.cpp \
     configuration.cpp \
     historical.cpp \
@@ -66,6 +67,7 @@ HEADERS  += mainwindow.h \
     sqlite.h \
     queuewidget.h \
     study.h \
+    studyfinished.h \
     visor.h \
     configuration.h \
     historical.h \

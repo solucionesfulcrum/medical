@@ -5,7 +5,8 @@ checkBandwith::checkBandwith(QWidget *parent)
 {
     loader = new QMovie(":/icon/res/img/loading.gif");
     loader->start();
-    isfinish = false;
+    isfinish = 0;
+
     QObject::connect(&m_WebCtrl,SIGNAL(finished(QNetworkReply*)),this,SLOT(finished(QNetworkReply*)));
     setStep();
 
@@ -53,7 +54,7 @@ void checkBandwith::setStep(){
     step.append(2048000);
     step.append(4096000);
 }
-
+/*
 void checkBandwith::send(int s){
 
     QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
@@ -64,10 +65,10 @@ void checkBandwith::send(int s){
 //  CR: 21/01/20
     isfinish = false;
     emit Wifi_status(isfinish);
-//-------------------------------------------
+//--------------------------------------------
 
-    for(int x=0; x<size; x++)
-        ba.append("a");
+//    for(int x=0; x<size; x++)
+//        ba.append("a");
     QHttpPart textPart;
     textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"api-key\""));
     textPart.setBody(apikey.toStdString().c_str());
@@ -78,22 +79,51 @@ void checkBandwith::send(int s){
     //timer.start();
     //qDebug()<<m_WebCtrl.post(request,multiPart)->error();
 }
+*/
+
+
+void checkBandwith::send(int ){
+
+    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
+    QHttpPart textPart;
+    textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"api-key\""));
+    textPart.setBody(apikey.toStdString().c_str());
+    multiPart->append(textPart);
+
+    m_WebCtrl.post(request,multiPart);
+
+}
 
 void checkBandwith::finished(QNetworkReply* pReply){
+
 //-----------------------------------------------------
 //  CR: 20/01/20
     if(pReply->error() == QNetworkReply::NoError){
         _valueLabel->setText(tr("WiFi: Con Conexión"));
-        isfinish = true;
+        isfinish = 1;
+        emit Wifi_status(isfinish);
     }
     else{
-        _valueLabel->setText(tr("WiFi: Sin conexión"));
-        isfinish = false;
+        QFile errfile("ErrorConnection.txt");
+        if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)){
+            QTextStream out(&errfile);
+            out << pReply->error();
+            out << "\n";
+            errfile.close();
+        }
+
+        if(++tries>3){
+          isfinish = -1;
+          _valueLabel->setText(tr("WiFi: Sin conexión"));
+          emit Wifi_status(isfinish);
+        }
+        else send(bestPack);
     }
 
-    emit Wifi_status(isfinish);
-//-----------------------------------------------------
-/*  CR: 20/01/20
+/*
+//------------------------------------------------------
+//  CR: 20/01/20
+
     qint64 tnano = timer.nsecsElapsed();
     elapsedTime = tnano;
     //qDebug() << pReply->error() << pReply->errorString() << pReply->readAll();
@@ -104,15 +134,24 @@ void checkBandwith::finished(QNetworkReply* pReply){
         if (pruebas < 3){
             pruebas++;
             send(bestPack);
-            qDebug()<<"------------------------------------";
+            //qDebug()<<"------------------------------------";
         }
         else{
             _valueLabel->setText(tr("Sin conexión"));
             isfinish = true;                        
         }
     }
-    */
+*/
 }
+
+
+void checkBandwith::retries(void){
+
+
+
+
+}
+
 
 void checkBandwith::findBestPack(){
     if(elapsedTime < sec && nextvalue < (step.size()-1)){
@@ -125,12 +164,12 @@ void checkBandwith::findBestPack(){
             res =  QString::number(bestPack/1000000)+tr("Mb/sec");
         if (bestPack > 1000000000)
             res =  QString::number(bestPack/1000000000)+tr("Gb/sec");
-        pruebas = 0;
+        tries = 0;
         send(bestPack);
     }
     else{
-        if (pruebas < 3){
-            pruebas++;
+        if (tries < 3){
+            tries++;
             send(bestPack);
             return;
         }
@@ -184,12 +223,14 @@ qint64 checkBandwith::getBestPack(){
 void checkBandwith::start(){
 
     conf.load();
-    pruebas = 0;
+
     _valueLabel->setText(tr(""));
     _valueLabel->setMovie (loader);    
     setURL(conf.ip()+"/api/check");
     nextvalue = 0;
     bestPack = step.at(nextvalue);
+
+    tries = 0;
     send(bestPack);
 
 }

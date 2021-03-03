@@ -305,29 +305,19 @@ void Queue::removeID(int id){
 void Queue::run(){
     finish = false;
     wait = false;
-    //qDebug() << "Queue thread start running" ;
+
     while(!finish){
 
-        //qDebug() << "Queue thread start process" ;
-        //qDebug() << "Is Waiting" << wait ;
-
         if(!wait){
-            //qDebug() << "Loop" << wait ;
+
             if (queues.size() > 0){
                 bool err = false;
                 int i = queues.first();
-                qDebug() << "Thread: "<< i;
 
-                //Start Process
-                qDebug() << "LOAD SERIES";
-
+                // Start Process
                 _series.loadData(i);
                 _studies.loadData(_series.getValue("id_studies").toInt());
                 _patient.loadData(_studies.getValue("id_patients").toInt());
-
-                qDebug() << _studies.showAll();
-                qDebug() << "STUDIES ID" << _series.getValue("id_studies").toInt();
-                qDebug() << "Patient ID" << _studies.getValue("id_patients").toInt();
 
                 QString folder = "studies/"+QString::number(_series.id_study())+"/"+QString::number(i);
                 QString meta = folder+"/"+metafilename;
@@ -337,12 +327,12 @@ void Queue::run(){
                 QString video_c = folder+"/"+cryptedcompressedvideoname;
 
                 //Create Meta data file
-                QByteArray m = createMetaData(i);
-                qDebug() << m;
+                QByteArray m = createMetaData(i);                
                 QFile f(meta);
                 if (f.open(QIODevice::WriteOnly))
                     f.write(m);
                 f.close();
+
                 //Compression
                 if (QFile::exists(video_cpr))
                     QFile::remove(video_cpr);
@@ -779,7 +769,7 @@ void QueueWidget::isCompressed(int id){
 void QueueWidget::isCrypted(int id){
     QueueObject * q = queueObject(id);
     if(q != NULL){
-        q->isCrypted();        
+        q->isCrypted();
         _httpsend->send(id);
         infoLabel->setText(tr("Envío (")+QString::number(id)+tr(")"));
     }
@@ -787,8 +777,7 @@ void QueueWidget::isCrypted(int id){
 
 void QueueWidget::isError(int id){
     foreach (QueueObject *queue, queuesObjects) {
-        if(queue->id() == id){
-            //qDebug() << "Error Check" << id;
+        if(queue->id() == id){            
             queue->error();
             infoLabel->setText(tr("Error (")+QString::number(id)+tr(")"));
             q.add(id);
@@ -823,8 +812,7 @@ void QueueWidget::clean(){
 }
 
 void QueueWidget::threadIsFinished(){
-    isRunning = false;
-    //qDebug() << "The queue thread is finished";
+    isRunning = false;    
     emit isThreadFinished();
 }
 

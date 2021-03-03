@@ -19,6 +19,13 @@ public:
     QList<int> listeID(QString query = "");
     QStringList getToConfirm();
     QStringList getAllNotReported();
+
+//---------------------------------------------
+//  CR: 28/02/21
+    bool UpdateLastElement(QHash<QString,QString> data);
+    QStringList getStudiesNotReported(void);
+//---------------------------------------------
+
     QStringList getNotFinished();
     QStringList getPending();
     QString getState();

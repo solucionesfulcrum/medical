@@ -19,7 +19,7 @@ studies::studies() : entities(){
          << "trainning"
          << "ConsentimientoInformado"
          << "new_report"
-         << "study_created";
+         << "study_state";
 }
 
 studies::~studies(){
@@ -63,6 +63,26 @@ QStringList studies::getAllNotReported(){
         result.append(query.value(0).toString());
     return result;
 }
+
+//-----------------------------------------------------
+//  CR: 28/02/21
+QStringList studies::getStudiesNotReported(void){
+    QStringList result;
+    QString q;
+    q += "SELECT uid ";
+    q += "FROM studies as s ";
+    q += "WHERE study_state == 1 ";
+    QSqlQuery query(q);
+    while (query.next())
+        result.append(query.value(0).toString());
+    return result;
+}
+
+bool studies::UpdateLastElement(QHash<QString,QString> data){
+    return  db->UpdateLastElement(data,table);
+}
+
+//-----------------------------------------------------
 
 QStringList studies::getToConfirm(){
     QStringList result;

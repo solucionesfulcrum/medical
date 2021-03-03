@@ -35,10 +35,12 @@ public slots:
 signals:
     void result(QString);
     void changed();
-    void Wifi_status(bool);
+    void Wifi_status(int8_t);
 private:
+    void retries(void);
+
     config conf;
-    int pruebas;
+    uint8_t tries;
     QMovie *loader;
     QLabel
     *_title,
@@ -52,8 +54,8 @@ private:
     maxtime
     ,nextvalue
     ,size
-    ,getAverage;
-    bool isfinish;
+    ,getAverage;    
+    int8_t isfinish;
     QList<qint64> step;
     qint64 bestPack
     ,elapsedTime;

@@ -104,8 +104,7 @@ void studyCheck::send(){
     }
 }
 
-void studyCheck::addPart(QString name, QString value, QString type){
-    //qDebug() << name << "=>" <<value;
+void studyCheck::addPart(QString name, QString value, QString type){    
     QHttpPart textPart;
     textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant(type+"; name=\""+name+"\""));
     textPart.setBody(value.toStdString().c_str());
