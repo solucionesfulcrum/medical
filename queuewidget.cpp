@@ -92,9 +92,11 @@ void HTTPsender::send(int i)
 
     //Add Study Start Datetime
     addPart("study[start_date_time]",_studies.datetimetoFormat(_studies.getValue("starttime").toString(),"yyyy-MM-dd HH:mm:ss"));
+    qDebug()<<"StartTime"<<_studies.getValue("starttime").toString();
 
     //Add Study Stop Datetime
     addPart("study[stop_date_time]",_studies.datetimetoFormat(_studies.getValue("finishtime").toString(),"yyyy-MM-dd HH:mm:ss"));
+    qDebug()<<"StartTime"<<_studies.getValue("finishtime").toString();
 
     //Add Study Reason
     addPart("study[reason]","-"+_studies.reason());
@@ -210,7 +212,7 @@ void HTTPsender::addDevicePart(QString key, QFile* value, QString type){
     mtp->append(Part);
 }
 
-void HTTPsender::showError(QNetworkReply::NetworkError err){
+void HTTPsender::showError(QNetworkReply::NetworkError ){
     //qDebug() << err;
     emit isError(id);
 }

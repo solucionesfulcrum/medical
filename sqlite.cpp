@@ -155,7 +155,7 @@ bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, int
             query += ", ";
     }
     query += " WHERE " + id + " = " + QString::number(idValue);
-    //qDebug() << query;
+    qDebug() << query;
     QSqlQuery q;
     if (q.prepare(query))
         return q.exec(query);

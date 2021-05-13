@@ -5,241 +5,86 @@ checkBandwith::checkBandwith(QWidget *parent)
 {
     loader = new QMovie(":/icon/res/img/loading.gif");
     loader->start();
-    isfinish = 0;
 
-    QObject::connect(&m_WebCtrl,SIGNAL(finished(QNetworkReply*)),this,SLOT(finished(QNetworkReply*)));
-    setStep();
+    IsRunning = false;
 
     _startCheck = new QPushButton(QIcon(":/icon/res/img/footer/band.png"),tr(""));
     _startCheck->setFixedSize(50,50);
     _startCheck->setIconSize(QSize(50,50));
-
     connect(_startCheck,SIGNAL(clicked()),this,SLOT(start()));
+
     _valueLabel = new QLabel(tr("Desconocido"));
     _valueLabel->setFixedWidth(300);
     _valueLabel->setStyleSheet("background:#fafafa; padding:5px;");
 
-    showResult();
 
     QHBoxLayout * layout = new QHBoxLayout(this);
     layout->addWidget(_startCheck);
     layout->addWidget(_valueLabel);
 
+//---------------------------------------------------------------------------------------------------------
+//  CR: 07/03/21
+    connect(&mProcess,&QProcess::readyReadStandardOutput,this,&checkBandwith::ReadyReadStandardOutput);
+    connect(&mProcess,&QProcess::readyReadStandardError,this,&checkBandwith::ReadyReadStandardError);
+    connect(&mProcess,QOverload<int,QProcess::ExitStatus>::of(&QProcess::finished),this,&checkBandwith::Finished);
+    //connect(&mProcess,&QProcess::finished(int,QProcess::ExitStatus),this,&checkBandwith::Finished(int,QProcess::ExitStatus));
+//---------------------------------------------------------------------------------------------------------
+
     layout->setMargin(0);
     layout->setSpacing(1);
 }
+
+//--------------------------------------------------------------------------------
+
+void checkBandwith::ReadyReadStandardOutput(void){
+    mProcessMsg.append(mProcess.readAllStandardOutput());
+}
+
+void checkBandwith::ReadyReadStandardError(void){
+    mProcessMsg.append(mProcess.readAllStandardError());
+}
+
+void checkBandwith::send(){
+    QStringList params;
+    params << "-n" << "1" << "8.8.8.8";
+    mProcess.start("ping",params,QIODevice::ReadOnly);
+}
+
+void checkBandwith::Finished(int, QProcess::ExitStatus ){
+
+    int8_t status = -1;
+
+    if(mProcessMsg.contains("recibidos = 1")){
+        status = 0;
+        _valueLabel->setText("Conectado");
+    }
+    else{
+        _valueLabel->setText("No conectado");
+    }
+    IsRunning = false;
+
+    emit Wifi_status(status);
+}
+
+//--------------------------------------------------------------------------------
 
 checkBandwith::~checkBandwith()
 {
 }
 
-
-void checkBandwith::setURL(QString u){
-    url.setUrl(u);
-    request.setUrl(url);
-}
-
-void checkBandwith::setStep(){
-    step.append(10000);
-    step.append(20000);
-    step.append(40000);
-    step.append(80000);
-    step.append(160000);
-    step.append(320000);
-    step.append(640000);
-    step.append(128000);
-    step.append(256000);
-    step.append(512000);
-    step.append(1024000);
-    step.append(2048000);
-    step.append(4096000);
-}
-/*
-void checkBandwith::send(int s){
-
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QByteArray ba;
-    size = s;
-
-//-------------------------------------------
-//  CR: 21/01/20
-    isfinish = false;
-    emit Wifi_status(isfinish);
-//--------------------------------------------
-
-//    for(int x=0; x<size; x++)
-//        ba.append("a");
-    QHttpPart textPart;
-    textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"api-key\""));
-    textPart.setBody(apikey.toStdString().c_str());
-    multiPart->append(textPart);
-
-    m_WebCtrl.post(request,multiPart);
-
-    //timer.start();
-    //qDebug()<<m_WebCtrl.post(request,multiPart)->error();
-}
-*/
-
-
-void checkBandwith::send(int ){
-
-    QHttpMultiPart *multiPart = new QHttpMultiPart(QHttpMultiPart::FormDataType);
-    QHttpPart textPart;
-    textPart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"api-key\""));
-    textPart.setBody(apikey.toStdString().c_str());
-    multiPart->append(textPart);
-
-    m_WebCtrl.post(request,multiPart);
-
-}
-
-void checkBandwith::finished(QNetworkReply* pReply){
-
-//-----------------------------------------------------
-//  CR: 20/01/20
-    if(pReply->error() == QNetworkReply::NoError){
-        _valueLabel->setText(tr("WiFi: Con Conexión"));
-        isfinish = 1;
-        emit Wifi_status(isfinish);
-    }
-    else{
-        QFile errfile("ErrorConnection.txt");
-        if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append)){
-            QTextStream out(&errfile);
-            out << pReply->error();
-            out << "\n";
-            errfile.close();
-        }
-
-        if(++tries>3){
-          isfinish = -1;
-          _valueLabel->setText(tr("WiFi: Sin conexión"));
-          emit Wifi_status(isfinish);
-        }
-        else send(bestPack);
-    }
-
-/*
-//------------------------------------------------------
-//  CR: 20/01/20
-
-    qint64 tnano = timer.nsecsElapsed();
-    elapsedTime = tnano;
-    //qDebug() << pReply->error() << pReply->errorString() << pReply->readAll();
-    if(pReply->error() == QNetworkReply::NoError){
-        findBestPack();
-    }
-    else {
-        if (pruebas < 3){
-            pruebas++;
-            send(bestPack);
-            //qDebug()<<"------------------------------------";
-        }
-        else{
-            _valueLabel->setText(tr("Sin conexión"));
-            isfinish = true;                        
-        }
-    }
-*/
-}
-
-
-void checkBandwith::retries(void){
-
-
-
-
-}
-
-
-void checkBandwith::findBestPack(){
-    if(elapsedTime < sec && nextvalue < (step.size()-1)){
-        nextvalue++;
-        bestPack = step.at(nextvalue);
-        QString res = QString::number(bestPack)+tr("b/sec");
-        if (bestPack > 1000)
-            res =  QString::number(bestPack/1000)+tr("Kb/sec");
-        if (bestPack > 1000000)
-            res =  QString::number(bestPack/1000000)+tr("Mb/sec");
-        if (bestPack > 1000000000)
-            res =  QString::number(bestPack/1000000000)+tr("Gb/sec");
-        tries = 0;
-        send(bestPack);
-    }
-    else{
-        if (tries < 3){
-            tries++;
-            send(bestPack);
-            return;
-        }
-        bestPack = (bestPack*sec)/elapsedTime;
-
-
-        isfinish = true;
-        /*conf.load();
-        int maxtime = conf.maxTimeSend();
-        qint64 maxsize = bestPack*maxtime;
-        if (maxsize > conf.maxFileSize() )
-            maxsize = conf.maxFileSize();
-        if (maxsize < conf.minFileSize())
-            maxsize   = conf.minFileSize();*/
-
-        //qDebug() << "Kb/sec elegido" << bestPack/1000;
-        QHash<QString,QString> data;
-        data.insert("bandwith",QString::number(bestPack));
-        conf.update(data);
-        showResult();
-        emit changed();
-    }
-}
-
-qint64  checkBandwith::getVideoBitrate(){
-    config conf;
-    conf.load();
-    qint64 videoSizeAvg = conf.maxTimeSend();
-    qint64 videobitrate = (conf.fileSize()/videoSizeAvg)*checkBandwith::Bit()/1000;
-    return videobitrate;
-}
-
-void checkBandwith::showResult(){
-    conf.load();
-    qint64 maxsize = conf.getValue("bandwith").toInt();
-    QString t = "";
-    QString res = QString::number(maxsize)+tr("b")+t;
-    if (maxsize >= 1000)
-        res =  QString::number(maxsize/1000)+tr("Kb")+t;
-    if (maxsize >= 1000000)
-        res =  QString::number(maxsize/1000000)+tr("Mb")+t;
-    if (maxsize >= 1000000000)
-        res =  QString::number(maxsize/1000000000)+tr("Gb")+t;
-    _valueLabel->setText(res);
-}
-
-qint64 checkBandwith::getBestPack(){
-    return bestPack;
-}
-
 void checkBandwith::start(){
+
+    if(IsRunning==true) return;
 
     conf.load();
 
     _valueLabel->setText(tr(""));
     _valueLabel->setMovie (loader);    
-    setURL(conf.ip()+"/api/check");
-    nextvalue = 0;
-    bestPack = step.at(nextvalue);
 
-    tries = 0;
-    send(bestPack);
+    IsRunning = true;
+    mProcessMsg = "";
+    send();
 
 }
 
-int checkBandwith::getBit(){
-    return bit;
-}
-
-int checkBandwith::Bit(){
-    return bit;
-}
 

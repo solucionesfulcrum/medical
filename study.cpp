@@ -516,15 +516,17 @@ void study::loadStudy(int id){
 }
 
 void study::isnewStudy(bool b){
-
+//---------------------------------------------------
+//  CR: 15/03/21
 //  Modify study_state in DB
     QHash<QString,QString> data;
-    data.insert("study_state",study_finished);
+    data.insert("study_state",study_finished);        
     _studies.UpdateLastElement(data);
 
 //  Send message to server
     started = false;
     newStudy(b);
+//---------------------------------------------------
 }
 
 void study::newStudy(bool b){

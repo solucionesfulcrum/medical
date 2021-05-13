@@ -316,6 +316,7 @@ void SeriesWidget::send(){
         QHash<QString,QString> data;
         data.insert("finishtime",studies::getCurrentDateTime());
         data.insert("state","0");
+        //_studies.UpdateLastElement(data);
         _studies.update(data,idStudy);
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);

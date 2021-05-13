@@ -60,6 +60,7 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 void clinicDataWidget::reset(){
     _reason->setText("");
     urgente->setChecked(false);
+    trainning->setChecked(false);
 }
 
 
