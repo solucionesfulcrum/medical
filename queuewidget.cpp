@@ -182,6 +182,7 @@ void HTTPsender::send(int i)
         out << _studies.getValue("uid").toString()+ ": " << _series.uid() + ": Send to " << url.toString();
         errfile.close();
     }
+
     QNetworkReply *p = m_WebCtrl.post(request,mtp);
     connect(p,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
     connect(p,SIGNAL(finished()), this, SLOT(GetReply()));
@@ -233,10 +234,14 @@ void HTTPsender::finished(QNetworkReply* pReply){
     QFile errfile("HTTPres.txt");
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
+        QDateTime datetime;
         QTextStream out(&errfile);
-        out <<  "Studie UID: " + _studies.getValue("uid").toString() + "\n"
+        out  <<  "\n"
+             <<  "Studie UID: " + _studies.getValue("uid").toString() + "\n"
              << "Serie UID: " + _series.uid() + "\n"
-             << "Error String: " + pReply->errorString() + "\n"
+             << "Error string: " + pReply->errorString() + "\n"
+             << "Error number: " + QString::number(pReply->error()) + "\n"
+             << "DateTime: " + datetime.currentDateTime().toString() +  "\n"
              << "Result: " << res << "\n";
         errfile.close();
     }
@@ -362,11 +367,23 @@ void Queue::run(){
                     QFile::copy(meta,meta_c);
                     QFile::copy(video_cpr,video_c);
                     Medisecure _medisecure;
+
                     _medisecure.setFile(meta_c);
-                    qDebug() << "Medisecure DLL" << _medisecure.start();
+                    int medisecure_meta_c = _medisecure.start();
                     _medisecure.setFile(video_c);
-                    //qDebug() << video_cpr;
-                    qDebug() << "Medisecure DLL" << _medisecure.start();
+                    int medisecure_video_c = _medisecure.start();
+
+                    QFile errfile("HTTPres.txt");
+                    if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+                    {
+                        QDateTime datetime;
+                        QTextStream out(&errfile);
+                        out  <<  "\n"
+                             << "DateTime: " + datetime.currentDateTime().toString() +  "\n"
+                             <<  "MD-meta-C: " + QString::number(medisecure_meta_c) + "\n"
+                             <<  "MD-video-C: " + QString::number(medisecure_video_c) + "\n";
+                        errfile.close();
+                    }
 
                     int metaSize = getFileSize(meta);
                     int metacSize = getFileSize(meta_c);

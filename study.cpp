@@ -590,6 +590,17 @@ bool study::isCapturing(){
 
 void study::protocolSelected(){
 
+    QFile errfile("HTTPres.txt");
+    if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
+    {
+        QDateTime datetime;
+        QTextStream out(&errfile);
+        out  <<  "\n"
+             << "DateTime: " + datetime.currentDateTime().toString() +  "\n"
+             << "WifiStatus: " + QString::number(wifi_status) + "\n";
+        errfile.close();
+    }
+
     if(wifi_status==-1){
     QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
     }

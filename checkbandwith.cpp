@@ -63,6 +63,8 @@ void checkBandwith::Finished(int, QProcess::ExitStatus ){
     }
     IsRunning = false;
 
+
+
     emit Wifi_status(status);
 }
 
