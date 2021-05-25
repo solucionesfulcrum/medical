@@ -93,6 +93,8 @@ void clinicDataWidget::createDataForm(){
         dataLayout->addWidget(dt);
         datas.append(dt);
     }
+
+
 }
 
 QByteArray clinicDataWidget::getJson(){

@@ -182,6 +182,7 @@ void study::startStudy(){
             QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
             QJsonDocument jdoc = QJsonDocument::fromJson(json);
             QJsonArray jsonList = jdoc.array();
+
             uint8_t ok;
 
             ok = PulmonaryProtocol_Validation(&jsonList);
@@ -257,6 +258,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     QString value, value_symptoms;
     bool ok;
     int number;
+    double decimal;
 //    return 1;
 
 //  Validate reason
@@ -387,12 +389,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate patient's temperature
-    number = PulmonaryProtocol_GetValue(jarray,"txtTemperatura").toInt(&ok,10);
+    decimal = PulmonaryProtocol_GetValue(jarray,"txtTemperatura").toDouble(&ok);
     if(ok==false){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Temperatura del paciente no valida."),QMessageBox::Ok);
         return 0;
     }
-    if((number<TemperaturaMin)||(number>TemperaturaMax)){
+    if((decimal<TemperaturaMin)||(decimal>TemperaturaMax)){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Temperatura del paciente debe estar en el rango entre 25 y 45."),QMessageBox::Ok);
         return 0;
     }

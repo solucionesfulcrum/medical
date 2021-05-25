@@ -145,6 +145,24 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         input->setItems(item);
         if (defaults.at(0) != "")
             input->setText(defaults.at(0));
+
+
+        // Italo 25/05/2021
+        // SIGNAL: Valida si hubieron cambios en el campo "¿Se realizó la prueba COVID?"
+        // para luego habilitar el campo "Tipo de Prueba"
+       if (textName == "¿Se realizó la prueba COVID?")
+        {
+            input->setObjectName("TestCovid");
+            connect(input,SIGNAL(textChanged(QString)),this,SLOT(covidTestSelected(QString)));
+        }
+        else if (textName == "Tipo de Prueba")
+        {
+            // El tipo de prueba inicia deshabilitado.
+            input->setEnabled(false);
+            input->setObjectName("TestType");
+            connect(input,SIGNAL(textChanged(QString)),this,SLOT(otherTypeSelected(QString)));
+        }
+
         std_input = input;
     }
 
@@ -162,9 +180,14 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
     if(!type.contains(obj.value("type").toString())){
         QVkLineEdit *input = new QVkLineEdit;
-        input->setText(defaults.at(0));        
-        std_input = input;
+        input->setText(defaults.at(0));
 
+        if (textName == "Tipo de Prueba(Otros)")
+        {
+            input->setEnabled(false);
+            input->setObjectName("TypeOther");
+        }
+        std_input = input;
     }
     l->addWidget(std_input);
 
@@ -208,6 +231,46 @@ void clinicInput::calendarSelectedTestNoStr()
         else
         {
             qDebug() << "Accessed a different calendar object";
+        }
+    }
+}
+
+// Italo 25/05/2021
+// SLOT: función que permite activar y desactivar la opción de tipo de prueba covid
+// según seleccion (si o no) en el campo = "¿Se realizó la prueba COVID?"
+void clinicInput::covidTestSelected(const QString &text)
+{
+    QObject* p = this->parent();
+    if(p)
+    {
+        TouchComboBox* cbType = p->findChild<TouchComboBox*>("TestType");
+        if(cbType)
+        {
+            cbType->clear();
+
+            if( text == "Si" ) cbType->setEnabled(true);
+            else if ( text == "No" ) cbType->setEnabled(false);
+            else qDebug() << "Test Option no contemplada";
+        }
+    }
+}
+
+// Italo 25/05/2021
+// SLOT: función que permite activar y desactivar la opción de tipo de prueba covid
+// según seleccion (si o no) en el campo = "¿Se realizó la prueba COVID?"
+void clinicInput::otherTypeSelected(const QString &text)
+{
+    QObject* p = this->parent();
+    if(p)
+    {
+        QVkLineEdit*  ldOther = p->findChild<QVkLineEdit*>("TypeOther");
+        if(ldOther)
+        {
+            ldOther->clear();
+
+            if( text == "Otros" ) ldOther->setEnabled(true);
+            else ldOther->setEnabled(false);
+
         }
     }
 }

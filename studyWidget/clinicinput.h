@@ -22,6 +22,8 @@ signals:
 
 private slots:
     void calendarSelectedTestNoStr();
+    void covidTestSelected(const QString &text);
+    void otherTypeSelected(const QString &text);
     void firstUltrasoundCheck();
 
 private :
