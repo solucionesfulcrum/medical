@@ -129,6 +129,20 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
     if(obj.value("type").toString() == "checkbox"){
         checkboxes * input = new checkboxes(item,defaults);
+
+        // Italo 26/05/2021
+        // SIGNAL: Valida si se marca el checkbox de "Cirugías abdominales anteriores"
+        // para habilitar el text line de especificación.
+        if (textName == "Historia Médica")
+        {
+            QCheckBox* cbLast = input->getItem(item.size()-1);
+            QString cbText = cbLast->text();
+            if (cbText == "Cirugías abdominales anteriores")
+            {
+                connect(cbLast,SIGNAL(stateChanged(int)),this,SLOT(specificChecked(int)));
+            }
+        }
+
         std_input = input;
     }
 
@@ -186,6 +200,11 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         {
             input->setEnabled(false);
             input->setObjectName("TypeOther");
+        }
+        else if (textName == "Cirugías abdominales anteriores(Especificar)")
+        {
+            input->setEnabled(false);
+            input->setObjectName("Specific");
         }
         std_input = input;
     }
@@ -270,6 +289,26 @@ void clinicInput::otherTypeSelected(const QString &text)
 
             if( text == "Otros" ) ldOther->setEnabled(true);
             else ldOther->setEnabled(false);
+
+        }
+    }
+}
+
+// Italo 26/05/2021
+// SLOT: función que permite activar y desactivar la opción de tipo de prueba covid
+// según seleccion (si o no) en el campo = "¿Se realizó la prueba COVID?"
+void clinicInput::specificChecked(int state)
+{
+    QObject* p = this->parent();
+    if(p)
+    {
+        QVkLineEdit*  txtSpecific = p->findChild<QVkLineEdit*>("Specific");
+        if(txtSpecific)
+        {
+            txtSpecific->clear();
+
+            if( state == 2 ) txtSpecific->setEnabled(true);
+            else txtSpecific->setEnabled(false);
 
         }
     }

@@ -34,6 +34,9 @@ QStringList checkboxes::getChecked(){
     return res;
 }
 
+QCheckBox* checkboxes::getItem(int i) {
+    return checklist.at(i);
+}
 
 radiobuttons::radiobuttons(QStringList items, QStringList deflt, QWidget *parent) : QWidget(parent)
 {

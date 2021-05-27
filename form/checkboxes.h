@@ -10,6 +10,7 @@ public:
     explicit checkboxes(QStringList, QStringList, QWidget *parent = nullptr);
     QString text();
     QStringList getChecked();
+    QCheckBox* getItem(int);
 
 signals:
 
