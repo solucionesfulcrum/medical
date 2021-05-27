@@ -107,6 +107,14 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
                 input->setObjectName("FUU");
                 connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
             }
+        else if(textName == "Fecha de toma"){
+            // Italo 31/05/2021
+            // Identifica el objeto de fecha de toma y lo deshabilita para habilitarlo
+            // cuando la repuesta sea afirmativa en el campo "¿Se realizó la prueba COVID?"
+            input->setEnabled(false);
+            input->setObjectName("TestDate");
+
+        }
         else {
             input->setMaximumDate(QDate::currentDate());
         }
@@ -254,7 +262,7 @@ void clinicInput::calendarSelectedTestNoStr()
     }
 }
 
-// Italo 25/05/2021
+// Italo 25/05/2021 -> updated 31/05/2021
 // SLOT: función que permite activar y desactivar la opción de tipo de prueba covid
 // según seleccion (si o no) en el campo = "¿Se realizó la prueba COVID?"
 void clinicInput::covidTestSelected(const QString &text)
@@ -263,12 +271,27 @@ void clinicInput::covidTestSelected(const QString &text)
     if(p)
     {
         TouchComboBox* cbType = p->findChild<TouchComboBox*>("TestType");
+        QCalendarWidget* calType = p->findChild<QCalendarWidget*>("TestDate");
         if(cbType)
         {
             cbType->clear();
 
-            if( text == "Si" ) cbType->setEnabled(true);
-            else if ( text == "No" ) cbType->setEnabled(false);
+            if( text == "Si" )  {
+                cbType->setEnabled(true);
+
+                QDate now = QDate();
+                now = now.currentDate();
+                calType->setEnabled(true);
+                calType->setSelectedDate(now);
+            }
+            else if ( text == "No" ) {
+                cbType->setEnabled(false);
+
+                QDate blockDate = QDate(1900, 1, 1);
+                calType->setMinimumDate(blockDate);
+                calType->setSelectedDate(blockDate);
+                calType->setEnabled(false);
+            }
             else qDebug() << "Test Option no contemplada";
         }
     }
