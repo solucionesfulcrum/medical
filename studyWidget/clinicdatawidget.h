@@ -21,6 +21,7 @@ signals:
 
 private:
     titlelabel *protocolname;
+    titlelabel *historytitle;
     studydesc protocol;
     void createDataForm();
     QScrollArea * area;

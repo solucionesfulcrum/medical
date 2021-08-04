@@ -3,7 +3,7 @@
 clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 {
     //Reason
-    QLabel * reasonIcon = new QLabel(tr("Razón: "));
+    QLabel * reasonIcon = new QLabel(tr("Motivo: "));
     _reason = new QVkLineEdit;
     //_reason->setFixedHeight(50);
     //_reason->setFixedWidth(600);
@@ -16,7 +16,8 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     //reasonWidget->setFixedHeight(100);
     reasonWidget->setObjectName("reasonWidget");
     reasonWidget->setContentsMargins(1,1,1,1);
-/*    QHBoxLayout *reasonLayout = new QHBoxLayout(reasonWidget);
+/*
+    QHBoxLayout *reasonLayout = new QHBoxLayout(reasonWidget);
     reasonLayout->addWidget(reasonIcon,0);
     reasonLayout->addWidget(_reason,10);    
     reasonLayout->addSpacing(10);
@@ -24,7 +25,8 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     reasonLayout->addSpacing(10);
     reasonLayout->addWidget(trainning,0,Qt::AlignCenter);
     reasonLayout->setSpacing(0);
-    reasonLayout->setMargin(0);*/
+    reasonLayout->setMargin(0);
+*/
 
     QGridLayout *reasonLayout = new QGridLayout(reasonWidget);
     reasonLayout->addWidget(reasonIcon,0,0,2,1);
@@ -33,7 +35,11 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     reasonLayout->addWidget(trainning,1,6,1,1);
 
     protocolname = new titlelabel();
-    protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
+    //protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
+    historytitle = new titlelabel(); //IF 13072021 Titulo history clínica.
+    historytitle->setLineWidth(130); //IF 13072021 Ancho linea titulo history clínica.
+    //historytitle->setFixedHeight(10);//IF 13072021 Alto titulo history clínica.
+    //historytitle->setFixedWidth(600);//IF 13072021 Ancho titulo history clínica.
     dataWidget = new QWidget();
     dataWidget->setObjectName("_clinicdata");
     dataLayout = new QVBoxLayout(dataWidget);
@@ -50,8 +56,9 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 
     QVBoxLayout * h = new QVBoxLayout(this);
     h->addWidget(reasonWidget);
-    h->addSpacing(15);
+    //h->addSpacing(0);
     h->addWidget(protocolname,0,Qt::AlignCenter);
+    h->addWidget(historytitle,0,Qt::AlignCenter);
     h->addWidget(area);
     h->addSpacing(15);
     h->setMargin(0);
@@ -66,7 +73,8 @@ void clinicDataWidget::reset(){
 
 void clinicDataWidget::setProtocols(int id){
     protocol.loadData(id);
-    protocolname->setText(protocol.getValue("name").toString());
+    protocolname->setText("Protocolo "+protocol.getValue("name").toString());
+    historytitle->setText("Historia Clínica");
     createDataForm();
 }
 

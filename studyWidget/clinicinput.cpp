@@ -18,7 +18,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
        f.setPointSize(10);
     }
 
-    QString labelObjName = "";
+    //QString labelObjName = "";
 
     if(obj.value("type").toString() == "date" && textName == "FPP")
     {
@@ -111,6 +111,8 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
             // Italo 31/05/2021
             // Identifica el objeto de fecha de toma y lo deshabilita para habilitarlo
             // cuando la repuesta sea afirmativa en el campo "¿Se realizó la prueba COVID?"
+            input->setMaximumDate(QDate::currentDate().addDays(1));// Validacion fecha toma debe ser menor o igual a la fecha actual.
+            input->setSelectedDate(QDate(1900, 1, 1));
             input->setEnabled(false);
             input->setObjectName("TestDate");
 
@@ -225,12 +227,12 @@ void clinicInput::calendarSelectedTestNoStr()
     QCalendarWidget* cal = this->findChild<QCalendarWidget*>("FUR");
     if(cal)
     {
-        QString dateFormat = "yyyy-MM-dd";
+        //QString dateFormat = "yyyy-MM-dd";
         QDate fppDate = cal->selectedDate();
         fppDate = fppDate.addDays(7);
         fppDate = fppDate.addYears(1);
         fppDate = fppDate.addMonths(-3);
-        QString fppDateString = fppDate.toString(dateFormat);
+        //QString fppDateString = fppDate.toString(dateFormat);
 
         QObject* p = this->parent();
         if(p)
@@ -279,10 +281,10 @@ void clinicInput::covidTestSelected(const QString &text)
             if( text == "Si" )  {
                 cbType->setEnabled(true);
 
-                QDate now = QDate();
-                now = now.currentDate();
+                QDate initialDate = QDate();
+                initialDate = initialDate.currentDate().addDays(1);
                 calType->setEnabled(true);
-                calType->setSelectedDate(now);
+                calType->setSelectedDate(initialDate);
             }
             else if ( text == "No" ) {
                 cbType->setEnabled(false);

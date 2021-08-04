@@ -141,7 +141,7 @@ void study::startStudy(){
 //      Obstetric protocol survey validation        
         if(_studyDesc->getValue()==1){
             if(_clinicdatawidget->getReason()==""){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta completar razón de estudio."),QMessageBox::Ok);
+                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
                 start->setEnabled(true);
                 return;
             }
@@ -263,7 +263,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 
 //  Validate reason
     if(_clinicdatawidget->getReason()==""){
-        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar Razón de estudio."),QMessageBox::Ok);
+        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
         start->setEnabled(true);
         return 0;
     }
@@ -436,11 +436,38 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
+    //  Validate date if patient has covid test
+        value = PulmonaryProtocol_GetValue(jarray,"cboPruebaCovid");
+        if(value==""){
+            QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar si el paciente se ha realizado una prueba COVID."),QMessageBox::Ok);
+            return 0;
+        } else if (value=="Si"){
+            value = PulmonaryProtocol_GetValue(jarray,"txtTipoPruebaCovid");
+            if (value==""){
+                QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar el tipo de prueba COVID que se ha realizado el paciente."),QMessageBox::Ok);
+                return 0;
+            } else if (value=="Otros") {
+                value = PulmonaryProtocol_GetValue(jarray,"txtTipoPruebaCovidOtros");
+                if (value==""){
+                    QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar tipo de prueba otros."),QMessageBox::Ok);
+                    return 0;
+                }
+            }
+
+            value = PulmonaryProtocol_GetValue(jarray,"dateFechaToma");
+            QDate DateCovidTest = QDate::fromString(value,"dd/MM/yyyy");
+            if(value=="" || DateCovidTest > QDate::currentDate() ){
+                QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar fecha de prueba COVID."),QMessageBox::Ok);
+                return 0;
+            }
+        }
+
+
     return 1;
 }
 
 bool study::PulmonaryProtocol_Checked(QJsonArray *jarray,QString strname){
-    QString value;
+    //QString value;
 
     foreach(QJsonValue jasonV,*jarray){
         QJsonObject obj = jasonV.toObject();
@@ -730,7 +757,7 @@ void study::MuestraUltimoUltrasonido()
         QDate now = QDate();
         now = now.currentDate();
         QDate calDate = fuu->selectedDate();
-        QString msgString = "La fecha marcada para último ultrasonido es: " + calDate.toString();
+        //QString msgString = "La fecha marcada para último ultrasonido es: " + calDate.toString();
         //QMessageBox::information(this, tr("Información de Ultrasonido"), tr(msgString.toStdString().c_str())); //JB 24012020 se retiro mensaje porque no aportaba valor cambio Benjamin
         start->setEnabled(true);
     }

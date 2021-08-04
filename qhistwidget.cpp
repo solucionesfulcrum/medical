@@ -208,7 +208,7 @@ void studyInfo::createStudyBox(){
     layout->addWidget(new QLabel(tr("Operador:")),line,0);
     layout->addWidget(opName,line,1);
     line++;
-    layout->addWidget(new QLabel(tr("Razón:")),line,0);
+    layout->addWidget(new QLabel(tr("Motivo:")),line,0);
     layout->addWidget(reason,line,1);
     line++;
     layout->addWidget(new QLabel(tr("Inicio:")),line,0);

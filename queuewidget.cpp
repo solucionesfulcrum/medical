@@ -535,9 +535,11 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
     //pb->setFixedWidth(270);
     pb->setTextVisible(false);
 
+
     del = new QPushButton(QIcon(":/icon/res/img/close.png"),"");
     del->setFixedSize(20,21);
     del->setObjectName("redButton");
+
     connect(del,SIGNAL(clicked()),this,SLOT(deleteQueue()));
 
     QHBoxLayout * adv = new QHBoxLayout;
@@ -859,6 +861,8 @@ void QueueWidget::refreshInfo(){
 }
 
 void QueueWidget::deleteQueue(int id){
+    bool admin = operators::isAdmin();
+    if(admin) return;
 
     int n = 0;
     foreach (QueueObject *queue, queuesObjects) {
