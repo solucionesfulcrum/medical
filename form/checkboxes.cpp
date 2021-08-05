@@ -64,5 +64,15 @@ QString radiobuttons::text(){
     return res;
 }
 
+void radiobuttons::reset(){
+    foreach(QRadioButton * b, radioList){
+        if(b->isChecked()) {
+            b->setAutoExclusive(false);
+            b->setChecked(false);
+            b->setAutoExclusive(true);
+            qDebug()<< b->isChecked();
+        }
+    }
 
+}
 
