@@ -82,7 +82,12 @@ private:
     QVkLineEdit
     * addPatientName,
     * addPatientLastName,
-    * addPatientID;
+    * addPatientID,
+    * addPatientPhone,
+    * addPatientCellphone,
+    * addPatientEmail,
+    * addPatientHeight,
+    * addPatientWeight;
     datebox * addPatientBirthdate;
     TouchComboBox
     * addPatientSex,

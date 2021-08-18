@@ -301,7 +301,7 @@ QCheckBox::indicator {width: 47px;height: 47px; border:10; }
 QCheckBox::indicator:unchecked {background-image:url(':/icon/res/img/form/checkbox_out.png');  }
 QCheckBox::indicator:checked {background-image:url(':/icon/res/img/form/checkbox_hover.png');}
 
-QRadioButton {height: 40px; spacing: 10px;font-size:14px;}
+QRadioButton {height: 40px; spacing: 10px;font-size:20px;}
 QRadioButton::indicator {width: 30px; height: 30px; border-radius:15px; border:1px solid #a0a0a0;}
 QRadioButton::indicator:unchecked {background:#FFF;}
 QRadioButton::indicator:checked {background:#27b6af;  background-image:url(':/icon/res/img/radio.png')}

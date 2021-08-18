@@ -4,6 +4,9 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 {
     //Reason
     QLabel * reasonIcon = new QLabel(tr("Motivo: "));
+    QFont reasonFont = reasonIcon->font();
+    reasonFont.setPointSize(10);
+
     _reason = new QButtonGroup();
     exam = new QRadioButton("Examen Rutinario / Seguimiento");
     urgent = new QRadioButton("¿Urgente?");
@@ -57,9 +60,9 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 void clinicDataWidget::reset(){
     QAbstractButton *b = _reason->checkedButton();
     if (b) {
-        b->setAutoExclusive(false);
+        _reason->setExclusive(false);
         b->setChecked(false);
-        b->setAutoExclusive(true);
+        _reason->setExclusive(true);
     }
 }
 
@@ -108,8 +111,13 @@ QByteArray clinicDataWidget::getJson(){
 
 
 QString clinicDataWidget::getReason(){
-    QString reason = _reason->checkedButton()->text();
-    reason.replace("¿","").replace("?","");
+    QString reason = "";
+    int hasReason = _reason->checkedId();
+    if (hasReason != -1) {
+        reason = _reason->checkedButton()->text();
+        reason.replace("¿","").replace("?","");
+    }
+
     return reason;
 }
 

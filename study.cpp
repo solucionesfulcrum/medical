@@ -192,6 +192,21 @@ void study::startStudy(){
             }
         }
 
+//      CSD protocol survey validation
+        else if(_studyDesc->getValue()==4){
+            QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
+            QJsonDocument jdoc = QJsonDocument::fromJson(json);
+            QJsonArray jsonList = jdoc.array();
+
+            uint8_t ok;
+
+            ok = CSDProtocol_Validation(&jsonList);
+            if(ok==0){
+                start->setEnabled(true);
+                return;
+            }
+        }
+
         QDateTime now = QDateTime::currentDateTime();
 
 //      Create Study
@@ -252,6 +267,31 @@ void study::startStudy(){
     else QMessageBox::information(this,tr("Información requerida"),tr("Por favor, completar toda la información requerida."));
     start->setEnabled(true);
 }
+uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
+
+    QString value, value_symptoms;
+
+//  Validate reason
+    if(_clinicdatawidget->getReason()==""){
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+
+    // Validate Other Selected on Exam Indications
+    value = Protocol_GetValue(jarray,"txtIndicacionesOtros");
+    if( (value=="") && (Protocol_FindString(jarray,"exam_indicaction", "Otros")==true) ){
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Otros en Indicaciones de Examen se debe espesificar el valor."),QMessageBox::Ok);
+        return 0;
+    }
+
+    value = Protocol_GetValue(jarray,"txtCirugiaAbdominalAnteriorEspecificar");
+    if( (value=="") && (Protocol_FindString(jarray,"medical_history", "Cirugías abdominales anteriores")==true) ){
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Cirugías abdominales anteriores se debe espesificar el valor."),QMessageBox::Ok);
+        return 0;
+    }
+    return 1;
+}
 
 uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 
@@ -269,7 +309,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate cellphone number
-    /*value = PulmonaryProtocol_GetValue(jarray,"txtCelular");
+    /*value = Protocol_GetValue(jarray,"txtCelular");
     number = value.toInt(&ok,10);
     if((value.count()!=9) || (ok==false) ){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Número celular incorrecto."),QMessageBox::Ok);
@@ -277,35 +317,35 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }*/
 
 //  Validate country of infection
-    value = PulmonaryProtocol_GetValue(jarray,"txtLPIPais");
+    value = Protocol_GetValue(jarray,"txtLPIPais");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar país de infección."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate province of infection
-    value = PulmonaryProtocol_GetValue(jarray,"txtLPIProvincia");
+    value = Protocol_GetValue(jarray,"txtLPIProvincia");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar provincia de infección."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate district of infection
-    value = PulmonaryProtocol_GetValue(jarray,"txtLPIDistrito");
+    value = Protocol_GetValue(jarray,"txtLPIDistrito");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar distrito de infección."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate address
-    value = PulmonaryProtocol_GetValue(jarray,"txtDomicilioActual");
+    value = Protocol_GetValue(jarray,"txtDomicilioActual");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar domicilio actual."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate case of infection
-    value = PulmonaryProtocol_GetValue(jarray,"cboClasificacionCaso");
+    value = Protocol_GetValue(jarray,"cboClasificacionCaso");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar clasificacion del caso del paciente."),QMessageBox::Ok);
         return 0;
@@ -313,21 +353,21 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 
 
 //  Validate if patient has been hospitalized
-    value = PulmonaryProtocol_GetValue(jarray,"cboHospitalizado");
+    value = Protocol_GetValue(jarray,"cboHospitalizado");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar si el paciente ha sido hospitalizado."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate if patient present sympthoms
-    value_symptoms = PulmonaryProtocol_GetValue(jarray,"cboPresenciaSintomas");
+    value_symptoms = Protocol_GetValue(jarray,"cboPresenciaSintomas");
     if(value_symptoms==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar si el paciente ha presentado sintomas."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate date of starup of symptoms
-    value = PulmonaryProtocol_GetValue(jarray,"dateFechaInicioSintomas");
+    value = Protocol_GetValue(jarray,"dateFechaInicioSintomas");
     qDebug()<<value;
     QDate DateIniSyptoms = QDate::fromString(value,"dd/MM/yyyy");
     if(value==""){
@@ -336,7 +376,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate date of hospitalization
-    value = PulmonaryProtocol_GetValue(jarray,"dateFechaHospitalizacion");    
+    value = Protocol_GetValue(jarray,"dateFechaHospitalizacion");
     QDate DateIniHospitalization = QDate::fromString(value,"dd/MM/yyyy");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar fecha de inicio de hospitalización."),QMessageBox::Ok);
@@ -349,14 +389,14 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate date of hospitalization
-    value = PulmonaryProtocol_GetValue(jarray,"cboPacienteVentilacionMecanica");    
+    value = Protocol_GetValue(jarray,"cboPacienteVentilacionMecanica");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar si el paciente ha recibido ventilacion mecánica."),QMessageBox::Ok);
         return 0;
     }
 
 //  Validate cardiac frequency
-    number = PulmonaryProtocol_GetValue(jarray,"txtFrecuenciaCardiaca").toInt(&ok,10);
+    number = Protocol_GetValue(jarray,"txtFrecuenciaCardiaca").toInt(&ok,10);
     if(ok==false){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Frecuencia cardiaca no valida."),QMessageBox::Ok);
         return 0;
@@ -367,7 +407,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate respiratory frequency
-    number = PulmonaryProtocol_GetValue(jarray,"txtFrecuenciaRespiratoria").toInt(&ok,10);
+    number = Protocol_GetValue(jarray,"txtFrecuenciaRespiratoria").toInt(&ok,10);
     if(ok==false){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Frecuencia respiratoria no valida."),QMessageBox::Ok);
         return 0;
@@ -378,7 +418,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate oxygen saturation
-    number = PulmonaryProtocol_GetValue(jarray,"txtSaturacionOxigeno").toInt(&ok,10);
+    number = Protocol_GetValue(jarray,"txtSaturacionOxigeno").toInt(&ok,10);
     if(ok==false){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Saturacion de oxigeno no valida."),QMessageBox::Ok);
         return 0;
@@ -389,7 +429,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 //  Validate patient's temperature
-    decimal = PulmonaryProtocol_GetValue(jarray,"txtTemperatura").toDouble(&ok);
+    decimal = Protocol_GetValue(jarray,"txtTemperatura").toDouble(&ok);
     if(ok==false){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Temperatura del paciente no valida."),QMessageBox::Ok);
         return 0;
@@ -400,12 +440,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
 
-    value = PulmonaryProtocol_GetValue(jarray,"txtSintomasOtros");
-    if( (value=="") && (PulmonaryProtocol_FindString(jarray,"chkSintomas", "Otro")==true) ){
+    value = Protocol_GetValue(jarray,"txtSintomasOtros");
+    if( (value=="") && (Protocol_FindString(jarray,"chkSintomas", "Otro")==true) ){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar Sintomas(Otro)."),QMessageBox::Ok);
         return 0;
     }
-    if( (value!="") && (PulmonaryProtocol_FindString(jarray,"chkSintomas", "Otro")==false)){
+    if( (value!="") && (Protocol_FindString(jarray,"chkSintomas", "Otro")==false)){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("No se selecciono Otro en Sintomas."),QMessageBox::Ok);
         return 0;
     }
@@ -415,12 +455,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
-    value = PulmonaryProtocol_GetValue(jarray,"txtCondicionesComorbilidadOtro");
-    if( (value=="") && (PulmonaryProtocol_FindString(jarray,"chkCondicionesComorbilidad", "Otro")==true) ){
+    value = Protocol_GetValue(jarray,"txtCondicionesComorbilidadOtro");
+    if( (value=="") && (Protocol_FindString(jarray,"chkCondicionesComorbilidad", "Otro")==true) ){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar la condicion de comorbilidad Otro."),QMessageBox::Ok);
         return 0;
     }
-    if( (value!="") && (PulmonaryProtocol_FindString(jarray,"chkCondicionesComorbilidad", "Otro")==false)){
+    if( (value!="") && (Protocol_FindString(jarray,"chkCondicionesComorbilidad", "Otro")==false)){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("No se selecciono Otro en Condiciones de comorbilidad."),QMessageBox::Ok);
         return 0;
     }
@@ -430,31 +470,31 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
-    value = PulmonaryProtocol_GetValue(jarray,"chkAspectoGeneralPaciente");
+    value = Protocol_GetValue(jarray,"chkAspectoGeneralPaciente");
     if(value==""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar al menos un campo de aspecto general del paciente"),QMessageBox::Ok);
         return 0;
     }
 
     //  Validate date if patient has covid test
-        value = PulmonaryProtocol_GetValue(jarray,"cboPruebaCovid");
+        value = Protocol_GetValue(jarray,"cboPruebaCovid");
         if(value==""){
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar si el paciente se ha realizado una prueba COVID."),QMessageBox::Ok);
             return 0;
         } else if (value=="Si"){
-            value = PulmonaryProtocol_GetValue(jarray,"txtTipoPruebaCovid");
+            value = Protocol_GetValue(jarray,"txtTipoPruebaCovid");
             if (value==""){
                 QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar el tipo de prueba COVID que se ha realizado el paciente."),QMessageBox::Ok);
                 return 0;
             } else if (value=="Otros") {
-                value = PulmonaryProtocol_GetValue(jarray,"txtTipoPruebaCovidOtros");
+                value = Protocol_GetValue(jarray,"txtTipoPruebaCovidOtros");
                 if (value==""){
                     QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Completar tipo de prueba otros."),QMessageBox::Ok);
                     return 0;
                 }
             }
 
-            value = PulmonaryProtocol_GetValue(jarray,"dateFechaToma");
+            value = Protocol_GetValue(jarray,"dateFechaToma");
             QDate DateCovidTest = QDate::fromString(value,"dd/MM/yyyy");
             if(value=="" || DateCovidTest > QDate::currentDate() ){
                 QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Seleccionar fecha de prueba COVID."),QMessageBox::Ok);
@@ -480,7 +520,7 @@ bool study::PulmonaryProtocol_Checked(QJsonArray *jarray,QString strname){
      return false;
 }
 
-bool study::PulmonaryProtocol_FindString(QJsonArray *jarray, QString StrName, QString StrValue)
+bool study::Protocol_FindString(QJsonArray *jarray, QString StrName, QString StrValue)
 {
     QString value;
 
@@ -501,7 +541,7 @@ bool study::PulmonaryProtocol_FindString(QJsonArray *jarray, QString StrName, QS
 
 
 
-QString study::PulmonaryProtocol_GetValue(QJsonArray *jarray,QString str){
+QString study::Protocol_GetValue(QJsonArray *jarray,QString str){
 
     QString value;
 

@@ -153,6 +153,19 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
             }
         }
 
+        // Italo 16/08/2021
+        // SIGNAL: Valida si se marca el checkbox de "Otros"
+        // para habilitar el text line de otros.
+        if (textName == "Indicaciones del examen")
+        {
+            QCheckBox* cbLast = input->getItem(item.size()-1);
+            QString cbText = cbLast->text();
+            if (cbText == "Otros")
+            {
+                connect(cbLast,SIGNAL(stateChanged(int)),this,SLOT(othersChecked(int)));
+            }
+        }
+
         std_input = input;
     }
 
@@ -215,6 +228,11 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         {
             input->setEnabled(false);
             input->setObjectName("Specific");
+        }
+        else if (textName == "Otros")
+        {
+            input->setEnabled(false);
+            input->setObjectName("Other");
         }
         std_input = input;
     }
@@ -334,6 +352,26 @@ void clinicInput::specificChecked(int state)
 
             if( state == 2 ) txtSpecific->setEnabled(true);
             else txtSpecific->setEnabled(false);
+
+        }
+    }
+}
+
+// Italo 16/08/2021
+// SLOT: función que permite activar y desactivar la opción de otros
+// cuando se selecciona la opción otros
+void clinicInput::othersChecked(int state)
+{
+    QObject* p = this->parent();
+    if(p)
+    {
+        QVkLineEdit*  txtOther = p->findChild<QVkLineEdit*>("Other");
+        if(txtOther)
+        {
+            txtOther->clear();
+
+            if( state == 2 ) txtOther->setEnabled(true);
+            else txtOther->setEnabled(false);
 
         }
     }

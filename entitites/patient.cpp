@@ -3,7 +3,8 @@
 patient::patient() : entities(){
     table = "patients";
     id_name = "id";
-    keys << "id" << "idp" <<"name" << "last_name" << "birthday" << "sex" << "size"  ;
+    keys    << "id" << "idp" <<"name" << "last_name" << "birthday" << "sex" << "size"
+            << "phone" << "cellphone" << "email" << "height" << "weight" ;
 }
 
 patient::~patient(){
@@ -57,7 +58,21 @@ QString patient::sex(){
 QString patient::size(){
    return getValue("size").toString();
 }
-
+QString patient::phone(){
+   return getValue("phone").toString();
+}
+QString patient::cellphone(){
+   return getValue("cellphone").toString();
+}
+QString patient::email(){
+   return getValue("email").toString();
+}
+QString patient::height(){
+   return getValue("height").toString();
+}
+QString patient::weight(){
+   return getValue("weight").toString();
+}
 
 
 

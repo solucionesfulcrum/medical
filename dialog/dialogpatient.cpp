@@ -172,11 +172,17 @@ void dialogPatient::setForm(){
     addPatientID = new QVkLineEdit;
     addPatientBirthdate = new datebox;
     addPatientSex = new TouchComboBox;
+    addPatientSize = new TouchComboBox;
+    addPatientPhone = new QVkLineEdit;
+    addPatientCellphone = new QVkLineEdit;
+    addPatientEmail = new QVkLineEdit;
+    addPatientHeight = new QVkLineEdit;
+    addPatientWeight = new QVkLineEdit;
 
     QStringList s;
     //s << tr("Masculino") << tr("Femenino") << tr("Otro");// JB17022020
     s << tr("Masculino") << tr("Femenino");
-    addPatientSize = new TouchComboBox;
+
     QStringList sz;
     sz << "S" << "M" << "L";
 
@@ -186,13 +192,23 @@ void dialogPatient::setForm(){
               << new QLabel(tr("Apellidos"))
               << new QLabel(tr("Fecha de nacimiento"))
               << new QLabel(tr("Sexo"))
-              << new QLabel(tr("Tamaño"));
+              << new QLabel(tr("Tamaño"))
+              << new QLabel(tr("Talla (cm)"))
+              << new QLabel(tr("Peso (Kg)"))
+              << new QLabel(tr("Telefono"))
+              << new QLabel(tr("Celular"))
+              << new QLabel(tr("Correo electrónico"));
 
     addPatientID->setPlaceholderText(tr("DNI del paciente"));
     addPatientName->setPlaceholderText(tr("Nombre"));
     addPatientLastName->setPlaceholderText(tr("Apellidos"));
     addPatientSex->setPlaceholderText(tr("Sexo"));
     addPatientSize->setPlaceholderText(tr("Tamaño"));
+    addPatientPhone->setPlaceholderText(tr("Telefono"));
+    addPatientCellphone->setPlaceholderText(tr("Celular"));
+    addPatientEmail->setPlaceholderText(tr("Correo electrónico"));
+    addPatientHeight->setPlaceholderText(tr("Talla (cm)"));
+    addPatientWeight->setPlaceholderText(tr("Peso (Kg)"));
 
     //################### Nueva Funcionalidad #######################
     checkId = new QPushButton(QIcon(":/icon/res/img/form/save.png"),tr("Revisar DNI"));
@@ -262,10 +278,31 @@ void dialogPatient::setForm(){
     a->addWidget(formLabel.at(4),line,0);
     a->addWidget(formLabel.at(5),line,1);
 
-
     line++;
     a->addWidget(addPatientSex,line,0);
     a->addWidget(addPatientSize,line,1);
+
+    line++;
+    a->addWidget(formLabel.at(6),line,0);
+    a->addWidget(formLabel.at(7),line,1);
+
+    line++;
+    a->addWidget(addPatientHeight,line,0);
+    a->addWidget(addPatientWeight,line,1);
+
+    line++;
+    a->addWidget(formLabel.at(8),line,0);
+    a->addWidget(formLabel.at(9),line,1);
+
+    line++;
+    a->addWidget(addPatientPhone,line,0);
+    a->addWidget(addPatientCellphone,line,1);
+
+    line++;
+    a->addWidget(formLabel.at(10),line,0);
+
+    line++;
+    a->addWidget(addPatientEmail,line,0,1,2);
 
     line++;
     a->addWidget(buttons,line,0,1,2,Qt::AlignCenter);
@@ -282,6 +319,13 @@ void dialogPatient::loadForm(int id){
         addPatientBirthdate->setDate(QDate::fromString(p.getValue("birthday").toString(),"yyyyMMdd"));
     addPatientSex->setText(p.getValue("sex").toString());
     addPatientSize->setText(p.getValue("size").toString());
+
+    addPatientPhone->setText(p.getValue("phone").toString());
+    addPatientCellphone->setText(p.getValue("cellphone").toString());
+    addPatientEmail->setText(p.getValue("email").toString());
+    addPatientHeight->setText(p.getValue("height").toString());
+    addPatientWeight->setText(p.getValue("weight").toString());
+
     toEdit = true;
     IdToEdit = id;
 }
@@ -295,6 +339,14 @@ void dialogPatient::newPatient(){
     addPatientSex->setEnabled(false);
     addPatientSize->setEnabled(false);
     addPatientBirthdate->setEnabled(false);
+
+    addPatientPhone->setEnabled(false);
+    addPatientCellphone->setEnabled(false);
+    addPatientEmail->setEnabled(false);
+    addPatientHeight->setEnabled(false);
+    addPatientWeight->setEnabled(false);
+
+
     checkId->setVisible(true);
     checkId->setEnabled(true);
 
@@ -309,10 +361,17 @@ void dialogPatient::newPatient(){
     addPatientBirthdate->setDate(QDate::currentDate());
     addPatientSex->setText("");
     addPatientSize->setText("");
+
+    addPatientPhone->setText("");
+    addPatientCellphone->setText("");
+    addPatientEmail->setText("");
+    addPatientHeight->setText("");
+    addPatientWeight->setText("");
     toEdit = false;
 }
 
 void dialogPatient::goForm(){
+
     _widgets->slideInIdx(1,SlidingStackedWidget::BOTTOM2TOP);
     //_widgets->setCurrentIndex(1);
 }
@@ -330,6 +389,12 @@ void dialogPatient::editPatient(int a){
     addPatientSex->setEnabled(true);
     addPatientSize->setEnabled(true);
     addPatientBirthdate->setEnabled(true);
+
+    addPatientPhone->setEnabled(true);
+    addPatientCellphone->setEnabled(true);
+    addPatientEmail->setEnabled(true);
+    addPatientHeight->setEnabled(true);
+    addPatientWeight->setEnabled(true);
 
     checkId->setVisible(false);
     checkId->setEnabled(false);
@@ -356,9 +421,16 @@ void dialogPatient::savePatient(){
     QString s = addPatientSex->text();
     QString sz = addPatientSize->text();
 
+    QString phone = addPatientPhone->text();
+    QString cellphone = addPatientCellphone->text();
+    QString email = addPatientEmail->text();
+    QString height = addPatientHeight->text();
+    QString weight = addPatientWeight->text();
+
+
 //------------------------------------------------------------------------
 //  int idSize = i.size();    //Christiam
-    if(i == "" || n == "" || l == ""   || s == ""  || sz == ""  ){
+    if(i == "" || n == "" || l == ""   || s == ""  || sz == "" || height == "" || weight == ""  ){
         QMessageBox::information(this,tr("Campos vacios"), tr("Falta ingresar datos del paciente"));
         return;
     }
@@ -386,14 +458,32 @@ void dialogPatient::savePatient(){
             return;
         }
     }
+
+    if(i.toInt() <= 0 || i.toInt() >= 99999999 ){
+        QMessageBox::information(this,tr("DNI incorecto"), tr("El DNI del paciente es incorrecto"));
+        return;
+    }
 //------------------------------------------------------------------------
 
     if(!toEdit && p.exist(i)){
         QMessageBox::information(this,tr("DNI existente"), tr("¡El DNI del paciente ya existe!"));
         return;
     }
+
     if(toEdit && p.existOther(i,p.getValue("id").toInt())){
         QMessageBox::information(this,tr("DNI existente"), tr("¡El DNI del paciente ya existe!"));
+        return;
+    }
+
+    QRegExp rx("^[A-Za-zÑñ]+$");//Valida alfabetico
+    QRegExpValidator v(rx, 0);
+    int pos = 0;
+    if(v.validate(n,pos) == QValidator::Invalid){
+        QMessageBox::information(this,tr("Nombre incorrecto"), tr("¡El nombre tiene caracteres especiales o números!"));
+        return;
+    }
+    if(v.validate(l,pos) == QValidator::Invalid){
+        QMessageBox::information(this,tr("Apellido incorrecto"), tr("¡El apellido tiene caracteres especiales o números!"));
         return;
     }
 
@@ -402,6 +492,11 @@ void dialogPatient::savePatient(){
         return;
     }
 
+    QMessageBox::StandardButton res = QMessageBox::question(this,tr("Atención"), tr("¿Esta seguro que la información ingresada concuerda con el DNI del paciente?"),
+                          QMessageBox::Save|QMessageBox::Cancel,QMessageBox::Save);
+
+    if (res == QMessageBox::Cancel) return;
+
     QHash<QString,QString> d;
     d.insert("name",n);
     d.insert("last_name",l);
@@ -409,6 +504,11 @@ void dialogPatient::savePatient(){
     d.insert("birthday",b);
     d.insert("sex",s);
     d.insert("size",sz);
+    d.insert("phone",phone);
+    d.insert("cellphone",cellphone);
+    d.insert("email",email);
+    d.insert("height",height);
+    d.insert("weight",weight);
     if(toEdit){
         p.update(d,IdToEdit);
         refresh("");
@@ -458,6 +558,11 @@ void dialogPatient::handleId()
             addPatientBirthdate->setDate(QDate::fromString(p.getValue("birthday").toString(),"yyyyMMdd"));
         addPatientSex->setText(p.getValue("sex").toString());
         addPatientSize->setText(p.getValue("size").toString());
+        addPatientPhone->setText(p.getValue("phone").toString());
+        addPatientCellphone->setText(p.getValue("cellphone").toString());
+        addPatientEmail->setText(p.getValue("email").toString());
+        addPatientHeight->setText(p.getValue("height").toString());
+        addPatientWeight->setText(p.getValue("weight").toString());
 //        toEdit = true;
 //        IdToEdit = id;
     }
@@ -473,10 +578,20 @@ void dialogPatient::handleId()
         addPatientSex->setEnabled(true);
         addPatientSize->setEnabled(true);
         addPatientBirthdate->setEnabled(true);
+        addPatientPhone->setEnabled(true);
+        addPatientCellphone->setEnabled(true);
+        addPatientEmail->setEnabled(true);
+        addPatientHeight->setEnabled(true);
+        addPatientWeight->setEnabled(true);
 
         addPatientName->setText("");
         addPatientLastName->setText("");
         addPatientBirthdate->setDate(now);
+        addPatientPhone->setText("");
+        addPatientCellphone->setText("");
+        addPatientEmail->setText("");
+        addPatientHeight->setText("");
+        addPatientWeight->setText("");
 
         save->setEnabled(true);
     }

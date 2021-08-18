@@ -80,7 +80,7 @@ QVirtualKeyboard::QVirtualKeyboard(QWidget * parent)
     l->addWidget(space,row,3,1,4);
     l->addWidget(createButton("+"),row,7);
     l->addWidget(createButton("*"),row,8);
-    l->addWidget(createButton("/"),row,9);
+    l->addWidget(createButton("@"),row,9);
 
     QPushButton *backspace = new QPushButton(QIcon(":/icon/res/img/keyboard/backspace.png"),"");
     connect(backspace,SIGNAL(clicked()),this,SLOT(doBackspace()));

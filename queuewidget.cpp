@@ -132,6 +132,21 @@ void HTTPsender::send(int i)
     //Add Study Patient Birthday
     addPart("study[patient_bday]",bday);
 
+    //Add Study Patient Height
+    addPart("study[patient_height]",_patient.height());
+
+    //Add Study Patient Weight
+    addPart("study[patient_weight]",_patient.weight());
+
+    //Add Study Patient Phone
+    addPart("study[patient_phone]",_patient.phone());
+
+    //Add Study Patient Cellphone
+    addPart("study[patient_cellphone]",_patient.cellphone());
+
+    //Add Study Patient Email
+    addPart("study[patient_email]",_patient.email());
+
     //Add Serie UID
     addPart("serie[uid]",_series.uid());
 

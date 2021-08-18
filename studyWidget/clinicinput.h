@@ -25,6 +25,7 @@ private slots:
     void covidTestSelected(const QString &text);
     void otherTypeSelected(const QString &text);
     void specificChecked(int);
+    void othersChecked(int);
     void firstUltrasoundCheck();
 
 private :

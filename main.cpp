@@ -27,6 +27,16 @@ void updateBD(){
     updated = o.execute(query);
     query = "ALTER TABLE configuration ADD COLUMN device TEXT DEFAULT \"OEM Device\";";
     updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN phone TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN cellphone TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN email TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN height REAL;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN weight REAL;";
+    updated = o.execute(query);
     qDebug() << "BDD was updated " << updated;
     if(updated)
         QMessageBox::information(NULL,QObject::tr("Base de datos actualizado"),QObject::tr("La base de datos se actualizó con éxito"));
