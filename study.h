@@ -66,6 +66,7 @@ private:
     QString Protocol_GetValue(QJsonArray *,QString);
     bool Protocol_FindString(QJsonArray *,QString,QString);
     bool PulmonaryProtocol_Checked(QJsonArray *,QString);
+    bool validatePatienteAge();
 
     QString id_ci;
 

@@ -39,6 +39,7 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     dataLayout->setAlignment(Qt::AlignTop);
     dataLayout->setSpacing(15);
     dataLayout->setMargin(0);
+    dataLayout->addWidget(reasonWidget);
 
     area = new QScrollArea();
     area->setWidget(dataWidget);
@@ -48,7 +49,7 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     QScroller::grabGesture(area->viewport(),QScroller::LeftMouseButtonGesture);
 
     QVBoxLayout * h = new QVBoxLayout(this);
-    h->addWidget(reasonWidget);
+    //h->addWidget(reasonWidget);
     //h->addSpacing(0);
     h->addWidget(protocolname,0,Qt::AlignCenter);
     h->addWidget(historytitle,0,Qt::AlignCenter);

@@ -23,6 +23,7 @@ public:
     bool exist(QString id);
     bool existOther(QString id,int i);
     QList<int> listeID(QString seek = "");
+    int age();
 private:
     QString _name, _lastName, _birthday, _id, _sex, _size, _phone, _cellphone, _email, _height, _weight;
 

@@ -187,14 +187,14 @@ void dialogPatient::setForm(){
     sz << "S" << "M" << "L";
 
     QList<QLabel *>formLabel;
-    formLabel << new QLabel(tr("DNI"))
-              << new QLabel(tr("Nombre"))
-              << new QLabel(tr("Apellidos"))
-              << new QLabel(tr("Fecha de nacimiento"))
-              << new QLabel(tr("Sexo"))
-              << new QLabel(tr("Tamaño"))
-              << new QLabel(tr("Talla (cm)"))
-              << new QLabel(tr("Peso (Kg)"))
+    formLabel << new QLabel(tr("DNI(*)"))
+              << new QLabel(tr("Nombre(*)"))
+              << new QLabel(tr("Apellidos(*)"))
+              << new QLabel(tr("Fecha de nacimiento(*)"))
+              << new QLabel(tr("Sexo(*)"))
+              << new QLabel(tr("Tamaño(*)"))
+              << new QLabel(tr("Talla(*) (cm)"))
+              << new QLabel(tr("Peso(*) (Kg)"))
               << new QLabel(tr("Telefono"))
               << new QLabel(tr("Celular"))
               << new QLabel(tr("Correo electrónico"));
@@ -414,8 +414,8 @@ void dialogPatient::selectPatient(int a){
 
 void dialogPatient::savePatient(){
     //To save
-    QString n = addPatientName->text();
-    QString l = addPatientLastName->text();
+    QString n = addPatientName->text().simplified();
+    QString l = addPatientLastName->text().simplified();
     QString i = addPatientID->text();
     QString b = addPatientBirthdate->date().toString("yyyyMMdd");
     QString s = addPatientSex->text();
@@ -430,7 +430,7 @@ void dialogPatient::savePatient(){
 
 //------------------------------------------------------------------------
 //  int idSize = i.size();    //Christiam
-    if(i == "" || n == "" || l == ""   || s == ""  || sz == "" || height == "" || weight == ""  ){
+    if(i == "" || n == "" || l == ""   || b == "" || s == ""  || sz == "" || height == "" || weight == ""  ){
         QMessageBox::information(this,tr("Campos vacios"), tr("Falta ingresar datos del paciente"));
         return;
     }
@@ -475,7 +475,7 @@ void dialogPatient::savePatient(){
         return;
     }
 
-    QRegExp rx("^[A-Za-zÑñ]+$");//Valida alfabetico
+    QRegExp rx("^[A-Za-zÑñ\\s]+$");//Valida alfabetico
     QRegExpValidator v(rx, 0);
     int pos = 0;
     if(v.validate(n,pos) == QValidator::Invalid){
@@ -489,6 +489,28 @@ void dialogPatient::savePatient(){
 
     if(b > QDate::currentDate().toString("yyyyMMdd")){
         QMessageBox::information(this,tr("Fecha de nacimiento incorecto"), tr("¡La fecha de nacimiento debe ser antes que hoy!"));
+        return;
+    }
+
+
+    if(height.toInt() < 1 || height.toInt() > 300){
+        QMessageBox::information(this,tr("Talla incorrecto"), tr("¡La talla ingresada no es valida!\nDebe ser un valor entero entre 1 y 300"));
+        return;
+    }
+
+    if(weight.toDouble() < 1 || weight.toDouble() > 300){
+        QMessageBox::information(this,tr("Peso incorrecto"), tr("¡El peso ingresado no es valido!\nDebe ser un valor entre 1 y 300"));
+        return;
+    }
+
+    rx.setPattern("\\d{9}");
+    v.setRegExp(rx);
+    if(phone != "" && v.validate(phone,pos) == QValidator::Invalid){
+        QMessageBox::information(this,tr("Telefono incorrecto"), tr("¡El telefono ingresado no es valido!\nDebe ser un valor numerico de 9 digitos"));
+        return;
+    }
+    if(cellphone != "" && v.validate(cellphone,pos) == QValidator::Invalid){
+        QMessageBox::information(this,tr("Celular incorrecto"), tr("¡El telefono celular ingresado no es valido!\nDebe ser un valor numerico de 9 digitos"));
         return;
     }
 

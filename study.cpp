@@ -281,13 +281,13 @@ uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
     // Validate Other Selected on Exam Indications
     value = Protocol_GetValue(jarray,"txtIndicacionesOtros");
     if( (value=="") && (Protocol_FindString(jarray,"exam_indicaction", "Otros")==true) ){
-        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Otros en Indicaciones de Examen se debe espesificar el valor."),QMessageBox::Ok);
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Otros en Indicaciones de Examen se debe especificar el valor."),QMessageBox::Ok);
         return 0;
     }
 
     value = Protocol_GetValue(jarray,"txtCirugiaAbdominalAnteriorEspecificar");
     if( (value=="") && (Protocol_FindString(jarray,"medical_history", "Cirugías abdominales anteriores")==true) ){
-        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Cirugías abdominales anteriores se debe espesificar el valor."),QMessageBox::Ok);
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Cirugías abdominales anteriores se debe especificar el valor."),QMessageBox::Ok);
         return 0;
     }
     return 1;
@@ -674,6 +674,12 @@ void study::protocolSelected(){
     QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
     }
 
+    if (!validatePatienteAge()) {
+        studyForm->slideInPrev();
+        return;
+    }
+
+
     int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
                                         "Su respuesta se tomará como una declaración jurada, <br />"
                                         "si fuera positiva implica, que culminó con el llenado <br />"
@@ -805,4 +811,37 @@ void study::MuestraUltimoUltrasonido()
 
 void study::Wifi_status(int8_t m){
     wifi_status = m;
+}
+
+bool study::validatePatienteAge(){
+    patient currentPatient;
+    currentPatient.loadData(_patient_id);
+    int age = currentPatient.age();
+    bool result = true;
+
+    switch(_studyDesc->getValue())
+    {
+        case 1:
+            if (age < 16) {
+                QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
+                result = false;
+            }
+            break;
+        case 3:
+            if (age < 11 || age > 89 ) {
+                QMessageBox::warning(this,tr("Protocolo Pulmonar"),tr("No puede realizar el protocolo pulmonar en menores de 11 años ni mayores de 89."));
+                result = false;
+            }
+            break;
+        case 4:
+            if (age < 18) {
+                QMessageBox::warning(this,tr("Protocolo CSD"),tr("No puede realizar el protocolo CSD en menores de 18 años."));
+                result = false;
+            }
+            break;
+        default:
+            result = true;
+    }
+
+    return result;
 }

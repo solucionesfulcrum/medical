@@ -74,6 +74,22 @@ QString patient::weight(){
    return getValue("weight").toString();
 }
 
+int patient::age(){
+    QDate bday = QDate::fromString(getValue("birthday").toString(),"yyyyMMdd");
+    QDate today = QDate::currentDate();
+    int y = 0, m = 0;
+
+    y = today.year() - bday.year();
+    if ((m = today.month() - bday.month()) < 0)
+    {
+        y--;
+        m+=12;
+    }
+    if ((today.day() - bday.day()) < 0)
+        if (--m < 0) y--;
+
+    return y;
+}
 
 
 

@@ -91,8 +91,7 @@ private:
     datebox * addPatientBirthdate;
     TouchComboBox
     * addPatientSex,
-    *addPatientSize
-    ;
+    * addPatientSize;
 };
 
 #endif // DIALOGPATIENT_H
