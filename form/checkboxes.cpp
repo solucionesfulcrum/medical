@@ -38,6 +38,16 @@ QCheckBox* checkboxes::getItem(int i) {
     return checklist.at(i);
 }
 
+void checkboxes::clear() {
+    foreach (QCheckBox *cb, checklist)
+        cb->setChecked(false);
+}
+
+void checkboxes::setEnabled(bool status) {
+    foreach (QCheckBox *cb, checklist)
+        cb->setEnabled(status);
+}
+
 radiobuttons::radiobuttons(QStringList items, QStringList deflt, QWidget *parent) : QWidget(parent)
 {
 

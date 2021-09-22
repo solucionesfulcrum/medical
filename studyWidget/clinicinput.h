@@ -18,15 +18,26 @@ public:
     explicit clinicInput(QJsonObject, QWidget *parent = nullptr);
     QJsonObject getJsonObject();
     QDate calcFPP(QDate fur);
+    void setItemDefaults();
+
 signals:
 
 private slots:
     void calendarSelectedTestNoStr();
+    void caseStatusSelected(const QString &text);
     void covidTestSelected(const QString &text);
     void otherTypeSelected(const QString &text);
+    void haveSymtomSelected(const QString &text);
+    void hospitalizedSelected(const QString &text);
+    void vaccinatedSelected(const QString &text);
+    void otherVaccineTypeSelected(const QString &text);
+    void hadCovidSelected(const QString &text);
     void specificChecked(int);
-    void othersChecked(int);
+    void otherChecked(int);
+    void otherSymtomChecked(int);
+    void otherComorbidityChecked(int);
     void firstUltrasoundCheck();
+
 
 private :
     QStringList type;
@@ -34,6 +45,11 @@ private :
     QJsonObject obj;
     QStringList item;
     QStringList defaults;
+
+    void toggleCheckBox(QObject *parent, const QString actionText, const QString selectedText, const QString selectToggle);
+    void toggleInput(QObject *parent, const QString actionText, const QString selectedText, const QString selectToggle);
+    void toggleCalendar(QObject *parent, const QString actionText, const QString selectedText, const QString selectToggle);
+    void toggleSelect(QObject *parent, const QString actionText, const QString selectedText, const QString selectToggle);
 };
 
 #endif // CLINICINPUT_H

@@ -11,6 +11,8 @@ public:
     QString text();
     QStringList getChecked();
     QCheckBox* getItem(int);
+    void clear();
+    void setEnabled(bool status);
 
 signals:
 
