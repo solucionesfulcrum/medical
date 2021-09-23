@@ -100,8 +100,8 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->addWidget(mainwindow);
     mainWidget->setAnimation(QEasingCurve::InOutCubic);
 
-    mainWidget->setFixedSize(1366,768);
-    //mainWidget->setFixedSize(1920,1080);
+    //mainWidget->setFixedSize(1366,768);
+    mainWidget->setFixedSize(1920,1080);
 
     setCentralWidget(mainWidget);
     setQueueGeometry();
