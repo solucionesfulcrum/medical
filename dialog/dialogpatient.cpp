@@ -371,8 +371,8 @@ void dialogPatient::newPatient(){
 }
 
 void dialogPatient::goForm(){
-
     _widgets->slideInIdx(1,SlidingStackedWidget::BOTTOM2TOP);
+    QMessageBox::information(this,tr("Atención"),tr("Por favor ingrese los datos según se muestran en el DNI del paciente."),QMessageBox::Ok);
     //_widgets->setCurrentIndex(1);
 }
 
