@@ -65,7 +65,7 @@ private slots:
     void toggleQueue();
     void setMainWindow();
     void setLogin();
-     void loadStudy(int);
+    void loadStudy(int);
     void logout();
     void ethernetConfig();
     void wifiConfig();

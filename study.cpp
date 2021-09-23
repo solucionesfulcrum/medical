@@ -95,17 +95,21 @@ void study::setStudyProtocolsForm(){
     headerWidget->setObjectName("reasonWidget");
     titlelabel * headerTitle = new titlelabel(tr("Protocolos"));
     headerTitle->setAlignment(Qt::AlignLeft);
+
+    QHBoxLayout *headerLayout = new QHBoxLayout(headerWidget);
+    headerLayout->addWidget(headerTitle,8,Qt::AlignLeft);
+    headerLayout->addSpacing(1);
+    headerLayout->setSpacing(0);
+    headerLayout->setMargin(0);
     QPushButton * updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
     connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
     updateProtocols->setFixedSize(50,50);
     updateProtocols->setIconSize(QSize(35,35));
     updateProtocols->setObjectName("greenButton");
-    QHBoxLayout *headerLayout = new QHBoxLayout(headerWidget);
-    headerLayout->addWidget(headerTitle,8,Qt::AlignLeft);
-    headerLayout->addSpacing(1);
     headerLayout->addWidget(updateProtocols,0);
-    headerLayout->setSpacing(0);
-    headerLayout->setMargin(0);
+
+    if (!operators::isAdmin()) updateProtocols->hide();
+    else updateProtocols->show();
 
     //Buttons
     QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
@@ -641,6 +645,9 @@ void study::patientLoaded(int s){
     if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M');
     else _studyDesc->loadWithSex('X');
 //----------------------------------------------------------------
+    if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
+    else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
+
     studyForm->slideInNext();
 }
 

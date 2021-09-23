@@ -10,25 +10,29 @@ studyProtocols::studyProtocols( QWidget *parent)  : QWidget(parent){
 }
 
 void studyProtocols::updateProtocols(){
-    dg = new QDialog();
-    dg->setWindowFlags( Qt::Tool |Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
-    dg->setModal(true);
-    dg->setObjectName("upProtDialog");
-    dg->setFixedSize(400,200);
-    dsc->protocolsUpdate();
-    connect(dsc,SIGNAL(finished()),this,SLOT(updated()));
-    QPushButton * cl = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),tr("Anular"));
-    cl->setObjectName("redButton");
-    cl->setFixedSize(200,60);
-    connect(cl,SIGNAL(clicked()),dg,SLOT(close()));
-    connect(cl,SIGNAL(clicked()),dsc,SLOT(cancel()));
+    if (operators::isAdmin()) {
+        dg = new QDialog();
+        dg->setWindowFlags( Qt::Tool |Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+        dg->setModal(true);
+        dg->setObjectName("upProtDialog");
+        dg->setFixedSize(400,200);
+        dsc->protocolsUpdate();
+        connect(dsc,SIGNAL(finished()),this,SLOT(updated()));
+        QPushButton * cl = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),tr("Anular"));
+        cl->setObjectName("redButton");
+        cl->setFixedSize(200,60);
+        connect(cl,SIGNAL(clicked()),dg,SLOT(close()));
+        connect(cl,SIGNAL(clicked()),dsc,SLOT(cancel()));
 
-    QVBoxLayout *hl = new QVBoxLayout(dg);
-    updateStatus = new QLabel(tr("Actualización..."));
-    updateStatus->setAlignment(Qt::AlignCenter);
-    hl->addWidget(updateStatus,10);
-    hl->addWidget(cl,0,Qt::AlignCenter);
-    dg->show();
+        QVBoxLayout *hl = new QVBoxLayout(dg);
+        updateStatus = new QLabel(tr("Actualización..."));
+        updateStatus->setAlignment(Qt::AlignCenter);
+        hl->addWidget(updateStatus,10);
+        hl->addWidget(cl,0,Qt::AlignCenter);
+        dg->show();
+    } else {
+        QMessageBox::information(this,tr("Protocolos"),tr("No cuentas con los permisos suficientes para actualizar protocolos."),QMessageBox::Ok);
+    }
 }
 
 void studyProtocols::updated(){
