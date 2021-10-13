@@ -38,6 +38,10 @@ QCheckBox* checkboxes::getItem(int i) {
     return checklist.at(i);
 }
 
+int checkboxes::size() {
+    return checklist.size();
+}
+
 void checkboxes::clear() {
     foreach (QCheckBox *cb, checklist)
         cb->setChecked(false);

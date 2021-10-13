@@ -139,6 +139,13 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
                 QCheckBox *cbOther = input->getItem(i);
                 connect(cbOther,SIGNAL(stateChanged(int)),this,SLOT(otherComorbidityChecked(int)));
             }
+
+            i = item.indexOf("Ninguna");
+            if (i > -1)
+            {
+                QCheckBox *cbNon = input->getItem(i);
+                connect(cbNon,SIGNAL(stateChanged(int)),this,SLOT(nonComorbidityChecked(int)));
+            }
         }
 
         std_input = input;
@@ -479,6 +486,24 @@ void clinicInput::otherSymtomChecked(int state)
 void clinicInput::otherComorbidityChecked(int state)
 {
     toggleInput(this->parent(),"2",QString::number(state),"txtComorbidityOther");
+}
+
+void clinicInput::nonComorbidityChecked(int state)
+{
+    checkboxes *cbComorbidity = this->parent()->findChild<checkboxes*>("cbComorbidity");
+    if (cbComorbidity)
+    {
+        for (int i = 0; i < cbComorbidity->size(); i++)
+        {
+            QCheckBox *cb = cbComorbidity->getItem(i);
+            if (cb->text() != "Ninguna" && state == 2)
+            {
+                cb->setChecked(false);
+                cb->setEnabled(false);
+            }
+            else if (cb->text() != "Ninguna") cb->setEnabled(true);
+        }
+    }
 }
 
 void clinicInput::hospitalizedSelected(const QString &text)

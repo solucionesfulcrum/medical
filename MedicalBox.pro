@@ -119,6 +119,7 @@ DISTFILES += \
     style.qss \
     style_old.qss
 
+TRANSLATIONS += MedicalBox_en.ts
 
 #INCLUDEPATH += D:/library/medisecure/include
 #DEPENDPATH += D:/library/medisecure/include

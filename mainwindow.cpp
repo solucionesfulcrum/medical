@@ -39,7 +39,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.3 (05/08/2021)";
     //version = "2.3.4 (25/08/2021)";
     //version = "2.3.5 (03/09/2021)";
-    version = "2.3.7 (22/09/2021)";
+    //version = "2.3.7 (22/09/2021)";
+    version = "2.3.8 (27/09/2021)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -100,7 +101,7 @@ MainWindow::MainWindow(QWidget *parent)
     mainWidget->addWidget(mainwindow);
     mainWidget->setAnimation(QEasingCurve::InOutCubic);
 
-    //mainWidget->setFixedSize(1366,768);
+    //gumainWidget->setFixedSize(1366,768);
     mainWidget->setFixedSize(1920,1080);
 
     setCentralWidget(mainWidget);

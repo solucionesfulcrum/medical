@@ -8,9 +8,9 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     reasonFont.setPointSize(10);
 
     _reason = new QButtonGroup();
-    exam = new QRadioButton("Examen Rutinario / Seguimiento");
-    urgent = new QRadioButton("¿Urgente?");
-    trainning = new QRadioButton("¿Entrenamiento?");
+    exam = new QRadioButton(tr("Examen Rutinario / Seguimiento"));
+    urgent = new QRadioButton(tr("¿Urgente?"));
+    trainning = new QRadioButton(tr("¿Entrenamiento?"));
 
     _reason->addButton(exam);
     _reason->addButton(urgent);
@@ -70,8 +70,8 @@ void clinicDataWidget::reset(){
 
 void clinicDataWidget::setProtocols(int id){
     protocol.loadData(id);
-    protocolname->setText("Protocolo "+protocol.getValue("name").toString());
-    historytitle->setText("Historia Clínica");
+    protocolname->setText(tr("Protocolo ")+protocol.getValue("name").toString());
+    historytitle->setText(tr("Historia Clínica"));
     createDataForm();
 }
 

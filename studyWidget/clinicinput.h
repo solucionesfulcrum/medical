@@ -36,6 +36,7 @@ private slots:
     void otherChecked(int);
     void otherSymtomChecked(int);
     void otherComorbidityChecked(int);
+    void nonComorbidityChecked(int);
     void firstUltrasoundCheck();
 
 
