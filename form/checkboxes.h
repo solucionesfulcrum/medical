@@ -10,6 +10,10 @@ public:
     explicit checkboxes(QStringList, QStringList, QWidget *parent = nullptr);
     QString text();
     QStringList getChecked();
+    QCheckBox* getItem(int);
+    int size();
+    void clear();
+    void setEnabled(bool status);
 
 signals:
 
@@ -26,6 +30,7 @@ class radiobuttons : public QWidget
 public:
     explicit radiobuttons(QStringList, QStringList, QWidget *parent = nullptr);
     QString text();
+    void reset();
 
 signals:
 

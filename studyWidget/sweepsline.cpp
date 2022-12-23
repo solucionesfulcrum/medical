@@ -99,7 +99,7 @@ sweepsLine::sweepsLine(QWidget * parent) : QWidget(parent)
 
     title = new titlelabel;
     title->setLine(false);
-    title->setFixedWidth(450);
+    title->setFixedWidth(650);
     setFixedHeight(90);
 
     QWidget *sline = new QWidget;

@@ -34,6 +34,23 @@ QStringList checkboxes::getChecked(){
     return res;
 }
 
+QCheckBox* checkboxes::getItem(int i) {
+    return checklist.at(i);
+}
+
+int checkboxes::size() {
+    return checklist.size();
+}
+
+void checkboxes::clear() {
+    foreach (QCheckBox *cb, checklist)
+        cb->setChecked(false);
+}
+
+void checkboxes::setEnabled(bool status) {
+    foreach (QCheckBox *cb, checklist)
+        cb->setEnabled(status);
+}
 
 radiobuttons::radiobuttons(QStringList items, QStringList deflt, QWidget *parent) : QWidget(parent)
 {
@@ -61,5 +78,15 @@ QString radiobuttons::text(){
     return res;
 }
 
+void radiobuttons::reset(){
+    foreach(QRadioButton * b, radioList){
+        if(b->isChecked()) {
+            b->setAutoExclusive(false);
+            b->setChecked(false);
+            b->setAutoExclusive(true);
+            qDebug()<< b->isChecked();
+        }
+    }
 
+}
 

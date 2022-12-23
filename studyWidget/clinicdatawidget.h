@@ -16,19 +16,28 @@ public:
     QString getReason();
     void reset();
     bool getUrgent();
+    bool getTrainnning();
+
 signals:
 
 private:
     titlelabel *protocolname;
+    titlelabel *historytitle;
     studydesc protocol;
     void createDataForm();
     QScrollArea * area;
-    QVkLineEdit * _reason;
+    QButtonGroup * _reason;
     QWidget * dataWidget;
     QVBoxLayout * dataLayout;
     QList<QWidget*> datasWidget;
     QList<clinicInput*> datas;
-    QCheckBox *urgente;
+    QRadioButton *exam;
+    QRadioButton *urgent;
+    QRadioButton *trainning;
+
+private slots:
+    void confirmReason(int);
+
 };
 
 #endif // CLINICDATAWIDGET_H

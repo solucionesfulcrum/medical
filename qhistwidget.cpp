@@ -142,7 +142,7 @@ studyInfo::studyInfo(int id, QDialog *parent) : QDialog(parent){
     vl->setSpacing(10);
 }
 
-void studyInfo::closeEvent(QCloseEvent *event){
+void studyInfo::closeEvent(QCloseEvent *){
     accesor::stopEffect();
 }
 
@@ -167,19 +167,34 @@ void studyInfo::createStudyBox(){
     closeButton->setObjectName("redButton");
     closeButton->setFixedSize(200,60);
 
-    dlButton = new QPushButton(QIcon(":/icon/res/img/checklist.png"),tr("Abrir el informe"));
+    typeDownload = 0;
+
+    refreshButton = new QPushButton(tr("Actualizar"));
+    refreshButton->setObjectName("greenButton");
+    refreshButton->setFixedSize(180,60);
+    //dlButton->setIconSize(QSize(32,32));
+    connect(refreshButton,SIGNAL(clicked()),this,SLOT(refresh()));
+
+
+    dlButton = new QPushButton(tr("Abrir informe"));
     dlButton->setObjectName("greenButton");
-    dlButton->setFixedSize(200,60);
-    dlButton->setIconSize(QSize(32,32));
+    dlButton->setFixedSize(180,60);
+    //dlButton->setIconSize(QSize(32,32));
     connect(dlButton,SIGNAL(clicked()),this,SLOT(download()));
+
     if(_studies.getValue("report_link").toString() == "" )
+    {
         dlButton->setEnabled(false);
+        refreshButton->setEnabled(false);
+    }
+
     int line = 0;
     QGridLayout * layout = new QGridLayout(studyBox);
     layout->setSpacing(5);
     layout->setAlignment(Qt::AlignTop);
     layout->addWidget(title,line,0,Qt::AlignCenter);
-    layout->addWidget(dlButton,line,1,Qt::AlignCenter);
+    layout->addWidget(refreshButton,line,1,Qt::AlignCenter);
+    layout->addWidget(dlButton,line,2,Qt::AlignCenter);
     line++;
     layout->addWidget(new QLabel(tr("DNI del Paciente:")),line,0);
     layout->addWidget(patientid,line,1);
@@ -193,7 +208,7 @@ void studyInfo::createStudyBox(){
     layout->addWidget(new QLabel(tr("Operador:")),line,0);
     layout->addWidget(opName,line,1);
     line++;
-    layout->addWidget(new QLabel(tr("Razón:")),line,0);
+    layout->addWidget(new QLabel(tr("Motivo:")),line,0);
     layout->addWidget(reason,line,1);
     line++;
     layout->addWidget(new QLabel(tr("Inicio:")),line,0);
@@ -215,7 +230,7 @@ void studyInfo::createStudyBox(){
 void studyInfo::createSweepsBox(){
     sweepsBox = new QWidget;
     QWidget *listBox = new QWidget;
-    listBox->setObjectName("historial");
+    listBox->setObjectName(tr("historial"));//JB18022020
     area = new QScrollArea();
     QVBoxLayout *lb = new QVBoxLayout(listBox);
     lb->setSpacing(15);
@@ -235,20 +250,41 @@ void studyInfo::openFile(){
     QDesktopServices::openUrl(QUrl("file:///"+QDir::currentPath()+"/"+filename));
 }
 
+void studyInfo::refresh(){
+    dlButton->setEnabled(false);
+
+    refreshButton->setText(tr("Actualizando..."));
+    refreshButton->setEnabled(false);
+
+    typeDownload = 1;
+
+    pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
+    connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
+}
+
+
+
 void studyInfo::download(){
     if(!report.exists()){
-        dlButton->setText(tr("Recuperando..."));
-        dlButton->setEnabled(false);
-        //qDebug() << "Download: " <<   _studies.getValue("report_link").toString();
-        pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
-        connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
+
+    refreshButton->setEnabled(false);
+    dlButton->setText(tr("Recuperando..."));
+    dlButton->setEnabled(false);
+
+    typeDownload = 2;
+
+    pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
+    connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
     }
     else openFile();
 }
 
 void studyInfo::replyFinished(QNetworkReply* pReply){
+
     QByteArray res = pReply->readAll();
-    if(pReply->error() == QNetworkReply::NoError){
+
+    if(pReply->error() == QNetworkReply::NoError)
+    {
         QDir d;
         d.mkpath("studies/"+QString::number(studyID)+"/");
         if (report.open(QIODevice::WriteOnly)){
@@ -258,11 +294,40 @@ void studyInfo::replyFinished(QNetworkReply* pReply){
             QHash<QString, QString> data;
             data.insert("new_report","2");
             _studies.update(data,_studies.getValue("id").toInt());
-            this->openFile();
+            if(typeDownload==2){
+                this->openFile();
+                dlButton->setText(tr("INFORME"));
+
+            }
+
         }
     }
-    dlButton->setText(tr("Informe"));
-    dlButton->setEnabled(true);
+
+   if(typeDownload==1){
+        refreshButton->setText(tr("Actualizar"));
+        refreshButton->setEnabled(true);
+        dlButton->setEnabled(true);
+    }
+   else if(typeDownload==2){
+       //dlButton->setText(tr("Informe"));
+       //dlButton->setEnabled(true);
+       //refreshButton->setEnabled(true);
+
+   }
+
+    //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/"+QString::number(id);
+    //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/";
+    //QString video = folderOrig+"/"+uncompressedvideoname;
+
+
+    QDir dir("uncompressed/"+QString::number(studyID));
+
+    if(dir.exists()){
+        dir.removeRecursively();
+    }
+
+    typeDownload = 0;
+
 }
 
 void studyInfo::dl(qint64  ,qint64 ){
@@ -307,9 +372,9 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     QAction * deleteStudy = new QAction(tr("Borrar el estudio"));
     connect(deleteStudy,SIGNAL(triggered()),this, SLOT(deleteStudy()));
     studyMenu->addAction(deleteStudy);
-     studyMenu->setObjectName("studyMenu");
-     QLabel * statutLabel = new QLabel(_studies.getState());
+    studyMenu->setObjectName("studyMenu");
 
+    QLabel * statutLabel = new QLabel(_studies.getState());
 
     if (_studies.getValue("state").toInt() > -1){
         restartStudy->setDisabled(true);

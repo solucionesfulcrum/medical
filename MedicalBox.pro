@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     sqlite.cpp \
     queuewidget.cpp \
     study.cpp \
+    studyfinished.cpp \
     visor.cpp \
     configuration.cpp \
     historical.cpp \
@@ -66,6 +67,7 @@ HEADERS  += mainwindow.h \
     sqlite.h \
     queuewidget.h \
     study.h \
+    studyfinished.h \
     visor.h \
     configuration.h \
     historical.h \
@@ -117,8 +119,15 @@ DISTFILES += \
     style.qss \
     style_old.qss
 
+TRANSLATIONS += MedicalBox_en.ts
+
+#INCLUDEPATH += D:/library/medisecure/include
+#DEPENDPATH += D:/library/medisecure/include
+#LIBS += -LD:/library/medisecure/lib/ -llibmedisecure
+
 
 INCLUDEPATH += D:/library/medisecure/include
 DEPENDPATH += D:/library/medisecure/include
+#LIBS += -LD:/library/medisecure/lib/ -libmedisecure
+LIBS += -LD:/library/medisecure/lib/ -llibmedisecure
 
-LIBS += -LD:/library/medisecure/lib/ -lmedisecure

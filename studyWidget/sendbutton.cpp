@@ -49,14 +49,14 @@ void sendbutton::paintEvent(QPaintEvent *){
     QPointF playPoints[4] = {a,b,c,d};
     painter.drawPolygon(playPoints,4);
 
-
     painter.setPen(pen);
-    painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,tr("Enviar")+"\n"+tr("y seguir"));
+    painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,tr("Enviar \ny seguir"));
+
 
     pen.setColor(QColor("#333333"));
     painter.setPen(pen);
-    painter.setFont(QFont("Arial",15));
-    painter.drawText(textRect,Qt::AlignCenter,tr("Grabación")+"\n"+tr("Finalizada")+"\n"+time);
+    painter.setFont(QFont("Arial",12));
+    painter.drawText(textRect,Qt::AlignCenter,tr("Grabación \nFinalizada")+"\n"+time);
 
 
 }

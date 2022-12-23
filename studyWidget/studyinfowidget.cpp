@@ -2,21 +2,29 @@
 
 studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
 {
-    setFixedWidth(380);
+//----------------------------
+//  CR: 01/02/20
+//  setFixedWidth(380);
+    setFixedWidth(310);
+//----------------------------
 
     studyInfo = new QWidget();
     studyInfo->setObjectName("studyInfoWidget");
     QHBoxLayout * l = new QHBoxLayout(this);
     l->addWidget(studyInfo);
-    l->setSpacing(0);
-    l->setMargin(0);
+
+//----------------------------
+//  CR: 01/02/20
+//  l->setSpacing(0);
+//  l->setMargin(0);
+//----------------------------
 
     studyInfoPatientName = new QLabel(studyInfo);
-    studyInfoPatientName->setFixedWidth(220);
+    studyInfoPatientName->setFixedWidth(230);
     studyInfoPatientName->setFixedHeight(60);
 
     studyInfoProtocols = new QLabel(studyInfo);
-    studyInfoProtocols->setFixedWidth(220);
+    studyInfoProtocols->setFixedWidth(230);
     studyInfoProtocols->setFixedHeight(60);
 
     studyInfoDateTime = new QLabel(studyInfo);
@@ -24,38 +32,45 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
     studyInfoDateTime->setObjectName("studyInfoWidgetDatetime");
     studyInfoReason = new QTextEdit("",studyInfo);
     studyInfoReason->setEnabled(false);
-    studyInfoReason->setFixedWidth(260);
+
+    studyInfoReason->setFixedWidth(230);
     studyInfoReason->setFixedHeight(150);
 
     QLabel * studyInfoPatientLabel = new QLabel(studyInfo);
     studyInfoPatientLabel->setAlignment(Qt::AlignCenter);
+
     studyInfoPatientLabel->setPixmap(QPixmap(":/icon/res/img/study_info/patient.png"));
     studyInfoPatientLabel->setObjectName("icons");
-    studyInfoPatientLabel->setFixedSize(80,80);
-    studyInfoPatientLabel->move(40,40);
+    //studyInfoPatientLabel->setFixedSize(80,80);
+    studyInfoPatientLabel->setFixedSize(70,70);
+//  CR: 01/02/21
+    studyInfoPatientLabel->move(15,40);
     studyInfoPatientLabel->raise();
 
-    studyInfoPatientName->move(120,50);
+    studyInfoPatientName->move(80,50);
+
 
     QLabel * studyInfoReasonLabel = new QLabel(studyInfo);
     studyInfoReasonLabel->setAlignment(Qt::AlignCenter);
     studyInfoReasonLabel->setPixmap(QPixmap(":/icon/res/img/study_info/reason.png"));
-    studyInfoReasonLabel->move(40,150);
+    studyInfoReasonLabel->move(15,150);
     studyInfoReasonLabel->setObjectName("icons");
-    studyInfoReasonLabel->setFixedSize(80,80);
+    //studyInfoReasonLabel->setFixedSize(80,80);
+    studyInfoReasonLabel->setFixedSize(70,70);
     studyInfoReasonLabel->raise();
 
-    studyInfoProtocols->move(120,160);
+    studyInfoProtocols->move(80,160);
 
     QLabel * studyInfoProtocolsLabel = new QLabel(studyInfo);
     studyInfoProtocolsLabel->setAlignment(Qt::AlignCenter);
     studyInfoProtocolsLabel->setPixmap(QPixmap(":/icon/res/img/study_info/protocol.png"));
-    studyInfoProtocolsLabel->move(40,250);
+    studyInfoProtocolsLabel->move(15,250);
     studyInfoProtocolsLabel->setObjectName("icons");
-    studyInfoProtocolsLabel->setFixedSize(80,80);
+    //studyInfoProtocolsLabel->setFixedSize(80,80);
+    studyInfoProtocolsLabel->setFixedSize(65,65);
     studyInfoProtocolsLabel->raise();
 
-    studyInfoReason->move(80,260);
+    studyInfoReason->move(70,260);
 
     studyInfoDateTime->move(40,450);
     studyInfoDateTime->setFixedSize(300,120);

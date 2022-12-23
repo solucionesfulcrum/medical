@@ -155,7 +155,7 @@ QWidget#studyInfoWidget QLabel#icons{background:#00D4D8; border-radius:5px; colo
 
 /* Patient Form */
 QWidget#patientForm{background-color:#dae0e0;  border:0px solid #e2e2e2;}
-QWidget#patientForm QLabel{color:#3e3e3e; font-size:18px;  padding:0px 0px;}
+QWidget#patientForm QLabel{color:#3e3e3e; font-size:22px;  padding:0px 0px;}
 QLabel#titlePatient {color:#FFF; font-size:16px;  padding:5px 10px; }
 QWidget#patientSearchHeader {border:1px solid #f0f0f0; background-color:#FFF;}
 QWidget#patientSearchHeader QLineEdit{background-color:rgba(255,255,255,40); color:#3e3e3e;}
@@ -163,17 +163,17 @@ QWidget#patientSearchHeader QLineEdit:focus{background-color:rgba(255,255,255,12
 QScrollArea#areaFindPatient {background-color:rgba(255,255,255,255); border:1px solid #f0f0f0;}
 
 /*_studyProtocolsFrom*/
-QWidget#studyProtocolsFrom QLabel{}
+QWidget#studyProtocolsFrom QLabel{font-size:26px;}
 QWidget#reasonWidget {background:transparent; border:0px solid #f0f0f0;}
 QWidget#reasonWidget QLabel{color:#3e3e3e; font-size:26px; font-weight:bold; background:transparent; padding:10px 0px;}
 
 /*_clinicdata*/
 QWidget#_clinicdata {background:transparent;}
-
+QWidget#_clinicdata QLineEdit{background-color:#E0ECF8; border: 1px solid #2E64FE; font-size:14px; font-weight: bold;}
+QWidget#_clinicdata QLineEdit:disabled{background-color:#E6E6E6; border:1px solid #848484}
 
 /*Capture Widget*/
 /*sweepline*/
-QLabel#sweeplinetitle{color:#4D4D4E; font-size:20px; padding:10px 5px;}
 QWidget#sweepsWidget {background-color:transparent; border:0;}
 QWidget#captureWidget {background-color:rgba(0,0,0,10);}
 QWidget#captureWidget QLabel{ color:#FFF; font-size:16px;}
@@ -296,12 +296,12 @@ QDateEdit::drop-down::pressed {
 background-color:rgba(0,0,0,20);
 }
 
-QCheckBox {height: 40px; spacing: 10px;font-size:14px;}
+QCheckBox {height: 40px; spacing: 10px;font-size:20px;}
 QCheckBox::indicator {width: 47px;height: 47px; border:10; }
 QCheckBox::indicator:unchecked {background-image:url(':/icon/res/img/form/checkbox_out.png');  }
 QCheckBox::indicator:checked {background-image:url(':/icon/res/img/form/checkbox_hover.png');}
 
-QRadioButton {height: 40px; spacing: 10px;font-size:14px;}
+QRadioButton {height: 40px; spacing: 10px;font-size:20px;}
 QRadioButton::indicator {width: 30px; height: 30px; border-radius:15px; border:1px solid #a0a0a0;}
 QRadioButton::indicator:unchecked {background:#FFF;}
 QRadioButton::indicator:checked {background:#27b6af;  background-image:url(':/icon/res/img/radio.png')}
@@ -394,7 +394,7 @@ QProgressBar#diskspace[alert="true"]::chunk {
 QLabel#topTitle{ color:#FFF; font-size:80px; padding:0px;}
 
 
-QWidget#sendvideo{background-color:rgba(0,0,0,30);}
+QWidget#sendvideo{background-color:rgba(0,0,0,30); font-size:20px; font-weight: bold;}
 
 
 

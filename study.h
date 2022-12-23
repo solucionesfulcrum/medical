@@ -1,8 +1,24 @@
 #ifndef STUDY_H
 #define STUDY_H
 
+
+#define CardiacFreqMin 0
+#define CardiacFreqMax 300
+#define RespiratoryFreqMin 0
+#define RespiratoryFreqMax 40
+#define OxySaturationMin 0
+#define OxySaturationMax 100
+#define TemperaturaMin 25
+#define TemperaturaMax 45
+
+
+
 #include <qmedicalboxwidget.h>
+#include <QMessageBox>
 #include <serieswidget.h>
+#include <studyfinished.h>
+#include <include.h>
+
 #include <entitites/operators.h>
 #include <studyWidget/studyprotocols.h>
 #include <studyWidget/studyinfowidget.h>
@@ -16,6 +32,8 @@ class study : public QMedicalBoxWidget
 public:
     study(QMedicalBoxWidget *parent = nullptr);
     ~study();
+    int8_t wifi_status;
+
 public slots:
     void patientLoaded(int);
     void loadStudy(int);
@@ -25,6 +43,7 @@ public slots:
     void changeProtocol();
     bool isCapturing();
     void isnewStudy(bool = false);
+    void Wifi_status(int8_t);
 
 signals:
     void studyStarted(bool);
@@ -42,6 +61,15 @@ private:
     void MuestraUltimoUltrasonido();
     uint8_t validateCardiacBeat();
 
+    uint8_t CSDProtocol_Validation(QJsonArray *);
+    uint8_t PulmonaryProtocol_Validation(QJsonArray *);
+    QString Protocol_GetValue(QJsonArray *,QString);
+    bool Protocol_FindString(QJsonArray *,QString,QString);
+    bool PulmonaryProtocol_Checked(QJsonArray *,QString);
+    bool validatePatienteAge();
+
+    QString id_ci;
+
     QPushButton * start;
 
     SlidingStackedWidget * studyForm;
@@ -55,10 +83,13 @@ private:
     clinicDataWidget * _clinicdatawidget;
     QVkLineEdit * _reason;
 
+    StudyFinished *pStudyFinished;
+
     operators ope;
 
     int studyId;
     int _patient_id;
+    QString _patient_Document;
     int last_serie;
     bool started;
 

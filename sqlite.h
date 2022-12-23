@@ -22,14 +22,17 @@ public:
     QSqlError lastError();
     QString changeDate(QString s);
     QDate getDate(QString s);
+
     QString addslashs(QString s);
     QString stripslashs(QString s);
+
     bool insert(QHash<QString,QString> hash, QString table);
     bool update(QHash<QString,QString> hash, QString table, QString id, int idValue);
     bool update(QHash<QString,QString> hash, QString table, QString id, QString idValue);
     bool exec(QString query);
     bool del(QString table, QString id, int idValue );
     int getLastId();
+    bool UpdateLastElement(QHash<QString,QString> hash,QString table);
     QSqlDatabase getDB();
 private:
     QString base;

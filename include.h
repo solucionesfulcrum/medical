@@ -1,9 +1,16 @@
 #ifndef INCLUDE
 #define INCLUDE
 
+
+#define study_created   "0"
+#define study_finished  "1"
+#define study_sended    "2"
+
+
 #include <QString>
 #include <QtWidgets>
 #include <QMainWindow>
+
 static QString uncompressedvideoname = "uncompressedvideo.yuv";
 static QString compressedvideoname = "compressedvideo.mp4";
 static QString metafilename = "meta";
@@ -16,9 +23,11 @@ static QString apikey  = "$2gyf$10a$nRLwp4Ea2R9MMoIqJ4ateloceT6ua59LMuC5WLlQamGK
 
 static QString check  = "medicalEco25684po1455";
 
-static QString apiurlprotocols = "/api/protocols";
-static QString apiurlsend = "/api/dicoms/save";
-static QString apiurlcheckstudy = "/api/studies/status";
+static QString apiurlprotocols      = "/api/protocols";
+static QString apiurlsend           = "/api/dicoms/save";
+static QString apiurlcheckstudy     = "/api/studies/status";
+static QString apiurlstudyConfirm   = "/api/studies/confirm";
+
 
 
 #endif // INCLUDE

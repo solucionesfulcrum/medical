@@ -18,8 +18,9 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
     //Create and add Signal to finish study button
     finishStudyButton = new QPushButton(QIcon(":/icon/res/img/capture_button/close.png"),tr("Cerrar")+"\n"+tr("estudio"));
     finishStudyButton->setObjectName("greenButton");
-    finishStudyButton->setFixedSize(200,60);
+    finishStudyButton->setFixedSize(220,70);
     finishStudyButton->setIconSize(QSize(42,42));
+    finishStudyButton->setStyleSheet({"font-size: 18px; font-weight: bold;"}); //JB-06082020
     connect(finishStudyButton,&QPushButton::clicked,this,&SeriesWidget::finishStudy);
 
     //Create slidinwidget for study capture
@@ -33,11 +34,11 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
 
     //Set Windows Capture Widget
     QVBoxLayout * hl = new QVBoxLayout(this);
-    hl->addSpacing(30);
+    //hl->addSpacing(30);
     hl->addWidget(listBox);
     hl->addWidget(cpt,5,Qt::AlignCenter);
     hl->addWidget(finishStudyButton,0,Qt::AlignCenter | Qt::AlignTop);
-    hl->addSpacing(30);
+    hl->addSpacing(80);
     hl->setSpacing(0);
     hl->setMargin(0);
 }
@@ -97,9 +98,10 @@ void SeriesWidget::createToolBox()
     resultLabel->setFixedHeight(60);
 
     QSize is(42,42);
-    int bw = 150;
+    int bw = 190;
 
-    sendButton = new sendbutton();
+    sendButton = new sendbutton();    
+    sendButton->setStyleSheet({"font-size: 21px; font-weight: bold"});//JB-06082020
     connect(sendButton,SIGNAL(clicked()),this,SLOT(send()));
 
     QWidget * lb = new QWidget();
@@ -112,6 +114,8 @@ void SeriesWidget::createToolBox()
     lookButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     lookButton->setText(tr("Ver la")+"\n"+tr("adquisición"));
     lookButton->setObjectName("greenButton");
+    lookButton->setFixedSize(380,60);
+    lookButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
     lookButton->setFixedWidth(bw);
     connect(lookButton,SIGNAL(clicked()),this,SLOT(look()));
 
@@ -121,6 +125,8 @@ void SeriesWidget::createToolBox()
     restartButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
     restartButton->setText(tr("Rehacer")+"\n"+tr("la captura"));
     restartButton->setObjectName("greenButton");
+    restartButton->setFixedSize(400,60);
+    restartButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
     restartButton->setFixedWidth(bw);
     connect(restartButton,SIGNAL(clicked()),this,SLOT(restartSerie()));
 
@@ -151,6 +157,7 @@ void SeriesWidget::setToolsEnabled(bool b){
     lookButton->setEnabled(b);
 }
 
+// Start record process
 void SeriesWidget::startRecord(){
     if(isCapturing)
         stopRecord();
@@ -217,8 +224,9 @@ void SeriesWidget::processFinished(int i){
 
     //i is the exit code of ffmpeg, if 0 exit with success
     if(i == 0){
-        /*Check if file exist*/
-        if(!QFile::exists(f+"/"+uncompressedvideoname)){
+        /*Check if file exist and is valid*/
+        int isValid = validateVideo(f+"/"+uncompressedvideoname);
+        if( isValid != VALID_VIDEO ){
             _captureButton->setInfo(tr("Problema con la grabación"));
             _captureButton->setBlock(false);
         }
@@ -248,6 +256,34 @@ void SeriesWidget::processFinished(int i){
     }
 
 
+}
+
+int SeriesWidget::validateVideo(QString filePath){
+    int errorCode = 0;
+
+    // verify id the file exists
+    if (!QFile::exists(filePath)) {
+        errorCode = FILE_NOT_FOUND;
+    }
+//    else {
+//        // execute program for validating video
+//        studydesc* protocol = new studydesc();
+//        protocol->loadData(_studies.getValue("id_protocols").toInt());
+//        QString program = "py main.cpython-39.pyc " + filePath + " " + protocol->getValue("name").toString();
+
+//        QProcess* validate = new QProcess;
+//        validate->start(program);
+//        qDebug() << "Start Video Validation" << program;
+//        qDebug() << "Result:" << validate->waitForFinished(60000);
+//        QString output(validate->readAllStandardOutput());
+//        qDebug() << "Output:" << output;
+//        delete validate;
+//        delete protocol;
+//        errorCode = INVALID_PROTOCOL;
+//    }
+
+    // execute validation program
+    return errorCode;
 }
 
 void SeriesWidget::processData(){
@@ -310,10 +346,12 @@ void SeriesWidget::send(){
         QHash<QString,QString> data;
         data.insert("finishtime",studies::getCurrentDateTime());
         data.insert("state","0");
+        //_studies.UpdateLastElement(data);
         _studies.update(data,idStudy);
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
-        else emit finishedStudy(false);
+        else
+            emit finishedStudy(false);
     }
 }
 

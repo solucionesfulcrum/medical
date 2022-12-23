@@ -1,6 +1,12 @@
 #ifndef SERIESWIDGET_H
 #define SERIESWIDGET_H
 
+#define VALID_VIDEO 0
+#define FILE_NOT_FOUND 1
+#define INVALID_PROTOCOL 2
+#define NO_SIGNAL 3
+#define VIDEO_SUSPENDED 4
+
 #include <qmedicalboxwidget.h>
 #include <studyWidget/sweepsline.h>
 #include <studyWidget/capturebutton.h>
@@ -45,6 +51,7 @@ private:
     void createCaptureBox();
     void createListBox();
     void setActual(int);
+    int validateVideo(QString);
 
     QString ffmpegErr;
 

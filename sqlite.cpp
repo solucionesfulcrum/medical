@@ -5,7 +5,7 @@ sqlite::sqlite() {
     if (QFile::exists(base))
         init();
     else {
-        QMessageBox::critical(0,QObject::tr("¡Base de datos inexistante!"),QObject::tr("La base de datos es inexistante"));
+        QMessageBox::critical(0,QObject::tr("¡Base de datos inexistente!"),QObject::tr("La base de datos es inexistente"));
     }
 }
 
@@ -102,7 +102,7 @@ bool sqlite::insert(QHash<QString, QString> hash, QString table) {
     }
     query += ")";
     QSqlQuery q;
-    qDebug() << query;
+
     if (q.prepare(query)){
         if (q.exec(query)){
             lastId = q.lastInsertId().toInt();
@@ -134,13 +134,15 @@ bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, QSt
             query += ", ";
     }
     query += " WHERE " + id + " = '" + idValue + "' ";
-    //qDebug() << query;
+
     QSqlQuery q;
     if (q.prepare(query))
         return q.exec(query);
     else
         return false;
 }
+
+
 
 bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, int idValue) {
     QString query;
@@ -153,12 +155,36 @@ bool sqlite::update(QHash<QString, QString> hash, QString table, QString id, int
             query += ", ";
     }
     query += " WHERE " + id + " = " + QString::number(idValue);
-    //qDebug() << query;
+    qDebug() << query;
     QSqlQuery q;
     if (q.prepare(query))
         return q.exec(query);
     else
         return false;
+}
+
+
+bool sqlite::UpdateLastElement(QHash<QString,QString> hash,QString table){
+    QString query;
+    QList<QString> key = hash.keys();
+    query = "UPDATE " + table + " SET ";
+    for (int i = 0; i < key.size(); ++i) {
+        query += "" + key[i] + " = ";
+        query += "'" + this->addslashs(hash.value(key[i])) + "'";
+        if (i + 1 < key.size())
+            query += ", ";
+    }
+    //query += " WHERE " + id + " = " + QString::number(idValue);
+    query += " where id = (SELECT max(ID) as last FROM "+table+" )";
+    qDebug() << query;
+    QSqlQuery q;
+    if (q.prepare(query))
+        return q.exec(query);
+    else
+        return false;
+
+
+
 }
 
 bool sqlite::exec(QString query) {

@@ -20,11 +20,12 @@ checkboxLine::checkboxLine(QStringList items,QWidget *parent) : QWidget(parent)
 
     h1->addWidget(myChk);
     h1->addWidget(labelChk);
-    h1->addSpacing(600);
+    h1->setAlignment(Qt::AlignLeft);
+    //h1->addSpacing(600);
 
     h2->addWidget(labelLine);
     h2->addWidget(myLine);
-    h2->addSpacing(600);
+    //h2->addSpacing(600);
 
     v->addLayout(h1);
     v->addLayout(h2);

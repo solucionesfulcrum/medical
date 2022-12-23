@@ -2,63 +2,46 @@
 #define CHECKBANDWITH_H
 
 #include <QtWidgets>
-#include<QNetworkAccessManager>
-#include<QHttpMultiPart>
-#include<QHttpPart>
-#include<QNetworkReply>
+#include <QNetworkAccessManager>
+#include <QHttpMultiPart>
+#include <QHttpPart>
+
 #include <entitites/config.h>
-#include "include.h"
-
-static const qint64 sec = 1000000000;
-static const int bit = 8;
-
+#include <include.h>
 
 class checkBandwith : public QWidget
 {
     Q_OBJECT
 public:
     checkBandwith(QWidget * parent = 0);
-    ~checkBandwith();
-    int getBit();
-    static int Bit();
-    void checking();
-    void findBestPack();
-    void setStep();
-    void setURL(QString);
-    qint64 getBestPack();
-    static qint64 getVideoBitrate();
-    void showResult();
+    ~checkBandwith();    
+
+//--------------------------------------
+//  CR: 07/03/21
+private:
+    void send();
+
 public slots:
-    void start();
-    void send(int s);
-    void finished(QNetworkReply*);
+    void start();    
+
+private slots:
+    void Finished(int ExitCode, QProcess::ExitStatus ExitStatus);
+    void ReadyReadStandardError(void);
+    void ReadyReadStandardOutput(void);
+
 signals:
-    void result(QString);
-    void changed();
+    void Wifi_status(int8_t);
+
 private:
     config conf;
-    int pruebas;
     QMovie *loader;
-    QLabel
-    *_title,
-    *_logo,
-    *_valueLabel,
-    *_information,
-    *_threadInfo;
+    QLabel *_valueLabel;
     QPushButton *_startCheck;
-    QNetworkRequest request;
-    int
-    maxtime
-    ,nextvalue
-    ,size
-    ,getAverage;
-    bool isfinish;
-    QList<qint64> step;
-    qint64 bestPack
-    ,elapsedTime;
-    QElapsedTimer timer;
-    QUrl url;
-    QNetworkAccessManager m_WebCtrl;
+
+    QString mProcessMsg;
+    bool IsRunning;
+    QProcess mProcess;
+//---------------------------------------------
 };
 
 #endif // CHECKBANDWITH_H

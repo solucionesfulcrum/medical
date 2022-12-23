@@ -3,33 +3,43 @@
 clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 {
     //Reason
-    QLabel * reasonIcon = new QLabel(tr("Razón: "));
-    _reason = new QVkLineEdit;
-    _reason->setFixedHeight(50);
-    urgente = new QCheckBox(tr("¿Urgente?"));
-    urgente->setFixedWidth(130);
+    QLabel * reasonIcon = new QLabel(tr("Motivo: "));
+    QFont reasonFont = reasonIcon->font();
+    reasonFont.setPointSize(10);
 
+    _reason = new QButtonGroup();
+    exam = new QRadioButton(tr("Examen Rutinario / Seguimiento"));
+    urgent = new QRadioButton(tr("¿Urgente?"));
+    trainning = new QRadioButton(tr("¿Entrenamiento?"));
+
+    _reason->addButton(exam);
+    _reason->addButton(urgent);
+    _reason->addButton(trainning);
+    connect(_reason,SIGNAL(buttonClicked(int)),this,SLOT(confirmReason(int)));
 
     QWidget * reasonWidget = new QWidget;
-    reasonWidget->setFixedHeight(50);
     reasonWidget->setObjectName("reasonWidget");
     reasonWidget->setContentsMargins(1,1,1,1);
-    QHBoxLayout *reasonLayout = new QHBoxLayout(reasonWidget);
-    reasonLayout->addWidget(reasonIcon,0);
-    reasonLayout->addWidget(_reason,10);
-    reasonLayout->addSpacing(10);
-    reasonLayout->addWidget(urgente,0,Qt::AlignCenter);
-    reasonLayout->setSpacing(0);
-    reasonLayout->setMargin(0);
+
+    QGridLayout *reasonLayout = new QGridLayout(reasonWidget);
+    reasonLayout->addWidget(reasonIcon,0,0,1,3);
+    reasonLayout->addWidget(exam,1,0,1,2);
+    reasonLayout->addWidget(urgent,1,2,1,1);
+    reasonLayout->addWidget(trainning,2,0,1,2);
 
     protocolname = new titlelabel();
-    protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
+    //protocolname->setFixedWidth(600);//JB 20012020 Tamaño de ancho del titulo dentro de estudios.
+    historytitle = new titlelabel(); //IF 13072021 Titulo history clínica.
+    historytitle->setLineWidth(130); //IF 13072021 Ancho linea titulo history clínica.
+    //historytitle->setFixedHeight(10);//IF 13072021 Alto titulo history clínica.
+    //historytitle->setFixedWidth(600);//IF 13072021 Ancho titulo history clínica.
     dataWidget = new QWidget();
     dataWidget->setObjectName("_clinicdata");
     dataLayout = new QVBoxLayout(dataWidget);
     dataLayout->setAlignment(Qt::AlignTop);
     dataLayout->setSpacing(15);
     dataLayout->setMargin(0);
+    dataLayout->addWidget(reasonWidget);
 
     area = new QScrollArea();
     area->setWidget(dataWidget);
@@ -39,23 +49,29 @@ clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
     QScroller::grabGesture(area->viewport(),QScroller::LeftMouseButtonGesture);
 
     QVBoxLayout * h = new QVBoxLayout(this);
-    h->addWidget(reasonWidget);
-    h->addSpacing(15);
+    //h->addWidget(reasonWidget);
+    //h->addSpacing(0);
     h->addWidget(protocolname,0,Qt::AlignCenter);
+    h->addWidget(historytitle,0,Qt::AlignCenter);
     h->addWidget(area);
     h->addSpacing(15);
     h->setMargin(0);
 }
 
 void clinicDataWidget::reset(){
-    _reason->setText("");
-    urgente->setChecked(false);
+    QAbstractButton *b = _reason->checkedButton();
+    if (b) {
+        _reason->setExclusive(false);
+        b->setChecked(false);
+        _reason->setExclusive(true);
+    }
 }
 
 
 void clinicDataWidget::setProtocols(int id){
     protocol.loadData(id);
-    protocolname->setText(protocol.getValue("name").toString());
+    protocolname->setText(tr("Protocolo ")+protocol.getValue("name").toString());
+    historytitle->setText(tr("Historia Clínica"));
     createDataForm();
 }
 
@@ -63,7 +79,7 @@ void clinicDataWidget::createDataForm(){
     reset();
 
 //-----------------------------------------------------
-//  Christiam: Pensaria que hay que no es necesario esta parte de codigo
+//  CR: Pensaria que hay que no es necesario esta parte de codigo
     foreach(clinicInput *w, datas){
         dataLayout->removeWidget(w);
         delete w;
@@ -82,6 +98,8 @@ void clinicDataWidget::createDataForm(){
         dataLayout->addWidget(dt);
         datas.append(dt);
     }
+
+
 }
 
 QByteArray clinicDataWidget::getJson(){
@@ -94,9 +112,25 @@ QByteArray clinicDataWidget::getJson(){
 
 
 QString clinicDataWidget::getReason(){
-    return _reason->text();
+    QString reason = "";
+    int hasReason = _reason->checkedId();
+    if (hasReason != -1) {
+        reason = _reason->checkedButton()->text();
+        reason.replace("¿","").replace("?","");
+    }
+
+    return reason;
 }
 
 bool clinicDataWidget::getUrgent(){
-    return urgente->isChecked();
+    return urgent->isChecked();
 }
+
+bool clinicDataWidget::getTrainnning(){
+    return trainning->isChecked();
+}
+
+void clinicDataWidget::confirmReason(int id){
+    QMessageBox::information(this,tr("Motivo"),tr("¿Está seguro del motivo selecionado?"),QMessageBox::Yes);
+}
+

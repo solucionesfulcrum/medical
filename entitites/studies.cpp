@@ -16,10 +16,27 @@ studies::studies() : entities(){
          << "id_operators"
          << "data"
          << "urgent"
-         << "new_report";
+         << "trainning"
+         << "ConsentimientoInformado"
+         << "new_report"
+         << "study_state";
 }
 
 studies::~studies(){
+}
+
+int studies::getLastElement(QString element){
+    QString query = "SELECT "+ element +" FROM studies ORDER BY ID DESC LIMIT 1";
+    QSqlQuery q;
+    int id=-1;
+
+    if(q.exec(query)==false) return -1;
+
+    while(q.next()){
+        id = q.value(0).toInt();
+    }
+    return id;
+
 }
 
 QList<int> studies::listeID(QString s){
@@ -46,6 +63,26 @@ QStringList studies::getAllNotReported(){
         result.append(query.value(0).toString());
     return result;
 }
+
+//-----------------------------------------------------
+//  CR: 28/02/21
+QStringList studies::getStudiesNotReported(void){
+    QStringList result;
+    QString q;
+    q += "SELECT uid ";
+    q += "FROM studies as s ";
+    q += "WHERE study_state == 1 ";
+    QSqlQuery query(q);
+    while (query.next())
+        result.append(query.value(0).toString());
+    return result;
+}
+
+bool studies::UpdateLastElement(QHash<QString,QString> data){
+    return  db->UpdateLastElement(data,table);
+}
+
+//-----------------------------------------------------
 
 QStringList studies::getToConfirm(){
     QStringList result;
@@ -113,7 +150,7 @@ int studies::id_doctor(){
     return getValue("id_operators").toInt();
 }
 
-QString studies::getState(){
+QString studies::getState(){    
     return studies::getStateName(getValue("state").toInt());
 }
 
@@ -129,6 +166,10 @@ QString studies::getStateName(int v){
     case 1: return "Confirmado"; break;
     case 2: return "Asignado"; break;
     case 3: return "Diagnosticado"; break;
+    case 4: return "Enviado"; break;
+    case 5: return "Firmado"; break;
+    case 6: return "Rechazado"; break;
+    case 7: return "Desactivado"; break;
     }
 }
 
@@ -171,7 +212,15 @@ bool studies::deleteFolder(QString uid){
 }
 
 
-
+QString studies::operatorName(){
+    int id = getValue("id_operators").toInt();
+    QString q = "SELECT name FROM operators WHERE id = " + QString::number(id);
+    QSqlQuery query(q);
+    if(query.next()){
+        return query.value("name").toString();
+    }
+    else return "";
+}
 
 
 

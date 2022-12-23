@@ -5,7 +5,7 @@ QVkLineEdit::QVkLineEdit(bool inc, QWidget * parent) :
 {
     vk = QVirtualKeyboard::vk;
     isIncluded = inc;
-    vk->hide();
+    vk->hide();    
 }
 
 QVkLineEdit::~QVkLineEdit()
@@ -20,7 +20,7 @@ void QVkLineEdit::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton ){
         vk->show();
         vk->setLineEdit((QLineEdit*) this);
-        vk->setText(text());
+        vk->setText(text());        
     }
 }
 

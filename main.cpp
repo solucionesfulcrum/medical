@@ -27,6 +27,16 @@ void updateBD(){
     updated = o.execute(query);
     query = "ALTER TABLE configuration ADD COLUMN device TEXT DEFAULT \"OEM Device\";";
     updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN phone TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN cellphone TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN email TEXT;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN height REAL;";
+    updated = o.execute(query);
+    query = "ALTER TABLE patients ADD COLUMN weight REAL;";
+    updated = o.execute(query);
     qDebug() << "BDD was updated " << updated;
     if(updated)
         QMessageBox::information(NULL,QObject::tr("Base de datos actualizado"),QObject::tr("La base de datos se actualizó con éxito"));
@@ -39,7 +49,7 @@ int main(int argc, char *argv[])
 
     // Verifica que no halla instancia previa del programa (jchang 04/10/19)
 //    QLockFile lockFile(QDir::temp().absoluteFilePath("<041019_1440>.lock"));
-    QLockFile lockFile("C:/MedicalBox/MB_041019.lock");
+    QLockFile lockFile("./MB_041019.lock");
     /* Trying to close the Lock File, if the attempt is unsuccessful for 100 milliseconds,
          * then there is a Lock File already created by another process.
          / Therefore, we throw a warning and close the program
