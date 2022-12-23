@@ -88,7 +88,7 @@ void HTTPsender::send(int i)
     addPart("modelUS",_cfg.getValue("modelUS").toString());
 
     //Add Operator Fullname
-    addPart("operator",_operators.opName());
+    addPart("operator",_studies.operatorName());
 
     //Add Study Start Datetime
     addPart("study[start_date_time]",_studies.datetimetoFormat(_studies.getValue("starttime").toString(),"yyyy-MM-dd HH:mm:ss"));
@@ -166,7 +166,7 @@ void HTTPsender::send(int i)
     addPart("serie[box_id]","1");
 
     //Add Study Operator (to remove)
-    addPart("study[operator]",_operators.opName());
+    addPart("study[operator]",_studies.operatorName());
 
     //Add BOX name
     addPart("namebox",_cfg.getValue("name").toString());

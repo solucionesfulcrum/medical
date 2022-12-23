@@ -130,3 +130,4 @@ INCLUDEPATH += D:/library/medisecure/include
 DEPENDPATH += D:/library/medisecure/include
 #LIBS += -LD:/library/medisecure/lib/ -libmedisecure
 LIBS += -LD:/library/medisecure/lib/ -llibmedisecure
+

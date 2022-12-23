@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
 
     // Verifica que no halla instancia previa del programa (jchang 04/10/19)
 //    QLockFile lockFile(QDir::temp().absoluteFilePath("<041019_1440>.lock"));
-    QLockFile lockFile("C:/MedicalBox/MB_041019.lock");
+    QLockFile lockFile("./MB_041019.lock");
     /* Trying to close the Lock File, if the attempt is unsuccessful for 100 milliseconds,
          * then there is a Lock File already created by another process.
          / Therefore, we throw a warning and close the program

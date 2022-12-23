@@ -212,7 +212,15 @@ bool studies::deleteFolder(QString uid){
 }
 
 
-
+QString studies::operatorName(){
+    int id = getValue("id_operators").toInt();
+    QString q = "SELECT name FROM operators WHERE id = " + QString::number(id);
+    QSqlQuery query(q);
+    if(query.next()){
+        return query.value("name").toString();
+    }
+    else return "";
+}
 
 
 

@@ -31,7 +31,7 @@
     <message>
         <location filename="mainwindow.cpp" line="255"/>
         <source>Tutoriales</source>
-        <translation>Tutoriales</translation>
+        <translation>Tutorials</translation>
     </message>
     <message>
         <location filename="mainwindow.cpp" line="323"/>
@@ -218,7 +218,7 @@ estudio</oldsource>
     <message>
         <location filename="serieswidget.cpp" line="73"/>
         <location filename="serieswidget.cpp" line="88"/>
-        <location filename="serieswidget.cpp" line="305"/>
+        <location filename="serieswidget.cpp" line="335"/>
         <source>Toca para grabar</source>
         <translation>Touch to record</translation>
     </message>
@@ -250,59 +250,59 @@ la captura</oldsource>
         <translation>the acquisition</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="171"/>
+        <location filename="serieswidget.cpp" line="172"/>
         <source>Iniciando...</source>
         <translation>Starting...</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="207"/>
+        <location filename="serieswidget.cpp" line="208"/>
         <source>Guardando</source>
         <translation>Saving</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="228"/>
+        <location filename="serieswidget.cpp" line="230"/>
         <source>Problema con la grabación</source>
         <translation>Recording problem</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="233"/>
+        <location filename="serieswidget.cpp" line="235"/>
         <source>Grabación finalizada</source>
         <oldsource>Grabación terminada</oldsource>
         <translation>Recording finished</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="245"/>
         <location filename="serieswidget.cpp" line="247"/>
+        <location filename="serieswidget.cpp" line="249"/>
         <source>Error de captura</source>
         <translation>Capturing Error</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="248"/>
+        <location filename="serieswidget.cpp" line="250"/>
         <source>No se pudo capturar el barrido&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Verifique que el capturador esta bien connectado.&lt;/li&gt;&lt;li&gt;Contacte su administrador para verificar que el capturador esta bien configurado&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Sweep could not be captured.&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Please verify that video capture device is connected.&lt;/li&gt;&lt;li&gt; Contact your administrator to check settings.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="321"/>
+        <location filename="serieswidget.cpp" line="351"/>
         <source>¿Nuevo Estudio?</source>
         <translation>New Study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="321"/>
+        <location filename="serieswidget.cpp" line="351"/>
         <source>¿Empezar un nuevo estudio con el mismo paciente?</source>
         <translation>New study with the same patient?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="340"/>
+        <location filename="serieswidget.cpp" line="370"/>
         <source>Grabación</source>
         <translation>Recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="345"/>
+        <location filename="serieswidget.cpp" line="375"/>
         <source>¿Reiniciar la adquisición?</source>
         <translation>Restart acquisition process?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="345"/>
+        <location filename="serieswidget.cpp" line="375"/>
         <source>¿Esta seguro de realizar nuevamente la adquisicón?</source>
         <translation>Are you sure to redo the acquisition ?</translation>
     </message>
@@ -1254,16 +1254,21 @@ Debe ser un valor numerico de 9 digitos</source>
     <name>sendbutton</name>
     <message>
         <location filename="studyWidget/sendbutton.cpp" line="53"/>
-        <source>Enviar
+        <source>Enviar 
 y seguir</source>
-        <translation>Send &
-        continue</translation>
+        <oldsource>Enviar y seguir</oldsource>
+        <translation type="unfinished">Send</translation>
     </message>
     <message>
-        <location filename="studyWidget/sendbutton.cpp" line="58"/>
+        <location filename="studyWidget/sendbutton.cpp" line="59"/>
+        <source>Grabación 
+Finalizada</source>
+        <translation type="unfinished"></translation>
+    </message>
+    <message>
         <source>Grabación
 Finalizada</source>
-        <translation>Recording
+        <translation type="vanished">Recording
         Finished</translation>
     </message>
 </context>

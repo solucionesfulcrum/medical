@@ -157,6 +157,7 @@ void SeriesWidget::setToolsEnabled(bool b){
     lookButton->setEnabled(b);
 }
 
+// Start record process
 void SeriesWidget::startRecord(){
     if(isCapturing)
         stopRecord();
@@ -223,8 +224,9 @@ void SeriesWidget::processFinished(int i){
 
     //i is the exit code of ffmpeg, if 0 exit with success
     if(i == 0){
-        /*Check if file exist*/
-        if(!QFile::exists(f+"/"+uncompressedvideoname)){
+        /*Check if file exist and is valid*/
+        int isValid = validateVideo(f+"/"+uncompressedvideoname);
+        if( isValid != VALID_VIDEO ){
             _captureButton->setInfo(tr("Problema con la grabación"));
             _captureButton->setBlock(false);
         }
@@ -254,6 +256,34 @@ void SeriesWidget::processFinished(int i){
     }
 
 
+}
+
+int SeriesWidget::validateVideo(QString filePath){
+    int errorCode = 0;
+
+    // verify id the file exists
+    if (!QFile::exists(filePath)) {
+        errorCode = FILE_NOT_FOUND;
+    }
+//    else {
+//        // execute program for validating video
+//        studydesc* protocol = new studydesc();
+//        protocol->loadData(_studies.getValue("id_protocols").toInt());
+//        QString program = "py main.cpython-39.pyc " + filePath + " " + protocol->getValue("name").toString();
+
+//        QProcess* validate = new QProcess;
+//        validate->start(program);
+//        qDebug() << "Start Video Validation" << program;
+//        qDebug() << "Result:" << validate->waitForFinished(60000);
+//        QString output(validate->readAllStandardOutput());
+//        qDebug() << "Output:" << output;
+//        delete validate;
+//        delete protocol;
+//        errorCode = INVALID_PROTOCOL;
+//    }
+
+    // execute validation program
+    return errorCode;
 }
 
 void SeriesWidget::processData(){

@@ -38,6 +38,8 @@ public:
     static bool deleteStudy(int);
     static bool deleteFolder(QString);
 
+    QString operatorName();
+
 private:
     QString _uid, _datetime, _desc, _reason;
     int _id_patient, _id_doctor;
