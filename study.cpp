@@ -127,11 +127,11 @@ void study::setStudyProtocolsForm(){
     //All
     QVBoxLayout * all = new QVBoxLayout(_studyProtocolsFrom);
     all->addSpacing(20);
-    all->addWidget(headerWidget);
+    all->addWidget(headerWidget);                   // Title "Protocolos"
     all->addSpacing(10);
-    all->addWidget(_studyDesc,10);
+    all->addWidget(_studyDesc,10);                  //
     all->addSpacing(20);
-    all->addWidget(buttonWidget,0,Qt::AlignCenter);
+    all->addWidget(buttonWidget,0,Qt::AlignCenter); // Button "<Cambiar de paciente"
     all->addSpacing(15);
     all->setSpacing(0);
     all->setMargin(0);
@@ -141,6 +141,9 @@ void study::setStudyProtocolsForm(){
 void study::startStudy(){
     start->setEnabled(false);
     if (_patient_id > 0){
+
+        uint8_t s = _studyDesc->getValue();
+
 
 //      Obstetric protocol survey validation        
         if(_studyDesc->getValue()==1){
@@ -171,7 +174,7 @@ void study::startStudy(){
                 return;
             }
             else if (e==1){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera de rango [1,300]."),QMessageBox::Ok);
+                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera del rango [30,300]."),QMessageBox::Ok);
                 start->setEnabled(true);
                 return;
             }
@@ -319,12 +322,16 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
+//-------------------------------------------------
+//  CR: 08/01/23
     // Validate country of infection
     value = Protocol_GetValue(jarray,"txtLPI");
     if (value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar lugar probable de infección."),QMessageBox::Ok);
         return 0;
     }
+//-------------------------------------------------
+
 
     // Validate address
     value = Protocol_GetValue(jarray,"txtDomicilioActual");
@@ -642,8 +649,9 @@ void study::patientLoaded(int s){
     _patient_id = s;
 //----------------------------------------------------------------
 //  CR:
-    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M');
-    else _studyDesc->loadWithSex('X');
+    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+    else _studyDesc->loadWithSex('X',p.age());
+
 //----------------------------------------------------------------
     if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
     else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
@@ -755,7 +763,10 @@ uint8_t study::validateCardiacBeat()
             if(!ok) return 3;
             else {
                 if(frequency==-32768)   return 2;
-                if( (frequency<1) || (frequency>300) )  return 1;
+             //--------------------------------------------------------
+             // CR: 04/01/23
+                if( (frequency<30) || (frequency>300) )  return 1;
+             //--------------------------------------------------------
                 else    return 0;
             }
         }
@@ -829,12 +840,13 @@ bool study::validatePatienteAge(){
 
     switch(_studyDesc->getValue())
     {
-        case 1:
-            if (age < 16) {
+        //case 1:
+        //  CR: 08/01/23
+            /*if (age < 16) {
                 QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
                 result = false;
             }
-            break;
+            break;*/
         case 3:
             if (age < 11 || age > 89 ) {
                 QMessageBox::warning(this,tr("Protocolo Pulmonar"),tr("No puede realizar el protocolo pulmonar en menores de 11 años ni mayores de 89."));

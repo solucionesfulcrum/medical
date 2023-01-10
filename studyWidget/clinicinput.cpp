@@ -20,8 +20,8 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
        QFont f = label->font();
        f.setPointSize(10);
 
-       QString strFechaUltrasonidoPrevioEs="Fecha de ultrasonido previo"; //JB18022020
-       QString strFechaUltrasonidoPrevioEn="Previous ultrasound date"; //JB18022020
+       QString strFechaUltrasonidoPrevioEs="Fecha de ultrasonido previo";       //JB18022020
+       QString strFechaUltrasonidoPrevioEn="Previous ultrasound date";          //JB18022020
 
        QCalendarWidget * input = new QCalendarWidget;
        input->setMinimumDate(QDate(1900, 1, 1));
@@ -623,13 +623,14 @@ QJsonObject clinicInput::getJsonObject(){
         values.append(input->text());
     }
 //----------------------------------------------------------------------------------
-//  Christiam
+//  CR: 04/01/23
     if(obj.value("type").toString() == "mix"){
         checkboxLine *input = (checkboxLine*)std_input;
-        if(input->myChk->checkState()==Qt::Checked)
+        values.append(input->myLine->text());
+        /*if(input->myChk->checkState()==Qt::Checked)
             values.append(input->myLine->text());
         else
-            values.append("-32768");
+            values.append("-32768");*/
     }
 //----------------------------------------------------------------------------------
 

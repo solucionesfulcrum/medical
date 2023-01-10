@@ -8,7 +8,9 @@ checkboxLine::checkboxLine(QStringList items,QWidget *parent) : QWidget(parent)
     QHBoxLayout *h1 = new QHBoxLayout;
     QHBoxLayout *h2 = new QHBoxLayout;
 
-    QLabel *labelChk = new QLabel(items.at(0));
+//  CR: 04/01/23
+//  Class is modified in order to always ask for cardiac frequency
+//  QLabel *labelChk = new QLabel(items.at(0));
     QLabel *labelLine = new QLabel(items.at(1));
 
     v->setMargin(0);
@@ -16,12 +18,16 @@ checkboxLine::checkboxLine(QStringList items,QWidget *parent) : QWidget(parent)
 
     myChk = new QCheckBox;
     myLine = new QVkLineEdit;
-    myLine->setEnabled(false);
 
-    h1->addWidget(myChk);
-    h1->addWidget(labelChk);
-    h1->setAlignment(Qt::AlignLeft);
-    //h1->addSpacing(600);
+//  CR: 04/01/23
+    myLine->setEnabled(true);
+
+//  CR: 04/01/23
+//  h1->addWidget(myChk);
+//  h1->addWidget(labelChk);
+
+//  h1->setAlignment(Qt::AlignLeft);
+//  h1->addSpacing(600);
 
     h2->addWidget(labelLine);
     h2->addWidget(myLine);

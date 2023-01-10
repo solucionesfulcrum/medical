@@ -59,8 +59,10 @@ bool operators::islogged(){
     return res;
 }
 
-bool operators::logIn(int n, QString p){
-isLogin = false;
+bool operators::logIn(int n, QString p)
+{
+    isLogin = false;
+
     if (n != 0 && p != ""){
         QString q = "SELECT * FROM "+table+" WHERE id = '"+QString::number(n)+"' AND pass = '"+p+"' LIMIT 0,1";
         qDebug() << q;

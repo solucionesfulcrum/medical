@@ -100,7 +100,12 @@ void dialogOperator::refresh(QString s){
 void dialogOperator::setSearch(){
     search = new QWidget;
     searchValue = new QVkLineEdit(true);
-    searchValue->setPlaceholderText(tr("Busca el operador por nombre o DNI"));
+
+//----------------------------------------------------------------------------
+//  CR: 09/01/23
+    searchValue->setPlaceholderText(tr("Busca el operador por nombre"));
+//----------------------------------------------------------------------------
+
     connect(searchValue,SIGNAL(textChanged(QString)),this,SLOT(refresh(QString)));
     addButton = new QPushButton(QIcon(":/icon/res/img/useradd.png"),"");
     addButton->setObjectName("greenButton");
@@ -113,6 +118,7 @@ void dialogOperator::setSearch(){
     QHBoxLayout * hl = new QHBoxLayout(_header);
     hl->addWidget(searchValue,5);
     hl->addWidget(addButton);
+
     hl->setMargin(0);
     hl->setSpacing(1);
 
@@ -165,7 +171,8 @@ void dialogOperator::setForm(){
     connect(save,SIGNAL(clicked()),this,SLOT(saveUser()));
     save->setIconSize(QSize(32,32));
     save->setObjectName("blueButton");
-    QPushButton * cancel = new QPushButton(QIcon(":/icon/res/img/cancel.png"),tr("Anular"));
+//  CR:
+    QPushButton * cancel = new QPushButton(QIcon(":/icon/res/img/cancel.png"),tr("Cancelar"));
     connect(cancel,SIGNAL(clicked()),this,SLOT(goSearch()));
     cancel->setIconSize(QSize(32,32));
     cancel->setObjectName("redButton");

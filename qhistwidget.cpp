@@ -190,38 +190,49 @@ void studyInfo::createStudyBox(){
 
     int line = 0;
     QGridLayout * layout = new QGridLayout(studyBox);
-    layout->setSpacing(5);
+
+    layout->setSpacing(1);
+    layout->setColumnStretch(0,1);
+    layout->setColumnStretch(1,1);
+
     layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(title,line,0,Qt::AlignCenter);
-    layout->addWidget(refreshButton,line,1,Qt::AlignCenter);
-    layout->addWidget(dlButton,line,2,Qt::AlignCenter);
+    layout->addWidget(title,        line,0,1,1,Qt::AlignCenter);
+    layout->addWidget(refreshButton,line,1,1,1,Qt::AlignLeft);
+    layout->addWidget(dlButton,     line,2,1,1,Qt::AlignLeft);
     line++;
-    layout->addWidget(new QLabel(tr("DNI del Paciente:")),line,0);
-    layout->addWidget(patientid,line,1);
+    layout->addWidget(new QLabel(tr("DNI del Paciente:")),line,0,1,1);
+    layout->addWidget(patientid,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Paciente:")),line,0);
-    layout->addWidget(patientname,line,1);
+    layout->addWidget(new QLabel(tr("Paciente:")),line,0,1,1);
+    layout->addWidget(patientname,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Protocolos:")),line,0);
-    layout->addWidget(protocol,line,1);
+    layout->addWidget(new QLabel(tr("Protocolos:")),line,0,1,1);
+    layout->addWidget(protocol,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Operador:")),line,0);
-    layout->addWidget(opName,line,1);
+    layout->addWidget(new QLabel(tr("Operador:")),line,0,1,1);
+    layout->addWidget(opName,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Motivo:")),line,0);
-    layout->addWidget(reason,line,1);
+    layout->addWidget(new QLabel(tr("Motivo:")),line,0,1,1);
+    layout->addWidget(reason,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Inicio:")),line,0);
-    layout->addWidget(startDate,line,1);
+    layout->addWidget(new QLabel(tr("Inicio:")),line,0,1,1);
+    layout->addWidget(startDate,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Fin:")),line,0);
-    layout->addWidget(stopDate,line,1);
+    layout->addWidget(new QLabel(tr("Fin:")),line,0,1,1);
+    layout->addWidget(stopDate,line,1,1,2);
+
     line++;
-    layout->addWidget(new QLabel(tr("Estado:")),line,0);
-    layout->addWidget(statut,line,1);
-    line++;
-    layout->setColumnStretch(1,8);
-    layout->addWidget(closeButton,line,0,1,2,Qt::AlignLeft);
+    layout->addWidget(new QLabel(tr("Estado:")),line,0,1,1);
+    layout->addWidget(statut,line,1,1,2);
+
+    line++;    
+    layout->addWidget(closeButton,line,0,1,1,Qt::AlignLeft);
 
 
 }
