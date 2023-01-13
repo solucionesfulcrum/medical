@@ -5,8 +5,7 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
     setMinimumSize(400,400);
     QVBoxLayout * mainLayout = new QVBoxLayout(this);
 
-
-    //Background Widget
+//  Background Widget
     QWidget * bg = new QWidget();
     bg->setObjectName("bglogin");
     mainLayout->addWidget(bg);
@@ -211,12 +210,16 @@ void WLogin::refreshList(){
     QList<int> o = ope.listeID("");
     for(int i = 0; i<o.size(); i++){
         ope.loadData(o.at(i));
-        QPushButton * t = new QPushButton(ope.getValue("name").toString().toUpper());
-        t->setFixedHeight(50);
-        t->setFixedWidth(_areaBox->width()-35);
-        usersButtons->addButton(t,ope.getValue("id").toInt());
-        listlayout->addWidget(t);
-        _areaHeight += 51;
+
+        if(ope.getValue("enable").toInt())
+        {
+            QPushButton * t = new QPushButton(ope.getValue("name").toString().toUpper());
+            t->setFixedHeight(50);
+            t->setFixedWidth(_areaBox->width()-35);
+            usersButtons->addButton(t,ope.getValue("id").toInt());
+            listlayout->addWidget(t);
+            _areaHeight += 51;
+        }
     }
 }
 

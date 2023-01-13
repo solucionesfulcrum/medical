@@ -12,14 +12,17 @@ class userBox : public QWidget
 {
 Q_OBJECT
 public:
-    userBox(int, QString, QString, QWidget* = 0);
+    userBox(int, QString, QString,int,int, QWidget* = 0);
     ~userBox();
 signals:
     void edit(int);
     void select(int);
+    void enable(int,int);      // ID and checkbox state
 private slots:
     void toEdit();
     void toSelect();
+    void toEnable(int);
+
 private:
     QString userID, name;
     int _id;
@@ -42,6 +45,7 @@ public slots:
     void selectUser(int);
     void saveUser();
     void newUser();
+    void enableUser(int,int);
 private:
     void setForm();
     void loadForm(int);
@@ -57,7 +61,7 @@ private:
     QList<userBox *> results;
      QVBoxLayout * resultLayout;
     QVkLineEdit *searchValue;
-    QPushButton * addButton;
+    QPushButton *addButton;
     QScrollArea * area;
     QLabel *labelEQ = new QLabel(tr("No hay ninguna coincidencia"));
 

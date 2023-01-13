@@ -1,27 +1,39 @@
 #include "dialogoperator.h"
 
 
-userBox::userBox(int id, QString uid, QString s, QWidget *widget) : QWidget(widget){
+userBox::userBox(int id, QString uid, QString s,int enable,int admin, QWidget *widget) : QWidget(widget){
     QWidget * w = new QWidget();
     w->setObjectName("listBox");
     setContentsMargins(20,0,20,0);
-
-    QPushButton * editButton = new QPushButton(QIcon(":/icon/res/img/userEdit.png"),"");
-    editButton->setIconSize(QSize(50,50));
-    editButton->setFixedSize(60,60);
 
     QPushButton * selectButton = new QPushButton(s);
     selectButton->setObjectName("selectButton");
     selectButton->setFixedHeight(80);
 
-    connect(editButton,SIGNAL(clicked()),this,SLOT(toEdit()));
-    connect(selectButton,SIGNAL(clicked()),this,SLOT(toEdit()));
+//------------------------------------------------------
+//  CR: 10/01/23
+    QCheckBox *enableCheckbox = new QCheckBox();
+    enableCheckbox->setObjectName("enableCheckbox");
+    enableCheckbox->setFixedHeight(80);
+    if(enable==1)   enableCheckbox->setChecked(true);
+    else            enableCheckbox->setChecked(false);
+//------------------------------------------------------
 
-    QHBoxLayout *l = new QHBoxLayout(w);
-    l->addWidget(selectButton,8);
-    l->addWidget(editButton);
+    QPushButton * editButton = new QPushButton(QIcon(":/icon/res/img/userEdit.png"),"");
+    editButton->setIconSize(QSize(50,50));
+    editButton->setFixedSize(60,60);
+
+    connect(editButton,SIGNAL(clicked()),this,SLOT(toEdit()));    
+    connect(selectButton,SIGNAL(clicked()),this,SLOT(toSelect()));
+    if(admin==0)
+        connect(enableCheckbox,SIGNAL(stateChanged(int)),this,SLOT(toEnable(int)));
+    QGridLayout *l = new QGridLayout(w);
+    l->addWidget(selectButton   ,0,0,1,4,Qt::AlignLeft);
+    if (admin==0)
+        l->addWidget(enableCheckbox ,0,4,1,1,Qt::AlignRight);
+    l->addWidget(editButton     ,0,5,1,1,Qt::AlignRight);
     l->setMargin(0);
-    l->setSpacing(1);
+    l->setSpacing(3);
     userID = uid;
     name = s;
     _id= id;
@@ -42,6 +54,13 @@ void userBox::toSelect(){
     emit select(_id);
 }
 
+//-----------------------------------
+//CR: 10/01/23
+void userBox::toEnable(int i){
+    emit enable(_id,i);
+}
+//-----------------------------------
+
 
 dialogOperator::dialogOperator(QWidget * parent) : QWidget(parent)
 {
@@ -50,8 +69,9 @@ dialogOperator::dialogOperator(QWidget * parent) : QWidget(parent)
     _widgets = new SlidingStackedWidget(this);
     _widgets->addWidget(search);
     _widgets->addWidget(add);
-    QVBoxLayout * _main = new QVBoxLayout(this);
-    _main->addWidget(_widgets);
+    QVBoxLayout * _main     = new QVBoxLayout(this);
+
+    _main->addWidget(_widgets);    
     _main->setMargin(0);
     _main->setSpacing(0);
     refresh("");
@@ -85,14 +105,21 @@ void dialogOperator::refresh(QString s){
 
         foreach(int i, p.listeID(s)){
             p.loadData(i);
-            userBox *b = new userBox(i, p.getValue("id").toString(),p.getValue("name").toString()+" ");
+        //--------------------------------------------------------------------------------
+        //  CR: 10/01/23
+            userBox *b = new userBox(i, p.getValue("id").toString(),p.getValue("name").toString(),p.getValue("enable").toInt(),p.getValue("admin").toInt());
+        //--------------------------------------------------------------------------------
             connect(b,SIGNAL(select(int)),this,SLOT(selectUser(int)));
             connect(b,SIGNAL(edit(int)),this,SLOT(editUser(int)));
+        //--------------------------------------------------------------------------------
+        //  CR: 10/01/23
+            connect(b,SIGNAL(enable(int,int)),this,SLOT(enableUser(int,int)));
+        //--------------------------------------------------------------------------------
             resultLayout->addWidget(b);
             results.append(b);
         }
         resultLayout->setAlignment( Qt::AlignTop );
-        resultLayout->setSpacing(1);
+        resultLayout->setSpacing(3);
         resultLayout->setMargin(0);
     }
 }
@@ -105,8 +132,8 @@ void dialogOperator::setSearch(){
 //  CR: 09/01/23
     searchValue->setPlaceholderText(tr("Busca el operador por nombre"));
 //----------------------------------------------------------------------------
-
     connect(searchValue,SIGNAL(textChanged(QString)),this,SLOT(refresh(QString)));
+
     addButton = new QPushButton(QIcon(":/icon/res/img/useradd.png"),"");
     addButton->setObjectName("greenButton");
     addButton->setIconSize(QSize(30,30));
@@ -118,9 +145,20 @@ void dialogOperator::setSearch(){
     QHBoxLayout * hl = new QHBoxLayout(_header);
     hl->addWidget(searchValue,5);
     hl->addWidget(addButton);
-
     hl->setMargin(0);
-    hl->setSpacing(1);
+    hl->setSpacing(3);
+
+    QWidget *labels             = new QWidget();
+    QGridLayout *layout_titles  = new QGridLayout(this);
+    QLabel *label_user          = new QLabel(tr("Usuario"));
+    QLabel *label_enable        = new QLabel(tr("Habilitar\n usuario"));
+    QLabel *label_edituser      = new QLabel(tr("Editar\n usuario"));
+
+    layout_titles->addWidget(label_user,0,0,1,4);
+    layout_titles->addWidget(label_enable,0,4,1,1,Qt::AlignRight);
+    layout_titles->addWidget(label_edituser,0,5,1,1,Qt::AlignRight);
+    labels->setLayout(layout_titles);
+
 
     QVBoxLayout * sl = new QVBoxLayout(search);
     area = new QScrollArea;
@@ -132,10 +170,12 @@ void dialogOperator::setSearch(){
     area->setWidget(resW);
     area->setObjectName("areaFindPatient");
     resultLayout = new QVBoxLayout(resW);
-    resultLayout->setSpacing(1);
+    resultLayout->setSpacing(3);
     resultLayout->setSizeConstraint(QLayout::SetNoConstraint);
     sl->addWidget(_header);
     sl->addSpacing(20);
+
+    sl->addWidget(labels);
     sl->addWidget(area);
     sl->setMargin(20);
     sl->setSpacing(3);
@@ -224,23 +264,23 @@ void dialogOperator::selectUser(int a){
 }
 
 void dialogOperator::saveUser(){
-    //To save
+//  To save
     QString n = addUserName->text();
     QString l = addUserPass->text();
-
-
 
     if(n == "" && l == ""){
         QMessageBox::information(this,tr("Campos vacios"), tr("¡Por favor, ingrese todo los datos!"));
         return;
     }
 
-
     QHash<QString,QString> d;
     d.insert("name",n);
     d.insert("pass",l);
     if (isAdmin->isChecked())
+    {
         d.insert("admin","1");
+        d.insert("enable","1");
+    }
     else
         d.insert("admin","0");
     if(toEdit)
@@ -251,7 +291,21 @@ void dialogOperator::saveUser(){
     goSearch();
 
 }
+//---------------------------------------------------
+// CR: 11/01/23
+void dialogOperator::enableUser(int id,int state)
+{
+    p.loadData(id);
+    QHash<QString,QString> d;
 
+    if(state)
+        d.insert("enable","1");
+    else
+        d.insert("enable","0");
+
+    p.update(d,id);
+}
+//---------------------------------------------------
 
 
 

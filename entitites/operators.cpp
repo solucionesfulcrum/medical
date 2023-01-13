@@ -4,7 +4,7 @@ operators::operators() : entities()
 {
     table = "operators";
     id_name = "id";
-    keys << "id" << "name" << "pass" << "admin" ;
+    keys << "id" << "name" << "pass" << "admin" <<"enable" ;
     isLogin = false;
     name = "";
 }

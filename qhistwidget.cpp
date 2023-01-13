@@ -137,9 +137,9 @@ studyInfo::studyInfo(int id, QDialog *parent) : QDialog(parent){
     mainLayout->setMargin(0);
 
     vl->addWidget(studyBox);
-    vl->addWidget(area,1);
+    vl->addWidget(area);
     vl->setMargin(1);
-    vl->setSpacing(10);
+    //vl->setSpacing(10);
 }
 
 void studyInfo::closeEvent(QCloseEvent *){
@@ -165,20 +165,20 @@ void studyInfo::createStudyBox(){
     QPushButton * closeButton = new QPushButton(tr("Cerrar"));
     connect(closeButton,SIGNAL(clicked()),this,SLOT(close()));
     closeButton->setObjectName("redButton");
-    closeButton->setFixedSize(200,60);
+    //closeButton->setFixedSize(200,60);
 
     typeDownload = 0;
 
     refreshButton = new QPushButton(tr("Actualizar"));
     refreshButton->setObjectName("greenButton");
-    refreshButton->setFixedSize(180,60);
+    //refreshButton->setFixedSize(180,60);
     //dlButton->setIconSize(QSize(32,32));
     connect(refreshButton,SIGNAL(clicked()),this,SLOT(refresh()));
 
 
     dlButton = new QPushButton(tr("Abrir informe"));
     dlButton->setObjectName("greenButton");
-    dlButton->setFixedSize(180,60);
+    //dlButton->setFixedSize(180,60);
     //dlButton->setIconSize(QSize(32,32));
     connect(dlButton,SIGNAL(clicked()),this,SLOT(download()));
 
@@ -188,52 +188,61 @@ void studyInfo::createStudyBox(){
         refreshButton->setEnabled(false);
     }
 
-    int line = 0;
     QGridLayout * layout = new QGridLayout(studyBox);
 
-    layout->setSpacing(1);
-    layout->setColumnStretch(0,1);
-    layout->setColumnStretch(1,1);
+    //layout->setSpacing(1);
+    //layout->setColumnStretch(0,1);
+    //layout->setColumnStretch(1,1);
 
-    layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(title,        line,0,1,1,Qt::AlignCenter);
-    layout->addWidget(refreshButton,line,1,1,1,Qt::AlignLeft);
-    layout->addWidget(dlButton,     line,2,1,1,Qt::AlignLeft);
-    line++;
-    layout->addWidget(new QLabel(tr("DNI del Paciente:")),line,0,1,1);
-    layout->addWidget(patientid,line,1,1,2);
+    //layout->setAlignment(Qt::AlignTop);
+    layout->addWidget(title,        0,0,1,1,Qt::AlignLeft);
+    layout->addWidget(refreshButton,0,1,1,1,Qt::AlignLeft);
+    layout->addWidget(dlButton,     0,2,1,1,Qt::AlignLeft);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Paciente:")),line,0,1,1);
-    layout->addWidget(patientname,line,1,1,2);
+    QLabel * dnilabel = new QLabel("DNI del Paciente:");
+    dnilabel->setFixedSize(135,50);
+    layout->addWidget(dnilabel      ,1,0,1,1,Qt::AlignLeft);
+    layout->addWidget(patientid     ,1,1,1,2,Qt::AlignLeft);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Protocolos:")),line,0,1,1);
-    layout->addWidget(protocol,line,1,1,2);
+    QLabel * patientlabel = new QLabel("Paciente:");
+    patientlabel->setFixedSize(135,50);
+    layout->addWidget(patientlabel  ,2,0,1,1,Qt::AlignLeft);
+    layout->addWidget(patientname   ,2,1,1,2,Qt::AlignLeft);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Operador:")),line,0,1,1);
-    layout->addWidget(opName,line,1,1,2);
+    QLabel * protocoloslabel = new QLabel("Protocolos:");
+    protocoloslabel->setFixedSize(135,50);
+    layout->addWidget(protocoloslabel   ,3,0,1,1);
+    layout->addWidget(protocol          ,3,1,1,2,Qt::AlignLeft);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Motivo:")),line,0,1,1);
-    layout->addWidget(reason,line,1,1,2);
+    QLabel * operadorlabel = new QLabel("Operador:");
+    operadorlabel->setFixedSize(135,50);
+    layout->addWidget(operadorlabel     ,4,0,1,1);
+    layout->addWidget(opName            ,4,1,1,2);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Inicio:")),line,0,1,1);
-    layout->addWidget(startDate,line,1,1,2);
+    QLabel * motivolabel = new QLabel("Motivo:");
+    motivolabel->setFixedSize(135,50);
+    layout->addWidget(motivolabel       ,5,0,1,1);
+    layout->addWidget(reason            ,5,1,1,2);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Fin:")),line,0,1,1);
-    layout->addWidget(stopDate,line,1,1,2);
+    QLabel * iniciolabel = new QLabel("Inicio:");
+    iniciolabel->setFixedSize(135,50);
+    layout->addWidget(iniciolabel       ,6,0,1,1);
+    layout->addWidget(startDate         ,6,1,1,2);
 
-    line++;
-    layout->addWidget(new QLabel(tr("Estado:")),line,0,1,1);
-    layout->addWidget(statut,line,1,1,2);
+    QLabel * finlabel = new QLabel("Fin:");
+    finlabel->setFixedSize(135,50);
+    layout->addWidget(finlabel          ,7,0,1,1);
+    layout->addWidget(stopDate          ,7,1,1,2);
 
-    line++;    
-    layout->addWidget(closeButton,line,0,1,1,Qt::AlignLeft);
+    QLabel * estadolabel = new QLabel("Estado:");
+    estadolabel->setFixedSize(135,50);
+    layout->addWidget(estadolabel       ,8,0,1,1);
+    layout->addWidget(statut            ,8,1,1,2);
 
+    layout->addWidget(closeButton        ,9,0,1,1,Qt::AlignLeft);
+
+    studyBox->setLayout(layout);
+    studyBox->setFixedSize(600,600);
 
 }
 
