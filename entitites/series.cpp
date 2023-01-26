@@ -78,15 +78,38 @@ QString series::serieNote(){
 }
 
 QString series::serieNameValue(){
-    QString q = "SELECT name FROM sweeps WHERE id = "+getValue("id_sweeps").toString()+" LIMIT 0,1 ";
+    QString q = "SELECT name FROM sweeps WHERE id = "+getValue("id_sweeps").toString()+" LIMIT 0,1 ";    
+
     QSqlQuery query(q);
-    while (query.next()){
-        return query.value(0).toString();
+    while (query.next()){        
+        return serieEliminateAccent(query.value(0).toString());
     }
     return "";
 
 }
 
+//----------------------------------------------------------
+// CR: 17/01/23
+QString series::serieEliminateAccent(QString s)
+{
+    s.replace("á","a");
+    s.replace("é","e");
+    s.replace("í","i");
+    s.replace("ó","o");
+    s.replace("ú","u");
+
+    s.replace("Á","A");
+    s.replace("É","E");
+    s.replace("Í","I");
+    s.replace("Ó","O");
+    s.replace("Ú","U");
+
+    s.replace("Ñ","N");
+    s.replace("ñ","n");
+
+    return s;
+}
+//----------------------------------------------------------
 
 int series::getSerieNumber(){
     QString q = "SELECT id FROM series WHERE id_studies = "+getValue("id_studies").toString()+" ORDER BY id";

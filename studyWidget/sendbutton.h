@@ -8,6 +8,7 @@ class sendbutton : public QPushButton
 public:
     sendbutton(QWidget * parent = 0);
     void setTime(QString);
+    QString text;
 
 protected:
     void paintEvent(QPaintEvent *);

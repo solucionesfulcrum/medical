@@ -43,9 +43,11 @@ public:
     int actual();
     int actualId();
     void setActual(int);
+    int  getActual(int);
     int sweepsSize();
     bool isLast();
     void next();
+    void prev();
 private:
     void clear();
     QHBoxLayout * slinelayout;

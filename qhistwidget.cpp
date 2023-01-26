@@ -27,6 +27,8 @@ sweepInfo::sweepInfo(int id, QWidget *parent) : QWidget(parent){
         lab->setObjectName("sweepsTags");
         lab->setAlignment(Qt::AlignCenter);
     }
+
+//  CR: 17/01/23
     QLabel * title  = new QLabel(_studydesc.getSweepName(_series.getValue("id_sweeps").toInt()));
     QHBoxLayout *stepLayout = new QHBoxLayout;
     stepLayout->addWidget(_capture,0);
@@ -339,7 +341,7 @@ void studyInfo::replyFinished(QNetworkReply* pReply){
     //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/";
     //QString video = folderOrig+"/"+uncompressedvideoname;
 
-
+//  CR: 24/01/23
     QDir dir("uncompressed/"+QString::number(studyID));
 
     if(dir.exists()){

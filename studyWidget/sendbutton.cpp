@@ -4,6 +4,7 @@ sendbutton::sendbutton(QWidget * parent) : QPushButton(parent)
 {
     setFixedSize(400,400);
     time = "00:00";
+    text = "sc";
 }
 void sendbutton::setTime(QString s){
     time = s;
@@ -14,11 +15,13 @@ void sendbutton::paintEvent(QPaintEvent *){
     QRect textRect(0,100,400,80);
     QRect ButtonRect(120,200,160,60);
     QRect ButtonTextRect(195,200,85,60);
+
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing );
 
     //Draw time Circle
-    QRect r(44,44,316,316);
+    //QRect r(44,44,316,316);
+    QRect r(20,20,360,360);
     QConicalGradient gradient;
     gradient.setCenter(r.center());
     gradient.setAngle(90);
@@ -40,7 +43,7 @@ void sendbutton::paintEvent(QPaintEvent *){
 
     pen.setWidth(3);
     pen.setColor(QColor("#FFFFFF"));
-     painter.setPen(pen);
+    painter.setPen(pen);
     QPoint a(140,228);
     QPoint b(170,215);
     QPoint c(157,248);
@@ -50,7 +53,8 @@ void sendbutton::paintEvent(QPaintEvent *){
     painter.drawPolygon(playPoints,4);
 
     painter.setPen(pen);
-    painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,tr("Enviar \ny seguir"));
+    //painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,tr("Siguiente\nCaptura"));
+    painter.drawText(ButtonTextRect,Qt::AlignLeft | Qt::AlignVCenter,text);
 
 
     pen.setColor(QColor("#333333"));

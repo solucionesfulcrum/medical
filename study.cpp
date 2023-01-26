@@ -142,9 +142,6 @@ void study::startStudy(){
     start->setEnabled(false);
     if (_patient_id > 0){
 
-        uint8_t s = _studyDesc->getValue();
-
-
 //      Obstetric protocol survey validation        
         if(_studyDesc->getValue()==1){
             if(_clinicdatawidget->getReason()==""){

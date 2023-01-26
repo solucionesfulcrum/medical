@@ -36,6 +36,7 @@ private slots:
     void startRecord();
     void stopRecord();
     void send();
+    void sendStudy();
     void look();
     void refreshCaptureTime();
     void setToolsEnabled(bool b);
@@ -44,7 +45,10 @@ private slots:
     void processData();
     void finishStudy();
     void restartSerie();
-    void cptSlideFinished();
+    void cptSlideFinished();    
+    void backButtonSlot();
+    void nextButtonSlot();
+
 private:
     void initCaptureButton();
     void createToolBox();
@@ -59,6 +63,7 @@ private:
 
     QTime t;
     sweepsLine * _sweepsline;
+
     captureButton * _captureButton;
 
     studies _studies;
@@ -78,7 +83,8 @@ private:
     *restartButton;
     bool isCapturing;
 
-    QPushButton * finishStudyButton;
+    QPushButton *backButton,*nextButton;
+    QPushButton *finishStudyButton,*sendStudyButton;
 
     QLabel * resultLabel;
 
@@ -86,8 +92,6 @@ private:
     QTimer *poller;
     QTime _time;
     captureProcess * _captureProcess;
-
-
 };
 
 #endif // SERIESWIDGET_H

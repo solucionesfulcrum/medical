@@ -302,7 +302,7 @@ void HTTPsender::finished(QNetworkReply* pReply){
         QFile::remove(video_c);        
         QFile::remove(meta_c);
 
-        emit isFinished(id,1);
+        emit isFinished(id,_series.id_study());
     }
     else{
         qDebug() << rootObject.value("error").toString();
@@ -822,10 +822,12 @@ void QueueWidget::isError(int id){
     q.next();
     refreshInfo();
 }
-
-void QueueWidget::isFinished(int id, int v){
+//--------------------------------------------------------------------------
+// CR: 24/01/23
+void QueueWidget::isFinished(int id, int id_study){
     QHash<QString,QString> data;
-    data.insert("sent",QString::number(v));
+    //data.insert("sent",QString::number(v));
+    data.insert("sent",QString::number(1));
     _series.update(data,id);
     QueueObject * quee = queueObject(id);
     if(quee != NULL){
@@ -834,7 +836,13 @@ void QueueWidget::isFinished(int id, int v){
     }
     q.next();
     refreshInfo();
+
+    QDir dir("uncompressed/"+QString::number(id_study)+"/"+QString::number(id));
+    if(dir.exists()){
+        dir.removeRecursively();
+    }
 }
+//--------------------------------------------------------------------------
 
 void QueueWidget::clean(){
     foreach(QueueObject* obj, queuesObjects){

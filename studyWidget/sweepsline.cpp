@@ -62,10 +62,8 @@ void sweepItem::paintEvent(QPaintEvent*) {
 
 
     QRect r(centerW,centerH,w,h);
-
     QColor defaultColor(QColor("#00D4D8"));
     QPen pen(defaultColor, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
-
 
     painter.setPen(pen);
 
@@ -78,10 +76,21 @@ void sweepItem::paintEvent(QPaintEvent*) {
         painter.drawLine(((width()-w)/2)+w+2,height()/2,width(),height()/2);
 
     //Draw Circle
-    if(done && !actual)
-        painter.setBrush(QBrush(defaultColor));
 
-    painter.setPen(pen);
+
+    /*if(done && !actual)
+        painter.setBrush(QColor("#00D4D8"));        */
+
+    QPen pen1(defaultColor, 4, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
+    pen1.setColor(defaultColor);                            //Circle
+
+    if(done)
+        painter.setBrush(QColor("#00D4D8"));
+
+    if(actual)        
+        painter.setBrush(QColor("#FF5454"));
+
+    painter.setPen(pen1);
     painter.drawEllipse(r);
 
 
@@ -99,11 +108,14 @@ sweepsLine::sweepsLine(QWidget * parent) : QWidget(parent)
 
     title = new titlelabel;
     title->setLine(false);
-    title->setFixedWidth(650);
+//---------------------------------------
+//  CR: 25/01/23
+    title->setFixedWidth(800);
+//---------------------------------------
     setFixedHeight(90);
 
-    QWidget *sline = new QWidget;
-    sline->setFixedWidth(350);
+    QWidget *sline = new QWidget;    
+    sline->setFixedWidth(450);
     slinelayout = new QHBoxLayout(sline);
     slinelayout->setSpacing(0);
     slinelayout->setMargin(0);
@@ -173,16 +185,24 @@ int sweepsLine::actual()
 void sweepsLine::setActual(int i)
 {
     _actual = i;
-    if (i < sweeps.size()){
+    int n = sweeps.size();
+    if (i < n){
         foreach(sweepItem* s,  sweeps)
             s->setActual(false);
         sweepItem* actSweep = sweeps.at(i);
         _actualId = actSweep->idSerie();
         actSweep->setActual(true);
         actSweep->setDone(true);
+        QString ss= actSweep->name();
         title->setText(actSweep->name());
 
     }
+}
+
+int  sweepsLine::getActual(int i)
+{
+    sweepItem* actSweep = sweeps.at(i);
+    return actSweep->idSerie();
 }
 
 int sweepsLine::sweepsSize()
@@ -191,13 +211,20 @@ int sweepsLine::sweepsSize()
 }
 
 bool sweepsLine::isLast(){
-    if (_actual+1 <  numberOfSeries )
+    if ( (_actual+1) <  numberOfSeries )
         return false;
     else return true;
 }
 
+//-----------------------------------------
+//CR: 18/01/23
 void sweepsLine::next(){
     if(!isLast())
         setActual(_actual+1);
+}
+
+void sweepsLine::prev(){
+    if(_actual!=0)
+        setActual(_actual-1);
 }
 

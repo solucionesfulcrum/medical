@@ -20,6 +20,7 @@ public:
     QString datetime();
     int serieName();
     QString serieNameValue();
+    QString serieEliminateAccent(QString s);
     QString serieNote();
     bool haveVideo();
     QString getVideoFile();
