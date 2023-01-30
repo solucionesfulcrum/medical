@@ -37,6 +37,19 @@ void updateBD(){
     updated = o.execute(query);
     query = "ALTER TABLE patients ADD COLUMN weight REAL;";
     updated = o.execute(query);
+
+//--------------------------------------------------------------------------------
+//  CR: 27/01/23
+    query = "ALTER TABLE operators ADD COLUMN enable INTEGER DEFAULT 0 NOT NULL";
+    updated = o.execute(query);
+
+    query = "UPDATE operators SET enable=1 WHERE admin=1";
+    updated = o.execute(query);
+
+//--------------------------------------------------------------------------------
+    query = "ALTER TABLE patients ADD COLUMN weight REAL;";
+    updated = o.execute(query);
+
     qDebug() << "BDD was updated " << updated;
     if(updated)
         QMessageBox::information(NULL,QObject::tr("Base de datos actualizado"),QObject::tr("La base de datos se actualizó con éxito"));

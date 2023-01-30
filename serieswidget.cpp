@@ -446,6 +446,7 @@ void SeriesWidget::send(){
         sendStudyButton->setEnabled(true);
         backButton->setEnabled(true);
         nextButton->setEnabled(true);
+        lookButton->setEnabled(true);
     }
 //-----------------------------------------------------
 }

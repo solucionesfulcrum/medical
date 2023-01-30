@@ -283,10 +283,11 @@ void HTTPsender::finished(QNetworkReply* pReply){
         QString folderMove = "uncompressed/"+QString::number(_series.id_study())+"/"+QString::number(id)+"/";
         QString folderOrig = "studies/"+QString::number(_series.id_study())+"/"+QString::number(id);
         QString video = folderOrig+"/"+uncompressedvideoname;
+        QString videoCompressed   = folderOrig+"/"+"compressedvideo.mp4";
+        QString metaStudies         = folderOrig+"/"+"meta";
         QString video_m = folderMove+"/"+uncompressedvideoname;
         QString meta_c = folderOrig+"/"+cryptedmetafilename;
         QString video_c = folderOrig+"/"+cryptedcompressedvideoname;
-
 
         if (_cfg.getValue("keep_uncompressed").toInt() == 1){
             //To put on uncompressed folder
@@ -297,6 +298,9 @@ void HTTPsender::finished(QNetworkReply* pReply){
             //Remove uncompressed File
             QFile::remove(video);
         }
+
+        QFile::remove(videoCompressed);
+        QFile::remove(metaStudies);
 
         //Remove Crypted File
         QFile::remove(video_c);        
@@ -836,13 +840,19 @@ void QueueWidget::isFinished(int id, int id_study){
     }
     q.next();
     refreshInfo();
-
+//----------------------------------------------------------------------------------
+//  CR: 25/01/23
     QDir dir("uncompressed/"+QString::number(id_study)+"/"+QString::number(id));
     if(dir.exists()){
         dir.removeRecursively();
     }
+/*
+//  CR: 27/01/23
+    if(dir.setCurrent("studies/"+QString::number(id_study)+"/"+QString::number(id))==true)
+        dir.removeRecursively();
+        */
 }
-//--------------------------------------------------------------------------
+//----------------------------------------------------------------------------------
 
 void QueueWidget::clean(){
     foreach(QueueObject* obj, queuesObjects){
