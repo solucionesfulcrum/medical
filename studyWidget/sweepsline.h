@@ -21,6 +21,8 @@ public:
     int idSerie();
     QString name();
     int idSweep();
+
+
 protected:
     void paintEvent(QPaintEvent *);
 private:
@@ -39,7 +41,7 @@ class sweepsLine : public QWidget
 public:
     sweepsLine(QWidget *parent = 0);
     ~sweepsLine();
-    void setStudy(int id);
+    bool setStudy(int id);
     int actual();
     int actualId();
     void setActual(int);
@@ -48,6 +50,7 @@ public:
     bool isLast();
     void next();
     void prev();
+    bool IsCompleted(void);
 private:
     void clear();
     QHBoxLayout * slinelayout;

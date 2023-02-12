@@ -40,7 +40,7 @@ void updateBD(){
 
 //--------------------------------------------------------------------------------
 //  CR: 27/01/23
-    query = "ALTER TABLE operators ADD COLUMN enable INTEGER DEFAULT 0 NOT NULL";
+    query = "ALTER TABLE operators ADD COLUMN enable INTEGER DEFAULT 1 NOT NULL";
     updated = o.execute(query);
 
     query = "UPDATE operators SET enable=1 WHERE admin=1";

@@ -259,7 +259,7 @@ QTabWidget#configWidget {background-color:transparent;}
 QTabWidget#configWidget QLabel{padding:0; color:#3e3e3e; background:transparent;}
 QTabWidget#configWidget::pane { background-color:transparent; border:0;}
 QTabWidget#configWidget::tab-bar {}
-QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:260px; height:50px; font-size:22px; padding:0px;   }
+QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:300px; height:50px; font-size:22px; padding:0px;   }
 QTabWidget#configWidget QTabBar::tab:selected { color:#808081;  border-bottom:2px solid #00D4D8;}
 
 

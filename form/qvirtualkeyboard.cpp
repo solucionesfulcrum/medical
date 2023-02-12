@@ -14,7 +14,7 @@ QVirtualKeyboard::QVirtualKeyboard(QWidget * parent)
     edit = new QLineEdit;
 //------------------------------------------------
 //  CR: 08/01/23
-    edit->setEchoMode(QLineEdit::Password);
+    //edit->setEchoMode(QLineEdit::Password);
 //------------------------------------------------
     edit->setFixedHeight(100);
     edit->setAlignment(Qt::AlignCenter);

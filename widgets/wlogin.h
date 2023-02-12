@@ -13,6 +13,7 @@ public:
     explicit WLogin(QWidget *parent = 0);
     ~WLogin();
     void init();
+    QVkLineEdit * _pass;
 
 signals:
     void logged();
@@ -53,7 +54,7 @@ private:
     QPushButton *_userlistboton;
 
     QWidget * _loginBox;
-    QVkLineEdit * _pass;
+
 
     operators ope;
 

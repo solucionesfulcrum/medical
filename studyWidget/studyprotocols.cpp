@@ -77,6 +77,9 @@ void studyProtocols::loadWithSex(char sex, int age)
 //      CR: 04/01/23
         if((setPt.contains(protocolType.toLower())==true) && ( (sex == 'M') || (age<9)))    continue;
         if((protocolType.toLower()=="pulmonar") && (age<1)) continue;
+
+//      CR: 31/01/23
+        if((protocolType.toLower()=="cuadrante superior derecho") && (age<18)) continue;
 //----------------------------------------------------------------------------------------------------
 
         TouchButton *tb = new TouchButton(protocolType);

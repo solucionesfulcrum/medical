@@ -846,11 +846,6 @@ void QueueWidget::isFinished(int id, int id_study){
     if(dir.exists()){
         dir.removeRecursively();
     }
-/*
-//  CR: 27/01/23
-    if(dir.setCurrent("studies/"+QString::number(id_study)+"/"+QString::number(id))==true)
-        dir.removeRecursively();
-        */
 }
 //----------------------------------------------------------------------------------
 

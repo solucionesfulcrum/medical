@@ -42,7 +42,6 @@
         <file>res/img/footer/disk.png</file>
         <file>res/img/footer/capture.png</file>
         <file>res/img/footer/plug.png</file>
-
         <file>res/img/series/capture.png</file>
         <file>res/img/series/confirmed.png</file>
         <file>res/img/series/queue.png</file>
@@ -60,9 +59,6 @@
         <file>res/img/form/edit.png</file>
         <file>res/img/visor/play.png</file>
         <file>res/img/visor/pause.png</file>
-
-
-
         <file>res/img/menu/iconMenu_01.png</file>
         <file>res/img/menu/iconMenu_02.png</file>
         <file>res/img/menu/iconMenu_03.png</file>
@@ -81,7 +77,8 @@
         <file>res/img/link.png</file>
         <file>res/img/reported.png</file>
         <file>res/img/splash.png</file>
-
+        <file>res/img/menu/iconInfoBluelight.png</file>
+        <file>res/img/menu/iconInfoWhite.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>style.qss</file>

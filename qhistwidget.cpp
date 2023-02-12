@@ -390,12 +390,15 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     studyMenu->setWindowFlags(studyMenu->windowFlags() | Qt::NoDropShadowWindowHint);
     QAction * showStudy = new QAction(tr("Ver información"));
     connect(showStudy,SIGNAL(triggered()),this, SLOT(openInfo()));
+
     studyMenu->addAction(showStudy);
     QAction * restartStudy = new QAction(tr("Continuar el estudio"));
     connect(restartStudy,SIGNAL(triggered()),this, SLOT(loadStudy()));
+
     studyMenu->addAction(restartStudy);
     QAction * deleteStudy = new QAction(tr("Borrar el estudio"));
     connect(deleteStudy,SIGNAL(triggered()),this, SLOT(deleteStudy()));
+
     studyMenu->addAction(deleteStudy);
     studyMenu->setObjectName("studyMenu");
 

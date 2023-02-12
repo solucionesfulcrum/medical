@@ -10,6 +10,8 @@
 #include <study.h>
 #include <visor.h>
 #include <historical.h>
+#include <info.h>
+
 #include <studyfinished.h>
 #include <studycheck.h>
 #include <checkbandwith.h>
@@ -62,6 +64,7 @@ private slots:
     void setmenuHist();
     void setmenuOperador();
     void setmenuHelp();
+    void setmenuInfo();
     void toggleQueue();
     void setMainWindow();
     void setLogin();
@@ -111,17 +114,20 @@ private:
     * menuAddOp,
     * menuHelp,
     * menueQueue,
-    * menuClose;
+    * menuClose,
+    * menuInfo;
+
     QStackedWidget * _main;
 
     studyCheck *_studycheck;
     StudyFinished *pStudyFinished;
 
-    study * _study;
-    visor * _visor;
-    configuration * _configuration;
-    historical * _historical;
-    dialogOperator * _operatores;
+    study           * _study;
+    visor           * _visor;
+    configuration   * _configuration;
+    historical      * _historical;
+    dialogOperator  * _operatores;
+    info            * _info;
 
     QLabel *user;
 

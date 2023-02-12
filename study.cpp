@@ -634,6 +634,9 @@ void study::newStudy(bool b){
             studyForm->setCurrentIndex(1);
         emit studyStarted(false);
     }
+
+    _seriesWidget->sendButton->text = "Siguiente\nPaso";
+
 }
 
 
@@ -687,10 +690,12 @@ void study::protocolSelected(){
     QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
     }
 
+
     if (!validatePatienteAge()) {
         studyForm->slideInPrev();
         return;
     }
+
 
 
     int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
@@ -708,9 +713,10 @@ void study::protocolSelected(){
     id_ci = _patient_Document+"_"+QString::number(_studies.getLastElement("id")+1);
     QMessageBox::information(this,tr("Consentimiento informado"),tr("Código: ")+ id_ci,QMessageBox::Ok);
 
+    start->setEnabled(true);
     _clinicdatawidget->setProtocols(_studyDesc->getValue());        
-    studyInfo->setStudyInfoProtocols(_studyDesc->text());    
-    studyForm->slideInNext();
+    studyInfo->setStudyInfoProtocols(_studyDesc->text());           
+    studyForm->slideInNext();    
 }
 
 
@@ -830,6 +836,8 @@ void study::Wifi_status(int8_t m){
 }
 
 bool study::validatePatienteAge(){
+
+    /*
     patient currentPatient;
     currentPatient.loadData(_patient_id);
     int age = currentPatient.age();
@@ -839,11 +847,11 @@ bool study::validatePatienteAge(){
     {
         //case 1:
         //  CR: 08/01/23
-            /*if (age < 16) {
-                QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
-                result = false;
-            }
-            break;*/
+            //if (age < 16) {
+            //    QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
+            //    result = false;
+            //}
+            //break;
         case 3:
             if (age < 11 || age > 89 ) {
                 QMessageBox::warning(this,tr("Protocolo Pulmonar"),tr("No puede realizar el protocolo pulmonar en menores de 11 años ni mayores de 89."));
@@ -861,4 +869,7 @@ bool study::validatePatienteAge(){
     }
 
     return result;
+    */
+
+    return true;
 }

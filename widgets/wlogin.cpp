@@ -125,6 +125,10 @@ void WLogin::createUserLogin(){
     _pass->setPlaceholderText(tr("Contraseña"));
     _pass->setObjectName("passLine");
 
+//--------------------------------------------------------------
+//  CR: 31/01/23
+    _pass->vk->edit->setEchoMode(QLineEdit::Password);
+//--------------------------------------------------------------
     _userlistboton = new QPushButton(QIcon(":/icon/res/img/loglist.png"),tr(""));
     _userlistboton->setCheckable(true);
     _userlistboton->setFixedSize(40,40);
@@ -225,7 +229,14 @@ void WLogin::refreshList(){
 
 void WLogin::login(){
     if(ope.logIn(idLogin,_pass->text()))
+    {
+//----------------------------------------------------------
+//      CR: 31/01/23
+        _pass->vk->edit->setEchoMode(QLineEdit::Normal);
+//----------------------------------------------------------
         emit logged();
+    }
+
     else {
         error->setText(tr("¡La contraseña es incorrecta!"));
         error->show();

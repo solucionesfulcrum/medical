@@ -144,8 +144,9 @@ void sweepsLine::clear(){
     sweeps.clear();
 }
 
-
-void sweepsLine::setStudy(int id){
+//----------------------------------------------------------
+// CR: 01/02/23
+bool sweepsLine::setStudy(int id){
     studyID = id;
     clear();
     QList<int> listSweeps = _series.listeIDFromStudy(id);
@@ -160,7 +161,8 @@ void sweepsLine::setStudy(int id){
             si->islast();
         series s;
         s.loadData(i);
-        if(s.getValue("toqueue").toInt() == 1){
+        //if(s.getValue("toqueue").toInt() == 1){
+        if(s.getValue("capture").toInt() == 1){
             actual++;
             si->setDone(true);
         }
@@ -170,6 +172,32 @@ void sweepsLine::setStudy(int id){
     }
     if (numberOfSeries > actual)
         setActual(actual);
+
+    if(numberOfSeries==actual){
+        setActual(actual-1);
+        return true;
+    }
+
+    return false;
+}
+//----------------------------------------------------------
+bool sweepsLine::IsCompleted(void)
+{
+    series s;
+    QList<int> listSweeps = _series.listeIDFromStudy(studyID);
+
+    int m=0;
+
+    foreach(int i,listSweeps){
+        s.loadData(i);
+        if(s.getValue("capture").toInt() == 1)
+            m++;
+    }
+
+    if(m==(listSweeps.size()))
+        return true;
+    else
+        return false;
 }
 
 int sweepsLine::actualId()

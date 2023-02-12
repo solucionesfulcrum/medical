@@ -13,8 +13,8 @@ void sendbutton::setTime(QString s){
 void sendbutton::paintEvent(QPaintEvent *){
 
     QRect textRect(0,100,400,80);
-    QRect ButtonRect(120,200,160,60);
-    QRect ButtonTextRect(195,200,85,60);
+    QRect ButtonRect(120,200,185,60);
+    QRect ButtonTextRect(195,200,100,60);
 
     QPainter painter(this);
     painter.setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing );

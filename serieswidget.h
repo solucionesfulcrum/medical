@@ -26,6 +26,9 @@ public:
     ~SeriesWidget();
     void setStudy(int);
     bool isCapturingVideo();
+    sendbutton * sendButton ;
+    bool StudiesFinished;
+
 protected:
     void closeEvent(QCloseEvent *);
 signals:
@@ -76,7 +79,6 @@ private:
     studydesc sd;
     int idStudy;
 
-    sendbutton * sendButton ;
 
     QToolButton
     *lookButton,

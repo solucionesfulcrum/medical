@@ -42,7 +42,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.7 (22/09/2021)";
     //version = "2.3.8 (27/09/2021)";
     //version = "2.3.9 (24/05/2022)";
-    version = "2.3.10 (25/01/2023)";
+    //version = "2.4.0 (09/02/2023)";
+    version = "2.4.1 (12/02/2023)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -138,6 +139,11 @@ MainWindow::~MainWindow()
 
 
 void MainWindow::setLogin(){
+
+//--------------------------------------------------------------
+//  CR: 31/03/21
+    login->_pass->vk->edit->setEchoMode(QLineEdit::Password);
+//--------------------------------------------------------------
     mainWidget->slideInIdx(0,SlidingStackedWidget::LEFT2RIGHT);
     //Stop Checking studies
     _studycheck->stop();
@@ -149,6 +155,8 @@ void MainWindow::setMainWindow(){
     mainWidget->slideInIdx(1,SlidingStackedWidget::RIGHT2LEFT);
     login->init();
     _configuration->refreshOpe();
+    _info->refresh();
+
     if (operators::isAdmin())
         menuAddOp->show(); 
     else
@@ -252,6 +260,12 @@ void MainWindow::menu(){
     menuAddOp->setCheckable(true);
     connect(menuAddOp,SIGNAL(clicked()),this,SLOT(setmenuOperador()));
 
+    menuInfo = new QToolButton();
+    menuInfo->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
+    menuInfo->setText(tr("Información"));
+    menuInfo->setCheckable(true);
+    connect(menuInfo,SIGNAL(clicked()),this,SLOT(setmenuInfo()));
+
     menuHelp = new QToolButton();
     menuHelp->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuHelp->setText(tr("Tutoriales"));
@@ -263,6 +277,7 @@ void MainWindow::menu(){
                 << menuHist
                 << menuConfig
                 << menuAddOp
+                << menuInfo
                 << menuHelp ;
 
     //QSize toolButtonSize(180,95);
@@ -373,12 +388,14 @@ void MainWindow::uncheckMenu(){
     menuHist->setChecked(false);
     menuClose->setChecked(false);
     menuAddOp->setChecked(false);
+    menuInfo->setChecked(false);
     menuHelp->setChecked(false);
 
     menuUS->setIcon(QIcon(":/icon/res/img/menu/iconMenu_01.png"));
     menuConfig->setIcon(QIcon(":/icon/res/img/menu/iconMenu_03.png"));
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenu_02.png"));
     menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_04.png"));
+    menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoWhite.png"));
     menuHelp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_05.png"));
 }
 
@@ -428,6 +445,15 @@ void MainWindow::setmenuOperador(){
     menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_04.png"));
 }
 
+//---------------------------------------------------------------------------
+//  CR: 07/02/23
+void MainWindow::setmenuInfo(void){
+    setmenu(5);
+    uncheckMenu();
+    menuInfo->setChecked(true);
+    menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoBluelight.png"));
+}
+//---------------------------------------------------------------------------
 
 
 void MainWindow::setmenu(int i){
@@ -444,15 +470,18 @@ void MainWindow::setMainWidget(){
 
     _visor = new visor;
     _configuration = new configuration;
-    _historical = new historical();
+    _historical = new historical();    
     _historical->setQueueWidget(_queue);
     connect(_historical,SIGNAL(loadStudyId(int)),this,SLOT(loadStudy(int)));
 
+    _info = new info;
+
     _main->addWidget(_study);           // Index 0
     _main->addWidget(_visor);           // Index 1
-    _main->addWidget(_configuration);
-    _main->addWidget(_historical);
-    _main->addWidget(_operatores);
+    _main->addWidget(_configuration);   // Index 2
+    _main->addWidget(_historical);      // Index 3
+    _main->addWidget(_operatores);      // Index 4
+    _main->addWidget(_info);            // Index 5
 }
 
 void MainWindow::setQueueWidget(){
