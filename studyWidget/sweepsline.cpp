@@ -244,6 +244,13 @@ bool sweepsLine::isLast(){
     else return true;
 }
 
+bool sweepsLine::islastBefore(){
+    if ( (_actual+1) <  (numberOfSeries-1) )
+        return false;
+    else return true;
+}
+
+
 //-----------------------------------------
 //CR: 18/01/23
 void sweepsLine::next(){

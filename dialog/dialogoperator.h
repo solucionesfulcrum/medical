@@ -12,16 +12,18 @@ class userBox : public QWidget
 {
 Q_OBJECT
 public:
-    userBox(int, QString, QString,int,int, QWidget* = 0);
+    userBox(int, QString, QString,int,int,int,int, QWidget* = 0);
     ~userBox();
 signals:
     void edit(int);
     void select(int);
     void enable(int,int);      // ID and checkbox state
+    void enableAdmin(int,int);
 private slots:
     void toEdit();
     void toSelect();
     void toEnable(int);
+    void toEnableAdmin(int);
 
 private:
     QString userID, name;
@@ -46,6 +48,7 @@ public slots:
     void saveUser();
     void newUser();
     void enableUser(int,int);
+    void enableUserAdmin(int,int);
 private:
     void setForm();
     void loadForm(int);

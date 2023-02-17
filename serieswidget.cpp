@@ -504,7 +504,7 @@ void SeriesWidget::send(){
     _captureButton->setBlock(false);
     setToolsEnabled(false);
 
-    if (!_sweepsline->isLast()){                
+    if (!_sweepsline->isLast()){
         sendButton->text = "Siguiente\nPaso";
         cpt->slideInPrev();
         _sweepsline->next();

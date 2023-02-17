@@ -17,6 +17,9 @@ void studyProtocols::updateProtocols(){
         dg->setObjectName("upProtDialog");
         dg->setFixedSize(400,200);
         dsc->protocolsUpdate();
+
+
+
         connect(dsc,SIGNAL(finished()),this,SLOT(updated()));
         QPushButton * cl = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),tr("Anular"));
         cl->setObjectName("redButton");
@@ -38,6 +41,12 @@ void studyProtocols::updateProtocols(){
 void studyProtocols::updated(){
 
     if(dsc->err == ""){
+        /*
+        patient p;
+        p.loadData(s);
+        if(p.sex()=="Masculino")    loadWithSex('M',p.age());
+        else loadWithSex('X',p.age());
+        */
         load();
         dg->close();
     }
@@ -79,7 +88,7 @@ void studyProtocols::loadWithSex(char sex, int age)
         if((protocolType.toLower()=="pulmonar") && (age<1)) continue;
 
 //      CR: 31/01/23
-        if((protocolType.toLower()=="cuadrante superior derecho") && (age<18)) continue;
+        if(((protocolType.toLower()).contains("cuadrante superior derecho")) && (age<18)) continue;
 //----------------------------------------------------------------------------------------------------
 
         TouchButton *tb = new TouchButton(protocolType);

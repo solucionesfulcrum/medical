@@ -43,7 +43,7 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.8 (27/09/2021)";
     //version = "2.3.9 (24/05/2022)";
     //version = "2.4.0 (09/02/2023)";
-    version = "2.4.1 (12/02/2023)";
+    version = "2.4.1   (17/02/2023)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
@@ -155,6 +155,7 @@ void MainWindow::setMainWindow(){
     mainWidget->slideInIdx(1,SlidingStackedWidget::RIGHT2LEFT);
     login->init();
     _configuration->refreshOpe();
+    _operatores->refresh("");
     _info->refresh();
 
     if (operators::isAdmin())

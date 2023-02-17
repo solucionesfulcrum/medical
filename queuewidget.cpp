@@ -467,7 +467,10 @@ QByteArray Queue::createMetaData(int){
                << "0008|0021&&"+dateTimeToDCM(_series.datetime())+";;"
                << "0008|0030&&"+dateTimeToDCM(_studies.datetime(),"time")+";;"
                << "0008|0031&&"+dateTimeToDCM(_series.datetime(),"time")+";;"
-               << "0008|1030&&"+sdt.getValue("name").toString()+";;"
+            //--------------------------------------------------------------------------
+            //  CR: 16/02/23
+               << "0008|1030&&"+EliminateAccent(sdt.getValue("name").toString())+";;"
+            //--------------------------------------------------------------------------
                << "0008|103E&&"+_series.serieNameValue()+";;"
                << "0008|0060&&US;;"
 
@@ -475,7 +478,10 @@ QByteArray Queue::createMetaData(int){
                << "0008|0070&&Medical Innovation And Technology;;"
                   //<< "0008|1010&&"+_cfg.AETitle()+";;"
                << "0008|1090&&Medical Box;;"
-               << "0010|0010&&"+_patient.name()+" "+_patient.lastName()+";;"
+            //--------------------------------------------------------------------------
+            //  CR: 16/02/23
+               << "0010|0010&&"+EliminateAccent(_patient.name())+" "+EliminateAccent(_patient.lastName())+";;"
+            //--------------------------------------------------------------------------
                << "0010|0020&&"+_patient.id()+";;"
                << "0010|0030&&"+_patient.birthday()+";;"
                << "0010|0040&&"+_patient.sex()+";;"
@@ -494,6 +500,29 @@ QByteArray Queue::createMetaData(int){
     return metadata;
 
 }
+
+//-------------------------------------------------
+// CR: 16/02/23
+QString Queue::EliminateAccent(QString s)
+{
+    s.replace("á","a");
+    s.replace("é","e");
+    s.replace("í","i");
+    s.replace("ó","o");
+    s.replace("ú","u");
+
+    s.replace("Á","A");
+    s.replace("É","E");
+    s.replace("Í","I");
+    s.replace("Ó","O");
+    s.replace("Ú","U");
+
+    s.replace("Ñ","N");
+    s.replace("ñ","n");
+
+    return s;
+}
+
 
 QString Queue::dateTimeToDCM(QString v, QString type){
     QDateTime d;

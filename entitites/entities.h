@@ -20,6 +20,8 @@ public:
     bool execute(QString);
     bool insert(QHash<QString, QString> data);
 
+
+
     QStringList showAll();
     QVariant getValue(QString);
     QString tableName();

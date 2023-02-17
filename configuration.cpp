@@ -60,15 +60,16 @@ void configuration::refreshOpe(){
     setMaintenanceForm();
     configWidget->clear();
 
-    if(operators::isAdmin()){
+    if(operators::isSuperAdmin()){
         configWidget->addTab(_serverForm,tr("Servidor"));
         configWidget->addTab(_acquisitionForm,tr("Adquisición"));
         configWidget->addTab(_compressionForm,tr("Compresión"));
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
     }
-    else {
+    else{
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
     }
+
 //--------------------------------------------------------------
 }
 
@@ -308,22 +309,24 @@ void configuration::setMaintenanceForm()
     _maintenanceForm->setObjectName("form");
     QGridLayout * fl = new  QGridLayout(_maintenanceForm);
     setLayoutForm(fl);
-    fl->setSpacing(10);
+    fl->setSpacing(20);
     fl->addWidget(videoButton,0,0);
     fl->addWidget(setvideoButton,0,1);
     fl->addWidget(cleanButton,0,2);
 
-    if(operators::isAdmin())
-    {
-        setvideoButton->setHidden(false);
+    if(operators::isSuperAdmin()){
         cleanButton->setHidden(false);
+        setvideoButton->setHidden(false);        
+    }
+    else if(operators::isAdmin()){
+        cleanButton->setHidden(false);
+        setvideoButton->setHidden(true);
     }
     else
     {
         setvideoButton->setHidden(true);
         cleanButton->setHidden(true);
     }
-
 }
 
 void configuration::checkVideo(){

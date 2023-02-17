@@ -4,7 +4,7 @@ operators::operators() : entities()
 {
     table = "operators";
     id_name = "id";
-    keys << "id" << "name" << "pass" << "admin" <<"enable" ;
+    keys << "id" << "name" << "pass" << "admin" <<"enable"<<"superadmin" ;
     isLogin = false;
     name = "";
 }
@@ -82,8 +82,20 @@ bool operators::logIn(int n, QString p)
 bool operators::isAdmin(){
     operators ope;
     ope.loadData(ope.lastOp());
-    qDebug() << "ISADMIN" <<ope.getValue("admin").toInt();
+
     if (ope.getValue("admin").toInt() == 1 )
         return true;
     else return false;
 }
+
+//-------------------------------------------------
+//  CR: 16/02/23
+bool operators::isSuperAdmin(){
+    operators ope;
+    ope.loadData(ope.lastOp());
+
+    if (ope.getValue("superadmin").toInt() == 1 )
+        return true;
+    else return false;
+}
+//-------------------------------------------------

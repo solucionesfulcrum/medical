@@ -15,6 +15,7 @@ public:
     int lastOp();
     QList<int> listeID(QString );
     static bool isAdmin();
+    static bool isSuperAdmin();
 private:
     bool isLogin;
     QString name;

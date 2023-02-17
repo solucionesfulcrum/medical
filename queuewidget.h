@@ -72,6 +72,8 @@ public:
     void add(int);
     void stop();
     void removeID(int);
+    QString EliminateAccent(QString s);
+
 public slots:
     void next();
 protected:

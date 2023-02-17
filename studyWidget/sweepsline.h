@@ -48,6 +48,7 @@ public:
     int  getActual(int);
     int sweepsSize();
     bool isLast();
+    bool islastBefore();
     void next();
     void prev();
     bool IsCompleted(void);

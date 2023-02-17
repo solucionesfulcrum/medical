@@ -622,7 +622,13 @@ void study::newStudy(bool b){
             studyInfo->setStudyInfoPatient("","");
         }
         _clinicdatawidget->reset();
-        _studyDesc->load();
+
+        patient p;
+        p.loadData(_patient_id);
+        if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+        else _studyDesc->loadWithSex('X',p.age());
+        //_studyDesc->load();
+
         studyInfo->setStudyInfoProtocols("");
         studyInfo->setStudyInfoDateTime("");
         studyInfo->setStudyInfoReason("");

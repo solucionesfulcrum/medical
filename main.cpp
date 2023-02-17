@@ -40,11 +40,17 @@ void updateBD(){
 
 //--------------------------------------------------------------------------------
 //  CR: 27/01/23
-    query = "ALTER TABLE operators ADD COLUMN enable INTEGER DEFAULT 1 NOT NULL";
+    query = "ALTER TABLE operators ADD COLUMN enable INTEGER DEFAULT 0 NOT NULL";
     updated = o.execute(query);
 
-    query = "UPDATE operators SET enable=1 WHERE admin=1";
+    //query = "UPDATE operators SET enable=1 WHERE admin=1";
+    //updated = o.execute(query);
+
+    query = "ALTER TABLE operators ADD COLUMN superadmin INTEGER DEFAULT 0 NOT NULL";
     updated = o.execute(query);
+
+    //query = "UPDATE operators SET privileges=1 WHERE admin=1";
+    //updated = o.execute(query);
 
 //--------------------------------------------------------------------------------
     query = "ALTER TABLE patients ADD COLUMN weight REAL;";
