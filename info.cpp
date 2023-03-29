@@ -53,7 +53,7 @@ void info::setProtocolPulmonar(void)
 {
     _protocolPulmonar = new QWidget;
 
-    QLabel *Label_Pul_Title = new QLabel(tr("Protocolo obstétrico"));
+    QLabel *Label_Pul_Title = new QLabel(tr("Protocolo pulmonar"));
 
     QLabel *Label_Pul_Text =
             new QLabel(tr("1. Dirigido a pacientes desde el\n"
