@@ -546,6 +546,10 @@ void clinicInput::firstUltrasoundCheck()
                 fuu->setMinimumDate(blockDate); //Christiam
                 fuu->setSelectedDate(blockDate);
                 fuu->setEnabled(false);
+            //-------------------------------------------------------
+            //  CR: 19/05/23
+                fuu->hide();
+            //-------------------------------------------------------
             }
             else
             {
@@ -553,6 +557,10 @@ void clinicInput::firstUltrasoundCheck()
                 now = now.currentDate();
                 fuu->setEnabled(true);
                 fuu->setSelectedDate(now);
+            //-------------------------------------------------------
+            // CR: 19/05/23
+                fuu->show();
+            //-------------------------------------------------------
             }
         }
         else

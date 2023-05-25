@@ -85,11 +85,12 @@ void study::setClinicsData(){
 void study::setStudyProtocolsForm(){
     _studyProtocolsFrom = new studyProtocolsForm;
     _studyDesc = new studyProtocols();
+    _studyDesc->_patiend_id = _patient_id;
     connect(_studyDesc,SIGNAL(selected()),this,SLOT(protocolSelected()));
     _studyProtocolsFrom->setObjectName("studyProtocolsFrom");
 
 
-    //Header
+//  Header
     QWidget * headerWidget = new QWidget;
     headerWidget->setFixedHeight(50);
     headerWidget->setObjectName("reasonWidget");
@@ -101,15 +102,18 @@ void study::setStudyProtocolsForm(){
     headerLayout->addSpacing(1);
     headerLayout->setSpacing(0);
     headerLayout->setMargin(0);
-    QPushButton * updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
-    connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
-    updateProtocols->setFixedSize(50,50);
-    updateProtocols->setIconSize(QSize(35,35));
-    updateProtocols->setObjectName("greenButton");
-    headerLayout->addWidget(updateProtocols,0);
 
-    if (!operators::isAdmin()) updateProtocols->hide();
-    else updateProtocols->show();
+//  CR: 23/04/23
+//  If no admin, does not show update protocols button
+    if(operators::isAdmin())
+    {
+        QPushButton * updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
+        connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
+        updateProtocols->setFixedSize(50,50);
+        updateProtocols->setIconSize(QSize(35,35));
+        updateProtocols->setObjectName("greenButton");
+        headerLayout->addWidget(updateProtocols,0);
+    }
 
     //Buttons
     QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
@@ -171,7 +175,7 @@ void study::startStudy(){
                 return;
             }
             else if (e==1){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera del rango [30,300]."),QMessageBox::Ok);
+                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera del rango [30,160]."),QMessageBox::Ok);
                 start->setEnabled(true);
                 return;
             }
@@ -624,7 +628,7 @@ void study::newStudy(bool b){
         _clinicdatawidget->reset();
 
         patient p;
-        p.loadData(_patient_id);
+        p.loadData(_patient_id);        
         if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
         else _studyDesc->loadWithSex('X',p.age());
         //_studyDesc->load();
@@ -654,7 +658,8 @@ void study::patientLoaded(int s){
     studyInfo->setStudyInfoPatient(p.getValue("name").toString(),p.getValue("last_name").toString());
     _patient_id = s;
 //----------------------------------------------------------------
-//  CR:
+//  CR: 24/04/23
+    _studyDesc->_patiend_id = s;
     if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
     else _studyDesc->loadWithSex('X',p.age());
 
@@ -703,21 +708,25 @@ void study::protocolSelected(){
     }
 
 
+    if(ConsentState)
+    {
+        int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
+                                            "Su respuesta se tomará como una declaración jurada, <br />"
+                                            "si fuera positiva implica, que culminó con el llenado <br />"
+                                            "del consentimiento informado y que éste ha sido <br />"
+                                            " firmado por el paciente tratado."),QMessageBox::Yes|QMessageBox::No);
 
-    int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
-                                        "Su respuesta se tomará como una declaración jurada, <br />"
-                                        "si fuera positiva implica, que culminó con el llenado <br />"
-                                        "del consentimiento informado y que éste ha sido <br />"
-                                        " firmado por el paciente tratado."),QMessageBox::Yes|QMessageBox::No);
-
-    if(r==QMessageBox::No){
-        QMessageBox::information(this,tr("Consentimiento informado"),tr("Para continuar debe completar la firma del consentimiento informado."),QMessageBox::Ok);
-        studyForm->slideInPrev();
-        return;
+        if(r==QMessageBox::No){
+            QMessageBox::information(this,tr("Consentimiento informado"),tr("Para continuar debe completar la firma del consentimiento informado."),QMessageBox::Ok);
+            studyForm->slideInPrev();
+            return;
+        }
     }
 
     id_ci = _patient_Document+"_"+QString::number(_studies.getLastElement("id")+1);
-    QMessageBox::information(this,tr("Consentimiento informado"),tr("Código: ")+ id_ci,QMessageBox::Ok);
+
+    if(ConsentState)
+        QMessageBox::information(this,tr("Consentimiento informado"),tr("Código: ")+ id_ci,QMessageBox::Ok);
 
     start->setEnabled(true);
     _clinicdatawidget->setProtocols(_studyDesc->getValue());        
@@ -725,7 +734,10 @@ void study::protocolSelected(){
     studyForm->slideInNext();    
 }
 
-
+void study::Slot_Consent(bool state)
+{
+    ConsentState = state;
+}
 
 bool study::Falta_FUR_o_FPP(){
     QString datos,fecha;
@@ -774,7 +786,8 @@ uint8_t study::validateCardiacBeat()
                 if(frequency==-32768)   return 2;
              //--------------------------------------------------------
              // CR: 04/01/23
-                if( (frequency<30) || (frequency>300) )  return 1;
+             // CR: 19/05/23
+                if( (frequency<30) || (frequency>160) )  return 1;
              //--------------------------------------------------------
                 else    return 0;
             }
@@ -805,11 +818,8 @@ bool study::Falta_trimestre(){
 }
 
 
-//Falta Agregar el chequeo del ultimo ultrasonido por aca
-//para poder resolver el problema de si la persona se olvido o no
 void study::MuestraUltimoUltrasonido()
 {
-    qDebug() << "Attempting to retrieve calendar and checkbox";
     QObject* p = this->parent();
     QCheckBox* uecb = p->findChild<QCheckBox*>("uecb");
     QCalendarWidget* fuu = p->findChild<QCalendarWidget*>("FUU");

@@ -29,6 +29,7 @@ configuration::configuration(QMedicalBoxWidget *parent) : QMedicalBoxWidget(pare
     setAcquisitionForm();
     setCompressionForm();
     setMaintenanceForm();
+    setConfigurationForm();
     saveButton = new QPushButton(tr("Guardar"),this);
     saveButton->setObjectName("greenButton");
     saveButton->setFixedWidth(200);
@@ -65,6 +66,7 @@ void configuration::refreshOpe(){
         configWidget->addTab(_acquisitionForm,tr("Adquisición"));
         configWidget->addTab(_compressionForm,tr("Compresión"));
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
+        configWidget->addTab(_configurationForm,tr("Configuraciones"));
     }
     else{
         configWidget->addTab(_maintenanceForm,tr("Mantenimiento"));
@@ -77,13 +79,13 @@ void configuration::setInputs(){
     _name = new QVkLineEdit;
     _pass = new QVkLineEdit;
     _serverIp = new TouchComboBox;
-    //_serverIp->setItems(QStringList() << "http://158.69.95.75" << "http://158.69.86.81" << "http://40.74.246.61");
     _serverIp->setItems(_config.serverList());
     _modelUS = new QVkLineEdit;
 
     equipo = new TouchComboBox;
     QStringList  hw;
-    //Liste source video
+
+//  List source video
     QList<QByteArray> listaCamaras = cam.availableDevices();
     if ( listaCamaras.size() > 0 ) {
         for (int i=0; i<listaCamaras.size(); i++) {
@@ -112,14 +114,24 @@ void configuration::setInputs(){
     _pixelConf->setItems(QStringList() << tr("yuv420p"));
 
     _keep_uncompressed = new QCheckBox();
+    _consent = new QCheckBox();
+
+    QStringList  TimeoutList;
+    for (int x = 5; x <= 60; x+=5)
+        TimeoutList << QString::number(x);
+    _TimeoutInactivity = new TouchComboBox;
+    _TimeoutInactivity->setItems(TimeoutList);
+
 
     QStringList  bitrate;
     for (int x = 200; x < 2000; x+=100)
         bitrate << QString::number(x);
     _defaultvideobitrate = new TouchComboBox;
     _defaultvideobitrate->setItems(bitrate);
+
     _vbitratemin = new TouchComboBox;
     _vbitratemin->setItems(bitrate);
+
     _vbitratemax = new TouchComboBox;
     _vbitratemax->setItems(bitrate);
 
@@ -135,9 +147,11 @@ void configuration::setInputs(){
              << _pixelConf
              << _vbitratemin
              << _vbitratemax
+             << _TimeoutInactivity
              << equipo;
 
     connect(_keep_uncompressed,SIGNAL(toggled(bool)),this,SLOT(isChanged(bool)));
+    connect(_consent,SIGNAL(toggled(bool)),this,SLOT(isChanged(bool)));
     foreach (QLineEdit * edt, editline)
         connect(edt,SIGNAL(textChanged(QString)),this,SLOT(isChanged(QString)));
 
@@ -182,6 +196,23 @@ void configuration::save()
         data.insert("keep_uncompressed","1");
     else
         data.insert("keep_uncompressed","0");
+//-------------------------------------------------------------------------
+//  CR: 15/05/23
+    if(_consent->isChecked())
+    {
+        data.insert("consent","1");
+        emit Signal_Consent(true);
+    }
+    else
+    {
+        data.insert("consent","0");
+        emit Signal_Consent(false);
+    }
+
+    data.insert("timeout",_TimeoutInactivity->text());
+    emit Signal_Timeout(_TimeoutInactivity->text().toInt());
+
+//-------------------------------------------------------------------------
     _config.update(data);
     changed = false;
     saveButton->setEnabled(false);
@@ -201,10 +232,22 @@ void configuration::load(){
     _vbitratemax->setText(_config.getValue("VBITRATEMAX").toString());
     _modelUS->setText(_config.getValue("modelUS").toString());
     equipo->setText(_config.getValue("device").toString());
+
     if(_config.getValue("keep_uncompressed").toInt() == 0)
         _keep_uncompressed->setChecked(false);
     else _keep_uncompressed->setChecked(true);
 
+//--------------------------------------------------------------------------
+//  CR: 17/05/23
+    if(_config.getValue("consent").toInt()==0)
+        _consent->setChecked(false);
+    else
+        _consent->setChecked(true);
+
+    _TimeoutInactivity->setText(_config.getValue("timeout").toString());
+
+
+//--------------------------------------------------------------------------
     changed = false;
     saveButton->setEnabled(false);
 }
@@ -328,6 +371,27 @@ void configuration::setMaintenanceForm()
         cleanButton->setHidden(true);
     }
 }
+
+//----------------------------------------------------
+//  CR: 15/05/23
+void configuration::setConfigurationForm()
+{
+    _configurationForm = new QWidget;
+    _configurationForm->setObjectName("form");
+    QVBoxLayout * fl = new  QVBoxLayout(_configurationForm);
+    setLayoutForm(fl);
+    QLabel *LabelTimeout = new QLabel(tr("Tiempo para deslogueo automático"));
+    QLabel *LabelContent = new QLabel(tr("Habilitar/deshabilitar consentimiento informado"));
+
+    fl->addWidget(LabelTimeout);
+    fl->addWidget(_TimeoutInactivity);
+    fl->addSpacing(15);
+
+    fl->addWidget(LabelContent);
+    fl->addWidget(_consent);
+    fl->addSpacing(15);
+}
+//----------------------------------------------------
 
 void configuration::checkVideo(){
     QString device;

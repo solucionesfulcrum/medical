@@ -28,20 +28,20 @@ private slots:
 signals:
     void loadStudyId(int);
 
-private:
-    void setSearchBox();
+private:    
+    void setSearchBox(void);
     QScrollArea * area;
     QWidget *searchbox;
     QWidget *listBox;
     QVBoxLayout *listBoxLayout;
-    TouchComboBox *date, * protocols, *status;
+    TouchComboBox *date, * protocols, *status,*state;
     QVkLineEdit * name;
     datebox * from, *to;
     QPushButton * searchbutton;
     studies _studies;
     QList<QHistWidget*> studiesWidget;
     QHash<int,QString> protocolsHash;
-    QStringList dateItem;
+    QStringList dateItem,stateItem;
 
 
 

@@ -14,6 +14,7 @@ public:
     ~studyProtocols();
     QString text();
     int getValue();
+    int _patiend_id;
 signals:
     void selected();
 public slots:

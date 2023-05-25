@@ -45,7 +45,9 @@ QList<int> studies::listeID(QString s){
     if(s == "")
         q = "SELECT id FROM studies ORDER BY starttime desc";
     else q = s;
-    //qDebug() << q;
+
+    qDebug() << q;
+
     QSqlQuery query(q);
     while (query.next())
         result.append(query.value(0).toInt());
@@ -161,15 +163,22 @@ QString studies::getData(){
 
 QString studies::getStateName(int v){
     switch(v){
-    case -1: return "Pendiente"; break;
-    case 0: return "Terminado"; break;
-    case 1: return "Confirmado"; break;
+//-------------------------------------------------
+//  CR: 15/05/23
+//  case -1: return "Pendiente"; break;
+//  case 0: return "Terminado"; break;
+//  case 1: return "Confirmado"; break;
+    case -1: return "Incompleto"; break;
+    case 0: return "Sin enviar"; break;
+    case 1: return "Enviado"; break;
+//-------------------------------------------------
     case 2: return "Asignado"; break;
     case 3: return "Diagnosticado"; break;
     case 4: return "Enviado"; break;
     case 5: return "Firmado"; break;
     case 6: return "Rechazado"; break;
     case 7: return "Desactivado"; break;
+    default: break;
     }
 }
 

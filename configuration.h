@@ -50,8 +50,12 @@ public:
     explicit configuration(QMedicalBoxWidget *parent = 0);
     ~configuration();
     void updateCams();
+    TouchComboBox   * _TimeoutInactivity;
+    QCheckBox       *_consent;
 
 signals:
+    void Signal_Consent(bool);
+    void Signal_Timeout(int);
 
 private slots:
     void save();
@@ -73,6 +77,7 @@ private:
     void setAcquisitionForm();
     void setCompressionForm();
     void setMaintenanceForm();
+    void setConfigurationForm();
     void load();
 
     void RunCmd(QString comando);
@@ -88,14 +93,18 @@ private:
     * _serverForm,
     * _acquisitionForm,
     * _compressionForm,
-    * _maintenanceForm;
+    * _maintenanceForm,
+    * _configurationForm;
+
     QVkLineEdit
     * _pass,
     * _name,
-    * _modelUS
-    ;
+    * _modelUS;
+
     QCheckBox
     * _keep_uncompressed;
+
+
     TouchComboBox
     * _serverIp,
     * _defaultvideobitrate,
@@ -104,8 +113,7 @@ private:
     * _size,
     * _pixelConf,
     * _vbitratemin,
-    * _vbitratemax
-    ;
+    * _vbitratemax;
 
     QPushButton * saveButton;
     QPushButton *cleanButton;

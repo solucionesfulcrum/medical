@@ -9,8 +9,8 @@ checkBandwith::checkBandwith(QWidget *parent)
     IsRunning = false;
 
     _startCheck = new QPushButton(QIcon(":/icon/res/img/footer/band.png"),tr(""));
-    _startCheck->setFixedSize(50,50);
-    _startCheck->setIconSize(QSize(50,50));
+    _startCheck->setFixedSize(35,35);
+    _startCheck->setIconSize(QSize(26,26));
     connect(_startCheck,SIGNAL(clicked()),this,SLOT(start()));
 
     _valueLabel = new QLabel(tr("Desconocido"));
@@ -57,9 +57,11 @@ void checkBandwith::Finished(int, QProcess::ExitStatus ){
     if(mProcessMsg.contains("recibidos = 1")){
         status = 0;
         _valueLabel->setText("Conectado");
+        _startCheck->setStyleSheet("background-color: #FFFFFF;  border-radius:3px; ");
     }
     else{
         _valueLabel->setText("No conectado");
+        _startCheck->setStyleSheet("background-color: #FF5454;  border-radius:3px; ");
     }
     IsRunning = false;
 

@@ -33,6 +33,7 @@ public:
     study(QMedicalBoxWidget *parent = nullptr);
     ~study();
     int8_t wifi_status;
+    bool ConsentState;
 
 public slots:
     void patientLoaded(int);
@@ -44,6 +45,7 @@ public slots:
     bool isCapturing();
     void isnewStudy(bool = false);
     void Wifi_status(int8_t);
+    void Slot_Consent(bool);
 
 signals:
     void studyStarted(bool);

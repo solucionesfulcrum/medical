@@ -25,6 +25,7 @@ historical::historical(QMedicalBoxWidget *parent) : QMedicalBoxWidget(parent)
     mainLayout->addWidget(area,3);
     mainLayout->setSpacing(0);
     mainLayout->setMargin(20);
+
 }
 
 historical::~historical()
@@ -51,6 +52,10 @@ void historical::setSearchBox(){
 
 
     name = new QVkLineEdit;
+//------------------------------------------
+//  CR: 19/05/23
+    state = new TouchComboBox;
+//------------------------------------------
     date = new TouchComboBox;
     protocols = new TouchComboBox;
     status = new TouchComboBox;
@@ -59,9 +64,16 @@ void historical::setSearchBox(){
     from->setEnabled(false);
     to->setEnabled(false);
 
+//-------------------------------------------------------------------------------------------------------
+//  CR: 19/05/23
+    stateItem << tr("Sin enviar") << tr("Incompleto") << tr("Todos");
+    state->setItems(stateItem);
+    state->setText(stateItem.at(2));
+//-------------------------------------------------------------------------------------------------------
+
     dateItem << tr("Hoy") << tr("3 días") << tr("7 días") << tr("30 días") << tr("Personalizado");
     date->setItems(dateItem);
-    date->setText(dateItem.at(0));
+    date->setText(dateItem.at(3));
     connect(date,SIGNAL(textChanged(QString)),this,SLOT(setDate(QString)));
     studydesc sd;
 
@@ -83,6 +95,7 @@ void historical::setSearchBox(){
     searchbutton->setIconSize(QSize(32,32));
 
     QLabel *patientLabel = new QLabel(tr("Paciente"));
+    QLabel *stateLabel = new QLabel(tr("Estado"));
     QLabel *dateLabel = new QLabel(tr("Fecha predeterminada"));
     QLabel *protLabel = new QLabel(tr("Protocolo"));
     QLabel *dateLabelb = new QLabel(tr("Fecha (De - Hasta)"));
@@ -91,6 +104,12 @@ void historical::setSearchBox(){
     layout->addSpacing(15);
     layout->addWidget(patientLabel);
     layout->addWidget(name);
+//---------------------------------------------
+//  CR: 15/05/23
+    layout->addSpacing(15);
+    layout->addWidget(stateLabel);
+    layout->addWidget(state);
+//---------------------------------------------
     layout->addSpacing(15);
     layout->addWidget(dateLabel);
     layout->addWidget(date);
@@ -103,7 +122,7 @@ void historical::setSearchBox(){
     layout->addWidget(protocols);
     layout->addSpacing(15);
     layout->addWidget(searchbutton,1,Qt::AlignCenter);
-    setDate(dateItem.at(0));
+    setDate(dateItem.at(3));
 
 }
 
@@ -117,6 +136,9 @@ void historical::reset(){
 }
 
 void historical::load(){
+
+    state->setText(stateItem.at(2));
+    date->setText(dateItem.at(3));
 
 //  Christiam: Valido si es nombre,dni,apellido o nombre apellido o apellido nombre
     QString _cad1,_cad2,temp;
@@ -136,10 +158,13 @@ void historical::load(){
     }
 
     int _protocols = protocolsHash.key(protocols->text());
+
     QDateTime fromDate(from->date());
     fromDate.setTime(QTime(0,0,0));
+
     QDateTime toDate(to->date());
     toDate.setTime(QTime(23,59,59));
+
     uint timestampTo = toDate.toTime_t();
     uint timestampFrom = fromDate.toTime_t();
 
@@ -165,6 +190,16 @@ void historical::load(){
             query += "AND pl.id = "+QString::number(_protocols)+" ";
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
+
+        if(state->text()=="Incompleto")
+        {
+            query += "AND s.state = -1 ";
+        }
+        else if(state->text()=="Sin enviar")
+        {
+            query += "AND s.state = 0 ";
+        }
+
         query += "ORDER BY starttime desc";
     }
     else {
@@ -184,11 +219,19 @@ void historical::load(){
             query += "AND pl.id = "+QString::number(_protocols)+" ";
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
+
+        if(state->text()=="Incompleto")
+        {
+            query += "AND s.state = -1 ";
+        }
+        else if(state->text()=="Sin enviar")
+        {
+            query += "AND s.state = 0 ";
+        }
+
         query += "ORDER BY starttime desc";
     }
 
-
-    qDebug() << query;
     QList<int> o = _studies.listeID(query);
     for(int i = 0; i<o.size(); i++){
         _studies.loadData(o.at(i));

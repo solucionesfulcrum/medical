@@ -41,20 +41,15 @@ void studyProtocols::updateProtocols(){
 void studyProtocols::updated(){
 
     if(dsc->err == ""){
-        /*
         patient p;
-        p.loadData(s);
+        p.loadData(_patiend_id);
         if(p.sex()=="Masculino")    loadWithSex('M',p.age());
         else loadWithSex('X',p.age());
-        */
-        load();
         dg->close();
     }
     else{
         updateStatus->setText(dsc->err);
     }
-
-
 }
 
 //----------------------------------------------------------------

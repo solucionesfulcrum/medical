@@ -43,18 +43,17 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.8 (27/09/2021)";
     //version = "2.3.9 (24/05/2022)";
     //version = "2.4.0 (09/02/2023)";
-    version = "2.4.1   (17/02/2023)";
+    //version = "2.4.1   (17/02/2023)";
+    version = "2.4.2   (25/05/2023)";
 
     // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
     accesor::stopEffect();
 
-    //To discomment
-    //setWindowFlags(Qt::Window | Qt::FramelessWindowHint );
     showFullScreen();
     setObjectName("mw");
-
+    
 //  Create the process of checking studies
     _studycheck = new studyCheck;
 
@@ -70,8 +69,21 @@ MainWindow::MainWindow(QWidget *parent)
 //  Queue: Contains the list of studies send it to the server
     setQueueWidget();
 
-    //Set Main Widget
+//  Set Main Widget
     setMainWidget();
+
+//-----------------------------------------------------------------------------------
+//  CR: 17/05/23
+    TimerInactivity = new QTimer;
+    TimerInactivity->setInterval(1000*60*_configuration->_TimeoutInactivity->text().toInt());
+    connect(TimerInactivity,SIGNAL(timeout()),this,SLOT(LogoutForTimeout()));
+    setMouseTracking(true);
+//-----------------------------------------------------------------------------------
+//  CR: 18/05/23
+    connect(_configuration,SIGNAL(Signal_Timeout(int)),this,SLOT(Slot_Timeout(int)));
+    connect(_configuration,SIGNAL(Signal_Consent(bool)),_study,SLOT(Slot_Consent(bool)));
+
+//-----------------------------------------------------------------------------------
 
     //SetMenu
     menu();
@@ -115,13 +127,35 @@ MainWindow::MainWindow(QWidget *parent)
     else  _queue->setGeometry(hideQueueGeometry);
     move ( 0, 0 );
 
+
 }
+//------------------------------------------------------------------
+//  CR: 17/05/23
+void MainWindow::Slot_Timeout(int t)
+{
+    TimerInactivity->setInterval(1000*60*t);
+}
+//------------------------------------------------------------------
 
 void MainWindow::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton ){
         QVirtualKeyboard::vk->finish();
     }
+    TimerInactivity->stop();        // Reset timer
+    TimerInactivity->start();
+
 }
+
+/*
+void MainWindow::mouseMoveEvent(QMouseEvent *event)
+{
+    if ((event->buttons() & Qt::LeftButton))
+    {
+        TimerInactivity->stop();        // Reset timer
+        TimerInactivity->start();
+    }
+}*/
+
 
 void MainWindow::setSizes(){
     headerheight = 60;
@@ -145,13 +179,19 @@ void MainWindow::setLogin(){
     login->_pass->vk->edit->setEchoMode(QLineEdit::Password);
 //--------------------------------------------------------------
     mainWidget->slideInIdx(0,SlidingStackedWidget::LEFT2RIGHT);
-    //Stop Checking studies
+
+//  Stop Checking studies
     _studycheck->stop();
     if(isQueue)
         toggleQueue();
 }
 
 void MainWindow::setMainWindow(){
+//-------------------------------------------
+//  CR: 10/05/23
+    TimerInactivity->start();
+//-------------------------------------------
+
     mainWidget->slideInIdx(1,SlidingStackedWidget::RIGHT2LEFT);
     login->init();
     _configuration->refreshOpe();
@@ -401,7 +441,7 @@ void MainWindow::uncheckMenu(){
 }
 
 void MainWindow::loadStudy(int id){
-    setmenuUS();
+    setmenuUS();    
     _study->loadStudy(id);
 }
 
@@ -433,10 +473,12 @@ void MainWindow::setmenuConfig(){
 void MainWindow::setmenuHist(){
     if (_main->currentIndex() != 3)
         _historical->reset();
+    _historical->load();
     setmenu(3);
     uncheckMenu();
     menuHist->setChecked(true);
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_02.png"));
+
 }
 
 void MainWindow::setmenuOperador(){
@@ -469,11 +511,17 @@ void MainWindow::setMainWidget(){
     _study->setQueueWidget(_queue);
     connect(_study,SIGNAL(studyStarted(bool)),this,SLOT(setMenuDisabled(bool)));
 
+
     _visor = new visor;
     _configuration = new configuration;
     _historical = new historical();    
     _historical->setQueueWidget(_queue);
     connect(_historical,SIGNAL(loadStudyId(int)),this,SLOT(loadStudy(int)));
+
+//------------------------------------------------------------------------------
+//  CR: 17/05/23
+    _study->ConsentState = _configuration->_consent->isChecked();
+//------------------------------------------------------------------------------
 
     _info = new info;
 
@@ -627,3 +675,20 @@ void MainWindow::closeSystem(){
 void MainWindow::closeEvent(QCloseEvent *){
     //ExitWindowsEx(EWX_SHUTDOWN,0);
 }
+/*
+bool MainWindow::notify(QObject *receiver, QEvent *event)
+{
+    if ( (event->type() == QEvent::MouseMove) || (event->type() == QEvent::KeyPress) )
+    {
+        TimerInactivity->stop(); // reset timer
+        TimerInactivity->start();
+    }
+    return MainWindow::notify(receiver, event);
+}*/
+
+void MainWindow::LogoutForTimeout(void)
+{
+    TimerInactivity->stop();
+    setLogin();
+}
+

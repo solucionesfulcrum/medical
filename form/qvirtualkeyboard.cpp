@@ -183,7 +183,7 @@ QVirtualKeyboard::~QVirtualKeyboard(){
 }
 
 QPushButton * QVirtualKeyboard::createButton(QString s){
-    QPushButton * pb = new QPushButton(s);
+    QPushButton * pb = new QPushButton(s);    
     pb->setFixedHeight(80);
     keyboard->addButton(pb);
     return pb;

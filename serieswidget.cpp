@@ -317,6 +317,20 @@ void SeriesWidget::startRecord(){
     }
 }
 
+void SeriesWidget::stopRecord(){
+    if (isCapturing){
+        // QSound::play("sound/stop.wav");
+        _captureProcess->stopRecord();
+        _captureButton->setBlock(true);
+        _captureButton->setInfo(tr("Guardando"));
+        poller->stop();
+        t.setHMS(0,0,0);
+        t = t.addMSecs(_time.elapsed());
+    }
+
+}
+
+
 void SeriesWidget::processStarted(){
     //QSound::play("sound/start.wav");
     QHash<QString,QString> data;
@@ -332,18 +346,7 @@ void SeriesWidget::processStarted(){
     poller->start(100);
 }
 
-void SeriesWidget::stopRecord(){
-    if (isCapturing){
-        // QSound::play("sound/stop.wav");
-        _captureProcess->stopRecord();
-        _captureButton->setBlock(true);
-        _captureButton->setInfo(tr("Guardando"));
-        poller->stop();
-        t.setHMS(0,0,0);
-        t = t.addMSecs(_time.elapsed());
-    }
 
-}
 
 void SeriesWidget::processFinished(int i){
 //  Kill Process in case exist

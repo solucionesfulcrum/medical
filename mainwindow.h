@@ -3,6 +3,8 @@
 
 #include <QtWidgets>
 #include <QNetworkConfigurationManager>
+#include <QEvent>
+#include <QMouseEvent>
 
 #include <queuewidget.h>
 #include <configuration.h>
@@ -46,16 +48,16 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     //static QGraphicsBlurEffect* effect;
     //static MainWindow *mw;
 
 protected:
-    void mousePressEvent(QMouseEvent *);
-    void resizeEvent(QResizeEvent* event);
-    void closeEvent(QCloseEvent *ev);
-
+    void mousePressEvent(QMouseEvent *event) override;
+    //void mouseMoveEvent(QMouseEvent *event) override;
+    void resizeEvent(QResizeEvent* event) override;
+    void closeEvent(QCloseEvent *ev) override;
 
 
 private slots:
@@ -75,6 +77,9 @@ private slots:
     void closeSystem();
     void queueFinished();
     void setMenuDisabled(bool);
+    void LogoutForTimeout(void);
+    void Slot_Timeout(int);
+
 
 private:
     void setQueueGeometry();
@@ -97,8 +102,7 @@ private:
     SlidingStackedWidget * mainWidget;
     QString version;
 
-
-
+    QTimer *TimerInactivity;
 
     checkBandwith *cb;
     operators ope;
