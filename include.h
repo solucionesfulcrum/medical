@@ -6,6 +6,11 @@
 #define study_finished  "1"
 #define study_sended    "2"
 
+#define state_incomplete        "-1"
+#define state_ontransmission    "0"
+#define state_send              "1"
+#define state_assigned          "2"
+#define state_diagnosticated    "3"
 
 #include <QString>
 #include <QtWidgets>
@@ -27,7 +32,7 @@ static QString apiurlprotocols      = "/api/protocols";
 static QString apiurlsend           = "/api/dicoms/save";
 static QString apiurlcheckstudy     = "/api/studies/status";
 static QString apiurlstudyConfirm   = "/api/studies/confirm";
-
+static QString apiurlcheckConn      = "/api/serverStatus";
 
 
 #endif // INCLUDE

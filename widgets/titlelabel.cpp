@@ -1,15 +1,21 @@
 #include "titlelabel.h"
 
-titlelabel::titlelabel(QString t, QWidget *parent) : QWidget(parent)
+titlelabel::titlelabel(QString t,QFont f, QWidget *parent) : QWidget(parent)
 {
     title = t;
 
+//---------------------------------------
 //  CR: 02/02/21
-    setFixedSize(600,40);
+    setFixedSize(600,55);
+//---------------------------------------
     line = true;
     update();
     lineWidth = 180;
     textalign = Qt::AlignCenter;
+//---------------------------------------
+//  CR: 02/07/23
+    font = f;
+//---------------------------------------
 }
 
 void titlelabel::setText(QString t){
@@ -33,6 +39,7 @@ void titlelabel::setAlignment(Qt::Alignment a){
 
 void titlelabel::paintEvent(QPaintEvent *){
     QPainter painter(this);
+
     painter.setRenderHints(QPainter::Antialiasing | QPainter::HighQualityAntialiasing );
 
     QPen pen(QColor("#00D4D8"), 1, Qt::SolidLine, Qt::RoundCap, Qt::RoundJoin);
@@ -44,7 +51,7 @@ void titlelabel::paintEvent(QPaintEvent *){
 
     //painter.setFont(QFont("Arial",15));   //Christiam
     //painter.setFont(QFont("Arial",16));
-    painter.setFont(QFont("Arial",12));
+    painter.setFont(font);
     painter.drawText(QRect(0,0,width(),height()),textalign | Qt::AlignVCenter ,title);
 
     int diff = (width()-lineWidth)/2;

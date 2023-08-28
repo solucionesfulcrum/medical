@@ -4,16 +4,31 @@ QString HTTPsender::API= apiurlsend;
 
 HTTPsender::HTTPsender(QObject *o) : QObject(o)
 {       
-    //connect(&m_WebCtrl,SIGNAL(authenticationRequired(QNetworkReply*, QAuthenticator*)),SLOT(provideAuth(QNetworkReply*, QAuthenticator*)));
+
+    stateConnection = false;        // In the event of a lost of internet the slot handleNetworkAccesibleChange
+                                    // emit two signals with the same ID.
+
     connect(&m_WebCtrl,SIGNAL(finished(QNetworkReply*)),this,SLOT(finished(QNetworkReply*)));
     connect(&m_WebCtrl,&QNetworkAccessManager::authenticationRequired,this,&HTTPsender::provideAuth);
     connect(&m_WebCtrl,&QNetworkAccessManager::sslErrors,this,&HTTPsender::sslErrors);
-
-    //connect(&m_WebCtrl,SIGNAL(sslErrors),this,SLOT(SSL))
+    connect(&m_WebCtrl,&QNetworkAccessManager::networkAccessibleChanged,this,&HTTPsender::handleNetworkAccessibleChange);
 }
 
 HTTPsender::~HTTPsender(){
 }
+
+void HTTPsender::handleNetworkAccessibleChange(QNetworkAccessManager::NetworkAccessibility accessible)
+{
+    if ((accessible == QNetworkAccessManager::NotAccessible) && (stateConnection==true))
+    {
+             qDebug() << "Internet connection lost";
+             stateConnection = false;
+             emit isError(id);
+    }
+
+}
+
+
 
 void HTTPsender::sslErrors(QNetworkReply* reply,const QList<QSslError>& errors){
     qDebug()<<"CR: SSL Errors";
@@ -60,7 +75,6 @@ void HTTPsender::send(int i)
     videopart.setHeader(QNetworkRequest::ContentDispositionHeader, QVariant("form-data; name=\"videofile\""));
     file->open(QIODevice::ReadOnly);
     qint64 videoFileSize = file->size();
-    qDebug()<<"Video size: " +QString::number(videoFileSize);
     videopart.setBodyDevice(file);
     file->setParent(mtp);
     mtp->append(videopart);
@@ -91,12 +105,10 @@ void HTTPsender::send(int i)
     addPart("operator",_studies.operatorName());
 
     //Add Study Start Datetime
-    addPart("study[start_date_time]",_studies.datetimetoFormat(_studies.getValue("starttime").toString(),"yyyy-MM-dd HH:mm:ss"));
-    qDebug()<<"StartTime"<<_studies.getValue("starttime").toString();
+    addPart("study[start_date_time]",_studies.datetimetoFormat(_studies.getValue("starttime").toString(),"yyyy-MM-dd HH:mm:ss"));   
 
     //Add Study Stop Datetime
-    addPart("study[stop_date_time]",_studies.datetimetoFormat(_studies.getValue("finishtime").toString(),"yyyy-MM-dd HH:mm:ss"));
-    qDebug()<<"StartTime"<<_studies.getValue("finishtime").toString();
+    addPart("study[stop_date_time]",_studies.datetimetoFormat(_studies.getValue("finishtime").toString(),"yyyy-MM-dd HH:mm:ss"));    
 
     //Add Study Reason
     addPart("study[reason]","-"+_studies.reason());
@@ -202,7 +214,7 @@ void HTTPsender::send(int i)
     connect(p,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
     connect(p,SIGNAL(finished()), this, SLOT(GetReply()));
     connect(p,SIGNAL(error(QNetworkReply::NetworkError)), this, SLOT (UploadError(QNetworkReply::NetworkError)));
-    qDebug()<<"CR: Initialize sending";
+
 
 }
 
@@ -211,7 +223,8 @@ void HTTPsender::GetReply(){
 }
 
 void HTTPsender::UploadError(QNetworkReply::NetworkError err){
-    qDebug()<<"Network Reply error: "<<err;
+    qDebug()<<"Upload Error: "<<err;
+    //emit isError(id);
 }
 
 void HTTPsender::addPart(QString key, QString value, QString type){    
@@ -228,9 +241,9 @@ void HTTPsender::addDevicePart(QString key, QFile* value, QString type){
     mtp->append(Part);
 }
 
-void HTTPsender::showError(QNetworkReply::NetworkError ){
-    //qDebug() << err;
-    emit isError(id);
+void HTTPsender::showError(QNetworkReply::NetworkError err ){
+    qDebug() << err;
+    //emit isError(id);
 }
 
 void HTTPsender::dl(qint64 a ,qint64 n){
@@ -242,9 +255,8 @@ void HTTPsender::state(){
 }
 
 void HTTPsender::finished(QNetworkReply* pReply){
-    qDebug()<<"CR: Post finished";
+
     QByteArray res = pReply->readAll();
-    qDebug() << "CR: Finished " << id << pReply->errorString() << res ;
 
     QFile errfile("HTTPres.txt");
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
@@ -263,7 +275,6 @@ void HTTPsender::finished(QNetworkReply* pReply){
 
     QJsonDocument itemDoc = QJsonDocument::fromJson(res);
     QJsonObject rootObject = itemDoc.object();
-    //qDebug() << rootObject;
     bool success = false;
     if(rootObject.contains("result") && rootObject.value("result").toString() == "success" )
         success = true;
@@ -276,6 +287,7 @@ void HTTPsender::finished(QNetworkReply* pReply){
         delete file;
         delete filemeta;
 
+        stateConnection = true;
 
         //Copy Uncompressed to other folder
         _series.loadData(id);
@@ -309,7 +321,6 @@ void HTTPsender::finished(QNetworkReply* pReply){
         emit isFinished(id,_series.id_study());
     }
     else{
-        qDebug() << rootObject.value("error").toString();
         emit isError(id);
     }
 }
@@ -369,11 +380,12 @@ void Queue::run(){
                                   "-i "+video+" -c:v libx264 "
                                               "-pix_fmt yuv420p -b [VIDEOBITRATE]k "+video_cpr+"";
                 config cf;
-                qDebug() << cf.getValue("DEFAULTVIDEOBITRATE").toString();
+                //qDebug() << cf.getValue("DEFAULTVIDEOBITRATE").toString();
                 program = program.replace("[FPS]",cf.getValue("fps").toString());
                 program = program.replace("[SIZE]",cf.getValue("SIZE").toString());
                 program = program.replace("[PIXELCONF]",cf.getValue("PIXELCONF").toString());
                 program = program.replace("[VIDEOBITRATE]",cf.getValue("DEFAULTVIDEOBITRATE").toString());
+
                 compress->start(program);
                 qDebug() << "Start Compression" << program;
                 qDebug() << "Result:" << compress->waitForFinished(60000);
@@ -534,6 +546,8 @@ QString Queue::dateTimeToDCM(QString v, QString type){
     else return d.toString("yyyyMMdd");
 }
 
+//--------------------------------------------------------------------------------------------------------------------
+//--------------------------------------------------------------------------------------------------------------------
 
 QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
 {
@@ -542,10 +556,10 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
     QHBoxLayout * m = new QHBoxLayout(this);
     m->addWidget(qo);
     qo->setFixedWidth(270);
-//    m->setSpacing(0);
-//    m->setMargin(0);
+//  m->setSpacing(0);
+//  m->setMargin(0);
     _series.loadData(id);
-    //QLabel * title = new QLabel(studies::datetimetoFormat(_series.datetime()));
+//  QLabel * title = new QLabel(studies::datetimetoFormat(_series.datetime()));
 
 //------------------------------------------------------------------
 //  CR:
@@ -580,7 +594,7 @@ QueueObject::QueueObject(int id, QWidget *parent) : QWidget(parent)
 
     pb = new QProgressBar;
     pb->setFixedHeight(5);
-    //pb->setFixedWidth(270);
+//  pb->setFixedWidth(270);
     pb->setTextVisible(false);
 
 
@@ -622,8 +636,8 @@ bool QueueObject::isFinished(){
     return finished;
 }
 
-void QueueObject::deleteQueue(){
-    qDebug() << "Del";
+void QueueObject::deleteQueue(void)
+{
     emit deleteWidg(_id);
 }
 
@@ -715,10 +729,11 @@ QueueWidget::QueueWidget(QWidget *parent) : QWidget(parent)
     QHBoxLayout * hlayout = new QHBoxLayout(header);
     hlayout->addWidget(htitle,Qt::AlignCenter);
     hlayout->addWidget(cleanButton);
-
+//------------------------------------------------------------------
 //  CR: 01/02/21
 //  hlayout->setSpacing(0);
 //  hlayout->setMargin(0);
+//------------------------------------------------------------------
 
     _infoWidget = new QWidget;
     _infoWidget->setObjectName("QueueInfoWidget");
@@ -757,7 +772,6 @@ QueueWidget::QueueWidget(QWidget *parent) : QWidget(parent)
     _area->setObjectName("Queue");
     _area->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
     QScroller::grabGesture(_area->viewport(),QScroller::LeftMouseButtonGesture);
-    //_area->setFixedSize(282,670);
     _area->setWidgetResizable(true);
     _area->setWidget(QueueWidgetList);
 
@@ -845,7 +859,9 @@ void QueueWidget::isCrypted(int id){
 }
 
 void QueueWidget::isError(int id){
-    foreach (QueueObject *queue, queuesObjects) {
+
+    foreach (QueueObject *queue, queuesObjects)
+    {
         if(queue->id() == id){            
             queue->error();
             infoLabel->setText(tr("Error (")+QString::number(id)+tr(")"));
@@ -857,7 +873,8 @@ void QueueWidget::isError(int id){
 }
 //--------------------------------------------------------------------------
 // CR: 24/01/23
-void QueueWidget::isFinished(int id, int id_study){
+void QueueWidget::isFinished(int id, int id_study)
+{
     QHash<QString,QString> data;
     //data.insert("sent",QString::number(v));
     data.insert("sent",QString::number(1));
@@ -867,6 +884,19 @@ void QueueWidget::isFinished(int id, int id_study){
         quee->isSent();        
         infoLabel->setText(tr("Enviado (")+QString::number(id)+tr(")"));
     }
+
+//-----------------------------------------------------------------------------
+//  CR: 11/06/23
+    if(_series.studyFinished(id_study))
+    {
+        //_studies.loadData(_series.id_study());
+        //_studies.loadData(id_study);
+        QHash<QString,QString> data;
+        data.insert("state",state_send);
+        _studies.update(data,id_study);
+    }
+//-----------------------------------------------------------------------------
+
     q.next();
     refreshInfo();
 //----------------------------------------------------------------------------------

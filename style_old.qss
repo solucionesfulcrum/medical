@@ -6,7 +6,7 @@ QMainWindow,QDialog, QMessageBox, QWidget#dialog {background:url(':/icon/res/img
 */
 QWidget#transparent{background:transparent; }
 
-QWidget#dialog QLabel#titleDialog{background-color:rgba(0,0,0,80); color:#FFF; font-size:14px;  padding:15px 10px;}
+QWidget#dialog QLabel#titleDialog{background-color:rgba(0,0,0,80); color:#FFF; font-size:12px;  padding:15px 10px;}
 QWidget#dialog QLabel{background-color:rgba(0,0,0,80); color:#FFF; font-size:14px;  padding:15px 10px;}
 QWidget#dialog { border:3px solid #FFF; }
 

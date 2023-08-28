@@ -19,10 +19,16 @@ void saveJson::run(){
 
 
         QString status = _cfg.JsonToString(study.value("status"));
-        if(status == "0")
-            data.insert("state","-1");
+    //-------------------------------------------------------------------------
+    //  CR:11/06/23
+        /*if(status == "0")
+            data.insert("state",state_incomplete);
         else
+            data.insert("state",status);*/
+
+        if((status>="1" && status <"5")|| (status=="8") || (status=="7") )
             data.insert("state",status);
+    //-------------------------------------------------------------------------
         data.insert("report_link",study.value("url").toString());
         if(status == "3")
             data.insert("new_report","1");
@@ -113,6 +119,7 @@ void studyCheck::addPart(QString name, QString value, QString type){
 
 void studyCheck::finished(QNetworkReply* pReply){
     QByteArray res = pReply->readAll();
+    qDebug()<<res;
     if(pReply->error() == QNetworkReply::NoError){
         saver->setJson(res);
         saver->start();

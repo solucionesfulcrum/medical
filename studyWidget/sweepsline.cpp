@@ -106,13 +106,17 @@ sweepsLine::sweepsLine(QWidget * parent) : QWidget(parent)
     hl->setMargin(0);
     hl->setSpacing(0);
 
-    title = new titlelabel;
+//---------------------------------------
+//  CR: 02/07/23
+    title = new titlelabel("",QFont("Arial",16),0);
+//---------------------------------------
     title->setLine(false);
 //---------------------------------------
 //  CR: 25/01/23
     title->setFixedWidth(800);
-//---------------------------------------
-    setFixedHeight(90);
+    title->setFixedHeight(70);
+
+    setFixedHeight(110);
 
     QWidget *sline = new QWidget;    
     sline->setFixedWidth(450);
@@ -121,11 +125,16 @@ sweepsLine::sweepsLine(QWidget * parent) : QWidget(parent)
     slinelayout->setMargin(0);
 
     QVBoxLayout *vl = new QVBoxLayout(sweepsWidget);
+    vl->setSpacing(0);
 
-    vl->addWidget(title,0,Qt::AlignCenter | Qt::AlignBottom);
-    vl->addWidget(sline,0,Qt::AlignCenter | Qt::AlignTop);
+    /*vl->addWidget(title,0,Qt::AlignCenter | Qt::AlignBottom);
     vl->setSpacing(10);
     vl->setMargin(10);
+    vl->addWidget(sline,0,Qt::AlignCenter | Qt::AlignBottom);*/
+
+
+    vl->addWidget(title,0,Qt::AlignCenter | Qt::AlignTop);
+    vl->addWidget(sline,0,Qt::AlignCenter|Qt::AlignBottom);
 
     numberOfSeries = 0;
 }
@@ -223,8 +232,8 @@ void sweepsLine::setActual(int i)
         actSweep->setDone(true);
         QString ss= actSweep->name();
 //------------------------------------------------------------------------------
-//      CR: 19/05/23
-        title->setText("Paso "+QString::number(i+1)+"\n"+actSweep->name());
+//      CR: 19/05/23        
+        title->setText("PASO "+QString::number(i+1)+"\n"+actSweep->name());
 //------------------------------------------------------------------------------
     }
 }

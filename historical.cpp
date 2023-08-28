@@ -66,9 +66,11 @@ void historical::setSearchBox(){
 
 //-------------------------------------------------------------------------------------------------------
 //  CR: 19/05/23
-    stateItem << tr("Sin enviar") << tr("Incompleto") << tr("Todos");
+//  CR: 26/07/23
+    stateItem << tr("Incompleto") << tr("En transmisión") << tr("Enviado") << tr("Asignado") << tr("Diagnosticado") << tr("Descargado") << tr("Desactivado") << tr("Adenda") << tr("Todos");
+
     state->setItems(stateItem);
-    state->setText(stateItem.at(2));
+    state->setText(stateItem.at(8));
 //-------------------------------------------------------------------------------------------------------
 
     dateItem << tr("Hoy") << tr("3 días") << tr("7 días") << tr("30 días") << tr("Personalizado");
@@ -135,10 +137,21 @@ void historical::reset(){
     studiesWidget.clear();
 }
 
+//-------------------------------------------------------
+//  CR: 04/06/23
+void historical::ResetOptions(void)
+{
+    state->setText(stateItem.at(8));
+    date->setText(dateItem.at(3));
+    protocols->setText("Todos");
+    name->setText("");
+
+}
+//-------------------------------------------------------
+
 void historical::load(){
 
-    state->setText(stateItem.at(2));
-    date->setText(dateItem.at(3));
+    searchbutton->setEnabled(false);
 
 //  Christiam: Valido si es nombre,dni,apellido o nombre apellido o apellido nombre
     QString _cad1,_cad2,temp;
@@ -195,9 +208,33 @@ void historical::load(){
         {
             query += "AND s.state = -1 ";
         }
-        else if(state->text()=="Sin enviar")
+        else if(state->text()=="En transmisión")
         {
             query += "AND s.state = 0 ";
+        }        
+        else if(state->text()=="Enviado")
+        {
+            query += "AND s.state = 1 ";
+        }
+        else if(state->text()=="Asignado")
+        {
+            query += "AND s.state = 2 ";
+        }
+        else if(state->text()=="Diagnosticado")
+        {
+            query += "AND s.state = 3 ";
+        }
+        else if(state->text()=="Descargado")
+        {
+            query += "AND s.state = 4 ";
+        }
+        else if(state->text()=="Desactivado")
+        {
+            query += "AND s.state = 7 ";
+        }
+        else if(state->text()=="Adenda")
+        {
+            query += "AND s.state = 8 ";
         }
 
         query += "ORDER BY starttime desc";
@@ -224,10 +261,35 @@ void historical::load(){
         {
             query += "AND s.state = -1 ";
         }
-        else if(state->text()=="Sin enviar")
+        else if(state->text()=="En transmisión")
         {
             query += "AND s.state = 0 ";
         }
+        else if(state->text()=="Enviado")
+        {
+            query += "AND s.state = 1 ";
+        }
+        else if(state->text()=="Asignado")
+        {
+            query += "AND s.state = 2 ";
+        }
+        else if(state->text()=="Diagnosticado")
+        {
+            query += "AND s.state = 3 ";
+        }
+        else if(state->text()=="Descargado")
+        {
+            query += "AND s.state = 4 ";
+        }
+        else if(state->text()=="Desactivado")
+        {
+            query += "AND s.state = 7 ";
+        }
+        else if(state->text()=="Adenda")
+        {
+            query += "AND s.state = 8 ";
+        }
+
 
         query += "ORDER BY starttime desc";
     }
@@ -242,6 +304,8 @@ void historical::load(){
         studiesWidget.append(t);
         listBoxLayout->addWidget(t);
     }
+
+    searchbutton->setEnabled(true);
 }
 
 void historical::deletedStudy(QHistWidget * qhw){

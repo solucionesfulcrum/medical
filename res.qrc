@@ -79,6 +79,8 @@
         <file>res/img/splash.png</file>
         <file>res/img/menu/iconInfoBluelight.png</file>
         <file>res/img/menu/iconInfoWhite.png</file>
+        <file>res/img/hide.png</file>
+        <file>res/img/view.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>style.qss</file>

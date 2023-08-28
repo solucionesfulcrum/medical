@@ -380,13 +380,13 @@ void configuration::setConfigurationForm()
     _configurationForm->setObjectName("form");
     QVBoxLayout * fl = new  QVBoxLayout(_configurationForm);
     setLayoutForm(fl);
-    QLabel *LabelTimeout = new QLabel(tr("Tiempo para deslogueo automático"));
+
+//  QLabel *LabelTimeout = new QLabel(tr("Tiempo para deslogueo automático (En minutos)"));
+//  fl->addWidget(LabelTimeout);
+//  fl->addWidget(_TimeoutInactivity);
+//  fl->addSpacing(15);
+
     QLabel *LabelContent = new QLabel(tr("Habilitar/deshabilitar consentimiento informado"));
-
-    fl->addWidget(LabelTimeout);
-    fl->addWidget(_TimeoutInactivity);
-    fl->addSpacing(15);
-
     fl->addWidget(LabelContent);
     fl->addWidget(_consent);
     fl->addSpacing(15);

@@ -4,8 +4,6 @@
 #include <QtWidgets>
 #include "accesor.h"
 
-
-
 class QVirtualKeyboard : public QWidget
 {
     Q_OBJECT
@@ -19,6 +17,7 @@ public:
     void show();
     bool visibleKeyBoard();
     QLineEdit * edit;
+
 protected:
     void showEvent(QShowEvent * event);
     //void focusOutEvent(QFocusEvent *);
@@ -42,7 +41,7 @@ private:
 
     QPushButton * createButton(QString );
     QButtonGroup *keyboard;
-    QString entervalue;
+    QString entervalue;    
 };
 
 

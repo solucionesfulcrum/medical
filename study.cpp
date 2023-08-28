@@ -91,7 +91,7 @@ void study::setStudyProtocolsForm(){
 
 
 //  Header
-    QWidget * headerWidget = new QWidget;
+    QWidget *headerWidget = new QWidget;
     headerWidget->setFixedHeight(50);
     headerWidget->setObjectName("reasonWidget");
     titlelabel * headerTitle = new titlelabel(tr("Protocolos"));
@@ -103,20 +103,16 @@ void study::setStudyProtocolsForm(){
     headerLayout->setSpacing(0);
     headerLayout->setMargin(0);
 
-//  CR: 23/04/23
-//  If no admin, does not show update protocols button
-    if(operators::isAdmin())
-    {
-        QPushButton * updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
-        connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
-        updateProtocols->setFixedSize(50,50);
-        updateProtocols->setIconSize(QSize(35,35));
-        updateProtocols->setObjectName("greenButton");
-        headerLayout->addWidget(updateProtocols,0);
-    }
+
+    updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
+    connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
+    updateProtocols->setFixedSize(50,50);
+    updateProtocols->setIconSize(QSize(35,35));
+    updateProtocols->setObjectName("greenButton");
+    headerLayout->addWidget(updateProtocols,0);
 
     //Buttons
-    QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
+    QPushButton *changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
     connect(changepatient,SIGNAL(clicked()),this,SLOT(changePatient()));
     changepatient->setObjectName("greenButton");
     changepatient->setFixedSize(240,60);
@@ -136,7 +132,7 @@ void study::setStudyProtocolsForm(){
     all->addWidget(_studyDesc,10);                  //
     all->addSpacing(20);
     all->addWidget(buttonWidget,0,Qt::AlignCenter); // Button "<Cambiar de paciente"
-    all->addSpacing(15);
+    all->addSpacing(10);
     all->setSpacing(0);
     all->setMargin(0);
 
@@ -239,7 +235,7 @@ void study::startStudy(){
             data.insert("trainning","0");
 
         data.insert("data",QString(_clinicdatawidget->getJson()));
-        data.insert("state","-1");        
+        data.insert("state",state_incomplete);
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
         data.insert("id_patients",QString::number(_patient_id));
         data.insert("id_operators",QString::number(ope.lastOp()));        
@@ -664,8 +660,11 @@ void study::patientLoaded(int s){
     else _studyDesc->loadWithSex('X',p.age());
 
 //----------------------------------------------------------------
-    if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
-    else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
+    //if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
+    //else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
+//  CR:11/06/23
+    if(operators::isAdmin())    this->updateProtocols->show();
+    else                        this->updateProtocols->hide();
 
     studyForm->slideInNext();
 }

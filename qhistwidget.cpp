@@ -85,7 +85,6 @@ void sweepInfo::refresh(){
     _confirmed->style()->unpolish(_confirmed);
     _confirmed->style()->polish(_confirmed);
 
-    qDebug() << _series.haveVideo()  << _series.getVideoFile();;
     if (_series.haveVideo())
         lookVid->setEnabled(true);
 
@@ -93,9 +92,9 @@ void sweepInfo::refresh(){
 
 void sweepInfo::view(){
     config conf;
-
     QString f = _series.getVideoFile();
     QString p;
+
     if (f.right(3) == "yuv")
         p = "ffplay  "+myffplay::basicOption+" -f rawvideo -pix_fmt [PIXELCONF] -video_size [SIZE] -framerate [FPS] "+f;
     else p = "ffplay  "+myffplay::basicOption+" "+f;
@@ -103,7 +102,6 @@ void sweepInfo::view(){
     p = p.replace("[FPS]",conf.getValue("fps").toString());
     p = p.replace("[SIZE]",conf.getValue("SIZE").toString());
     p = p.replace("[PIXELCONF]",conf.getValue("PIXELCONF").toString());
-    qDebug() << p;
     myffplay::player->start(p);
 }
 
@@ -153,15 +151,16 @@ void studyInfo::createStudyBox(){
     studyBox = new QWidget;
     studyBox->setObjectName("studyBox");
 
-    QLabel * patientname = new QLabel(_patient.name()+" "+_patient.lastName());
-    QLabel * patientid = new QLabel(_patient.getValue("idp").toString());
-    QLabel * protocol = new QLabel(_studydesc.getValue("name").toString());
-    QLabel * opName = new QLabel(_operators.getValue("name").toString());
-    QLabel * reason = new QLabel(_studies.getValue("reason").toString());
-    QLabel * startDate = new QLabel(studies::datetimetoFormat(_studies.datetime()));
-    QLabel * stopDate = new QLabel(studies::datetimetoFormat(_studies.getValue("finishtime").toString()));
-    QLabel * statut = new QLabel(_studies.getState());
-    titlelabel * title = new titlelabel("Estudio");
+    QLabel * patientname    = new QLabel(_patient.name()+" "+_patient.lastName());
+    QLabel * patientid      = new QLabel(_patient.getValue("idp").toString());
+    QLabel * protocol       = new QLabel(_studydesc.getValue("name").toString());
+    QLabel * opName         = new QLabel(_operators.getValue("name").toString());
+    QLabel * reason         = new QLabel(_studies.getValue("reason").toString());
+    QLabel * startDate      = new QLabel(studies::datetimetoFormat(_studies.datetime()));
+    QLabel * stopDate       = new QLabel(studies::datetimetoFormat(_studies.getValue("finishtime").toString()));
+    QLabel * statut         = new QLabel(_studies.getState());
+    titlelabel * title      = new titlelabel("Estudio");
+
     title->setAlignment(Qt::AlignLeft);
 
     QPushButton * closeButton = new QPushButton(tr("Cerrar"));
@@ -184,11 +183,25 @@ void studyInfo::createStudyBox(){
     //dlButton->setIconSize(QSize(32,32));
     connect(dlButton,SIGNAL(clicked()),this,SLOT(download()));
 
+    dlButton->setEnabled(false);
+    refreshButton->setEnabled(false);
+
+//--------------------------------------------------------------------------------
+//  CR: 02/08/23
+    QString s = _studies.getValue("state").toString();
+    if( (s=="3") || (s=="4"))
+    {
+        dlButton->setEnabled(true);
+        refreshButton->setEnabled(true);
+    }
+
+    /*
     if(_studies.getValue("report_link").toString() == "" )
     {
         dlButton->setEnabled(false);
         refreshButton->setEnabled(false);
-    }
+    }*/
+//--------------------------------------------------------------------------------
 
     QGridLayout * layout = new QGridLayout(studyBox);
 
@@ -280,7 +293,8 @@ void studyInfo::refresh(){
 
     typeDownload = 1;
 
-    pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
+    QString str = _studies.getValue("report_link").toString();
+    pReply = manager->get(QNetworkRequest(QUrl(str)));
     connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
 }
 
@@ -294,7 +308,7 @@ void studyInfo::download(){
     dlButton->setEnabled(false);
 
     typeDownload = 2;
-
+    QString str = _studies.getValue("report_link").toString();
     pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
     connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
     }
@@ -330,11 +344,10 @@ void studyInfo::replyFinished(QNetworkReply* pReply){
         refreshButton->setEnabled(true);
         dlButton->setEnabled(true);
     }
-   else if(typeDownload==2){
-       //dlButton->setText(tr("Informe"));
-       //dlButton->setEnabled(true);
+   else if(typeDownload==2){       
+       dlButton->setText(tr("Abrir informe"));
+       dlButton->setEnabled(true);
        //refreshButton->setEnabled(true);
-
    }
 
     //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/"+QString::number(id);
@@ -439,7 +452,7 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     time->setFixedWidth(80);
 
     statut->setFixedSize(40,40);
-    statutLabel->setFixedSize(80,40);
+    statutLabel->setFixedSize(100,40);
     statutLabel->setAlignment(Qt::AlignCenter);
 
 

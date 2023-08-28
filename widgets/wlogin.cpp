@@ -14,11 +14,13 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
 
     QLabel * logo = new QLabel();
     logo->setPixmap(QPixmap(":/icon/res/img/logow.png"));
+    //logo->setFixedSize(400,400);
     logo->setObjectName("block");
     logo->setAlignment(Qt::AlignCenter);
 
 
     _width = 370;
+    //_width = 500;
     _y = 340;
 
     createUserLoginBox();
@@ -33,6 +35,7 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
     QWidget * loginWidget = new QWidget;
     loginWidget->setFixedWidth(_width);
     loginWidget->setFixedHeight(470);
+    //loginWidget->setFixedHeight(500);
     loginWidget->setObjectName("loginWidget");
     QVBoxLayout * loginLayout = new QVBoxLayout(loginWidget);
     loginLayout->addWidget(logo,Qt::AlignCenter );
@@ -118,7 +121,10 @@ void WLogin::createUserLogin(){
 
 
     _loginBox = new QWidget;
-    _pass = new QVkLineEdit();
+//------------------------------------------------------
+//  CR: 09/07/23
+    _pass = new QVkLineEdit(true,true);
+//------------------------------------------------------
     _pass->setFixedHeight(50);
     _pass->setEchoMode(QLineEdit::Password);
     _pass->setText(testPass);
@@ -131,7 +137,7 @@ void WLogin::createUserLogin(){
 //--------------------------------------------------------------
     _userlistboton = new QPushButton(QIcon(":/icon/res/img/loglist.png"),tr(""));
     _userlistboton->setCheckable(true);
-    _userlistboton->setFixedSize(40,40);
+    _userlistboton->setFixedSize(50,50);
     _userlistboton->setIconSize(QSize(30,30));
     _userlistboton->setObjectName("changeOpeButton");
     connect(_userlistboton,SIGNAL(toggled(bool)),this,SLOT(showList(bool)));

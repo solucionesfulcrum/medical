@@ -39,8 +39,8 @@
 #include <shellapi.h>
 
 // Need to link with shell32.lib
-#pragma comment(lib, "shell32.lib")
-#pragma comment(lib, "strmiids")
+//#pragma comment(lib, "shell32.lib")
+//#pragma comment(lib, "strmiids")
 
 
 class MainWindow : public QMainWindow
@@ -54,8 +54,10 @@ public:
     //static MainWindow *mw;
 
 protected:
-    void mousePressEvent(QMouseEvent *event) override;
-    //void mouseMoveEvent(QMouseEvent *event) override;
+    void mousePressEvent(QMouseEvent *event)        override;
+    void mouseReleaseEvent(QMouseEvent *event)      override;
+    bool eventFilter(QObject *obj, QEvent *event)   override;
+
     void resizeEvent(QResizeEvent* event) override;
     void closeEvent(QCloseEvent *ev) override;
 

@@ -34,6 +34,7 @@ public:
     ~study();
     int8_t wifi_status;
     bool ConsentState;
+    SlidingStackedWidget * studyForm;
 
 public slots:
     void patientLoaded(int);
@@ -72,9 +73,10 @@ private:
 
     QString id_ci;
 
-    QPushButton * start;
+    QPushButton *start;
+    QPushButton *updateProtocols;
 
-    SlidingStackedWidget * studyForm;
+
     SeriesWidget *_seriesWidget;
 
     studyInfoWidget * studyInfo;

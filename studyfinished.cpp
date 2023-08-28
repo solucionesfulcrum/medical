@@ -24,6 +24,7 @@ void StudyFinished::MessageFinished(QNetworkReply *p){
     //  Update db of uids sended
         QHash<QString, QString> data;
         data.insert("study_state",study_sended);
+        //data.insert("state",state_send);
         foreach (QString s, _studies.getStudiesNotReported()){
             _studies.updateStudy(data,s);
         }

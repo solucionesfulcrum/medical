@@ -24,6 +24,22 @@ series::~series()
 
 }
 
+//------------------------------------------
+//  CR: 11/06/23
+bool series::studyFinished(int id_study)
+{
+    QList<int> result;
+
+    QSqlQuery query("SELECT id FROM series WHERE id_studies = '"+QString::number(id_study)+"' AND sent = 0");
+    while (query.next())
+        result.append(query.value(0).toInt());
+
+    if(result.isEmpty()) return true;
+    else return false;
+}
+//------------------------------------------
+
+
 QList<int> series::listeIDFromStudy(int id){
     QList<int> result;
     QSqlQuery query("SELECT id FROM series WHERE id_studies = '"+QString::number(id)+"' ORDER BY id");

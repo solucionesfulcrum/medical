@@ -41,6 +41,7 @@ private slots:
 
     void provideAuth(QNetworkReply*,QAuthenticator*);
     void sslErrors(QNetworkReply*,const QList<QSslError>&);
+    void handleNetworkAccessibleChange(QNetworkAccessManager::NetworkAccessibility accessible);
 
 signals:
     void isFinished(int,int);
@@ -49,6 +50,7 @@ signals:
 private:
     void addPart(QString k, QString v, QString type = "form-data");
     void addDevicePart(QString k, QFile* v, QString type = "form-data");
+    bool stateConnection;
     QHttpMultiPart *mtp;
     QNetworkReply *rp;
     QNetworkRequest request;
@@ -93,6 +95,7 @@ private:
     series _series;
     patient _patient;
     studies _studies;
+
     QList<int> queues;
 
 
@@ -126,7 +129,7 @@ private:
     QPushButton * del;
     int numError;
     QProgressBar * pb;
-    series _series;
+    series _series;    
     int _id;
     QList<QLabel *> statut;
     QLabel
@@ -183,9 +186,11 @@ private:
     checkBandwith * cb;
     QScrollArea * _area;
     QList<QueueObject *> queuesObjects;
+    studies _studies;
 
 public:
     series _series;
+
 };
 
 #endif // QUEUEWIDGET_H

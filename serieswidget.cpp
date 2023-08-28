@@ -87,6 +87,7 @@ void SeriesWidget::createListBox(){
 
     listBox = new QWidget;
     _sweepsline = new sweepsLine();
+
     backButton = new QPushButton(tr("Atrás"));
     backButton->setObjectName("greenButton");
     backButton->setStyleSheet({"font-size: 18px; font-weight: bold;"});
@@ -111,7 +112,10 @@ void SeriesWidget::createListBox(){
     lsb->addWidget(_sweepsline);
     lsb->addWidget(nextButton,Qt::AlignLeft);*/
 
-    //_sweepsline->setFixedSize(800,100);
+//---------------------------------------------------
+//  CR: 02/07/23
+    _sweepsline->setFixedSize(800,150);
+//---------------------------------------------------
 
     lsb->addWidget(backButton,1,0);
     lsb->addWidget(_sweepsline,0,1);
@@ -562,7 +566,7 @@ void SeriesWidget::sendStudy(void){
 
         QHash<QString,QString> data;
         data.insert("finishtime",studies::getCurrentDateTime());
-        data.insert("state","0");
+        data.insert("state",state_ontransmission);
         _studies.update(data,idStudy);
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
