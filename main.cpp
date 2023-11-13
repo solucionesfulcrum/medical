@@ -57,9 +57,21 @@ void updateBD(){
     query = "ALTER TABLE configuration ADD COLUMN timeout INTEGER DEFAULT 30 NOT NULL";
     updated = o.execute(query);
 //--------------------------------------------------------------------------------
-//  CR: 29/10/23
-    query = "ALTER TABLE sites ADD COLUMN enable INTEGER DEFAULT 0 NOT NULL";
-    updated = o.execute(query);
+//  CR: 29/10/23    
+    QSqlQuery q("SELECT name FROM sqlite_master WHERE type='table' AND name='sites'");
+    QStringList strList;
+
+    while (q.next()) {
+        strList.append(q.value(0).toString());
+    }
+
+    if(strList.count()==0)
+    {
+        query = "CREATE TABLE sites (id INTEGER PRIMARY KEY,name TEXT,enable INTEGER)";
+        updated = o.execute(query);
+        query = "INSERT INTO sites (name, enable) VALUES ('LIMA,LIMA', 1)";
+        updated = o.execute(query);
+    }
 
 //--------------------------------------------------------------------------------
     query = "ALTER TABLE patients ADD COLUMN weight REAL;";
