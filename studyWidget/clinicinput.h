@@ -9,13 +9,14 @@
 #include <form/calform.h>
 #include <form/checkboxline.h>
 #include <dialog/dialogpatient.h>
+#include <entitites/sites.h>
 
 
 class clinicInput : public QWidget
 {
     Q_OBJECT
 public:
-    explicit clinicInput(QJsonObject, QWidget *parent = nullptr);
+    explicit clinicInput(QJsonObject,QButtonGroup *g=nullptr, QRadioButton *w=nullptr,QWidget *parent = nullptr);
     QJsonObject getJsonObject();
     QDate calcFPP(QDate fur);
     void setItemDefaults();
@@ -38,6 +39,9 @@ private slots:
     void otherComorbidityChecked(int);
     void nonComorbidityChecked(int);
     void firstUltrasoundCheck();
+
+    void selectButtonCampaign(bool);
+    void buttonChange(int);
 
 
 private :

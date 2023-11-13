@@ -64,8 +64,10 @@ private:
     void MuestraUltimoUltrasonido();
     uint8_t validateCardiacBeat();
 
+    uint8_t ObstetricProtrocol_Validation(QJsonArray *);
     uint8_t CSDProtocol_Validation(QJsonArray *);
     uint8_t PulmonaryProtocol_Validation(QJsonArray *);
+
     QString Protocol_GetValue(QJsonArray *,QString);
     bool Protocol_FindString(QJsonArray *,QString,QString);
     bool PulmonaryProtocol_Checked(QJsonArray *,QString);

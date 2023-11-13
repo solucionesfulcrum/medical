@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     QVirtualKeyboard::vk = new QVirtualKeyboard();
     QVirtualKeyboard::vk->setFixedWidth(mainwidth);
 
-    //QVirtualKeyboard::vk->setVisibleKeyboard(false);
     //version = "1.4.2 (29/05/2019)";
     //version = "1.4.3 (08/11/2019)";
     //version = "2.0.1 (20/02/2020)";
@@ -43,16 +42,14 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.8 (27/09/2021)";
     //version = "2.3.9 (24/05/2022)";
     //version = "2.4.0 (09/02/2023)";
-    //version = "2.4.1   (17/02/2023)";
-    //version = "2.4.2   (25/05/2023)";
-    //version = "2.4.3   (07/06/2023)";
-    //version = "2.4.3   (13/06/2023)";
-    //version = "2.5.0   (01/08/2023)";
-    version = "2.5.1   (26/08/2023)";
+    //version = "2.4.1 (17/02/2023)";
+    //version = "2.4.2 (25/05/2023)";
+    //version = "2.4.3 (07/06/2023)";
+    //version = "2.4.3 (13/06/2023)";
+    //version = "2.5.0 (01/08/2023)";
+    //version = "2.5.1 (26/08/2023)";
+    version = "2.5.1   (12/11/2023)";
 
-
-
-    // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
     accesor::stopEffect();
@@ -69,7 +66,7 @@ MainWindow::MainWindow(QWidget *parent)
 //  Create mainWindow
     mainwindow = new QWidget(this);
 
-    //Set Header
+//  Set Header
     header();
 
 //  Queue: Contains the list of studies send it to the server
@@ -89,11 +86,10 @@ MainWindow::MainWindow(QWidget *parent)
     connect(_configuration,SIGNAL(Signal_Consent(bool)),_study,SLOT(Slot_Consent(bool)));
 
 //-----------------------------------------------------------------------------------
-
-    //SetMenu
+//  SetMenu
     menu();
 
-    //Set Footer
+//  Set Footer
     footer();
 
     //QGridLayout * l = new QGridLayout(mainwindow);
@@ -133,11 +129,6 @@ MainWindow::MainWindow(QWidget *parent)
     else  _queue->setGeometry(hideQueueGeometry);
     move ( 0, 0 );
 
-    //_menu->setAttribute(Qt::WA_TransparentForMouseEvents);
-    /*mainwindow->setAttribute(Qt::WA_TransparentForMouseEvents);
-    _menu->setAttribute(Qt::WA_TransparentForMouseEvents);
-    _header->setAttribute(Qt::WA_TransparentForMouseEvents);
-    _main->setAttribute(Qt::WA_TransparentForMouseEvents);*/
 
 }
 //------------------------------------------------------------------
@@ -146,19 +137,8 @@ void MainWindow::Slot_Timeout(int t)
 {
     TimerInactivity->setInterval(1000*60*t);
 }
+
 //------------------------------------------------------------------
-/*
-bool MainWindow::eventFilter(QObject *, QEvent *event)
-{
-    if(event->type() == QEvent::MouseButtonPress)
-    {
-        TimerInactivity->stop();        // Reset timer
-        TimerInactivity->start();
-    }
-    return true;
-}*/
-
-
 void MainWindow::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton ){
         QVirtualKeyboard::vk->finish();
@@ -190,19 +170,6 @@ bool MainWindow::eventFilter(QObject *obj, QEvent *event)
 
     return result;
 }
-
-
-
-/*
-void MainWindow::mouseMoveEvent(QMouseEvent *event)
-{
-    if ((event->buttons() & Qt::LeftButton))
-    {
-        TimerInactivity->stop();        // Reset timer
-        TimerInactivity->start();
-    }
-}*/
-
 
 void MainWindow::setSizes(){
     headerheight = 60;
@@ -248,14 +215,25 @@ void MainWindow::setMainWindow(){
     _info->refresh();
 
     if (operators::isAdmin())
-        menuAddOp->show(); 
+    {
+        menuAddOp->show();
+        menuSite->show();
+    }
+
     else
+    {
         menuAddOp->hide();
+        menuSite->hide();
+    }
+
     operators op;
     user->setText(op.opName());
 
+//-----------------------------------------------------
+//  CR: 22/10/23
 //  Start Checking studies
-    _studycheck->start();
+    //_studycheck->start();
+//-----------------------------------------------------
 
 //  Start review of studies registered on server
     pStudyFinished->start();
@@ -362,7 +340,6 @@ void MainWindow::menu(){
     menuConfig->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuConfig->setText(tr("Ajustes"));
     menuConfig->setCheckable(true);
-    //menuConfig->installEventFilter(mainwindow);
     connect(menuConfig,SIGNAL(clicked()),this,SLOT(setmenuConfig()));
 
     menuHist = new QToolButton(this);
@@ -388,24 +365,35 @@ void MainWindow::menu(){
     menuHelp->setText(tr("Tutoriales"));
     menuHelp->setCheckable(true);    
     connect(menuHelp,SIGNAL(clicked()),this,SLOT(setmenuHelp()));
+
+    menuSite = new QToolButton(this);
+    menuSite->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
+    menuSite->setText(tr("P. Salud"));
+    menuSite->setCheckable(true);
+    connect(menuSite,SIGNAL(clicked()),this,SLOT(setmenuSite()));
+
+
+
 //-----------------------------------------------------------------------------------
 
     toolButtons << menuUS
                 << menuHist
                 << menuConfig
                 << menuAddOp
-
-                //<< menuInfo
+                << menuSite
+                << menuInfo
                 << menuHelp ;
 
 
-
+/*
     menuUS->installEventFilter(this);
     menuHist->installEventFilter(this);
     menuConfig->installEventFilter(this);
     menuAddOp->installEventFilter(this);
     menuInfo->installEventFilter(this);
     menuHelp->installEventFilter(this);
+    menuSite->installEventFilter(this);
+*/
 
     QSize toolButtonSize(140,95);
     QSize toolIconSize(70,70);
@@ -512,14 +500,17 @@ void MainWindow::uncheckMenu(){
     menuHist->setChecked(false);
     menuClose->setChecked(false);
     menuAddOp->setChecked(false);
+    menuSite->setChecked(false);
     menuInfo->setChecked(false);
     menuHelp->setChecked(false);
+
 
     menuUS->setIcon(QIcon(":/icon/res/img/menu/iconMenu_01.png"));
     menuConfig->setIcon(QIcon(":/icon/res/img/menu/iconMenu_03.png"));
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenu_02.png"));
-    menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_04.png"));
+    menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_04.png"));    
     menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoWhite.png"));
+    menuSite->setIcon(QIcon(":/icon/res/img/menu/IconLocationWhite.png"));
     menuHelp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_05.png"));
 }
 
@@ -558,15 +549,22 @@ void MainWindow::setmenuConfig(){
 void MainWindow::setmenuHist(){
     if (_main->currentIndex() != 3)
         _historical->reset();
+//-------------------------------------------------------
+//  CR: 22/10/23
+    this->setEnabled(false);
 
 //-------------------------------------------------------
 //  CR: 04/06/23
     _historical->ResetOptions();
 //-------------------------------------------------------
 
-    _historical->load();
     setmenu(3);
     uncheckMenu();
+    _studycheck->refreshStudies();
+    _historical->load();
+
+    this->setEnabled(true);
+
     menuHist->setChecked(true);
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_02.png"));
 
@@ -578,11 +576,19 @@ void MainWindow::setmenuOperador(){
     menuAddOp->setChecked(true);
     menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_04.png"));
 }
+//---------------------------------------------------------------------------
+//  CR: 01/11/23
+void MainWindow::setmenuSite(){
+    setmenu(5);
+    uncheckMenu();
+    menuSite->setChecked(true);
+    menuSite->setIcon(QIcon(":/icon/res/img/menu/IconLocationBlue.png"));
+}
 
 //---------------------------------------------------------------------------
 //  CR: 07/02/23
 void MainWindow::setmenuInfo(void){
-    setmenu(5);
+    setmenu(6);
     uncheckMenu();
     menuInfo->setChecked(true);
     menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoBluelight.png"));
@@ -596,8 +602,10 @@ void MainWindow::setmenu(int i){
 }
 
 void MainWindow::setMainWidget(){
-    _main = new QStackedWidget(this);
+    _main       = new QStackedWidget(this);
+
     _operatores = new dialogOperator;
+    _site       = new dialogSite;
 
     _study = new study;
     _study->setQueueWidget(_queue);
@@ -622,17 +630,8 @@ void MainWindow::setMainWidget(){
     _main->addWidget(_configuration);   // Index 2
     _main->addWidget(_historical);      // Index 3
     _main->addWidget(_operatores);      // Index 4
-    _main->addWidget(_info);            // Index 5
-
-    _study->installEventFilter(this);
-
-    /*
-    _study->installEventFilter(this);
-    _visor->installEventFilter(this);
-    _configuration->installEventFilter(this);
-    _historical->installEventFilter(this);
-    _operatores->installEventFilter(this);
-    _info->installEventFilter(this);*/
+    _main->addWidget(_site);            // Index 5
+    _main->addWidget(_info);            // Index 6
 
 }
 

@@ -27,6 +27,8 @@ public slots:
 private slots:
     void loadStudy(int);
     void deletedStudy(QHistWidget*);
+    void timeout(void);
+
 signals:
     void loadStudyId(int);
 
@@ -43,6 +45,9 @@ private:
     studies _studies;
     QList<QHistWidget*> studiesWidget;
     QHash<int,QString> protocolsHash;
+
+    QTimer m_timer;
+    bool m_timeout;
 
     TouchComboBox *date,*state;
     QStringList dateItem,stateItem;

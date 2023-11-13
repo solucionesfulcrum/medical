@@ -12,7 +12,7 @@ void saveJson::run(){
     QJsonDocument itemDoc = QJsonDocument::fromJson(res);
     QJsonObject rootObject = itemDoc.object();
     QJsonObject json_studies = rootObject.value("studies").toObject();
-    // qDebug() << json_studies;
+
     foreach(QString s, json_studies.keys()){
         QJsonObject study = json_studies.value(s).toObject();
         QHash<QString, QString> data;
@@ -54,11 +54,17 @@ void saveJson::run(){
 studyCheck::studyCheck(){
     saver = new saveJson;
     connect(saver, SIGNAL(finished()), this, SLOT(finish()));
-    ischecking = false;
+
+    sendFinished = true;
+    err = false;
+
     m_WebCtrl = new QNetworkAccessManager;
     sleepTime = 30000;
     connect(m_WebCtrl,SIGNAL(finished(QNetworkReply*)),this,SLOT(finished(QNetworkReply*)));
-    connect(&m_timer, SIGNAL(timeout()), this, SLOT(send()));
+
+    connect(&m_timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
+    //connect(&m_timer, SIGNAL(timeout()), this, SLOT(send()));
     send();
 }
 
@@ -87,12 +93,12 @@ void studyCheck::setSleepTime(int t){
 }
 
 bool studyCheck::isFinished(){
-    return ischecking;
+    return sendFinished;
 }
 
 void studyCheck::send(){
-    if (!ischecking){
-        ischecking = true;
+    if (sendFinished){
+        sendFinished = false;
         _cfg.load();
         url.setUrl(_cfg.ip()+studyCheck::API);
         request.setUrl(url);
@@ -118,18 +124,69 @@ void studyCheck::addPart(QString name, QString value, QString type){
 }
 
 void studyCheck::finished(QNetworkReply* pReply){
+
     QByteArray res = pReply->readAll();
-    qDebug()<<res;
+    if(pReply->error() == QNetworkReply::NoError)
+    {
+        err = false;
+        saver->setJson(res);
+        saver->start();
+    }
+    else
+    {
+        err = true;
+        delete mtp;
+    }
+    sendFinished = true;
+    pReply->deleteLater();
+}
+
+void studyCheck::refreshStudies(void)
+{
+    send();
+
+    m_timeout = false;
+    m_timer.setInterval(500);
+    m_timer.start();
+
+    do{
+        QCoreApplication::processEvents();
+    }while(m_timeout==false);
+
+    do{
+        QCoreApplication::processEvents();
+    }while(isFinished()==false);
+
+
+/*    do {
+        m_timer.singleShot(1000,this);
+        QCoreApplication::processEvents();
+    } while (isFinished()==false);
+*/
+
+}
+
+void studyCheck::timeout()
+{
+    m_timeout = true;
+}
+//    finish();
+//    pReply->deleteLater();
+
+/*
     if(pReply->error() == QNetworkReply::NoError){
         saver->setJson(res);
         saver->start();
     }
     else finish();
     pReply->deleteLater();
-}
+*/
 
+
+/*
 void studyCheck::finish(){
-    ischecking = false;
+    sendFinished = true;
     delete mtp;
 }
+*/
 

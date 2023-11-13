@@ -56,6 +56,10 @@ void updateBD(){
 
     query = "ALTER TABLE configuration ADD COLUMN timeout INTEGER DEFAULT 30 NOT NULL";
     updated = o.execute(query);
+//--------------------------------------------------------------------------------
+//  CR: 29/10/23
+    query = "ALTER TABLE sites ADD COLUMN enable INTEGER DEFAULT 0 NOT NULL";
+    updated = o.execute(query);
 
 //--------------------------------------------------------------------------------
     query = "ALTER TABLE patients ADD COLUMN weight REAL;";

@@ -19,6 +19,9 @@ historical::historical(QMedicalBoxWidget *parent) : QMedicalBoxWidget(parent)
     area->setWidget(listBox);
     area->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
+    m_timeout = false;
+    connect(&m_timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
     mainLayout->setDirection(QBoxLayout::LeftToRight);
     mainLayout->addWidget(searchbox);
     mainLayout->addSpacing(20);
@@ -148,10 +151,21 @@ void historical::ResetOptions(void)
 
 }
 //-------------------------------------------------------
+void historical::timeout(void)
+{
+    m_timeout = true;
+}
 
 void historical::load(){
 
     searchbutton->setEnabled(false);
+    m_timeout = false;
+    m_timer.start(1000);
+    do {
+        QCoreApplication::processEvents();
+    } while (m_timeout==false);
+
+
 
 //  Christiam: Valido si es nombre,dni,apellido o nombre apellido o apellido nombre
     QString _cad1,_cad2,temp;

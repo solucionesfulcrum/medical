@@ -94,7 +94,6 @@ void userBox::toEnableAdmin(int i){
 }
 //-----------------------------------
 
-
 dialogOperator::dialogOperator(QWidget * parent) : QWidget(parent)
 {
     setSearch();
@@ -320,6 +319,7 @@ void dialogOperator::saveUser(){
     }
     else
         d.insert("admin","0");
+
     if(toEdit)
         p.update(d,IdToEdit);
     else

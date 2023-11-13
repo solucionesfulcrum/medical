@@ -11,7 +11,7 @@
 class userBox : public QWidget
 {
 Q_OBJECT
-public:
+public:    
     userBox(int, QString, QString,int,int,int,int, QWidget* = 0);
     ~userBox();
 signals:

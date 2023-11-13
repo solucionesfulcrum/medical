@@ -12,6 +12,8 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    dialog/dialogsite.cpp \
+    entitites/sites.cpp \
     form/calform.cpp \
     form/checkboxline.cpp \
     info.cpp \
@@ -63,6 +65,8 @@ SOURCES += main.cpp\
     ejecuta.cpp
 
 HEADERS  += mainwindow.h \
+    dialog/dialogsite.h \
+    entitites/sites.h \
     form/calform.h \
     form/checkboxline.h \
     info.h \

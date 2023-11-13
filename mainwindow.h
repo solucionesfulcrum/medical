@@ -24,6 +24,8 @@
 #include "entitites/operators.h"
 
 #include "dialog/dialogoperator.h"
+#include "dialog/dialogsite.h"
+
 #include "dialog/myffplay.h"
 
 #include <widgets/battery.h>
@@ -37,10 +39,6 @@
 
 #include <windows.h>
 #include <shellapi.h>
-
-// Need to link with shell32.lib
-//#pragma comment(lib, "shell32.lib")
-//#pragma comment(lib, "strmiids")
 
 
 class MainWindow : public QMainWindow
@@ -63,12 +61,14 @@ protected:
 
 
 private slots:
-    void setmenuUS();
-    void setmenuConfig();
-    void setmenuHist();
-    void setmenuOperador();
-    void setmenuHelp();
-    void setmenuInfo();
+    void setmenuUS(void);
+    void setmenuConfig(void);
+    void setmenuHist(void);
+    void setmenuOperador(void);
+    void setmenuHelp(void);
+    void setmenuInfo(void);
+    void setmenuSite(void);
+
     void toggleQueue();
     void setMainWindow();
     void setLogin();
@@ -121,7 +121,8 @@ private:
     * menuHelp,
     * menueQueue,
     * menuClose,
-    * menuInfo;
+    * menuInfo,
+    * menuSite;
 
     QStackedWidget * _main;
 
@@ -134,6 +135,8 @@ private:
     historical      * _historical;
     dialogOperator  * _operatores;
     info            * _info;
+    dialogSite      * _site;
+
 
     QLabel *user;
 

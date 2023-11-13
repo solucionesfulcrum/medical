@@ -15,25 +15,31 @@ public:
     QByteArray getJson();
     QString getReason();
     void reset();
-    bool getUrgent();
-    bool getTrainnning();
+
+    bool getUrgent(void);
+    bool getTrainnning(void);
+    bool getCampaign(void);
 
 signals:
 
 private:
+    void createDataForm(void);
+
     titlelabel *protocolname;
     titlelabel *historytitle;
     studydesc protocol;
-    void createDataForm();
+
     QScrollArea * area;
     QButtonGroup * _reason;
     QWidget * dataWidget;
     QVBoxLayout * dataLayout;
     QList<QWidget*> datasWidget;
     QList<clinicInput*> datas;
+
     QRadioButton *exam;
     QRadioButton *urgent;
     QRadioButton *trainning;
+    QRadioButton *campaign;
 
 private slots:
     void confirmReason(int);

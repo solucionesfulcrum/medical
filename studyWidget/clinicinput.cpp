@@ -1,7 +1,8 @@
 #include "clinicinput.h"
 #include <QDebug>
+#include <QButtonGroup>
 
-clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
+clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QWidget *parent) : QWidget(parent)
 {
     type << "text" << "date" << "checkbox" << "number" << "select" << "radiobutton"<<"mix";
     obj = object;
@@ -14,7 +15,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
     l->addWidget(label,0,Qt::AlignTop);
     setItemDefaults();
 
-    /* DATE Input Logic */
+//  DATE Input Logic
     if(obj.value("type").toString() == "date")
     {
        QFont f = label->font();
@@ -81,7 +82,9 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
        std_input =  input;
     }
-    /* TEXT Input Logic */
+
+//-------------------------------------------------------------------
+//  TEXT Input Logic
     else if(obj.value("type").toString() == "text")
     {
         QVkLineEdit *input = new QVkLineEdit;
@@ -89,7 +92,9 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
         std_input = input;
     }
-    /* CHECKBOX Input Logic */
+
+//-------------------------------------------------------------------
+//  CHECKBOX Input Logic
     else if(obj.value("type").toString() == "checkbox")
     {
         checkboxes * input = new checkboxes(item,defaults);
@@ -102,7 +107,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         {
             QCheckBox* cbLast = input->getItem(item.size()-1);
             QString cbText = cbLast->text();
-            if (cbText == "Cirugías abdominales anteriores")
+            if (cbText == "Otras cirugías abdominales anteriores")
             {
                 connect(cbLast,SIGNAL(stateChanged(int)),this,SLOT(specificChecked(int)));
             }
@@ -150,7 +155,8 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
         std_input = input;
     }
-    /* NUMBER Input Logic */
+//-------------------------------------------------------------------
+//  NUMBER Input Logic
     else if(obj.value("type").toString() == "number")
     {
         QVkLineEdit *input = new QVkLineEdit;
@@ -158,12 +164,25 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         input->setValidator(new QIntValidator(0, 9999, this));
         std_input = input;
     }
-    /* SELECT Input Logic */
+
+//-------------------------------------------------------------------
+//  SELECT Input Logic
     else if(obj.value("type").toString() == "select")
     {
         TouchComboBox * input = new TouchComboBox();
         input->setObjectName(inputId);
-        input->setItems(item);
+    //------------------------------------------------------
+    //  CR: 11/11/23
+        if(inputId=="puestoSalud")
+        {
+            sites s;
+            input->setItems(s.getSites());
+        }
+        else
+        {
+            input->setItems(item);
+        }
+    //------------------------------------------------------
         if (defaults.at(0) != "")
             input->setText(defaults.at(0));
 
@@ -201,6 +220,8 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         else if (inputId == "selHadCovid")
             connect(input,SIGNAL(textChanged(QString)),this,SLOT(hadCovidSelected(QString)));
 
+
+
         std_input = input;
     }
     /* RADIOBUTTON Input Logic */
@@ -225,7 +246,7 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
 
         if (inputId == "txtCovidTestOther" || inputId == "txtSymtomOther" || inputId == "txtVaccineOther" || inputId == "txtComorbidityOther")
             input->setEnabled(false);
-        else if (textName == "Cirugías abdominales anteriores(Especificar)")
+        else if (textName == "Otras cirugías abdominales anteriores(Especificar)")
         {
             input->setEnabled(false);
             input->setObjectName("Specific");
@@ -234,6 +255,13 @@ clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
         {
             input->setEnabled(false);
             input->setObjectName("Other");
+        }
+        else if(inputId=="txtLugarCampania")
+        {
+            input->setText("");
+            input->setEnabled(false);
+            connect(g,SIGNAL(buttonClicked(int)),this,SLOT(buttonChange(int)));
+            connect(w,SIGNAL(clicked(bool)),this,SLOT(selectButtonCampaign(bool)));
         }
 
         std_input = input;
@@ -505,6 +533,42 @@ void clinicInput::nonComorbidityChecked(int state)
         }
     }
 }
+//-----------------------------------------------------------------
+// CR: 11/11/23
+void clinicInput::selectButtonCampaign(bool state)
+{
+    QVkLineEdit*  txtSpecific =  this->parent()->findChild<QVkLineEdit*>("txtLugarCampania");
+
+    if(state==true)
+    {
+        txtSpecific->setEnabled(true);
+    }
+    else
+    {
+        txtSpecific->setText("");
+        txtSpecific->setEnabled(false);
+    }
+}
+//-----------------------------------------------------------------
+// CR:  12/11/23
+void clinicInput::buttonChange(int buttonSelected)
+{
+    QVkLineEdit*  txtSpecific =  this->parent()->findChild<QVkLineEdit*>("txtLugarCampania");
+
+    if(buttonSelected==3)
+    {
+        txtSpecific->setText("");
+        txtSpecific->setEnabled(false);
+    }
+
+    else if(buttonSelected==4)
+    {
+        txtSpecific->setText("");
+        txtSpecific->setEnabled(false);
+    }
+}
+
+
 
 void clinicInput::hospitalizedSelected(const QString &text)
 {
@@ -594,21 +658,11 @@ QJsonObject clinicInput::getJsonObject(){
         values.append(input->text());
     }
 
-    //AVISO (jobenas):
-    //Sospecho que aqui esta el problema de porque se
-    //cuelga el programa. Aqui aun se utiliza el widget
-    //del datebox. Voy a modificar este if condition por
-    //uno mio para tratar de resolver el problema.
     if(obj.value("type").toString() == "date"){
         QString dateFormat("dd/MM/yyyy");
         QCalendarWidget * input = (QCalendarWidget*)std_input;
         values.append(input->selectedDate().toString(dateFormat));
     }
-
-//    if(obj.value("type").toString() == "date"){
-//        datebox * input = (datebox*)std_input;
-//        values.append(input->date().toString("dd/MM/yyyy"));
-//    }
 
     if(obj.value("type").toString() == "checkbox"){
         checkboxes * input = (checkboxes*)(std_input);
