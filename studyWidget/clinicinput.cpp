@@ -49,7 +49,8 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
           input->setObjectName("FPP");
           input->setEnabled(false);
        }
-       else if(textName == strFechaUltrasonidoPrevioEs || textName == strFechaUltrasonidoPrevioEn) //JB18022020
+
+       else if(inputId=="ultrasounddate")
        {
            QCheckBox * uecb = new QCheckBox(tr("Primer Ultrasonido"), this);
            uecb->setObjectName("uecb");
@@ -60,6 +61,22 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
            input->setObjectName("FUU");
            connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
        }
+
+       /*
+       else if(textName == strFechaUltrasonidoPrevioEs || textName == strFechaUltrasonidoPrevioEn) //JB18022020
+       {
+           QCheckBox * uecb = new QCheckBox(tr("Primer Ultrasonido"), this);
+           uecb->setObjectName("uecb");
+           connect(uecb, SIGNAL(clicked()), this, SLOT(firstUltrasoundCheck()));
+           l->addWidget(uecb, 0, Qt::AlignLeft);
+
+           input->setMaximumDate(QDate::currentDate());// JB20200114 Validacion  FUU debe ser menor o igual a la fecha actual.
+           input->setObjectName("FUU");
+           connect(input,SIGNAL(selectionChanged()),this,SLOT(calendarSelectedTestNoStr()));
+       }*/
+
+
+
        else if(textName == "FUR" || textName == "LMP")
        {
                input->setMaximumDate(QDate::currentDate());// JB20200120 Validacion  FUR debe ser menor o igual a la fecha actual.

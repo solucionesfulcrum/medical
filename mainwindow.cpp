@@ -48,7 +48,7 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.4.3 (13/06/2023)";
     //version = "2.5.0 (01/08/2023)";
     //version = "2.5.1 (26/08/2023)";
-    version = "2.5.1   (12/11/2023)";
+    version = "2.5.2   (12/11/2023)";
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
@@ -549,6 +549,22 @@ void MainWindow::setmenuConfig(){
 void MainWindow::setmenuHist(){
     if (_main->currentIndex() != 3)
         _historical->reset();
+
+//-------------------------------------------------------
+//  CR: 14/11/23
+    QDialog *dg = new QDialog();
+    dg->setWindowFlags( Qt::Tool |Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    dg->setModal(true);
+    dg->setObjectName("upProtDialog");
+    dg->setFixedSize(400,200);
+
+    QVBoxLayout *hl         = new QVBoxLayout(dg);
+    QLabel *updateStatus    = new QLabel(tr("Sincronizando estudios ..."));
+    updateStatus->setAlignment(Qt::AlignCenter);
+    hl->addWidget(updateStatus,10);
+    dg->show();
+
+
 //-------------------------------------------------------
 //  CR: 22/10/23
     this->setEnabled(false);
@@ -562,6 +578,9 @@ void MainWindow::setmenuHist(){
     uncheckMenu();
     _studycheck->refreshStudies();
     _historical->load();
+
+
+    dg->hide();
 
     this->setEnabled(true);
 

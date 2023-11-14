@@ -143,7 +143,7 @@ void dialogOperator::refresh(QString s){
             userBox *b = new userBox(i, p.getValue("id").toString(),p.getValue("name").toString(),p.getValue("enable").toInt(),p.getValue("admin").toInt(),p.getValue("superadmin").toInt(),privilege);
 
         //--------------------------------------------------------------------------------
-            connect(b,SIGNAL(select(int)),this,SLOT(selectUser(int)));
+            //connect(b,SIGNAL(select(int)),this,SLOT(selectUser(int)));
             connect(b,SIGNAL(edit(int)),this,SLOT(editUser(int)));
         //--------------------------------------------------------------------------------
         //  CR: 10/01/23

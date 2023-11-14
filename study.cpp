@@ -202,6 +202,13 @@ void study::startStudy(){
         else
             data.insert("trainning","0");
 
+        if (_clinicdatawidget->getCampaign())
+            data.insert("campaign","1");
+        else
+            data.insert("campaign","0");
+
+
+
         qDebug()<<QString(_clinicdatawidget->getJson());
 
         data.insert("data",QString(_clinicdatawidget->getJson()));
@@ -411,12 +418,14 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
 
 //-------------------------------------------------
 //  CR: 08/01/23
-    // Validate country of infection
+//  Validate country of infection
+/*
     value = Protocol_GetValue(jarray,"txtLPI");
     if (value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar lugar probable de infección."),QMessageBox::Ok);
         return 0;
     }
+*/
 //-------------------------------------------------
 
 
