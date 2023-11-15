@@ -19,7 +19,8 @@ studies::studies() : entities(){
          << "trainning"
          << "ConsentimientoInformado"
          << "new_report"
-         << "study_state";
+         << "study_state"
+         << "campaign";
 }
 
 studies::~studies(){
