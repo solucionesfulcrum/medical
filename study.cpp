@@ -437,6 +437,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate case of infection
+    //14-11-2023 ERICK G. :Se retira validación de prueba covid
+    /****
     value = Protocol_GetValue(jarray,"selCaseStatus");
     if (value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar clasificación del caso."),QMessageBox::Ok);
@@ -464,6 +466,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             }
         }
     }
+    ***/
 
     // Validate if patient present sympthoms
     value = Protocol_GetValue(jarray,"selSymptom");
@@ -488,6 +491,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate if patient has been hospitalized
+    //14-11-2023 ERICK G. :Se retira validación de hospitalización
+    /****
     value = Protocol_GetValue(jarray,"selHospitalized");
     if(value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si ha sido hospitalizado."),QMessageBox::Ok);
@@ -505,6 +510,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
     }
+    */
 
     /* Validete hospitalization date is after symptoms date
     if(DateIniSyptoms>DateIniHospitalization){
@@ -565,10 +571,13 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate general aspect
+    //14-11-2023 ERICK G. :Se retira validación de aspecto general del paciente
+    /****
     if (PulmonaryProtocol_Checked(jarray,"cbGeneralAspect") == false) {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta marcar el aspecto general del paciente,"),QMessageBox::Ok);
         return 0;
     }
+    **/
 
     // Validate if is vaccinated
     value = Protocol_GetValue(jarray,"selVaccinated");
@@ -590,7 +599,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
 
-        // Validate date of hospitalization
+        // Validate date of last dose
         QDate dateLastDose = QDate::fromString(Protocol_GetValue(jarray,"dateLastDose"),"dd/MM/yyyy");
         if(dateLastDose > QDate::currentDate()) {
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar fecha de última dosis."),QMessageBox::Ok);
@@ -599,6 +608,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate if have had COVID
+    //14-11-2023 ERICK G. :Se retira validación de si padeció covid
+    /****
     value = Protocol_GetValue(jarray,"selHadCovid");
     if (value == "") {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si tuvo COVID."),QMessageBox::Ok);
@@ -610,6 +621,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
     }
+    **/
 
     return 1;
 }
