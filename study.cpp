@@ -207,10 +207,6 @@ void study::startStudy(){
         else
             data.insert("campaign","0");
 
-
-
-        qDebug()<<QString(_clinicdatawidget->getJson());
-
         data.insert("data",QString(_clinicdatawidget->getJson()));
         data.insert("state",state_incomplete);
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));

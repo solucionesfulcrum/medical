@@ -135,7 +135,7 @@ QByteArray clinicDataWidget::getJson(){
 }
 
 
-QString clinicDataWidget::getReason(){
+QString clinicDataWidget::getReason(void){
     QString reason = "";
     int hasReason = _reason->checkedId();
     if (hasReason != -1) {
@@ -146,11 +146,11 @@ QString clinicDataWidget::getReason(){
     return reason;
 }
 
-bool clinicDataWidget::getUrgent(){
+bool clinicDataWidget::getUrgent(void){
     return urgent->isChecked();
 }
 
-bool clinicDataWidget::getTrainnning(){
+bool clinicDataWidget::getTrainnning(void){
     return trainning->isChecked();
 }
 

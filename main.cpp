@@ -21,6 +21,8 @@ void updateBD(){
     updated = o.execute(query);
     query = "ALTER TABLE studies ADD COLUMN urgent INT DEFAULT 0;";
     updated = o.execute(query);
+    query = "ALTER TABLE studies ADD COLUMN campaign INT DEFAULT 0;";
+    updated = o.execute(query);
     query = "ALTER TABLE configuration ADD COLUMN keep_uncompressed INT DEFAULT 0;";
     updated = o.execute(query);
     query = "ALTER TABLE studies ADD COLUMN new_report INT DEFAULT 0;";
