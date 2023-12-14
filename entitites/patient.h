@@ -22,8 +22,9 @@ public:
     QString weight();
     bool exist(QString id);
     bool existOther(QString id,int i);
-    QList<int> listeID(QString seek = "");
+    QList<int> listeID(QString seek = "");    
     int age();
+    bool updatePatient(QHash<QString, QString> data, QString patient_id);
 private:
     QString _name, _lastName, _birthday, _id, _sex, _size, _phone, _cellphone, _email, _height, _weight;
 

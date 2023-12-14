@@ -193,7 +193,11 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
         if(inputId=="puestoSalud")
         {
             sites s;
-            input->setItems(s.getSites());
+            QStringList siteList = s.getSites();
+            input->setItems(siteList);
+            // EG: 11/12/23: Si solo tiene un elemento, mostrar por defeccto
+            if (siteList.size() == 1)
+                input->setText(siteList.at(0));
         }
         else
         {

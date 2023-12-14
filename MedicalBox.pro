@@ -18,6 +18,7 @@ SOURCES += main.cpp\
     form/checkboxline.cpp \
     info.cpp \
         mainwindow.cpp \
+    networkutils.cpp \
     sqlite.cpp \
     queuewidget.cpp \
     study.cpp \
@@ -70,6 +71,7 @@ HEADERS  += mainwindow.h \
     form/calform.h \
     form/checkboxline.h \
     info.h \
+    networkutils.h \
     sqlite.h \
     queuewidget.h \
     study.h \

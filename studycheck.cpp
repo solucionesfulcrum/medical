@@ -1,6 +1,8 @@
 #include "studycheck.h"
+#include "networkutils.h" //24-11-2023 Añadir MAC ADDRESS
+#include <QDebug>
 
-QString studyCheck::API = apiurlcheckstudy;
+QString studyCheck::API =   apiurlcheckstudy;
 
 
 void saveJson::setJson(QByteArray r){
@@ -16,7 +18,31 @@ void saveJson::run(){
     foreach(QString s, json_studies.keys()){
         QJsonObject study = json_studies.value(s).toObject();
         QHash<QString, QString> data;
+        QHash<QString, QString> patient_data;
 
+        //29-11-2023 Se recupera el ID del paciente para actualizar cuando hubo modificacion en la plataforma web
+        QString patient_id = _studies.getPatientIdFromUID(s);
+        QString modify_patient = _cfg.JsonToString(study.value("modify_patient"));
+        if ( modify_patient == "1" ){
+            patient_data.insert("idp",study.value("patient_id").toString());
+            patient_data.insert("name",study.value("patient_first_name").toString());
+            patient_data.insert("last_name",study.value("patient_second_name").toString());
+            patient_data.insert("size",study.value("patient_size").toString());
+            patient_data.insert("sex",study.value("patient_sex").toString());
+
+            QDate fecha = QDate::fromString(study.value("patient_bday").toString(""), "yyyy-MM-dd");
+
+            if (fecha.isValid()) {
+                patient_data.insert("birthday",fecha.toString("yyyyMMdd"));
+            }
+
+            patient_data.insert("height",study.value("patient_height").toString());
+            patient_data.insert("weight",study.value("patient_weight").toString());
+            patient_data.insert("phone",study.value("patient_phone").toString());
+            patient_data.insert("cellphone",study.value("patient_cellphone").toString());
+            patient_data.insert("email",study.value("patient_email").toString());
+            _patient.updatePatient(patient_data,patient_id);
+        }
 
         QString status = _cfg.JsonToString(study.value("status"));
     //-------------------------------------------------------------------------
@@ -112,6 +138,12 @@ void studyCheck::send(){
         addPart("namebox",_cfg.getValue("name").toString());
         addPart("password",_cfg.getValue("pass").toString());
         addPart("check",check);
+
+        //24-11-2023 Añadir MAC ADDRESS
+        QString mac_address = NetworkUtils::obtenerDireccionMAC();
+        addPart("mac_address",mac_address);
+        //qDebug() << "Dirección MAC: " << mac_address;
+
         rp = m_WebCtrl->post(request,mtp);
     }
 }

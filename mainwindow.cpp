@@ -48,7 +48,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.4.3 (13/06/2023)";
     //version = "2.5.0 (01/08/2023)";
     //version = "2.5.1 (26/08/2023)";
-    version = "2.5.2   (12/11/2023)";
+    //version = "2.5.2 (12/11/2023)";
+    version = "2.5.3 (13/12/2023)";
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);

@@ -2,6 +2,8 @@
 //CR: 28/02/21
 //-------------------------------------------------------------------
 #include "studyfinished.h"
+#include "networkutils.h" //24-11-2023 Añadir MAC ADDRESS
+#include <QDebug>
 
 StudyFinished::StudyFinished(QObject *parent) : QObject(parent)
 {
@@ -60,6 +62,12 @@ void StudyFinished::SendStudystatus(void){
     addPart("namebox",_cfg.getValue("name").toString());
     addPart("password",_cfg.getValue("pass").toString());
     addPart("check",check);
+
+    //24-11-2023 Añadir MAC ADDRESS
+    QString mac_address = NetworkUtils::obtenerDireccionMAC();
+    addPart("mac_address",mac_address);
+    //qDebug() << "Dirección MAC: " << mac_address;
+
     netReply = pWebCtrl->post(*request,mtp);
     return;
 }

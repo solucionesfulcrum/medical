@@ -289,7 +289,18 @@ QString studies::operatorName(){
     else return "";
 }
 
-
+//29-11-2023 - Se recupera el ID del paciente asociado al estudio
+QString studies::getPatientIdFromUID(QString uid){
+    QString q;
+    q += "SELECT id_patients ";
+    q += "FROM studies as s ";
+    q += "WHERE uid = '"+uid+"' ";
+    QSqlQuery query(q);
+    qDebug() << q << query.size();
+    if(query.next())
+        return query.value(0).toString();
+    else return "";
+}
 
 
 

@@ -1,4 +1,6 @@
 #include "checkbandwith.h"
+#include "networkutils.h" //24-11-2023 Añadir MAC ADDRESS
+#include <QDebug>
 
 checkBandwith::checkBandwith(QWidget *parent)
     :QWidget(parent)
@@ -52,6 +54,12 @@ void checkBandwith::send()
         addPart(mtp,"namebox",_cfg.getValue("name").toString());
         addPart(mtp,"password",_cfg.getValue("pass").toString());
         addPart(mtp,"check",check);
+
+        //24-11-2023 Añadir MAC ADDRESS
+        QString mac_address = NetworkUtils::obtenerDireccionMAC();
+        addPart(mtp,"mac_address",mac_address);
+        //qDebug() << "Dirección MAC: " << mac_address;
+
         rp = m_WebCtrl->post(request,mtp);
     }
 }

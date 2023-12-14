@@ -41,6 +41,7 @@ public:
     static bool deleteFolder(QString);
 
     QString operatorName();
+    QString getPatientIdFromUID(QString);
 
 private:
     QString _uid, _datetime, _desc, _reason;

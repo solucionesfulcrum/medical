@@ -1,4 +1,6 @@
-   #include "queuewidget.h"
+#include "queuewidget.h"
+#include "networkutils.h" //24-11-2023 Añadir MAC ADDRESS
+#include <QDebug>
 
 QString HTTPsender::API= apiurlsend;
 
@@ -118,6 +120,9 @@ void HTTPsender::send(int i)
 
     //Add Study Patient Name
     addPart("study[patient_name]",_patient.name()+" "+_patient.lastName());
+    //29-11-2023 Se separa nombres para pode editarlos desde la web cuando sea el caso
+    addPart("study[patient_first_name]",_patient.name());
+    addPart("study[patient_second_name]",_patient.lastName());
 
     //Add Study Box ID (to remove)
     addPart("study[box_id]","1");
@@ -212,6 +217,11 @@ void HTTPsender::send(int i)
         out << _studies.getValue("uid").toString()+ ": " << _series.uid() + ": Send to " << url.toString();        
         errfile.close();
     }
+
+    //24-11-2023 Añadir MAC ADDRESS
+    QString mac_address = NetworkUtils::obtenerDireccionMAC();
+    addPart("mac_address",mac_address);
+    //qDebug() << "Dirección MAC: " << mac_address;
 
     QNetworkReply *p = m_WebCtrl.post(request,mtp);
     connect(p,SIGNAL(uploadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));

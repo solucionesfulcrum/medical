@@ -142,11 +142,11 @@ QString clinicDataWidget::getReason(void){
         reason = _reason->checkedButton()->text();
         reason.replace("¿","").replace("?","");
         //17-11-2023 Se modifica texto de reason para enviar solamente urgente y no campaña
-        if( campaign->isChecked() ){
-            reason = " ";
+        if( campaign->isChecked() && urgent->isChecked() ){
+            reason = tr("Urgente - [Campaña]");
         }
-        if( urgent->isChecked() ){
-            reason = "Urgente";
+        else if( campaign->isChecked() ){
+            reason = tr("Campaña");
         }
     }
 
