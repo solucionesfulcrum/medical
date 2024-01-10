@@ -748,7 +748,7 @@ void study::newStudy(bool b){
         emit studyStarted(false);
     }
 
-    _seriesWidget->sendButton->text = "Siguiente\nPaso";
+    _seriesWidget->sendButton->text = tr("Siguiente\nPaso");
 
 }
 

@@ -49,7 +49,8 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.5.0 (01/08/2023)";
     //version = "2.5.1 (26/08/2023)";
     //version = "2.5.2 (12/11/2023)";
-    version = "2.5.3 (13/12/2023)";
+    //version = "2.5.3 (13/12/2023)";
+    //version = "2.5.4 (11/01/2024)";
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
@@ -258,17 +259,17 @@ void MainWindow::setMainWindow(){
 
     if(result.at(0)!=0 && result.at(1)==0)
     {
-        str = "Existen estudios incompletos en los últimos 30 días.";
+        str = tr("Existen estudios incompletos en los últimos 30 días.");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
     else if(result.at(0)==0 && result.at(1)!=0)
     {
-        str = "Existen estudios sin enviar en los últimos 30 días";
+        str = tr("Existen estudios sin enviar en los últimos 30 días");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
     else if(result.at(0)!=0 && result.at(1)!=0)
     {
-        str = "Existen estudios incompletos y sin enviar en los últimos 30 días";
+        str = tr("Existen estudios incompletos y sin enviar en los últimos 30 días");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
 //---------------------------------------------------------------------------------------------
@@ -680,17 +681,17 @@ void MainWindow::logout()
 
     if(result.at(0)!=0 && result.at(1)==0)
     {
-        str = "Existen estudios incompletos en los últimos 30 días.";
+        str = tr("Existen estudios incompletos en los últimos 30 días.");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
     else if(result.at(0)==0 && result.at(1)!=0)
     {
-        str = "Existen estudios sin enviar en los últimos 30 días";
+        str = tr("Existen estudios sin enviar en los últimos 30 días");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
     else if(result.at(0)!=0 && result.at(1)!=0)
     {
-        str = "Existen estudios incompletos y sin enviar en los últimos 30 días";
+        str = tr("Existen estudios incompletos y sin enviar en los últimos 30 días");
         QMessageBox::information(this,tr("Estudios pendientes"),str);
     }
 

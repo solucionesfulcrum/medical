@@ -2,6 +2,7 @@
 #define SENDBUTTON_H
 
 #include <QtWidgets>
+#include <QCoreApplication>
 
 class sendbutton : public QPushButton
 {

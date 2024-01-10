@@ -227,7 +227,7 @@ void SeriesWidget::setStudy(int i){
     nextButton->setEnabled(false);
 
     if(_sweepsline->setStudy(i)==true){
-        sendButton->text = "Paso\nTerminado";
+        sendButton->text = tr("Paso\nTerminado");
         sendButton->update();
         sendButton->setEnabled(false);
 
@@ -311,7 +311,7 @@ void SeriesWidget::createToolBox()
 
     sendButton = new sendbutton();    
     sendButton->setStyleSheet({"font-size: 17px; font-weight: bold"});//JB-06082020
-    sendButton->text = "Siguiente\nPaso";
+    sendButton->text = tr("Siguiente\nPaso");
     sendButton->update();
 
     connect(sendButton,SIGNAL(clicked()),this,SLOT(send()));
@@ -391,6 +391,7 @@ void SeriesWidget::startRecord(){
         if(_captureProcess->startRecord()){
             backButton->setDisabled(true);
             nextButton->setDisabled(true);
+            sendStudyButton->setDisabled(true);
             finishStudyButton->setDisabled(true);
             _captureButton->setBlock(true);
             isCapturing = true;
@@ -412,7 +413,7 @@ void SeriesWidget::stopRecord(){
 
         if (_sweepsline->isLast())
         {
-            sendButton->text = "Pasos\nTerminados";
+            sendButton->text = tr("Pasos\nTerminados");
 
             sendButton->update();
             sendButton->setEnabled(false);
@@ -617,6 +618,7 @@ void SeriesWidget::send(){
         _captureButton->setBlock(false);
         backButton->setDisabled(true);
         nextButton->setDisabled(true);
+        sendStudyButton->setDisabled(true);
         cpt->slideInPrev();
         _sweepsline->next();
 
@@ -749,6 +751,7 @@ void SeriesWidget::restartSerie(){
     {        
         backButton->setDisabled(true);
         nextButton->setDisabled(true);
+        sendStudyButton->setDisabled(true);
         initCaptureButton();
         cpt->slideInPrev();
     }
@@ -774,8 +777,10 @@ void SeriesWidget::cptSlideFinished(){
         t = t.addMSecs(finishTime-startime);
         sendButton->setTime(t.toString());
 
-        if(StudiesFinished)
+        if(StudiesFinished){
             sendButton->setEnabled(false);
+            sendStudyButton->setEnabled(true);
+        }
         else
             sendButton->setEnabled(true);
 

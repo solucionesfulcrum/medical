@@ -83,7 +83,7 @@ void historical::setSearchBox(){
     studydesc sd;
 
     QStringList prot;
-    prot << "Todos";
+    prot << tr("Todos");
     protocolsHash.insert(0,tr("Todos"));
 
     foreach(int i, sd.get()){
@@ -146,7 +146,7 @@ void historical::ResetOptions(void)
 {
     state->setText(stateItem.at(8));
     date->setText(dateItem.at(3));
-    protocols->setText("Todos");
+    protocols->setText(tr("Todos"));
     name->setText("");
 
 }
@@ -218,35 +218,35 @@ void historical::load(){
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
 
-        if(state->text()=="Incompleto")
+        if(state->text()==(tr("Incompleto")))
         {
             query += "AND s.state = -1 ";
         }
-        else if(state->text()=="En transmisión")
+        else if(state->text()==(tr("En transmisión")))
         {
             query += "AND s.state = 0 ";
         }        
-        else if(state->text()=="Enviado")
+        else if(state->text()==(tr("Enviado")))
         {
             query += "AND s.state = 1 ";
         }
-        else if(state->text()=="Asignado")
+        else if(state->text()==(tr("Asignado")))
         {
             query += "AND s.state = 2 ";
         }
-        else if(state->text()=="Diagnosticado")
+        else if(state->text()==(tr("Diagnosticado")))
         {
             query += "AND s.state = 3 ";
         }
-        else if(state->text()=="Descargado")
+        else if(state->text()==(tr("Descargado")))
         {
             query += "AND s.state = 4 ";
         }
-        else if(state->text()=="Desactivado")
+        else if(state->text()==(tr("Desactivado")))
         {
             query += "AND s.state = 7 ";
         }
-        else if(state->text()=="Adenda")
+        else if(state->text()==(tr("Adenda")))
         {
             query += "AND s.state = 8 ";
         }
@@ -271,35 +271,35 @@ void historical::load(){
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
 
-        if(state->text()=="Incompleto")
+        if(state->text()==(tr("Incompleto")))
         {
             query += "AND s.state = -1 ";
         }
-        else if(state->text()=="En transmisión")
+        else if(state->text()==(tr("En transmisión")))
         {
             query += "AND s.state = 0 ";
         }
-        else if(state->text()=="Enviado")
+        else if(state->text()==(tr("Enviado")))
         {
             query += "AND s.state = 1 ";
         }
-        else if(state->text()=="Asignado")
+        else if(state->text()==(tr("Asignado")))
         {
             query += "AND s.state = 2 ";
         }
-        else if(state->text()=="Diagnosticado")
+        else if(state->text()==(tr("Diagnosticado")))
         {
             query += "AND s.state = 3 ";
         }
-        else if(state->text()=="Descargado")
+        else if(state->text()==(tr("Descargado")))
         {
             query += "AND s.state = 4 ";
         }
-        else if(state->text()=="Desactivado")
+        else if(state->text()==(tr("Desactivado")))
         {
             query += "AND s.state = 7 ";
         }
-        else if(state->text()=="Adenda")
+        else if(state->text()==(tr("Adenda")))
         {
             query += "AND s.state = 8 ";
         }

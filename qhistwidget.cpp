@@ -159,7 +159,7 @@ void studyInfo::createStudyBox(){
     QLabel * startDate      = new QLabel(studies::datetimetoFormat(_studies.datetime()));
     QLabel * stopDate       = new QLabel(studies::datetimetoFormat(_studies.getValue("finishtime").toString()));
     QLabel * statut         = new QLabel(_studies.getState());
-    titlelabel * title      = new titlelabel("Estudio");
+    titlelabel * title      = new titlelabel(tr("Estudio"));
 
     title->setAlignment(Qt::AlignLeft);
 
@@ -214,42 +214,42 @@ void studyInfo::createStudyBox(){
     layout->addWidget(refreshButton,0,1,1,1,Qt::AlignLeft);
     layout->addWidget(dlButton,     0,2,1,1,Qt::AlignLeft);
 
-    QLabel * dnilabel = new QLabel("DNI del Paciente:");
+    QLabel * dnilabel = new QLabel(tr("DNI del Paciente:"));
     dnilabel->setFixedSize(135,50);
     layout->addWidget(dnilabel      ,1,0,1,1,Qt::AlignLeft);
     layout->addWidget(patientid     ,1,1,1,2,Qt::AlignLeft);
 
-    QLabel * patientlabel = new QLabel("Paciente:");
+    QLabel * patientlabel = new QLabel(tr("Paciente:"));
     patientlabel->setFixedSize(135,50);
     layout->addWidget(patientlabel  ,2,0,1,1,Qt::AlignLeft);
     layout->addWidget(patientname   ,2,1,1,2,Qt::AlignLeft);
 
-    QLabel * protocoloslabel = new QLabel("Protocolos:");
+    QLabel * protocoloslabel = new QLabel(tr("Protocolos:"));
     protocoloslabel->setFixedSize(135,50);
     layout->addWidget(protocoloslabel   ,3,0,1,1);
     layout->addWidget(protocol          ,3,1,1,2,Qt::AlignLeft);
 
-    QLabel * operadorlabel = new QLabel("Operador:");
+    QLabel * operadorlabel = new QLabel(tr("Operador:"));
     operadorlabel->setFixedSize(135,50);
     layout->addWidget(operadorlabel     ,4,0,1,1);
     layout->addWidget(opName            ,4,1,1,2);
 
-    QLabel * motivolabel = new QLabel("Motivo:");
+    QLabel * motivolabel = new QLabel(tr("Motivo:"));
     motivolabel->setFixedSize(135,50);
     layout->addWidget(motivolabel       ,5,0,1,1);
     layout->addWidget(reason            ,5,1,1,2);
 
-    QLabel * iniciolabel = new QLabel("Inicio:");
+    QLabel * iniciolabel = new QLabel(tr("Inicio:"));
     iniciolabel->setFixedSize(135,50);
     layout->addWidget(iniciolabel       ,6,0,1,1);
     layout->addWidget(startDate         ,6,1,1,2);
 
-    QLabel * finlabel = new QLabel("Fin:");
+    QLabel * finlabel = new QLabel(tr("Fin:"));
     finlabel->setFixedSize(135,50);
     layout->addWidget(finlabel          ,7,0,1,1);
     layout->addWidget(stopDate          ,7,1,1,2);
 
-    QLabel * estadolabel = new QLabel("Estado:");
+    QLabel * estadolabel = new QLabel(tr("Estado:"));
     estadolabel->setFixedSize(135,50);
     layout->addWidget(estadolabel       ,8,0,1,1);
     layout->addWidget(statut            ,8,1,1,2);

@@ -74,12 +74,12 @@ void checkBandwith::FinishedMessage(QNetworkReply* pReply)
     if(response=="200")
     {
         status = 0;
-        _valueLabel->setText("Conectado");
+        _valueLabel->setText(tr("Conectado"));
         _startCheck->setStyleSheet("background-color: #FFFFFF;  border-radius:3px; ");
     }
     else
     {
-        _valueLabel->setText("No conectado");
+        _valueLabel->setText(tr("No conectado"));
         _startCheck->setStyleSheet("background-color: #FF5454;  border-radius:3px; ");
     }
 
