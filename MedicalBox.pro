@@ -121,13 +121,13 @@ HEADERS  += mainwindow.h \
 
 RESOURCES += \
     res.qrc \
-    translations.qrc
+    translation.qrc
 
 DISTFILES += \
-    style.qss \
-    style_old.qss
+    language_english.ts \
+    style.qss
 
-TRANSLATIONS += MedicalBox_en.ts
+TRANSLATIONS += language_english.ts
 
 #INCLUDEPATH += D:/library/medisecure/include
 #DEPENDPATH += D:/library/medisecure/include

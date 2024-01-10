@@ -149,7 +149,7 @@ QWidget#studyInfoWidget { border-left:3px solid #E1E3E3;   }
 QWidget#studyInfoWidget QLabel{ background:#FFF; color:#3e3e3e; font-size:18px;  padding:10px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetTitle{background-color:rgba(0,0,0,40); color:#FFF; font-size:18px;  padding:14px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetDatetime{background:transparent; color:#3e3e3e; font-size:30px; line-height:10px;  padding:15px 10px;}
-QWidget#studyInfoWidget QTextEdit{ border:0; color:#3e3e3e; font-size:14px;  padding:10px 10px 10px 50px; background-color:#FFF;}
+QWidget#studyInfoWidget QTextEdit{ border:0; color:#3e3e3e; font-size:18px;  padding:10px 10px 10px 50px; background-color:#FFF;}
 QWidget#studyInfoWidget QLabel#icons{background:#00D4D8; border-radius:5px; color:#FFF; font-size:18px;  padding:14px 10px;}
 
 

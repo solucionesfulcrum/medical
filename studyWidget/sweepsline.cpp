@@ -209,6 +209,23 @@ bool sweepsLine::IsCompleted(void)
         return false;
 }
 
+int sweepsLine::getSweepsCompleted(void)
+{
+    series s;
+    QList<int> listSweeps = _series.listeIDFromStudy(studyID);
+
+    int m=0;
+
+    foreach(int i,listSweeps){
+        s.loadData(i);
+        if(s.getValue("capture").toInt() == 1)
+            m++;
+    }
+    return m;
+}
+
+
+
 int sweepsLine::actualId()
 {
     return _actualId;

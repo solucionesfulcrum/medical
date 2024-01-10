@@ -106,8 +106,26 @@ int main(int argc, char *argv[])
             return 1;
     }
 
-    //seleccionar idiomas
-    //---------------------------------------------------------------------
+
+//  Selecting language
+
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("IDIOMA");
+    QString language = settings.value("idioma").toString();
+    language = language.toUpper();
+
+    QTranslator t;
+    t.load(":/language_english.qm");
+
+    if(language=="EN")  a.installTranslator(&t);
+
+
+
+
+
+
+
+    /*
     QTranslator t;
 
     //QStringList idiomas;
@@ -134,7 +152,7 @@ int main(int argc, char *argv[])
     if(idio != "ES"){
         a.installTranslator(&t);
     }
-
+    */
     //---------------------------------------------------------------------
 
     QPixmap pixmap(":/icon/res/img/splash.png");
@@ -157,7 +175,7 @@ int main(int argc, char *argv[])
         qDebug() << "translation loaded";
     qDebug()<< "translation ruta: " << QLibraryInfo::location(QLibraryInfo::TranslationsPath);
     a.installTranslator(&qtTranslator);
-    */
+
 
 
     QTranslator qtbaseTranslator;
@@ -166,7 +184,7 @@ int main(int argc, char *argv[])
         //qtbaseTranslator.load("qtbase_es.qm");
         a.installTranslator(&qtbaseTranslator);
     }
-
+    */
 
     Q_INIT_RESOURCE(res);
     QFile file(":/qss/style.qss");

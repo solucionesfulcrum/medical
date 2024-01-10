@@ -52,6 +52,7 @@ public:
     void next();
     void prev();
     bool IsCompleted(void);
+    int getSweepsCompleted(void);
 private:
     void clear();
     QHBoxLayout * slinelayout;

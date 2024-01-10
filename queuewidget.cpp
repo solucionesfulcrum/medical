@@ -214,6 +214,8 @@ void HTTPsender::send(int i)
     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
     {
         QTextStream out(&errfile);
+        qDebug()<<_studies.getValue("uid").toString()+ ": " << _series.uid() + ": Send to " << url.toString();
+
         out << _studies.getValue("uid").toString()+ ": " << _series.uid() + ": Send to " << url.toString();        
         errfile.close();
     }
