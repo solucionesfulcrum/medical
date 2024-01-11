@@ -275,9 +275,18 @@ estudio</oldsource>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="212"/>
-        <location filename="serieswidget.cpp" line="297"/>
-        <location filename="serieswidget.cpp" line="617"/>
+        <location filename="serieswidget.cpp" line="144"/>
+        <location filename="serieswidget.cpp" line="197"/>
+        <location filename="serieswidget.cpp" line="784"/>
+        <source>Grabación 
+Finalizada</source>
+        <translation>Recording 
+Finished</translation>
+    </message>
+    <message>
+        <location filename="serieswidget.cpp" line="214"/>
+        <location filename="serieswidget.cpp" line="299"/>
+        <location filename="serieswidget.cpp" line="623"/>
         <source>Toca para grabar</source>
         <translation>Touch to record</translation>
     </message>
@@ -295,7 +304,7 @@ adquisición</source>
         <translation type="vanished">recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="338"/>
+        <location filename="serieswidget.cpp" line="340"/>
         <source>Rehacer</source>
         <oldsource>Rehacer
 la captura</oldsource>
@@ -306,101 +315,101 @@ la captura</oldsource>
         <translation type="vanished">the acquisition</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="230"/>
+        <location filename="serieswidget.cpp" line="232"/>
         <source>Paso
 Terminado</source>
         <translation>Finished
 Step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="314"/>
+        <location filename="serieswidget.cpp" line="316"/>
         <source>Siguiente
 Paso</source>
         <translation>Next
 Step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="327"/>
+        <location filename="serieswidget.cpp" line="329"/>
         <source>Visualizar</source>
         <translation>Visualize step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="327"/>
-        <location filename="serieswidget.cpp" line="338"/>
+        <location filename="serieswidget.cpp" line="329"/>
+        <location filename="serieswidget.cpp" line="340"/>
         <source>el paso</source>
         <translation>step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="384"/>
+        <location filename="serieswidget.cpp" line="386"/>
         <source>Iniciando...</source>
         <translation>Starting...</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="408"/>
+        <location filename="serieswidget.cpp" line="410"/>
         <source>Guardando</source>
         <translation>Saving</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="416"/>
+        <location filename="serieswidget.cpp" line="418"/>
         <source>Pasos
 Terminados</source>
         <translation>Finished
 Steps</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="473"/>
+        <location filename="serieswidget.cpp" line="475"/>
         <source>Problema con la grabación</source>
         <translation>Recording problem</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="478"/>
+        <location filename="serieswidget.cpp" line="480"/>
         <source>Grabación finalizada</source>
         <oldsource>Grabación terminada</oldsource>
         <translation>Recording finished</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="494"/>
         <location filename="serieswidget.cpp" line="496"/>
+        <location filename="serieswidget.cpp" line="498"/>
         <source>Error de captura</source>
         <translation>Capturing Error</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="497"/>
+        <location filename="serieswidget.cpp" line="499"/>
         <source>No se pudo capturar el barrido&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Verifique que el capturador esta bien connectado.&lt;/li&gt;&lt;li&gt;Contacte su administrador para verificar que el capturador esta bien configurado&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Sweep could not be captured.&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Please verify that video capture device is connected.&lt;/li&gt;&lt;li&gt; Contact your administrator to check settings.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="705"/>
+        <location filename="serieswidget.cpp" line="711"/>
         <source>Envio de estudio</source>
         <translation>Study submission</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="705"/>
+        <location filename="serieswidget.cpp" line="711"/>
         <source>¿Esta seguro de enviar el estudio?</source>
         <translation>Are you sure about submitting the study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="716"/>
+        <location filename="serieswidget.cpp" line="722"/>
         <source>¿Nuevo Estudio?</source>
         <translation>New Study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="716"/>
+        <location filename="serieswidget.cpp" line="722"/>
         <source>¿Empezar un nuevo estudio con el mismo paciente?</source>
         <translation>New study with the same patient?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="745"/>
+        <location filename="serieswidget.cpp" line="751"/>
         <source>Grabación</source>
         <translation>Recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="750"/>
+        <location filename="serieswidget.cpp" line="756"/>
         <source>¿Reiniciar el paso?</source>
         <translation>Redo the step?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="750"/>
+        <location filename="serieswidget.cpp" line="756"/>
         <source>¿Esta seguro de realizar nuevamente el paso?</source>
         <translation>Are you sure to remake the step?</translation>
     </message>
@@ -1663,10 +1672,9 @@ y seguir</source>
         <translation type="obsolete">Send</translation>
     </message>
     <message>
-        <location filename="studyWidget/sendbutton.cpp" line="63"/>
         <source>Grabación 
 Finalizada</source>
-        <translation>Recording 
+        <translation type="vanished">Recording 
 Finished</translation>
     </message>
 </context>

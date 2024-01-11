@@ -141,6 +141,7 @@ void SeriesWidget::backButtonSlot()
     QTime t(0,0,0);
     t = t.addMSecs(finishTime-startime);
     sendButton->setTime(t.toString());
+    sendButton->setInfo(tr("Grabación \nFinalizada"));
     sendButton->update();
 
 
@@ -193,6 +194,7 @@ void SeriesWidget::nextButtonSlot()
         QTime t(0,0,0);
         t = t.addMSecs(finishTime-startime);
         sendButton->setTime(t.toString());
+        sendButton->setInfo(tr("Grabación \nFinalizada"));
         sendButton->update();
 
         sendButton->setEnabled(true);
@@ -227,7 +229,7 @@ void SeriesWidget::setStudy(int i){
     nextButton->setEnabled(false);
 
     if(_sweepsline->setStudy(i)==true){
-        sendButton->text = tr("Paso\nTerminado");
+        sendButton->text = tr("Pasos\nTerminados");
         sendButton->update();
         sendButton->setEnabled(false);
 
@@ -606,9 +608,13 @@ void SeriesWidget::send(){
              emit finishedStudy(false);
      }
 */
+    if(_sweepsline->isLast())   return;
+
     int i,j;
     i = _sweepsline->actual()+1;
     j = _sweepsline->getSweepsCompleted();
+
+
 
     if(i==j)
     {
@@ -775,6 +781,7 @@ void SeriesWidget::cptSlideFinished(){
         quint64 finishTime = _series.getValue("finishtime").toULongLong();
         QTime t(0,0,0);
         t = t.addMSecs(finishTime-startime);
+        sendButton->setInfo(tr("Grabación \nFinalizada"));
         sendButton->setTime(t.toString());
 
         if(StudiesFinished){

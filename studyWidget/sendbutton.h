@@ -9,6 +9,7 @@ class sendbutton : public QPushButton
 public:
     sendbutton(QWidget * parent = 0);
     void setTime(QString);
+    void setInfo(QString);
     QString text;
 
 protected:
@@ -16,6 +17,7 @@ protected:
 
 private:
     QString time;
+    QString info;
 };
 
 #endif // SENDBUTTON_H
