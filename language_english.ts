@@ -316,8 +316,11 @@ la captura</oldsource>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="232"/>
-        <source>Paso
-Terminado</source>
+        <location filename="serieswidget.cpp" line="418"/>
+        <source>Pasos
+Terminados</source>
+        <oldsource>Paso
+Terminado</oldsource>
         <translation>Finished
 Step</translation>
     </message>
@@ -348,13 +351,6 @@ Step</translation>
         <location filename="serieswidget.cpp" line="410"/>
         <source>Guardando</source>
         <translation>Saving</translation>
-    </message>
-    <message>
-        <location filename="serieswidget.cpp" line="418"/>
-        <source>Pasos
-Terminados</source>
-        <translation>Finished
-Steps</translation>
     </message>
     <message>
         <location filename="serieswidget.cpp" line="475"/>
