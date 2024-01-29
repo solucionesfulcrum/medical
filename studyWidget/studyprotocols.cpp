@@ -17,6 +17,9 @@ void studyProtocols::updateProtocols(){
         dg->setObjectName("upProtDialog");
         dg->setFixedSize(400,200);
         dsc->protocolsUpdate();
+
+
+
         connect(dsc,SIGNAL(finished()),this,SLOT(updated()));
         QPushButton * cl = new QPushButton(QIcon(":/icon/res/img/form/cancel.png"),tr("Anular"));
         cl->setObjectName("redButton");
@@ -38,19 +41,20 @@ void studyProtocols::updateProtocols(){
 void studyProtocols::updated(){
 
     if(dsc->err == ""){
-        load();
+        patient p;
+        p.loadData(_patiend_id);
+        if(p.sex()=="Masculino")    loadWithSex('M',p.age());
+        else loadWithSex('X',p.age());
         dg->close();
     }
     else{
         updateStatus->setText(dsc->err);
     }
-
-
 }
 
 //----------------------------------------------------------------
 //  Christiam
-void studyProtocols::loadWithSex(char sex)
+void studyProtocols::loadWithSex(char sex, int age)
 {
     foreach(TouchButton *tb, touchButtons){
         layout->removeWidget(tb);
@@ -73,9 +77,15 @@ void studyProtocols::loadWithSex(char sex)
         listpt.append("obstetric");
         listpt.append("obstetric protocol");
         QSet<QString> setPt = listpt.toSet();
+//----------------------------------------------------------------------------------------------------
+//      CR: 04/01/23
+        if((setPt.contains(protocolType.toLower())==true) && ( (sex == 'M') || (age<9)))    continue;
+        if((protocolType.toLower()=="pulmonar") && (age<1)) continue;
 
-        //if((protocolType == "Obstetrico") && (sex == 'M') )    continue;
-        if((setPt.contains(protocolType.toLower())==true) && (sex == 'M') )    continue;
+//      CR: 31/01/23
+        if(((protocolType.toLower()).contains("cuadrante superior derecho")) && (age<18)) continue;
+//----------------------------------------------------------------------------------------------------
+
         TouchButton *tb = new TouchButton(protocolType);
         connect(tb,SIGNAL(sendId(int)),this,SLOT(save(int)));
         tb->setId(s);

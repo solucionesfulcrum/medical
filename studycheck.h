@@ -41,14 +41,17 @@ public:
     void stop();
     void start();
     void setSleepTime(int);
-    bool isFinished();
+    bool isFinished(void);
+    void refreshStudies(void);
 
 
 private slots:
     void finished(QNetworkReply*);
-    //void getError(QNetworkReply::NetworkError);
     void send();
-    void finish();
+    void timeout();
+
+    //void getError(QNetworkReply::NetworkError);
+    //void finish();
 
 signals:
     void studyupdated(int id);
@@ -58,8 +61,9 @@ private:
     saveJson * saver;
     void addPart(QString name, QString value, QString  type = "form-data");
 
-    bool canContinue;
-    bool ischecking;
+    bool sendFinished;
+    bool err;
+
     QNetworkReply *rp;
     QNetworkRequest request;
     QUrl url;
@@ -69,6 +73,7 @@ private:
     studies _studies;
     config _cfg;
     QTimer m_timer;
+    bool m_timeout;
 
     QHttpMultiPart *mtp;
 

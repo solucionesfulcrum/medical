@@ -85,12 +85,13 @@ void study::setClinicsData(){
 void study::setStudyProtocolsForm(){
     _studyProtocolsFrom = new studyProtocolsForm;
     _studyDesc = new studyProtocols();
+    _studyDesc->_patiend_id = _patient_id;
     connect(_studyDesc,SIGNAL(selected()),this,SLOT(protocolSelected()));
     _studyProtocolsFrom->setObjectName("studyProtocolsFrom");
 
 
-    //Header
-    QWidget * headerWidget = new QWidget;
+//  Header
+    QWidget *headerWidget = new QWidget;
     headerWidget->setFixedHeight(50);
     headerWidget->setObjectName("reasonWidget");
     titlelabel * headerTitle = new titlelabel(tr("Protocolos"));
@@ -101,18 +102,17 @@ void study::setStudyProtocolsForm(){
     headerLayout->addSpacing(1);
     headerLayout->setSpacing(0);
     headerLayout->setMargin(0);
-    QPushButton * updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
+
+
+    updateProtocols = new QPushButton(QIcon(":/icon/res/img/reload.png"),"");
     connect(updateProtocols,SIGNAL(clicked()),_studyDesc,SLOT(updateProtocols()));
     updateProtocols->setFixedSize(50,50);
     updateProtocols->setIconSize(QSize(35,35));
     updateProtocols->setObjectName("greenButton");
     headerLayout->addWidget(updateProtocols,0);
 
-    if (!operators::isAdmin()) updateProtocols->hide();
-    else updateProtocols->show();
-
     //Buttons
-    QPushButton * changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
+    QPushButton *changepatient = new QPushButton(QIcon(":/icon/res/img/arrowleft.png"),tr("Cambiar de paciente"));
     connect(changepatient,SIGNAL(clicked()),this,SLOT(changePatient()));
     changepatient->setObjectName("greenButton");
     changepatient->setFixedSize(240,60);
@@ -127,12 +127,12 @@ void study::setStudyProtocolsForm(){
     //All
     QVBoxLayout * all = new QVBoxLayout(_studyProtocolsFrom);
     all->addSpacing(20);
-    all->addWidget(headerWidget);
+    all->addWidget(headerWidget);                   // Title "Protocolos"
     all->addSpacing(10);
-    all->addWidget(_studyDesc,10);
+    all->addWidget(_studyDesc,10);                  //
     all->addSpacing(20);
-    all->addWidget(buttonWidget,0,Qt::AlignCenter);
-    all->addSpacing(15);
+    all->addWidget(buttonWidget,0,Qt::AlignCenter); // Button "<Cambiar de paciente"
+    all->addSpacing(10);
     all->setSpacing(0);
     all->setMargin(0);
 
@@ -142,53 +142,25 @@ void study::startStudy(){
     start->setEnabled(false);
     if (_patient_id > 0){
 
+        QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
+        QJsonDocument jdoc = QJsonDocument::fromJson(json);
+        QJsonArray jsonList = jdoc.array();
+
+        uint8_t ok;
+
 //      Obstetric protocol survey validation        
-        if(_studyDesc->getValue()==1){
-            if(_clinicdatawidget->getReason()==""){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
+        if(_studyDesc->getValue()==1)
+        {
+            ok = ObstetricProtrocol_Validation(&jsonList);
+            if(ok==0){
                 start->setEnabled(true);
                 return;
             }
-
-            if (Falta_trimestre()){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta seleccionar trimestre."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
-            if (Falta_FUR_o_FPP()){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Fechas no válidas.\nVerifique las fechas FUR y FPP."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
-
-        //---------------------------------------------------------------------------------------------
-        //  Christiam
-            uint8_t e = validateCardiacBeat();
-
-            if(e==3){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca colocada no es numero."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
-            else if (e==1){
-                QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera de rango [1,300]."),QMessageBox::Ok);
-                start->setEnabled(true);
-                return;
-            }
-
-            //---------------------------------------------------------------------------------------------
-
-            MuestraUltimoUltrasonido();
         }
 
 //      Pulmonary protocol survey validation
-        else if(_studyDesc->getValue()==3){
-            QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
-            QJsonDocument jdoc = QJsonDocument::fromJson(json);
-            QJsonArray jsonList = jdoc.array();
-
-            uint8_t ok;
-
+        else if(_studyDesc->getValue()==3)
+        {
             ok = PulmonaryProtocol_Validation(&jsonList);
             if(ok==0){
                 start->setEnabled(true);
@@ -197,13 +169,8 @@ void study::startStudy(){
         }
 
 //      CSD protocol survey validation
-        else if(_studyDesc->getValue()==4){
-            QByteArray json = _clinicdatawidget->getJson().toStdString().c_str();
-            QJsonDocument jdoc = QJsonDocument::fromJson(json);
-            QJsonArray jsonList = jdoc.array();
-
-            uint8_t ok;
-
+        else if(_studyDesc->getValue()==4)
+        {
             ok = CSDProtocol_Validation(&jsonList);
             if(ok==0){
                 start->setEnabled(true);
@@ -221,6 +188,7 @@ void study::startStudy(){
         data.insert("starttime",QString::number(now.toMSecsSinceEpoch()));
         data.insert("finishtime",QString::number(now.toMSecsSinceEpoch()));
         data.insert("reason",_clinicdatawidget->getReason());
+//      data.insert("location","Huamanga"        );
         data.insert("ConsentimientoInformado",id_ci);
         data.insert("study_state",study_created);
 
@@ -234,8 +202,13 @@ void study::startStudy(){
         else
             data.insert("trainning","0");
 
+        if (_clinicdatawidget->getCampaign())
+            data.insert("campaign","1");
+        else
+            data.insert("campaign","0");
+
         data.insert("data",QString(_clinicdatawidget->getJson()));
-        data.insert("state","-1");        
+        data.insert("state",state_incomplete);
         data.insert("id_protocols",QString::number(_studyDesc->getValue()));
         data.insert("id_patients",QString::number(_patient_id));
         data.insert("id_operators",QString::number(ope.lastOp()));        
@@ -271,6 +244,74 @@ void study::startStudy(){
     else QMessageBox::information(this,tr("Información requerida"),tr("Por favor, completar toda la información requerida."));
     start->setEnabled(true);
 }
+
+uint8_t study::ObstetricProtrocol_Validation(QJsonArray *jarray)
+{
+    QString value;
+
+    if(_clinicdatawidget->getReason()==""){
+        QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+
+//  Validate campaign
+    if(_clinicdatawidget->getCampaign())
+    {
+        value = Protocol_GetValue(jarray,"txtLugarCampania");
+        if(value=="")
+        {
+            QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta completar el nombre de la campaña."),QMessageBox::Ok);
+            return 0;
+        }
+    }
+
+//  Validate health post
+    value = Protocol_GetValue(jarray,"puestoSalud");
+    if(value=="")
+    {
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta seleccionar el puesto de salud."),QMessageBox::Ok);
+        return 0;
+    }
+
+//  Validate address
+    value = Protocol_GetValue(jarray,"txtDomicilioActual");
+    if (value == ""){
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta completar domicilio actual."),QMessageBox::Ok);
+        return 0;
+    }
+
+    if (Falta_trimestre()){
+        QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Falta seleccionar trimestre."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+    if (Falta_FUR_o_FPP()){
+        QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("Fechas no válidas.\nVerifique las fechas FUR y FPP."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+
+    uint8_t e = validateCardiacBeat();
+
+    if(e==3){
+        QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca colocada no es numero."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+    else if (e==1){
+        QMessageBox::information(this,tr("Protocolo Obstétrico"),tr("La frecuencia cardiaca esta fuera del rango [30,160]."),QMessageBox::Ok);
+        start->setEnabled(true);
+        return 0;
+    }
+
+    MuestraUltimoUltrasonido();
+
+    return 1;
+}
+
+
+
 uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
 
     QString value;
@@ -282,6 +323,32 @@ uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
+//  Validate campaign
+    if(_clinicdatawidget->getCampaign())
+    {
+        value = Protocol_GetValue(jarray,"txtLugarCampania");
+        if(value=="")
+        {
+            QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta completar el nombre de la campaña."),QMessageBox::Ok);
+            return 0;
+        }
+    }
+
+//  Validate health post
+    value = Protocol_GetValue(jarray,"puestoSalud");
+    if(value=="")
+    {
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta seleccionar el puesto de salud."),QMessageBox::Ok);
+        return 0;
+    }
+
+//  Validate address
+    value = Protocol_GetValue(jarray,"txtDomicilioActual");
+    if (value == ""){
+        QMessageBox::information(this,tr("Protocolo CSD"),tr("Falta completar domicilio actual."),QMessageBox::Ok);
+        return 0;
+    }
+
     // Validate Other Selected on Exam Indications
     value = Protocol_GetValue(jarray,"txtIndicacionesOtros");
     if( (value=="") && (Protocol_FindString(jarray,"exam_indicaction", "Otros")==true) ){
@@ -290,7 +357,7 @@ uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
     }
 
     value = Protocol_GetValue(jarray,"txtCirugiaAbdominalAnteriorEspecificar");
-    if( (value=="") && (Protocol_FindString(jarray,"medical_history", "Cirugías abdominales anteriores")==true) ){
+    if( (value=="") && (Protocol_FindString(jarray,"medical_history", "Otras cirugías abdominales anteriores")==true) ){
         QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Cirugías abdominales anteriores se debe especificar el valor."),QMessageBox::Ok);
         return 0;
     }
@@ -304,14 +371,40 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     int number;
     double decimal;
 
-    //  Validate reason
+//  Validate reason
     if(_clinicdatawidget->getReason() == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar el motivo del estudio."),QMessageBox::Ok);
         start->setEnabled(true);
         return 0;
     }
 
-    // Validate date of last ultrasound
+//  Validate campaign
+    if(_clinicdatawidget->getCampaign())
+    {
+        value = Protocol_GetValue(jarray,"txtLugarCampania");
+        if(value=="")
+        {
+            QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar el nombre de la campaña."),QMessageBox::Ok);
+            return 0;
+        }
+    }
+//  Validate health post
+    value = Protocol_GetValue(jarray,"puestoSalud");
+    if(value=="")
+    {
+        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar el puesto de salud."),QMessageBox::Ok);
+        return 0;
+    }
+
+//  Validate address
+    value = Protocol_GetValue(jarray,"txtDomicilioActual");
+    if (value == ""){
+        QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar domicilio actual."),QMessageBox::Ok);
+        return 0;
+    }
+
+
+//  Validate date of last ultrasound
     QCheckBox* firstUltrasound = this->parent()->findChild<QCheckBox*>("uecb");
     QDate ultrasounddate = QDate::fromString(Protocol_GetValue(jarray,"ultrasounddate"),"dd/MM/yyyy");
     if (!firstUltrasound->isChecked() && ultrasounddate > QDate::currentDate().addDays(-1)) {
@@ -319,12 +412,18 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
         return 0;
     }
 
-    // Validate country of infection
+//-------------------------------------------------
+//  CR: 08/01/23
+//  Validate country of infection
+/*
     value = Protocol_GetValue(jarray,"txtLPI");
     if (value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar lugar probable de infección."),QMessageBox::Ok);
         return 0;
     }
+*/
+//-------------------------------------------------
+
 
     // Validate address
     value = Protocol_GetValue(jarray,"txtDomicilioActual");
@@ -334,6 +433,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate case of infection
+    //14-11-2023 ERICK G. :Se retira validación de prueba covid
+    /****
     value = Protocol_GetValue(jarray,"selCaseStatus");
     if (value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar clasificación del caso."),QMessageBox::Ok);
@@ -361,6 +462,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             }
         }
     }
+    ***/
 
     // Validate if patient present sympthoms
     value = Protocol_GetValue(jarray,"selSymptom");
@@ -385,6 +487,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate if patient has been hospitalized
+    //14-11-2023 ERICK G. :Se retira validación de hospitalización
+    /****
     value = Protocol_GetValue(jarray,"selHospitalized");
     if(value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si ha sido hospitalizado."),QMessageBox::Ok);
@@ -402,6 +506,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
     }
+    */
 
     /* Validete hospitalization date is after symptoms date
     if(DateIniSyptoms>DateIniHospitalization){
@@ -462,10 +567,13 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate general aspect
+    //14-11-2023 ERICK G. :Se retira validación de aspecto general del paciente
+    /****
     if (PulmonaryProtocol_Checked(jarray,"cbGeneralAspect") == false) {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta marcar el aspecto general del paciente,"),QMessageBox::Ok);
         return 0;
     }
+    **/
 
     // Validate if is vaccinated
     value = Protocol_GetValue(jarray,"selVaccinated");
@@ -487,7 +595,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
 
-        // Validate date of hospitalization
+        // Validate date of last dose
         QDate dateLastDose = QDate::fromString(Protocol_GetValue(jarray,"dateLastDose"),"dd/MM/yyyy");
         if(dateLastDose > QDate::currentDate()) {
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar fecha de última dosis."),QMessageBox::Ok);
@@ -496,6 +604,8 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     }
 
     // Validate if have had COVID
+    //14-11-2023 ERICK G. :Se retira validación de si padeció covid
+    /****
     value = Protocol_GetValue(jarray,"selHadCovid");
     if (value == "") {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si tuvo COVID."),QMessageBox::Ok);
@@ -507,6 +617,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
             return 0;
         }
     }
+    **/
 
     return 1;
 }
@@ -618,7 +729,13 @@ void study::newStudy(bool b){
             studyInfo->setStudyInfoPatient("","");
         }
         _clinicdatawidget->reset();
-        _studyDesc->load();
+
+        patient p;
+        p.loadData(_patient_id);        
+        if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+        else _studyDesc->loadWithSex('X',p.age());
+        //_studyDesc->load();
+
         studyInfo->setStudyInfoProtocols("");
         studyInfo->setStudyInfoDateTime("");
         studyInfo->setStudyInfoReason("");
@@ -630,6 +747,9 @@ void study::newStudy(bool b){
             studyForm->setCurrentIndex(1);
         emit studyStarted(false);
     }
+
+    _seriesWidget->sendButton->text = tr("Siguiente\nPaso");
+
 }
 
 
@@ -641,12 +761,17 @@ void study::patientLoaded(int s){
     studyInfo->setStudyInfoPatient(p.getValue("name").toString(),p.getValue("last_name").toString());
     _patient_id = s;
 //----------------------------------------------------------------
-//  CR:
-    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M');
-    else _studyDesc->loadWithSex('X');
+//  CR: 24/04/23
+    _studyDesc->_patiend_id = s;
+    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+    else _studyDesc->loadWithSex('X',p.age());
+
 //----------------------------------------------------------------
-    if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
-    else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
+    //if (operators::isAdmin()) _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->show();
+    //else _studyProtocolsFrom->findChild<QPushButton *>("greenButton")->hide();
+//  CR:11/06/23
+    if(operators::isAdmin())    this->updateProtocols->show();
+    else                        this->updateProtocols->hide();
 
     studyForm->slideInNext();
 }
@@ -682,33 +807,43 @@ void study::protocolSelected(){
     QMessageBox::warning(this,tr("Conexión a internet"),tr("NO HAY CONEXION A INTERNET. Revisar la conexión."));
     }
 
+
     if (!validatePatienteAge()) {
         studyForm->slideInPrev();
         return;
     }
 
 
-    int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
-                                        "Su respuesta se tomará como una declaración jurada, <br />"
-                                        "si fuera positiva implica, que culminó con el llenado <br />"
-                                        "del consentimiento informado y que éste ha sido <br />"
-                                        " firmado por el paciente tratado."),QMessageBox::Yes|QMessageBox::No);
+    if(ConsentState)
+    {
+        int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
+                                            "Su respuesta se tomará como una declaración jurada, <br />"
+                                            "si fuera positiva implica, que culminó con el llenado <br />"
+                                            "del consentimiento informado y que éste ha sido <br />"
+                                            " firmado por el paciente tratado."),QMessageBox::Yes|QMessageBox::No);
 
-    if(r==QMessageBox::No){
-        QMessageBox::information(this,tr("Consentimiento informado"),tr("Para continuar debe completar la firma del consentimiento informado."),QMessageBox::Ok);
-        studyForm->slideInPrev();
-        return;
+        if(r==QMessageBox::No){
+            QMessageBox::information(this,tr("Consentimiento informado"),tr("Para continuar debe completar la firma del consentimiento informado."),QMessageBox::Ok);
+            studyForm->slideInPrev();
+            return;
+        }
     }
 
     id_ci = _patient_Document+"_"+QString::number(_studies.getLastElement("id")+1);
-    QMessageBox::information(this,tr("Consentimiento informado"),tr("Código: ")+ id_ci,QMessageBox::Ok);
 
+    if(ConsentState)
+        QMessageBox::information(this,tr("Consentimiento informado"),tr("Código: ")+ id_ci,QMessageBox::Ok);
+
+    start->setEnabled(true);
     _clinicdatawidget->setProtocols(_studyDesc->getValue());        
-    studyInfo->setStudyInfoProtocols(_studyDesc->text());    
-    studyForm->slideInNext();
+    studyInfo->setStudyInfoProtocols(_studyDesc->text());           
+    studyForm->slideInNext();    
 }
 
-
+void study::Slot_Consent(bool state)
+{
+    ConsentState = state;
+}
 
 bool study::Falta_FUR_o_FPP(){
     QString datos,fecha;
@@ -755,7 +890,11 @@ uint8_t study::validateCardiacBeat()
             if(!ok) return 3;
             else {
                 if(frequency==-32768)   return 2;
-                if( (frequency<1) || (frequency>300) )  return 1;
+             //--------------------------------------------------------
+             // CR: 04/01/23
+             // CR: 19/05/23
+                if( (frequency<30) || (frequency>160) )  return 1;
+             //--------------------------------------------------------
                 else    return 0;
             }
         }
@@ -785,11 +924,8 @@ bool study::Falta_trimestre(){
 }
 
 
-//Falta Agregar el chequeo del ultimo ultrasonido por aca
-//para poder resolver el problema de si la persona se olvido o no
 void study::MuestraUltimoUltrasonido()
 {
-    qDebug() << "Attempting to retrieve calendar and checkbox";
     QObject* p = this->parent();
     QCheckBox* uecb = p->findChild<QCheckBox*>("uecb");
     QCalendarWidget* fuu = p->findChild<QCalendarWidget*>("FUU");
@@ -822,6 +958,8 @@ void study::Wifi_status(int8_t m){
 }
 
 bool study::validatePatienteAge(){
+
+    /*
     patient currentPatient;
     currentPatient.loadData(_patient_id);
     int age = currentPatient.age();
@@ -829,12 +967,13 @@ bool study::validatePatienteAge(){
 
     switch(_studyDesc->getValue())
     {
-        case 1:
-            if (age < 16) {
-                QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
-                result = false;
-            }
-            break;
+        //case 1:
+        //  CR: 08/01/23
+            //if (age < 16) {
+            //    QMessageBox::warning(this,tr("Protocolo Obstétrico"),tr("No puede realizar el protocolo obstétrico en menores de 16 años."));
+            //    result = false;
+            //}
+            //break;
         case 3:
             if (age < 11 || age > 89 ) {
                 QMessageBox::warning(this,tr("Protocolo Pulmonar"),tr("No puede realizar el protocolo pulmonar en menores de 11 años ni mayores de 89."));
@@ -852,4 +991,7 @@ bool study::validatePatienteAge(){
     }
 
     return result;
+    */
+
+    return true;
 }

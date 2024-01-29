@@ -19,7 +19,8 @@ studies::studies() : entities(){
          << "trainning"
          << "ConsentimientoInformado"
          << "new_report"
-         << "study_state";
+         << "study_state"
+         << "campaign";
 }
 
 studies::~studies(){
@@ -45,19 +46,63 @@ QList<int> studies::listeID(QString s){
     if(s == "")
         q = "SELECT id FROM studies ORDER BY starttime desc";
     else q = s;
-    //qDebug() << q;
+
+    qDebug() << q;
+
     QSqlQuery query(q);
     while (query.next())
         result.append(query.value(0).toInt());
     return result;
 }
 
+//------------------------------------------------------------------
+//  CR: 09/07/23
+ QList<int> studies::GetIncommpleteAndNotsendStudies(void)
+{
+    QList<int> result;
+    QList<int> r;
+    QString q;
+    QDateTime DateToday = QDateTime::currentDateTime();
+    QDateTime DatePast = QDateTime::currentDateTime();
+    DateToday.setTime(QTime(23,59,59));
+    DatePast.setTime(QTime(0,0,0));
+    DatePast = DatePast.addDays(-30);
+
+    uint timestampTo = DateToday.toTime_t();
+    uint timestampFrom = DatePast.toTime_t();
+
+    q += "SELECT id ";
+    q += "FROM studies as s ";
+    q += "WHERE s.starttime > "+QString::number(timestampFrom)+" ";
+    q += "AND s.starttime < "+QString::number(timestampTo)+" ";
+    q += "AND s.state = -1";
+    QSqlQuery query(q);
+    while (query.next())
+        r.append(query.value(0).toInt());
+    result.append(r.length());
+
+    r.clear();
+    q.clear();
+    q += "SELECT id ";
+    q += "FROM studies as s ";
+    q += "WHERE s.starttime > "+QString::number(timestampFrom)+" ";
+    q += "AND s.starttime < "+QString::number(timestampTo)+" ";
+    q += "AND s.state = 0";
+    query.clear();
+    query.exec(q);
+    while (query.next())
+        r.append(query.value(0).toInt());
+    result.append(r.length());
+
+    return result;
+}
+
+//------------------------------------------------------------------
+
 QStringList studies::getAllNotReported(){
     QStringList result;
     QString q;
-    q += "SELECT uid ";
-    q += "FROM studies as s ";
-    q += "WHERE state < 3 ";
+    q += "SELECT uid FROM studies as s WHERE (state > 0 AND state < 5) OR state ==8";
     QSqlQuery query(q);
     while (query.next())
         result.append(query.value(0).toString());
@@ -161,16 +206,38 @@ QString studies::getData(){
 
 QString studies::getStateName(int v){
     switch(v){
-    case -1: return "Pendiente"; break;
-    case 0: return "Terminado"; break;
-    case 1: return "Confirmado"; break;
-    case 2: return "Asignado"; break;
-    case 3: return "Diagnosticado"; break;
-    case 4: return "Enviado"; break;
-    case 5: return "Firmado"; break;
-    case 6: return "Rechazado"; break;
-    case 7: return "Desactivado"; break;
+/*
+//-------------------------------------------------
+//  CR: 15/05/23
+    case -1:    return "Incompleto"; break;
+    case 0:     return "Sin enviar"; break;
+    case 1:     return "Enviado"; break;
+//-------------------------------------------------
+    case 2:     return "Asignado"; break;
+    case 3:     return "Diagnosticado"; break;
+    case 4:     return "Enviado"; break;
+    case 5:     return "Firmado"; break;
+    case 6:     return "Rechazado"; break;
+    case 7:     return "Desactivado"; break;
+    default: break;
     }
+*/
+
+//  CR: 04/06/23
+//  CR: 26/07/23
+    case -1:    return "Incompleto"; break;
+    case 0:     return "En transmisión"; break;
+    case 1:     return "Enviado"; break;
+    case 2:     return "Asignado"; break;
+    case 3:     return "Diagnosticado"; break;
+    case 4:     return "Descargado"; break;
+    case 7:     return "Desactivado"; break;
+    case 8:     return "Adenda";
+//-------------------------------------------------
+    default:    return "";          break;
+    }
+
+
 }
 
 int studies::getIdFromUID(QString uid){
@@ -222,7 +289,18 @@ QString studies::operatorName(){
     else return "";
 }
 
-
+//29-11-2023 - Se recupera el ID del paciente asociado al estudio
+QString studies::getPatientIdFromUID(QString uid){
+    QString q;
+    q += "SELECT id_patients ";
+    q += "FROM studies as s ";
+    q += "WHERE uid = '"+uid+"' ";
+    QSqlQuery query(q);
+    qDebug() << q << query.size();
+    if(query.next())
+        return query.value(0).toString();
+    else return "";
+}
 
 
 

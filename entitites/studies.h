@@ -32,6 +32,8 @@ public:
     QString getData();
     int getLastElement(QString name);
 
+    QList<int> GetIncommpleteAndNotsendStudies(void);
+
     bool updateStudy(QHash<QString, QString> data, QString uid);
     int getIdFromUID(QString);
     static QString getStateName(int);
@@ -39,6 +41,7 @@ public:
     static bool deleteFolder(QString);
 
     QString operatorName();
+    QString getPatientIdFromUID(QString);
 
 private:
     QString _uid, _datetime, _desc, _reason;

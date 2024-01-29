@@ -1,13 +1,19 @@
-#ifndef OPERATORS_H
-#define OPERATORS_H
+#ifndef SITES_H
+#define SITES_H
 
 #include <entitites/entities.h>
 
-class operators : public entities
+class sites : public entities
 {
 public:
-    operators();
-    ~operators();
+    sites();
+    ~sites();
+
+    QList<int> listeID(QString );
+    QStringList getSites(void);
+    void eliminateSite(int id);
+
+/*
     bool logIn(int, QString);
     bool islogged();
     QString opName();
@@ -19,9 +25,8 @@ public:
 private:
     bool isLogin;
     QString name;
+    */
 };
 
 
-extern operators ope;
-
-#endif // OPERATORS_H
+#endif // SITES_H

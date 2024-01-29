@@ -1,4 +1,6 @@
 #include "studydesc.h"
+#include "networkutils.h" //24-11-2023 Añadir MAC ADDRESS
+#include <QDebug>
 
 studydesc::studydesc() : entities()
 {
@@ -84,6 +86,11 @@ void studyDescUpdate::protocolsUpdate(){
     addPart(mtp, "password", _cfg.getValue("pass").toString());
     addPart(mtp, "api-key",apikey);
     addPart(mtp, "check",check);
+
+    //24-11-2023 Añadir MAC ADDRESS
+    QString mac_address = NetworkUtils::obtenerDireccionMAC();
+    addPart(mtp,"mac_address",mac_address);
+    //qDebug() << "Dirección MAC: " << mac_address;
 
     qDebug() << "Update:" << url.toString() << request.url().toString();
     rp = m_WebCtrl.post(request,mtp);

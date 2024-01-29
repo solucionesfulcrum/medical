@@ -13,7 +13,6 @@ MainWindow::MainWindow(QWidget *parent)
     QVirtualKeyboard::vk = new QVirtualKeyboard();
     QVirtualKeyboard::vk->setFixedWidth(mainwidth);
 
-    //QVirtualKeyboard::vk->setVisibleKeyboard(false);
     //version = "1.4.2 (29/05/2019)";
     //version = "1.4.3 (08/11/2019)";
     //version = "2.0.1 (20/02/2020)";
@@ -41,18 +40,25 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.3.5 (03/09/2021)";
     //version = "2.3.7 (22/09/2021)";
     //version = "2.3.8 (27/09/2021)";
-    version = "2.3.9 (24/05/2022)";
+    //version = "2.3.9 (24/05/2022)";
+    //version = "2.4.0 (09/02/2023)";
+    //version = "2.4.1 (17/02/2023)";
+    //version = "2.4.2 (25/05/2023)";
+    //version = "2.4.3 (07/06/2023)";
+    //version = "2.4.3 (13/06/2023)";
+    //version = "2.5.0 (01/08/2023)";
+    //version = "2.5.1 (26/08/2023)";
+    //version = "2.5.2 (12/11/2023)";
+    //version = "2.5.3 (13/12/2023)";
+    version = "2.5.4 (12/01/2024)";
 
-    // setFixedSize(mainwidth,mainheight);
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
     accesor::stopEffect();
 
-    //To discomment
-    //setWindowFlags(Qt::Window | Qt::FramelessWindowHint );
     showFullScreen();
     setObjectName("mw");
-
+    
 //  Create the process of checking studies
     _studycheck = new studyCheck;
 
@@ -60,23 +66,35 @@ MainWindow::MainWindow(QWidget *parent)
     pStudyFinished = new StudyFinished;
 
 //  Create mainWindow
-    mainwindow = new QWidget;
+    mainwindow = new QWidget(this);
 
-    //Set Header
+//  Set Header
     header();
 
 //  Queue: Contains the list of studies send it to the server
     setQueueWidget();
 
-    //Set Main Widget
+//  Set Main Widget
     setMainWidget();
 
-    //SetMenu
+//-----------------------------------------------------------------------------------
+//  CR: 17/05/23
+    TimerInactivity = new QTimer;
+    TimerInactivity->setInterval(1000*60*_configuration->_TimeoutInactivity->text().toInt());
+    //connect(TimerInactivity,SIGNAL(timeout()),this,SLOT(LogoutForTimeout()));
+//-----------------------------------------------------------------------------------
+//  CR: 18/05/23
+    connect(_configuration,SIGNAL(Signal_Timeout(int)),this,SLOT(Slot_Timeout(int)));
+    connect(_configuration,SIGNAL(Signal_Consent(bool)),_study,SLOT(Slot_Consent(bool)));
+
+//-----------------------------------------------------------------------------------
+//  SetMenu
     menu();
 
-    //Set Footer
+//  Set Footer
     footer();
 
+    //QGridLayout * l = new QGridLayout(mainwindow);
     QGridLayout * l = new QGridLayout(mainwindow);
     l->addWidget(_header,0,0,1,3);
     l->addWidget(_menu,1,0);
@@ -113,12 +131,46 @@ MainWindow::MainWindow(QWidget *parent)
     else  _queue->setGeometry(hideQueueGeometry);
     move ( 0, 0 );
 
+
+}
+//------------------------------------------------------------------
+//  CR: 17/05/23
+void MainWindow::Slot_Timeout(int t)
+{
+    TimerInactivity->setInterval(1000*60*t);
 }
 
+//------------------------------------------------------------------
 void MainWindow::mousePressEvent(QMouseEvent * event){
     if(event->button() == Qt::LeftButton ){
         QVirtualKeyboard::vk->finish();
     }
+    TimerInactivity->stop();        // Reset timer
+    TimerInactivity->start();
+
+}
+
+void MainWindow::mouseReleaseEvent(QMouseEvent *){
+    TimerInactivity->stop();        // Reset timer
+    TimerInactivity->start();
+}
+
+
+
+bool MainWindow::eventFilter(QObject *obj, QEvent *event)
+{
+
+    bool result = false;
+
+    if (QEvent::MouseButtonPress == event->type()) {
+        qDebug()<<"Entro";
+    }
+
+    if (!result) {
+        result = QObject::eventFilter(obj, event);
+    }
+
+    return result;
 }
 
 void MainWindow::setSizes(){
@@ -210,26 +262,53 @@ bool MainWindow::encryptFile(const QString &inputFilePath,const QString &outputF
 
 
 void MainWindow::setLogin(){
+
+//--------------------------------------------------------------
+//  CR: 31/03/21
+    login->_pass->vk->edit->setEchoMode(QLineEdit::Password);
+//--------------------------------------------------------------
     mainWidget->slideInIdx(0,SlidingStackedWidget::LEFT2RIGHT);
-    //Stop Checking studies
+
+    setmenuUS();
+
+//  Stop Checking studies
     _studycheck->stop();
     if(isQueue)
         toggleQueue();
 }
 
 void MainWindow::setMainWindow(){
+//-------------------------------------------
+//  CR: 31/07/23
+//  TimerInactivity->start();
+//-------------------------------------------
+
     mainWidget->slideInIdx(1,SlidingStackedWidget::RIGHT2LEFT);
     login->init();
     _configuration->refreshOpe();
+    _operatores->refresh("");
+    _info->refresh();
+
     if (operators::isAdmin())
-        menuAddOp->show(); 
+    {
+        menuAddOp->show();
+        menuSite->show();
+    }
+
     else
+    {
         menuAddOp->hide();
+        menuSite->hide();
+    }
+
     operators op;
     user->setText(op.opName());
 
+//-----------------------------------------------------
+//  CR: 22/10/23
 //  Start Checking studies
-    _studycheck->start();
+    //_studycheck->start();
+//-----------------------------------------------------
 
 //  Start review of studies registered on server
     pStudyFinished->start();
@@ -242,10 +321,36 @@ void MainWindow::setMainWindow(){
 
     _queue->show();;
     _queue->raise();
+
+//---------------------------------------------------------------------------------------------
+//  CR: 09/07/23
+    studies _studies;
+    QList<int> result;
+    QString str;
+
+    result = _studies.GetIncommpleteAndNotsendStudies();
+
+    if(result.at(0)!=0 && result.at(1)==0)
+    {
+        str = tr("Existen estudios incompletos en los últimos 30 días.");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+    else if(result.at(0)==0 && result.at(1)!=0)
+    {
+        str = tr("Existen estudios sin enviar en los últimos 30 días");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+    else if(result.at(0)!=0 && result.at(1)!=0)
+    {
+        str = tr("Existen estudios incompletos y sin enviar en los últimos 30 días");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+//---------------------------------------------------------------------------------------------
+
 }
 
 void MainWindow::header(){
-    _header = new QWidget;
+    _header = new QWidget(this);
     _header->setObjectName("header");
     _header->setFixedHeight(headerheight);
     _header->setContentsMargins(0,0,0,0);
@@ -292,7 +397,7 @@ void MainWindow::header(){
 }
 
 void MainWindow::menu(){
-    _menu = new QWidget;
+    _menu = new QWidget(this);
     _menu->setObjectName("menu");
     _menu->setFixedWidth(180);
 
@@ -300,46 +405,71 @@ void MainWindow::menu(){
 //  Christiam
     int size = 24;
 
-    menuUS = new QToolButton();
+    menuUS = new QToolButton(this);
     menuUS->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuUS->setText(tr("Ecografía"));
-    menuUS->setCheckable(true);
+    menuUS->setCheckable(true);        
     connect(menuUS,SIGNAL(clicked()),this,SLOT(setmenuUS()));
 
-    menuConfig = new QToolButton();
+    menuConfig = new QToolButton(this);
     menuConfig->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuConfig->setText(tr("Ajustes"));
     menuConfig->setCheckable(true);
     connect(menuConfig,SIGNAL(clicked()),this,SLOT(setmenuConfig()));
 
-    menuHist = new QToolButton();
+    menuHist = new QToolButton(this);
     menuHist->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuHist->setText(tr("Historial"));
-    menuHist->setCheckable(true);
+    menuHist->setCheckable(true);    
     connect(menuHist,SIGNAL(clicked()),this,SLOT(setmenuHist()));
 
-    menuAddOp = new QToolButton();
+    menuAddOp = new QToolButton(this);
     menuAddOp->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuAddOp->setText(tr("Operadores"));
-    menuAddOp->setCheckable(true);
+    menuAddOp->setCheckable(true);    
     connect(menuAddOp,SIGNAL(clicked()),this,SLOT(setmenuOperador()));
 
-    menuHelp = new QToolButton();
+    menuInfo = new QToolButton(this);
+    menuInfo->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
+    menuInfo->setText(tr("Información"));
+    menuInfo->setCheckable(true);    
+    connect(menuInfo,SIGNAL(clicked()),this,SLOT(setmenuInfo()));
+
+    menuHelp = new QToolButton(this);
     menuHelp->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
     menuHelp->setText(tr("Tutoriales"));
-    menuHelp->setCheckable(true);
+    menuHelp->setCheckable(true);    
     connect(menuHelp,SIGNAL(clicked()),this,SLOT(setmenuHelp()));
+
+    menuSite = new QToolButton(this);
+    menuSite->setStyleSheet("QToolButton{font-size: "+QString::number(size)+"px;}");
+    menuSite->setText(tr("P. Salud"));
+    menuSite->setCheckable(true);
+    connect(menuSite,SIGNAL(clicked()),this,SLOT(setmenuSite()));
+
+
+
 //-----------------------------------------------------------------------------------
 
     toolButtons << menuUS
                 << menuHist
                 << menuConfig
                 << menuAddOp
+                << menuSite
+                << menuInfo
                 << menuHelp ;
 
-    //QSize toolButtonSize(180,95);
-    //QSize toolIconSize(64,64);
-    //QSize toolButtonSize(180,95);
+
+/*
+    menuUS->installEventFilter(this);
+    menuHist->installEventFilter(this);
+    menuConfig->installEventFilter(this);
+    menuAddOp->installEventFilter(this);
+    menuInfo->installEventFilter(this);
+    menuHelp->installEventFilter(this);
+    menuSite->installEventFilter(this);
+*/
+
     QSize toolButtonSize(140,95);
     QSize toolIconSize(70,70);
 
@@ -375,7 +505,7 @@ void MainWindow::footer(){
 //--------------------------------------------------------------------------------------
     captureProcessWidget *cpw = new captureProcessWidget();
 
-    _footer = new QWidget();
+    _footer = new QWidget(this);
     _footer->setFixedHeight(footerheight);
     _footer->setObjectName("footer");
     QHBoxLayout *layout = new QHBoxLayout(_footer);
@@ -445,22 +575,29 @@ void MainWindow::uncheckMenu(){
     menuHist->setChecked(false);
     menuClose->setChecked(false);
     menuAddOp->setChecked(false);
+    menuSite->setChecked(false);
+    menuInfo->setChecked(false);
     menuHelp->setChecked(false);
+
 
     menuUS->setIcon(QIcon(":/icon/res/img/menu/iconMenu_01.png"));
     menuConfig->setIcon(QIcon(":/icon/res/img/menu/iconMenu_03.png"));
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenu_02.png"));
-    menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_04.png"));
+    menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_04.png"));    
+    menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoWhite.png"));
+    menuSite->setIcon(QIcon(":/icon/res/img/menu/IconLocationWhite.png"));
     menuHelp->setIcon(QIcon(":/icon/res/img/menu/iconMenu_05.png"));
 }
 
 void MainWindow::loadStudy(int id){
-    setmenuUS();
+    setmenuUS();    
     _study->loadStudy(id);
 }
 
 
 void MainWindow::setmenuUS(){
+
+    _study->studyForm->setCurrentIndex(0);    
     setmenu(0);
     uncheckMenu();
     menuUS->setChecked(true);
@@ -487,10 +624,44 @@ void MainWindow::setmenuConfig(){
 void MainWindow::setmenuHist(){
     if (_main->currentIndex() != 3)
         _historical->reset();
+
+//-------------------------------------------------------
+//  CR: 14/11/23
+    QDialog *dg = new QDialog();
+    dg->setWindowFlags( Qt::Tool |Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
+    dg->setModal(true);
+    dg->setObjectName("upProtDialog");
+    dg->setFixedSize(400,200);
+
+    QVBoxLayout *hl         = new QVBoxLayout(dg);
+    QLabel *updateStatus    = new QLabel(tr("Sincronizando estudios ..."));
+    updateStatus->setAlignment(Qt::AlignCenter);
+    hl->addWidget(updateStatus,10);
+    dg->show();
+
+
+//-------------------------------------------------------
+//  CR: 22/10/23
+    this->setEnabled(false);
+
+//-------------------------------------------------------
+//  CR: 04/06/23
+    _historical->ResetOptions();
+//-------------------------------------------------------
+
     setmenu(3);
     uncheckMenu();
+    _studycheck->refreshStudies();
+    _historical->load();
+
+
+    dg->hide();
+
+    this->setEnabled(true);
+
     menuHist->setChecked(true);
     menuHist->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_02.png"));
+
 }
 
 void MainWindow::setmenuOperador(){
@@ -499,32 +670,63 @@ void MainWindow::setmenuOperador(){
     menuAddOp->setChecked(true);
     menuAddOp->setIcon(QIcon(":/icon/res/img/menu/iconMenuBlue_04.png"));
 }
+//---------------------------------------------------------------------------
+//  CR: 01/11/23
+void MainWindow::setmenuSite(){
+    setmenu(5);
+    uncheckMenu();
+    menuSite->setChecked(true);
+    menuSite->setIcon(QIcon(":/icon/res/img/menu/IconLocationBlue.png"));
+}
 
+//---------------------------------------------------------------------------
+//  CR: 07/02/23
+void MainWindow::setmenuInfo(void){
+    setmenu(6);
+    uncheckMenu();
+    menuInfo->setChecked(true);
+    menuInfo->setIcon(QIcon(":/icon/res/img/menu/iconInfoBluelight.png"));
+}
+//---------------------------------------------------------------------------
 
 
 void MainWindow::setmenu(int i){
-    showFullScreen();
+    showFullScreen();    
     _main->setCurrentIndex(i);
 }
 
 void MainWindow::setMainWidget(){
-    _main = new QStackedWidget;
+    _main       = new QStackedWidget(this);
+
     _operatores = new dialogOperator;
+    _site       = new dialogSite;
+
     _study = new study;
     _study->setQueueWidget(_queue);
     connect(_study,SIGNAL(studyStarted(bool)),this,SLOT(setMenuDisabled(bool)));
 
+
     _visor = new visor;
     _configuration = new configuration;
-    _historical = new historical();
+    _historical = new historical();    
     _historical->setQueueWidget(_queue);
     connect(_historical,SIGNAL(loadStudyId(int)),this,SLOT(loadStudy(int)));
 
+//------------------------------------------------------------------------------
+//  CR: 17/05/23
+    _study->ConsentState = _configuration->_consent->isChecked();
+//------------------------------------------------------------------------------
+
+    _info = new info;
+
     _main->addWidget(_study);           // Index 0
     _main->addWidget(_visor);           // Index 1
-    _main->addWidget(_configuration);
-    _main->addWidget(_historical);
-    _main->addWidget(_operatores);
+    _main->addWidget(_configuration);   // Index 2
+    _main->addWidget(_historical);      // Index 3
+    _main->addWidget(_operatores);      // Index 4
+    _main->addWidget(_site);            // Index 5
+    _main->addWidget(_info);            // Index 6
+
 }
 
 void MainWindow::setQueueWidget(){
@@ -540,14 +742,38 @@ void MainWindow::setQueueWidget(){
     isQueue =false;
 }
 
-void MainWindow::logout(){
+void MainWindow::logout()
+{
+//---------------------------------------------------------------------------------------------
+//  CR: 09/07/23
+    studies _studies;
+    QList<int> result;
+    QString str;
 
-//----------------------------------------------------
+    result = _studies.GetIncommpleteAndNotsendStudies();
+
+    if(result.at(0)!=0 && result.at(1)==0)
+    {
+        str = tr("Existen estudios incompletos en los últimos 30 días.");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+    else if(result.at(0)==0 && result.at(1)!=0)
+    {
+        str = tr("Existen estudios sin enviar en los últimos 30 días");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+    else if(result.at(0)!=0 && result.at(1)!=0)
+    {
+        str = tr("Existen estudios incompletos y sin enviar en los últimos 30 días");
+        QMessageBox::information(this,tr("Estudios pendientes"),str);
+    }
+
+//---------------------------------------------------------------------------------------------
 //  CR: 20/01/21
     if(_queue->_series.listeIDtoQueue().count()!=0){
         if(QMessageBox::question(this,tr("Advertencia"),tr("Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::No) return;
     }
-//----------------------------------------------------
+//---------------------------------------------------------------------------------------------
 
     if(!isCapturing())
         setLogin();   
@@ -669,3 +895,20 @@ void MainWindow::closeSystem(){
 void MainWindow::closeEvent(QCloseEvent *){
     //ExitWindowsEx(EWX_SHUTDOWN,0);
 }
+/*
+bool MainWindow::notify(QObject *receiver, QEvent *event)
+{
+    if ( (event->type() == QEvent::MouseMove) || (event->type() == QEvent::KeyPress) )
+    {
+        TimerInactivity->stop(); // reset timer
+        TimerInactivity->start();
+    }
+    return MainWindow::notify(receiver, event);
+}*/
+
+void MainWindow::LogoutForTimeout(void)
+{
+    TimerInactivity->stop();
+    setLogin();
+}
+

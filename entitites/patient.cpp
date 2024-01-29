@@ -91,6 +91,7 @@ int patient::age(){
     return y;
 }
 
-
-
+bool patient::updatePatient(QHash<QString, QString> data, QString patient_id){
+    return  db->update(data,table,"id",patient_id);
+}
 

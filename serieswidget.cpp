@@ -8,20 +8,28 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
     poller = new QTimer;
     connect(poller,SIGNAL(timeout()),this,SLOT(refreshCaptureTime()));
 
-    /* Recover capture process */
+//  Recover capture process
     _captureProcess = captureProcess::_captureProcess;
     connect(_captureProcess,SIGNAL(finished(int)),this,SLOT(processFinished(int)));
     connect(_captureProcess,SIGNAL(started()),this,SLOT(processStarted()));
     connect(_captureProcess,SIGNAL(readyReadStandardOutput()),this,SLOT(processData()));
     connect(_captureProcess,SIGNAL(readyReadStandardError()),this,SLOT(processData()));
 
-    //Create and add Signal to finish study button
+//  Create and add Signal to finish study button
     finishStudyButton = new QPushButton(QIcon(":/icon/res/img/capture_button/close.png"),tr("Cerrar")+"\n"+tr("estudio"));
     finishStudyButton->setObjectName("greenButton");
     finishStudyButton->setFixedSize(220,70);
     finishStudyButton->setIconSize(QSize(42,42));
     finishStudyButton->setStyleSheet({"font-size: 18px; font-weight: bold;"}); //JB-06082020
     connect(finishStudyButton,&QPushButton::clicked,this,&SeriesWidget::finishStudy);
+
+    sendStudyButton = new QPushButton(tr("Enviar")+"\n"+tr("estudio"));
+    sendStudyButton->setObjectName("greenButton");
+    sendStudyButton->setStyleSheet({"font-size: 18px; font-weight: bold;"});
+    sendStudyButton->setFixedSize(220,70);
+    sendStudyButton->setEnabled(false);
+    connect(sendStudyButton,&QPushButton::clicked,this,&SeriesWidget::sendStudy);
+
 
     //Create slidinwidget for study capture
     cpt = new SlidingStackedWidget(this);
@@ -32,13 +40,25 @@ SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
     cpt->addWidget(toolBox);
     connect(cpt,SIGNAL(animationFinished()),this,SLOT(cptSlideFinished()));
 
+    StudiesFinished = false;
+/*
     //Set Windows Capture Widget
     QVBoxLayout * hl = new QVBoxLayout(this);
     //hl->addSpacing(30);
     hl->addWidget(listBox);
     hl->addWidget(cpt,5,Qt::AlignCenter);
     hl->addWidget(finishStudyButton,0,Qt::AlignCenter | Qt::AlignTop);
+    hl->addWidget(sendStudyButton,0,Qt::AlignCenter | Qt::AlignTop);
     hl->addSpacing(80);
+    hl->setSpacing(0);
+    hl->setMargin(0);
+    */
+
+    QGridLayout * hl = new QGridLayout(this);
+    hl->addWidget(listBox,0,0,1,5,Qt::AlignCenter);
+    hl->addWidget(cpt,1,0,5,5,Qt::AlignCenter);
+    hl->addWidget(finishStudyButton,6,1,1,1,Qt::AlignTop|Qt::AlignRight);
+    hl->addWidget(sendStudyButton,6,3,1,1,Qt::AlignTop|Qt::AlignLeft);
     hl->setSpacing(0);
     hl->setMargin(0);
 }
@@ -55,6 +75,7 @@ void SeriesWidget::closeEvent(QCloseEvent *){
 }
 
 void SeriesWidget::createListBox(){
+    /*
     listBox = new QWidget;
     _sweepsline = new sweepsLine();
     QVBoxLayout * lsb = new QVBoxLayout(listBox);
@@ -62,7 +83,127 @@ void SeriesWidget::createListBox(){
     lsb->setMargin(0);
     lsb->setSizeConstraint(QLayout::SetNoConstraint);
     lsb->setAlignment( Qt::AlignTop );
+    lsb->addWidget(_sweepsline);*/
+
+    listBox = new QWidget;
+    _sweepsline = new sweepsLine();
+
+    backButton = new QPushButton(tr("Atrás"));
+    backButton->setObjectName("greenButton");
+    backButton->setStyleSheet({"font-size: 18px; font-weight: bold;"});
+    backButton->setFixedSize(200,60);
+    backButton->setEnabled(true);
+    connect(backButton,SIGNAL(clicked()),this,SLOT(backButtonSlot()));
+
+    nextButton = new QPushButton(tr("Siguiente"));
+    nextButton->setObjectName("greenButton");
+    nextButton->setStyleSheet({"font-size: 18px; font-weight: bold;"});
+    nextButton->setFixedSize(200,60);
+    nextButton->setEnabled(true);
+    connect(nextButton,SIGNAL(clicked()),this,SLOT(nextButtonSlot()));
+
+    QGridLayout *lsb = new QGridLayout(listBox);
+    //lsb->setSpacing(0);
+    //lsb->setMargin(0);
+    lsb->setSizeConstraint(QLayout::SetNoConstraint);
+    lsb->setAlignment(Qt::AlignTop);
+
+    /*lsb->addWidget(backButton,Qt::AlignRight);
     lsb->addWidget(_sweepsline);
+    lsb->addWidget(nextButton,Qt::AlignLeft);*/
+
+//---------------------------------------------------
+//  CR: 02/07/23
+    _sweepsline->setFixedSize(800,150);
+//---------------------------------------------------
+
+    lsb->addWidget(backButton,1,0);
+    lsb->addWidget(_sweepsline,0,1);
+    lsb->addWidget(nextButton,1,2);
+
+}
+
+void SeriesWidget::backButtonSlot()
+{
+    int i = _sweepsline->actual();
+    if(i==0)    return;
+
+    sendButton->setEnabled(false);
+
+
+    _sweepsline->prev();
+
+
+    int id_serie = _sweepsline->actualId();
+    _series.loadData(id_serie);
+    quint64 startime = _series.getValue("starttime").toULongLong();
+    quint64 finishTime = _series.getValue("finishtime").toULongLong();
+    QTime t(0,0,0);
+    t = t.addMSecs(finishTime-startime);
+    sendButton->setTime(t.toString());
+    sendButton->setInfo(tr("Grabación \nFinalizada"));
+    sendButton->update();
+
+
+
+    cpt->slideInNext();
+
+
+}
+
+void SeriesWidget::nextButtonSlot()
+{
+    int i,j;
+
+    i = _sweepsline->actual()+1;
+    j = _sweepsline->getSweepsCompleted();
+
+    if(i==j)    return;
+
+    _sweepsline->next();
+
+    /*
+
+    if((i+1)==j)
+    {
+        cpt->slideInPrev();
+        sendButton->setEnabled(true);
+    }
+    else
+    {
+        int id_serie = _sweepsline->actualId();
+        _series.loadData(id_serie);
+        quint64 startime = _series.getValue("starttime").toULongLong();
+        quint64 finishTime = _series.getValue("finishtime").toULongLong();
+        QTime t(0,0,0);
+        t = t.addMSecs(finishTime-startime);
+        sendButton->setTime(t.toString());
+        sendButton->update();
+
+        cpt->slideInNext();
+    }
+    */
+
+    if((i+1)<=j)
+    {
+
+        int id_serie = _sweepsline->actualId();
+        _series.loadData(id_serie);
+        quint64 startime = _series.getValue("starttime").toULongLong();
+        quint64 finishTime = _series.getValue("finishtime").toULongLong();
+        QTime t(0,0,0);
+        t = t.addMSecs(finishTime-startime);
+        sendButton->setTime(t.toString());
+        sendButton->setInfo(tr("Grabación \nFinalizada"));
+        sendButton->update();
+
+        sendButton->setEnabled(true);
+
+        cpt->slideInNext();
+
+    }
+
+
 
 }
 
@@ -73,13 +214,83 @@ void SeriesWidget::initCaptureButton(){
     _captureButton->setInfo(tr("Toca para grabar"));
 }
 
+
+// CR: 01/02/23
 void SeriesWidget::setStudy(int i){
+
     idStudy = i;
     _studies.loadData(i);
     setToolsEnabled(false);
-    _sweepsline->setStudy(i);
+
     cpt->setCurrentIndex(0);
     initCaptureButton();
+
+    backButton->setEnabled(false);
+    nextButton->setEnabled(false);
+
+    if(_sweepsline->setStudy(i)==true){
+        sendButton->text = tr("Pasos\nTerminados");
+        sendButton->update();
+        sendButton->setEnabled(false);
+
+        sendStudyButton->setEnabled(true);
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        lookButton->setEnabled(true);
+        StudiesFinished = true;
+
+
+        _captureButton->setTime("");
+        _captureButton->setTimeMs(0);
+        _captureButton->setInfo(tr(""));
+        cpt->slideInNext();
+
+
+
+    }
+
+
+
+/*
+    idStudy = i;
+    _studies.loadData(i);
+    setToolsEnabled(false);
+
+    if(_sweepsline->setStudy(i)==true){
+        sendButton->text = "Paso\nTerminado";
+        sendButton->update();
+        sendButton->setEnabled(false);
+
+        //_sweepsline->next();
+        sendStudyButton->setEnabled(true);
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        lookButton->setEnabled(true);        
+    }
+
+    if(_sweepsline->isLast())
+    {
+        sendButton->text = "Paso\nTerminado";
+        sendButton->update();
+        sendButton->setEnabled(false);
+        cpt->slideInNext();
+    }
+
+    cpt->setCurrentIndex(0);
+    initCaptureButton();
+
+
+    if(_sweepsline->IsCompleted()){
+        sendButton->text = "Paso\nTerminado";
+        sendButton->update();
+        sendButton->setEnabled(false);
+        cpt->slideInNext();
+        _captureButton->setTime("");
+        _captureButton->setTimeMs(0);
+        _captureButton->setInfo(tr(""));
+
+    }
+*/
 }
 
 
@@ -101,7 +312,10 @@ void SeriesWidget::createToolBox()
     int bw = 190;
 
     sendButton = new sendbutton();    
-    sendButton->setStyleSheet({"font-size: 21px; font-weight: bold"});//JB-06082020
+    sendButton->setStyleSheet({"font-size: 17px; font-weight: bold"});//JB-06082020
+    sendButton->text = tr("Siguiente\nPaso");
+    sendButton->update();
+
     connect(sendButton,SIGNAL(clicked()),this,SLOT(send()));
 
     QWidget * lb = new QWidget();
@@ -112,7 +326,7 @@ void SeriesWidget::createToolBox()
     lookButton->setIcon(QIcon(":/icon/res/img/capture_button/play.png"));
     lookButton->setIconSize(is);
     lookButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    lookButton->setText(tr("Ver la")+"\n"+tr("adquisición"));
+    lookButton->setText(tr("Visualizar")+"\n"+tr("el paso"));
     lookButton->setObjectName("greenButton");
     lookButton->setFixedSize(380,60);
     lookButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
@@ -123,7 +337,7 @@ void SeriesWidget::createToolBox()
     restartButton->setIcon(QIcon(":/icon/res/img/capture_button/undo.png"));
     restartButton->setIconSize(is);
     restartButton->setToolButtonStyle(Qt::ToolButtonTextBesideIcon);
-    restartButton->setText(tr("Rehacer")+"\n"+tr("la captura"));
+    restartButton->setText(tr("Rehacer")+"\n"+tr("el paso"));
     restartButton->setObjectName("greenButton");
     restartButton->setFixedSize(400,60);
     restartButton->setStyleSheet({"font-size: 18px; font-weight: bold"});//JB-06082020
@@ -177,6 +391,9 @@ void SeriesWidget::startRecord(){
         _captureProcess->setFolder(f);
 
         if(_captureProcess->startRecord()){
+            backButton->setDisabled(true);
+            nextButton->setDisabled(true);
+            sendStudyButton->setDisabled(true);
             finishStudyButton->setDisabled(true);
             _captureButton->setBlock(true);
             isCapturing = true;
@@ -184,6 +401,45 @@ void SeriesWidget::startRecord(){
         }
     }
 }
+
+void SeriesWidget::stopRecord(){
+    if (isCapturing){
+        // QSound::play("sound/stop.wav");
+        _captureProcess->stopRecord();
+        _captureButton->setBlock(true);
+        _captureButton->setInfo(tr("Guardando"));
+        poller->stop();
+        t.setHMS(0,0,0);
+        t = t.addMSecs(_time.elapsed());
+
+
+        if (_sweepsline->isLast())
+        {
+            sendButton->text = tr("Pasos\nTerminados");
+
+            sendButton->update();
+            sendButton->setEnabled(false);
+
+             _captureButton->setInfo(tr(""));
+             _captureButton->setTime(0);
+
+            //_sweepsline->next();
+            sendStudyButton->setEnabled(true);
+            //backButton->setEnabled(true);
+            //nextButton->setEnabled(true);
+            lookButton->setEnabled(true);
+            StudiesFinished = true;
+
+        }
+
+        nextButton->setEnabled(true);
+        backButton->setEnabled(true);
+
+
+    }
+
+}
+
 
 void SeriesWidget::processStarted(){
     //QSound::play("sound/start.wav");
@@ -200,21 +456,10 @@ void SeriesWidget::processStarted(){
     poller->start(100);
 }
 
-void SeriesWidget::stopRecord(){
-    if (isCapturing){
-        // QSound::play("sound/stop.wav");
-        _captureProcess->stopRecord();
-        _captureButton->setBlock(true);
-        _captureButton->setInfo(tr("Guardando"));
-        poller->stop();
-        t.setHMS(0,0,0);
-        t = t.addMSecs(_time.elapsed());
-    }
 
-}
 
 void SeriesWidget::processFinished(int i){
-    //Kill Process in case exist
+//  Kill Process in case exist
     _captureProcess->killProcess();
     isCapturing = false;
     _captureButton->setRecord(false);
@@ -222,7 +467,7 @@ void SeriesWidget::processFinished(int i){
     finishStudyButton->setDisabled(false);
     qDebug() << i;
 
-    //i is the exit code of ffmpeg, if 0 exit with success
+//  i is the exit code of ffmpeg, if 0 exit with success
     if(i == 0){
         /*Check if file exist and is valid*/
         int isValid = validateVideo(f+"/"+uncompressedvideoname);
@@ -237,7 +482,11 @@ void SeriesWidget::processFinished(int i){
             QHash<QString,QString> data;
             data.insert("uid",studies::doUID());
             data.insert("finishtime",studies::getCurrentDateTime());
+
+        //  CR: 01/02/23
             data.insert("capture","1");
+
+
             _series.update(data,_sweepsline->actualId());
             cpt->slideInNext();
         }
@@ -312,7 +561,11 @@ void SeriesWidget::processData(){
 
 void SeriesWidget::look(){
     config conf;
-    QString folder =  QDir::currentPath()+"/"+f;
+
+    int id_serie = _sweepsline->actualId();
+    QString ff = "studies/"+QString::number(idStudy)+"/"+QString::number(id_serie);
+    QString folder =  QDir::currentPath()+"/"+ff;
+
     QString device = folder+"/"+uncompressedvideoname;
     QString p = "ffplay  "+myffplay::basicOption+" -f rawvideo -pix_fmt [PIXELCONF] -video_size [SIZE] -framerate [FPS] "+device;
     p = p.replace("[FPS]",conf.getValue("fps").toString());
@@ -327,36 +580,164 @@ void SeriesWidget::look(){
 
 }
 void SeriesWidget::send(){
+/*
     int id = _sweepsline->actualId();
-    emit sendToQueue(id);
+     emit sendToQueue(id);
 
-    _captureButton->setTime();
-    _captureButton->setTimeMs(0);
-    _captureButton->setInfo(tr("Toca para grabar"));
-    _captureButton->setBlock(false);
-    setToolsEnabled(false);
-    sendButton->setEnabled(false);
+     _captureButton->setTime();
+     _captureButton->setTimeMs(0);
+     _captureButton->setInfo(tr("Toca para grabar"));
+     _captureButton->setBlock(false);
+     setToolsEnabled(false);
+     sendButton->setEnabled(false);
 
 
-    if (!_sweepsline->isLast()){
+     if (!_sweepsline->isLast()){
+         cpt->slideInPrev();
+         _sweepsline->next();
+     }
+     else {
+         QHash<QString,QString> data;
+         data.insert("finishtime",studies::getCurrentDateTime());
+         data.insert("state","0");
+         //_studies.UpdateLastElement(data);
+         _studies.update(data,idStudy);
+         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+             emit finishedStudy(true);
+         else
+             emit finishedStudy(false);
+     }
+*/
+    if(_sweepsline->isLast())   return;
+
+    int i,j;
+    i = _sweepsline->actual()+1;
+    j = _sweepsline->getSweepsCompleted();
+
+
+
+    if(i==j)
+    {
+        _captureButton->setTime();
+        _captureButton->setTimeMs(0);
+        _captureButton->setInfo(tr("Toca para grabar"));
+        _captureButton->setBlock(false);
+        backButton->setDisabled(true);
+        nextButton->setDisabled(true);
+        sendStudyButton->setDisabled(true);
         cpt->slideInPrev();
         _sweepsline->next();
+
+
+
     }
+    else    return;
+    /*
+    {
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        sendButton->text = "Siguiente\nPaso";
+        cpt->slideInPrev();
+        _sweepsline->next();
+
+    }*/
+
+
+
+//-----------------------------------------------------
+//  CR: 23/01/23
+
+    //setToolsEnabled(false);
+
+
+
+
+
+/*
+    if (!_sweepsline->isLast()){
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        sendButton->text = "Siguiente\nPaso";
+        cpt->slideInPrev();
+        _sweepsline->next();
+
+    }
+*/
+
+
+
+
+    /*
     else {
+        sendButton->text = "Paso\nTerminado";
+        sendButton->update();
+    //-------------------------------------------------------
+    //  CR: 07/02/23
+        sendButton->setEnabled(false);
+         _captureButton->setInfo(tr(""));
+         _captureButton->setTime(0);
+    //-------------------------------------------------------
+        _sweepsline->next();
+        sendStudyButton->setEnabled(true);
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        lookButton->setEnabled(true);
+        StudiesFinished = true;
+    }*/
+
+    /*
+    if(_sweepsline->IsCompleted()){
+        sendButton->text = "Paso\nTerminado";
+        sendButton->update();
+        sendButton->setEnabled(false);
+         _captureButton->setInfo(tr(""));
+         _captureButton->setTime(0);
+        _sweepsline->next();
+        sendStudyButton->setEnabled(true);
+        backButton->setEnabled(true);
+        nextButton->setEnabled(true);
+        lookButton->setEnabled(true);
+    }
+    */
+
+
+//-----------------------------------------------------
+}
+
+//-----------------------------------------------------
+// CR: 23/01/23
+void SeriesWidget::sendStudy(void){
+
+    if (QMessageBox::question(this,tr("Envio de estudio"),tr("¿Esta seguro de enviar el estudio?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+    {        
+        for(uint8_t i=0;i<_sweepsline->sweepsSize();i++){
+            int id = _sweepsline->getActual(i);
+            emit sendToQueue(id);            
+        }
+
         QHash<QString,QString> data;
         data.insert("finishtime",studies::getCurrentDateTime());
-        data.insert("state","0");
-        //_studies.UpdateLastElement(data);
+        data.insert("state",state_ontransmission);
         _studies.update(data,idStudy);
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
         else
             emit finishedStudy(false);
+
+        backButton->setDisabled(true);
+        nextButton->setDisabled(true);
+        sendStudyButton->setDisabled(true);
+        StudiesFinished = false;
     }
 }
+//-----------------------------------------------------
 
 void SeriesWidget::finishStudy(){
+    backButton->setDisabled(true);
+    nextButton->setDisabled(true);
+    sendStudyButton->setDisabled(true);
     _captureProcess->kill();
+    StudiesFinished = false;
     emit finished(false);
 }
 
@@ -372,8 +753,11 @@ void SeriesWidget::refreshCaptureTime(){
 }
 
 void SeriesWidget::restartSerie(){
-    if (QMessageBox::question(this,tr("¿Reiniciar la adquisición?"),tr("¿Esta seguro de realizar nuevamente la adquisicón?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
-    {
+    if (QMessageBox::question(this,tr("¿Reiniciar el paso?"),tr("¿Esta seguro de realizar nuevamente el paso?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+    {        
+        backButton->setDisabled(true);
+        nextButton->setDisabled(true);
+        sendStudyButton->setDisabled(true);
         initCaptureButton();
         cpt->slideInPrev();
     }
@@ -387,14 +771,34 @@ void SeriesWidget::cptSlideFinished(){
 
     }
     if(index == 1){ //Sender
-        //Activate Tools
+    //  Activate Tools
         setToolsEnabled(true);
-        //Show Time passed and enabled button
+
+    //  Show Time passed and enabled button
+        int id_serie = _sweepsline->actualId();
+        _series.loadData(id_serie);
+        quint64 startime = _series.getValue("starttime").toULongLong();
+        quint64 finishTime = _series.getValue("finishtime").toULongLong();
         QTime t(0,0,0);
-        t = t.addMSecs(_time.elapsed());
+        t = t.addMSecs(finishTime-startime);
+        sendButton->setInfo(tr("Grabación \nFinalizada"));
         sendButton->setTime(t.toString());
-        sendButton->setEnabled(true);
+
+        if(StudiesFinished){
+            sendButton->setEnabled(false);
+            sendStudyButton->setEnabled(true);
+        }
+        else
+            sendButton->setEnabled(true);
+
+        /*if(_sweepsline->IsCompleted())
+            sendButton->setEnabled(false);
+        else
+            sendButton->setEnabled(true);*/
     }
+
+
+
 }
 
 

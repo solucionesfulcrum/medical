@@ -12,6 +12,10 @@ QVirtualKeyboard::QVirtualKeyboard(QWidget * parent)
                    Qt::FramelessWindowHint | Qt::WindowStaysOnTopHint);
 
     edit = new QLineEdit;
+//------------------------------------------------
+//  CR: 08/01/23
+    //edit->setEchoMode(QLineEdit::Password);
+//------------------------------------------------
     edit->setFixedHeight(100);
     edit->setAlignment(Qt::AlignCenter);
     connect(edit,SIGNAL(textChanged(QString)),this,SLOT(doSend()));
@@ -179,7 +183,7 @@ QVirtualKeyboard::~QVirtualKeyboard(){
 }
 
 QPushButton * QVirtualKeyboard::createButton(QString s){
-    QPushButton * pb = new QPushButton(s);
+    QPushButton * pb = new QPushButton(s);    
     pb->setFixedHeight(80);
     keyboard->addButton(pb);
     return pb;

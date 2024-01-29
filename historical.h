@@ -16,6 +16,8 @@ class historical : public QMedicalBoxWidget
 public:
     explicit historical(QMedicalBoxWidget *parent = 0);
     ~historical();
+    void ResetOptions(void);
+
 
 public slots:
     void load();
@@ -25,25 +27,30 @@ public slots:
 private slots:
     void loadStudy(int);
     void deletedStudy(QHistWidget*);
+    void timeout(void);
+
 signals:
     void loadStudyId(int);
 
-private:
-    void setSearchBox();
+private:    
+    void setSearchBox(void);
     QScrollArea * area;
     QWidget *searchbox;
     QWidget *listBox;
     QVBoxLayout *listBoxLayout;
-    TouchComboBox *date, * protocols, *status;
+    TouchComboBox * protocols, *status;
     QVkLineEdit * name;
     datebox * from, *to;
     QPushButton * searchbutton;
     studies _studies;
     QList<QHistWidget*> studiesWidget;
     QHash<int,QString> protocolsHash;
-    QStringList dateItem;
 
+    QTimer m_timer;
+    bool m_timeout;
 
+    TouchComboBox *date,*state;
+    QStringList dateItem,stateItem;
 
 };
 

@@ -65,11 +65,13 @@ void entities::loadData(int id){
         QSqlQuery query(q);
         while (query.next()){
             foreach(QString s , keys){                
-                data[s] = query.value(s);                
+                data[s] = query.value(s);
             }
         }
     }
 }
+
+//-------------------------------------------------
 
 QString entities::doUID(){
     QString uid = "1.2.826.0.1.3680043.2.";

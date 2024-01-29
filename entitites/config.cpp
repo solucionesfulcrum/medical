@@ -19,6 +19,8 @@ config::config() : entities()
          << "modelUS"
          << "keep_uncompressed"
          << "device"
+         << "consent"
+         << "timeout"
             ;
     load();
 }

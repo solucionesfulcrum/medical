@@ -219,7 +219,10 @@ void dialogPatient::setForm(){
     //###############################################################
 
     foreach(QLabel *l, formLabel)
-        l->setFixedWidth(216);
+//------------------------------------------
+//  CR: 19/05/23
+        l->setFixedWidth(250);
+//------------------------------------------
     addPatientSex->setItems(s);
     addPatientSize->setItems(sz);
 
@@ -493,13 +496,13 @@ void dialogPatient::savePatient(){
     }
 
 
-    if(height.toInt() < 1 || height.toInt() > 300){
-        QMessageBox::information(this,tr("Talla incorrecto"), tr("¡La talla ingresada no es valida!\nDebe ser un valor entero entre 1 y 300"));
+    if(height.toInt() < 80 || height.toInt() > 220){
+        QMessageBox::information(this,tr("Talla incorrecta"), tr("¡La talla ingresada no es valida!\nDebe ser un valor entero entre 80 cm y 220 cm."));
         return;
     }
 
-    if(weight.toDouble() < 1 || weight.toDouble() > 300){
-        QMessageBox::information(this,tr("Peso incorrecto"), tr("¡El peso ingresado no es valido!\nDebe ser un valor entre 1 y 300"));
+    if(weight.toDouble() < 5 || weight.toDouble() > 200){
+        QMessageBox::information(this,tr("Peso incorrecto"), tr("¡El peso ingresado no es valido!\nDebe ser un valor entre 5 kg y 200 kg."));
         return;
     }
 

@@ -27,6 +27,8 @@ sweepInfo::sweepInfo(int id, QWidget *parent) : QWidget(parent){
         lab->setObjectName("sweepsTags");
         lab->setAlignment(Qt::AlignCenter);
     }
+
+//  CR: 17/01/23
     QLabel * title  = new QLabel(_studydesc.getSweepName(_series.getValue("id_sweeps").toInt()));
     QHBoxLayout *stepLayout = new QHBoxLayout;
     stepLayout->addWidget(_capture,0);
@@ -83,7 +85,6 @@ void sweepInfo::refresh(){
     _confirmed->style()->unpolish(_confirmed);
     _confirmed->style()->polish(_confirmed);
 
-    qDebug() << _series.haveVideo()  << _series.getVideoFile();;
     if (_series.haveVideo())
         lookVid->setEnabled(true);
 
@@ -91,9 +92,9 @@ void sweepInfo::refresh(){
 
 void sweepInfo::view(){
     config conf;
-
     QString f = _series.getVideoFile();
     QString p;
+
     if (f.right(3) == "yuv")
         p = "ffplay  "+myffplay::basicOption+" -f rawvideo -pix_fmt [PIXELCONF] -video_size [SIZE] -framerate [FPS] "+f;
     else p = "ffplay  "+myffplay::basicOption+" "+f;
@@ -101,7 +102,6 @@ void sweepInfo::view(){
     p = p.replace("[FPS]",conf.getValue("fps").toString());
     p = p.replace("[SIZE]",conf.getValue("SIZE").toString());
     p = p.replace("[PIXELCONF]",conf.getValue("PIXELCONF").toString());
-    qDebug() << p;
     myffplay::player->start(p);
 }
 
@@ -137,9 +137,9 @@ studyInfo::studyInfo(int id, QDialog *parent) : QDialog(parent){
     mainLayout->setMargin(0);
 
     vl->addWidget(studyBox);
-    vl->addWidget(area,1);
+    vl->addWidget(area);
     vl->setMargin(1);
-    vl->setSpacing(10);
+    //vl->setSpacing(10);
 }
 
 void studyInfo::closeEvent(QCloseEvent *){
@@ -151,78 +151,113 @@ void studyInfo::createStudyBox(){
     studyBox = new QWidget;
     studyBox->setObjectName("studyBox");
 
-    QLabel * patientname = new QLabel(_patient.name()+" "+_patient.lastName());
-    QLabel * patientid = new QLabel(_patient.getValue("idp").toString());
-    QLabel * protocol = new QLabel(_studydesc.getValue("name").toString());
-    QLabel * opName = new QLabel(_operators.getValue("name").toString());
-    QLabel * reason = new QLabel(_studies.getValue("reason").toString());
-    QLabel * startDate = new QLabel(studies::datetimetoFormat(_studies.datetime()));
-    QLabel * stopDate = new QLabel(studies::datetimetoFormat(_studies.getValue("finishtime").toString()));
-    QLabel * statut = new QLabel(_studies.getState());
-    titlelabel * title = new titlelabel("Estudio");
+    QLabel * patientname    = new QLabel(_patient.name()+" "+_patient.lastName());
+    QLabel * patientid      = new QLabel(_patient.getValue("idp").toString());
+    QLabel * protocol       = new QLabel(_studydesc.getValue("name").toString());
+    QLabel * opName         = new QLabel(_operators.getValue("name").toString());
+    QLabel * reason         = new QLabel(_studies.getValue("reason").toString());
+    QLabel * startDate      = new QLabel(studies::datetimetoFormat(_studies.datetime()));
+    QLabel * stopDate       = new QLabel(studies::datetimetoFormat(_studies.getValue("finishtime").toString()));
+    QLabel * statut         = new QLabel(_studies.getState());
+    titlelabel * title      = new titlelabel(tr("Estudio"));
+
     title->setAlignment(Qt::AlignLeft);
 
     QPushButton * closeButton = new QPushButton(tr("Cerrar"));
     connect(closeButton,SIGNAL(clicked()),this,SLOT(close()));
     closeButton->setObjectName("redButton");
-    closeButton->setFixedSize(200,60);
+    //closeButton->setFixedSize(200,60);
 
     typeDownload = 0;
 
     refreshButton = new QPushButton(tr("Actualizar"));
     refreshButton->setObjectName("greenButton");
-    refreshButton->setFixedSize(180,60);
+    //refreshButton->setFixedSize(180,60);
     //dlButton->setIconSize(QSize(32,32));
     connect(refreshButton,SIGNAL(clicked()),this,SLOT(refresh()));
 
 
     dlButton = new QPushButton(tr("Abrir informe"));
     dlButton->setObjectName("greenButton");
-    dlButton->setFixedSize(180,60);
+    //dlButton->setFixedSize(180,60);
     //dlButton->setIconSize(QSize(32,32));
     connect(dlButton,SIGNAL(clicked()),this,SLOT(download()));
 
+    dlButton->setEnabled(false);
+    refreshButton->setEnabled(false);
+
+//--------------------------------------------------------------------------------
+//  CR: 02/08/23
+    QString s = _studies.getValue("state").toString();
+    if( (s=="3") || (s=="4"))
+    {
+        dlButton->setEnabled(true);
+        refreshButton->setEnabled(true);
+    }
+
+    /*
     if(_studies.getValue("report_link").toString() == "" )
     {
         dlButton->setEnabled(false);
         refreshButton->setEnabled(false);
-    }
+    }*/
+//--------------------------------------------------------------------------------
 
-    int line = 0;
     QGridLayout * layout = new QGridLayout(studyBox);
-    layout->setSpacing(5);
-    layout->setAlignment(Qt::AlignTop);
-    layout->addWidget(title,line,0,Qt::AlignCenter);
-    layout->addWidget(refreshButton,line,1,Qt::AlignCenter);
-    layout->addWidget(dlButton,line,2,Qt::AlignCenter);
-    line++;
-    layout->addWidget(new QLabel(tr("DNI del Paciente:")),line,0);
-    layout->addWidget(patientid,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Paciente:")),line,0);
-    layout->addWidget(patientname,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Protocolos:")),line,0);
-    layout->addWidget(protocol,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Operador:")),line,0);
-    layout->addWidget(opName,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Motivo:")),line,0);
-    layout->addWidget(reason,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Inicio:")),line,0);
-    layout->addWidget(startDate,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Fin:")),line,0);
-    layout->addWidget(stopDate,line,1);
-    line++;
-    layout->addWidget(new QLabel(tr("Estado:")),line,0);
-    layout->addWidget(statut,line,1);
-    line++;
-    layout->setColumnStretch(1,8);
-    layout->addWidget(closeButton,line,0,1,2,Qt::AlignLeft);
 
+    //layout->setSpacing(1);
+    //layout->setColumnStretch(0,1);
+    //layout->setColumnStretch(1,1);
+
+    //layout->setAlignment(Qt::AlignTop);
+    layout->addWidget(title,        0,0,1,1,Qt::AlignLeft);
+    layout->addWidget(refreshButton,0,1,1,1,Qt::AlignLeft);
+    layout->addWidget(dlButton,     0,2,1,1,Qt::AlignLeft);
+
+    QLabel * dnilabel = new QLabel(tr("DNI del Paciente:"));
+    dnilabel->setFixedSize(135,50);
+    layout->addWidget(dnilabel      ,1,0,1,1,Qt::AlignLeft);
+    layout->addWidget(patientid     ,1,1,1,2,Qt::AlignLeft);
+
+    QLabel * patientlabel = new QLabel(tr("Paciente:"));
+    patientlabel->setFixedSize(135,50);
+    layout->addWidget(patientlabel  ,2,0,1,1,Qt::AlignLeft);
+    layout->addWidget(patientname   ,2,1,1,2,Qt::AlignLeft);
+
+    QLabel * protocoloslabel = new QLabel(tr("Protocolos:"));
+    protocoloslabel->setFixedSize(135,50);
+    layout->addWidget(protocoloslabel   ,3,0,1,1);
+    layout->addWidget(protocol          ,3,1,1,2,Qt::AlignLeft);
+
+    QLabel * operadorlabel = new QLabel(tr("Operador:"));
+    operadorlabel->setFixedSize(135,50);
+    layout->addWidget(operadorlabel     ,4,0,1,1);
+    layout->addWidget(opName            ,4,1,1,2);
+
+    QLabel * motivolabel = new QLabel(tr("Motivo:"));
+    motivolabel->setFixedSize(135,50);
+    layout->addWidget(motivolabel       ,5,0,1,1);
+    layout->addWidget(reason            ,5,1,1,2);
+
+    QLabel * iniciolabel = new QLabel(tr("Inicio:"));
+    iniciolabel->setFixedSize(135,50);
+    layout->addWidget(iniciolabel       ,6,0,1,1);
+    layout->addWidget(startDate         ,6,1,1,2);
+
+    QLabel * finlabel = new QLabel(tr("Fin:"));
+    finlabel->setFixedSize(135,50);
+    layout->addWidget(finlabel          ,7,0,1,1);
+    layout->addWidget(stopDate          ,7,1,1,2);
+
+    QLabel * estadolabel = new QLabel(tr("Estado:"));
+    estadolabel->setFixedSize(135,50);
+    layout->addWidget(estadolabel       ,8,0,1,1);
+    layout->addWidget(statut            ,8,1,1,2);
+
+    layout->addWidget(closeButton        ,9,0,1,1,Qt::AlignLeft);
+
+    studyBox->setLayout(layout);
+    studyBox->setFixedSize(600,600);
 
 }
 
@@ -258,7 +293,8 @@ void studyInfo::refresh(){
 
     typeDownload = 1;
 
-    pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
+    QString str = _studies.getValue("report_link").toString();
+    pReply = manager->get(QNetworkRequest(QUrl(str)));
     connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
 }
 
@@ -272,7 +308,7 @@ void studyInfo::download(){
     dlButton->setEnabled(false);
 
     typeDownload = 2;
-
+    QString str = _studies.getValue("report_link").toString();
     pReply = manager->get(QNetworkRequest(QUrl(_studies.getValue("report_link").toString())));
     connect(pReply,SIGNAL(downloadProgress(qint64,qint64)),this,SLOT(dl(qint64,qint64)));
     }
@@ -308,23 +344,25 @@ void studyInfo::replyFinished(QNetworkReply* pReply){
         refreshButton->setEnabled(true);
         dlButton->setEnabled(true);
     }
-   else if(typeDownload==2){
-       //dlButton->setText(tr("Informe"));
-       //dlButton->setEnabled(true);
+   else if(typeDownload==2){       
+       dlButton->setText(tr("Abrir informe"));
+       dlButton->setEnabled(true);
        //refreshButton->setEnabled(true);
-
    }
 
     //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/"+QString::number(id);
     //QString folderOrig = "studies/"+QString::number(_series.id_study())+"/";
     //QString video = folderOrig+"/"+uncompressedvideoname;
 
-
+//-----------------------------------------------------------------
+//  CR: 24/01/23
     QDir dir("uncompressed/"+QString::number(studyID));
 
     if(dir.exists()){
         dir.removeRecursively();
     }
+
+//-----------------------------------------------------------------
 
     typeDownload = 0;
 
@@ -365,12 +403,15 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     studyMenu->setWindowFlags(studyMenu->windowFlags() | Qt::NoDropShadowWindowHint);
     QAction * showStudy = new QAction(tr("Ver información"));
     connect(showStudy,SIGNAL(triggered()),this, SLOT(openInfo()));
+
     studyMenu->addAction(showStudy);
     QAction * restartStudy = new QAction(tr("Continuar el estudio"));
     connect(restartStudy,SIGNAL(triggered()),this, SLOT(loadStudy()));
+
     studyMenu->addAction(restartStudy);
     QAction * deleteStudy = new QAction(tr("Borrar el estudio"));
     connect(deleteStudy,SIGNAL(triggered()),this, SLOT(deleteStudy()));
+
     studyMenu->addAction(deleteStudy);
     studyMenu->setObjectName("studyMenu");
 
@@ -411,7 +452,7 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     time->setFixedWidth(80);
 
     statut->setFixedSize(40,40);
-    statutLabel->setFixedSize(80,40);
+    statutLabel->setFixedSize(100,40);
     statutLabel->setAlignment(Qt::AlignCenter);
 
 

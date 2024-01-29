@@ -2,9 +2,11 @@
 #define CHECKBANDWITH_H
 
 #include <QtWidgets>
+
 #include <QNetworkAccessManager>
 #include <QHttpMultiPart>
 #include <QHttpPart>
+#include<QNetworkReply>
 
 #include <entitites/config.h>
 #include <include.h>
@@ -19,20 +21,31 @@ public:
 //--------------------------------------
 //  CR: 07/03/21
 private:
-    void send();
+
+    void addPart(QHttpMultiPart *m,QString name, QString value, QString  type = "form-data");
+
 
 public slots:
     void start();    
 
 private slots:
-    void Finished(int ExitCode, QProcess::ExitStatus ExitStatus);
-    void ReadyReadStandardError(void);
-    void ReadyReadStandardOutput(void);
+    void send(void);
+    void FinishedMessage(QNetworkReply* pReply);
 
 signals:
     void Wifi_status(int8_t);
 
 private:
+    QNetworkAccessManager *m_WebCtrl;
+    QTimer m_timer;
+    QHttpMultiPart *mtp;
+    QNetworkRequest request;
+    QUrl url;
+    config _cfg;
+    QNetworkReply *rp;
+
+
+
     config conf;
     QMovie *loader;
     QLabel *_valueLabel;

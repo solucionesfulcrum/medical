@@ -33,8 +33,8 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
     studyInfoReason = new QTextEdit("",studyInfo);
     studyInfoReason->setEnabled(false);
 
-    studyInfoReason->setFixedWidth(230);
-    studyInfoReason->setFixedHeight(150);
+    studyInfoReason->setFixedWidth(230);    
+    studyInfoReason->setFixedHeight(120);
 
     QLabel * studyInfoPatientLabel = new QLabel(studyInfo);
     studyInfoPatientLabel->setAlignment(Qt::AlignCenter);
@@ -67,7 +67,7 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
     studyInfoProtocolsLabel->move(15,250);
     studyInfoProtocolsLabel->setObjectName("icons");
     //studyInfoProtocolsLabel->setFixedSize(80,80);
-    studyInfoProtocolsLabel->setFixedSize(65,65);
+    studyInfoProtocolsLabel->setFixedSize(70,70);
     studyInfoProtocolsLabel->raise();
 
     studyInfoReason->move(70,260);

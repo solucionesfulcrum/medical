@@ -12,9 +12,13 @@ TEMPLATE = app
 
 
 SOURCES += main.cpp\
+    dialog/dialogsite.cpp \
+    entitites/sites.cpp \
     form/calform.cpp \
     form/checkboxline.cpp \
+    info.cpp \
         mainwindow.cpp \
+    networkutils.cpp \
     sqlite.cpp \
     queuewidget.cpp \
     study.cpp \
@@ -62,8 +66,12 @@ SOURCES += main.cpp\
     ejecuta.cpp
 
 HEADERS  += mainwindow.h \
+    dialog/dialogsite.h \
+    entitites/sites.h \
     form/calform.h \
     form/checkboxline.h \
+    info.h \
+    networkutils.h \
     sqlite.h \
     queuewidget.h \
     study.h \
@@ -113,13 +121,13 @@ HEADERS  += mainwindow.h \
 
 RESOURCES += \
     res.qrc \
-    translations.qrc
+    translation.qrc
 
 DISTFILES += \
-    style.qss \
-    style_old.qss
+    language_english.ts \
+    style.qss
 
-TRANSLATIONS += MedicalBox_en.ts
+TRANSLATIONS += language_english.ts
 
 #INCLUDEPATH += D:/library/medisecure/include
 #DEPENDPATH += D:/library/medisecure/include

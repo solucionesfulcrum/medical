@@ -1,6 +1,5 @@
 <RCC>
     <qresource prefix="/">
-        <file>qtbase_es.qm</file>
         <file>language_english.qm</file>
     </qresource>
 </RCC>

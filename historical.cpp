@@ -19,12 +19,16 @@ historical::historical(QMedicalBoxWidget *parent) : QMedicalBoxWidget(parent)
     area->setWidget(listBox);
     area->viewport()->setAttribute(Qt::WA_AcceptTouchEvents);
 
+    m_timeout = false;
+    connect(&m_timer,SIGNAL(timeout()),this,SLOT(timeout()));
+
     mainLayout->setDirection(QBoxLayout::LeftToRight);
     mainLayout->addWidget(searchbox);
     mainLayout->addSpacing(20);
     mainLayout->addWidget(area,3);
     mainLayout->setSpacing(0);
     mainLayout->setMargin(20);
+
 }
 
 historical::~historical()
@@ -51,6 +55,10 @@ void historical::setSearchBox(){
 
 
     name = new QVkLineEdit;
+//------------------------------------------
+//  CR: 19/05/23
+    state = new TouchComboBox;
+//------------------------------------------
     date = new TouchComboBox;
     protocols = new TouchComboBox;
     status = new TouchComboBox;
@@ -59,14 +67,23 @@ void historical::setSearchBox(){
     from->setEnabled(false);
     to->setEnabled(false);
 
+//-------------------------------------------------------------------------------------------------------
+//  CR: 19/05/23
+//  CR: 26/07/23
+    stateItem << tr("Incompleto") << tr("En transmisión") << tr("Enviado") << tr("Asignado") << tr("Diagnosticado") << tr("Descargado") << tr("Desactivado") << tr("Adenda") << tr("Todos");
+
+    state->setItems(stateItem);
+    state->setText(stateItem.at(8));
+//-------------------------------------------------------------------------------------------------------
+
     dateItem << tr("Hoy") << tr("3 días") << tr("7 días") << tr("30 días") << tr("Personalizado");
     date->setItems(dateItem);
-    date->setText(dateItem.at(0));
+    date->setText(dateItem.at(3));
     connect(date,SIGNAL(textChanged(QString)),this,SLOT(setDate(QString)));
     studydesc sd;
 
     QStringList prot;
-    prot << "Todos";
+    prot << tr("Todos");
     protocolsHash.insert(0,tr("Todos"));
 
     foreach(int i, sd.get()){
@@ -83,6 +100,7 @@ void historical::setSearchBox(){
     searchbutton->setIconSize(QSize(32,32));
 
     QLabel *patientLabel = new QLabel(tr("Paciente"));
+    QLabel *stateLabel = new QLabel(tr("Estado"));
     QLabel *dateLabel = new QLabel(tr("Fecha predeterminada"));
     QLabel *protLabel = new QLabel(tr("Protocolo"));
     QLabel *dateLabelb = new QLabel(tr("Fecha (De - Hasta)"));
@@ -91,6 +109,12 @@ void historical::setSearchBox(){
     layout->addSpacing(15);
     layout->addWidget(patientLabel);
     layout->addWidget(name);
+//---------------------------------------------
+//  CR: 15/05/23
+    layout->addSpacing(15);
+    layout->addWidget(stateLabel);
+    layout->addWidget(state);
+//---------------------------------------------
     layout->addSpacing(15);
     layout->addWidget(dateLabel);
     layout->addWidget(date);
@@ -103,7 +127,7 @@ void historical::setSearchBox(){
     layout->addWidget(protocols);
     layout->addSpacing(15);
     layout->addWidget(searchbutton,1,Qt::AlignCenter);
-    setDate(dateItem.at(0));
+    setDate(dateItem.at(3));
 
 }
 
@@ -116,7 +140,32 @@ void historical::reset(){
     studiesWidget.clear();
 }
 
+//-------------------------------------------------------
+//  CR: 04/06/23
+void historical::ResetOptions(void)
+{
+    state->setText(stateItem.at(8));
+    date->setText(dateItem.at(3));
+    protocols->setText(tr("Todos"));
+    name->setText("");
+
+}
+//-------------------------------------------------------
+void historical::timeout(void)
+{
+    m_timeout = true;
+}
+
 void historical::load(){
+
+    searchbutton->setEnabled(false);
+    m_timeout = false;
+    m_timer.start(1000);
+    do {
+        QCoreApplication::processEvents();
+    } while (m_timeout==false);
+
+
 
 //  Christiam: Valido si es nombre,dni,apellido o nombre apellido o apellido nombre
     QString _cad1,_cad2,temp;
@@ -136,10 +185,13 @@ void historical::load(){
     }
 
     int _protocols = protocolsHash.key(protocols->text());
+
     QDateTime fromDate(from->date());
     fromDate.setTime(QTime(0,0,0));
+
     QDateTime toDate(to->date());
     toDate.setTime(QTime(23,59,59));
+
     uint timestampTo = toDate.toTime_t();
     uint timestampFrom = fromDate.toTime_t();
 
@@ -165,6 +217,40 @@ void historical::load(){
             query += "AND pl.id = "+QString::number(_protocols)+" ";
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
+
+        if(state->text()==(tr("Incompleto")))
+        {
+            query += "AND s.state = -1 ";
+        }
+        else if(state->text()==(tr("En transmisión")))
+        {
+            query += "AND s.state = 0 ";
+        }        
+        else if(state->text()==(tr("Enviado")))
+        {
+            query += "AND s.state = 1 ";
+        }
+        else if(state->text()==(tr("Asignado")))
+        {
+            query += "AND s.state = 2 ";
+        }
+        else if(state->text()==(tr("Diagnosticado")))
+        {
+            query += "AND s.state = 3 ";
+        }
+        else if(state->text()==(tr("Descargado")))
+        {
+            query += "AND s.state = 4 ";
+        }
+        else if(state->text()==(tr("Desactivado")))
+        {
+            query += "AND s.state = 7 ";
+        }
+        else if(state->text()==(tr("Adenda")))
+        {
+            query += "AND s.state = 8 ";
+        }
+
         query += "ORDER BY starttime desc";
     }
     else {
@@ -184,11 +270,44 @@ void historical::load(){
             query += "AND pl.id = "+QString::number(_protocols)+" ";
         query += "AND pl.id = s.id_protocols ";
         query += "AND p.id = s.id_patients ";
+
+        if(state->text()==(tr("Incompleto")))
+        {
+            query += "AND s.state = -1 ";
+        }
+        else if(state->text()==(tr("En transmisión")))
+        {
+            query += "AND s.state = 0 ";
+        }
+        else if(state->text()==(tr("Enviado")))
+        {
+            query += "AND s.state = 1 ";
+        }
+        else if(state->text()==(tr("Asignado")))
+        {
+            query += "AND s.state = 2 ";
+        }
+        else if(state->text()==(tr("Diagnosticado")))
+        {
+            query += "AND s.state = 3 ";
+        }
+        else if(state->text()==(tr("Descargado")))
+        {
+            query += "AND s.state = 4 ";
+        }
+        else if(state->text()==(tr("Desactivado")))
+        {
+            query += "AND s.state = 7 ";
+        }
+        else if(state->text()==(tr("Adenda")))
+        {
+            query += "AND s.state = 8 ";
+        }
+
+
         query += "ORDER BY starttime desc";
     }
 
-
-    qDebug() << query;
     QList<int> o = _studies.listeID(query);
     for(int i = 0; i<o.size(); i++){
         _studies.loadData(o.at(i));
@@ -199,6 +318,8 @@ void historical::load(){
         studiesWidget.append(t);
         listBoxLayout->addWidget(t);
     }
+
+    searchbutton->setEnabled(true);
 }
 
 void historical::deletedStudy(QHistWidget * qhw){

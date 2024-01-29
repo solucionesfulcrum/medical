@@ -149,7 +149,7 @@ QWidget#studyInfoWidget { border-left:3px solid #E1E3E3;   }
 QWidget#studyInfoWidget QLabel{ background:#FFF; color:#3e3e3e; font-size:18px;  padding:10px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetTitle{background-color:rgba(0,0,0,40); color:#FFF; font-size:18px;  padding:14px 10px;}
 QWidget#studyInfoWidget QLabel#studyInfoWidgetDatetime{background:transparent; color:#3e3e3e; font-size:30px; line-height:10px;  padding:15px 10px;}
-QWidget#studyInfoWidget QTextEdit{ border:0; color:#3e3e3e; font-size:14px;  padding:10px 10px 10px 50px; background-color:#FFF;}
+QWidget#studyInfoWidget QTextEdit{ border:0; color:#3e3e3e; font-size:18px;  padding:10px 10px 10px 50px; background-color:#FFF;}
 QWidget#studyInfoWidget QLabel#icons{background:#00D4D8; border-radius:5px; color:#FFF; font-size:18px;  padding:14px 10px;}
 
 
@@ -176,7 +176,7 @@ QWidget#_clinicdata QLineEdit:disabled{background-color:#E6E6E6; border:1px soli
 /*sweepline*/
 QWidget#sweepsWidget {background-color:transparent; border:0;}
 QWidget#captureWidget {background-color:rgba(0,0,0,10);}
-QWidget#captureWidget QLabel{ color:#FFF; font-size:16px;}
+QWidget#captureWidget QLabel{ color:#FFF; font-size:12px;}
 QWidget#captureWidget QPushButton{background-color:#1c7dfa; border:0; border-radius:90px;}
 QWidget#captureWidget QPushButton:disabled{ background:rgba(0,0,0,30);}
 QWidget#captureWidget QPushButton:pressed{background:#448ACA;  background:rgba(0,0,0,60);}
@@ -259,7 +259,7 @@ QTabWidget#configWidget {background-color:transparent;}
 QTabWidget#configWidget QLabel{padding:0; color:#3e3e3e; background:transparent;}
 QTabWidget#configWidget::pane { background-color:transparent; border:0;}
 QTabWidget#configWidget::tab-bar {}
-QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:260px; height:50px; font-size:22px; padding:0px;   }
+QTabWidget#configWidget QTabBar::tab {margin-top:0px; color:#C3C3C3;  margin-right:10px;  border:0; width:250px; height:50px; font-size:22px; padding:0px;   }
 QTabWidget#configWidget QTabBar::tab:selected { color:#808081;  border-bottom:2px solid #00D4D8;}
 
 
@@ -399,14 +399,16 @@ QWidget#sendvideo{background-color:rgba(0,0,0,30); font-size:20px; font-weight: 
 
 
 /*Keyboard*/
+/* CR: 19/05/23 */
 QWidget#keyboard{background:#272727; }
 QWidget#keyboard QLineEdit{background:#272727; font-size:24pt; color:#FFF; padding:5px;}
-QWidget#keyboard QPushButton{background-color:#4D4D4E; font-size:18px; border:0; color:#FFF; border-radius:3px;   }
+QWidget#keyboard QPushButton{background-color:#4D4D4E; font-size:40px; border:0; color:#FFF; border-radius:3px;   }
 QWidget#keyboard QPushButton:disabled{background-color:rgba(0,0,0,80);  border:0;}
 QWidget#keyboard QPushButton:pressed{background-color:#3498db;  border:0;}
 
-QWidget#keyboard QPushButton#greenButton{background-color:#00d4d8;  font-size:18px; border:0;}
-QWidget#keyboard QPushButton#redButton{background-color:#FF5454;   font-size:18px; border:0;}
+/* CR: 19/05/23 */
+QWidget#keyboard QPushButton#greenButton{background-color:#00d4d8;  font-size:40px; border:0;}
+QWidget#keyboard QPushButton#redButton{background-color:#FF5454;   font-size:40px; border:0;}
 
 
 

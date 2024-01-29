@@ -4,7 +4,7 @@ operators::operators() : entities()
 {
     table = "operators";
     id_name = "id";
-    keys << "id" << "name" << "pass" << "admin" ;
+    keys << "id" << "name" << "pass" << "admin" <<"enable"<<"superadmin" ;
     isLogin = false;
     name = "";
 }
@@ -59,8 +59,10 @@ bool operators::islogged(){
     return res;
 }
 
-bool operators::logIn(int n, QString p){
-isLogin = false;
+bool operators::logIn(int n, QString p)
+{
+    isLogin = false;
+
     if (n != 0 && p != ""){
         QString q = "SELECT * FROM "+table+" WHERE id = '"+QString::number(n)+"' AND pass = '"+p+"' LIMIT 0,1";
         qDebug() << q;
@@ -80,8 +82,20 @@ isLogin = false;
 bool operators::isAdmin(){
     operators ope;
     ope.loadData(ope.lastOp());
-    qDebug() << "ISADMIN" <<ope.getValue("admin").toInt();
+
     if (ope.getValue("admin").toInt() == 1 )
         return true;
     else return false;
 }
+
+//-------------------------------------------------
+//  CR: 16/02/23
+bool operators::isSuperAdmin(){
+    operators ope;
+    ope.loadData(ope.lastOp());
+
+    if (ope.getValue("superadmin").toInt() == 1 )
+        return true;
+    else return false;
+}
+//-------------------------------------------------

@@ -5,8 +5,7 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
     setMinimumSize(400,400);
     QVBoxLayout * mainLayout = new QVBoxLayout(this);
 
-
-    //Background Widget
+//  Background Widget
     QWidget * bg = new QWidget();
     bg->setObjectName("bglogin");
     mainLayout->addWidget(bg);
@@ -15,11 +14,13 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
 
     QLabel * logo = new QLabel();
     logo->setPixmap(QPixmap(":/icon/res/img/logow.png"));
+    //logo->setFixedSize(400,400);
     logo->setObjectName("block");
     logo->setAlignment(Qt::AlignCenter);
 
 
     _width = 370;
+    //_width = 500;
     _y = 340;
 
     createUserLoginBox();
@@ -34,6 +35,7 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
     QWidget * loginWidget = new QWidget;
     loginWidget->setFixedWidth(_width);
     loginWidget->setFixedHeight(470);
+    //loginWidget->setFixedHeight(500);
     loginWidget->setObjectName("loginWidget");
     QVBoxLayout * loginLayout = new QVBoxLayout(loginWidget);
     loginLayout->addWidget(logo,Qt::AlignCenter );
@@ -119,16 +121,23 @@ void WLogin::createUserLogin(){
 
 
     _loginBox = new QWidget;
-    _pass = new QVkLineEdit();
+//------------------------------------------------------
+//  CR: 09/07/23
+    _pass = new QVkLineEdit(true,true);
+//------------------------------------------------------
     _pass->setFixedHeight(50);
     _pass->setEchoMode(QLineEdit::Password);
     _pass->setText(testPass);
     _pass->setPlaceholderText(tr("Contraseña"));
     _pass->setObjectName("passLine");
 
+//--------------------------------------------------------------
+//  CR: 31/01/23
+    _pass->vk->edit->setEchoMode(QLineEdit::Password);
+//--------------------------------------------------------------
     _userlistboton = new QPushButton(QIcon(":/icon/res/img/loglist.png"),tr(""));
     _userlistboton->setCheckable(true);
-    _userlistboton->setFixedSize(40,40);
+    _userlistboton->setFixedSize(50,50);
     _userlistboton->setIconSize(QSize(30,30));
     _userlistboton->setObjectName("changeOpeButton");
     connect(_userlistboton,SIGNAL(toggled(bool)),this,SLOT(showList(bool)));
@@ -211,18 +220,29 @@ void WLogin::refreshList(){
     QList<int> o = ope.listeID("");
     for(int i = 0; i<o.size(); i++){
         ope.loadData(o.at(i));
-        QPushButton * t = new QPushButton(ope.getValue("name").toString().toUpper());
-        t->setFixedHeight(50);
-        t->setFixedWidth(_areaBox->width()-35);
-        usersButtons->addButton(t,ope.getValue("id").toInt());
-        listlayout->addWidget(t);
-        _areaHeight += 51;
+
+        if(ope.getValue("enable").toInt())
+        {
+            QPushButton * t = new QPushButton(ope.getValue("name").toString().toUpper());
+            t->setFixedHeight(50);
+            t->setFixedWidth(_areaBox->width()-35);
+            usersButtons->addButton(t,ope.getValue("id").toInt());
+            listlayout->addWidget(t);
+            _areaHeight += 51;
+        }
     }
 }
 
 void WLogin::login(){
     if(ope.logIn(idLogin,_pass->text()))
+    {
+//----------------------------------------------------------
+//      CR: 31/01/23
+        _pass->vk->edit->setEchoMode(QLineEdit::Normal);
+//----------------------------------------------------------
         emit logged();
+    }
+
     else {
         error->setText(tr("¡La contraseña es incorrecta!"));
         error->show();

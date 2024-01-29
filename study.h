@@ -33,6 +33,8 @@ public:
     study(QMedicalBoxWidget *parent = nullptr);
     ~study();
     int8_t wifi_status;
+    bool ConsentState;
+    SlidingStackedWidget * studyForm;
 
 public slots:
     void patientLoaded(int);
@@ -44,6 +46,7 @@ public slots:
     bool isCapturing();
     void isnewStudy(bool = false);
     void Wifi_status(int8_t);
+    void Slot_Consent(bool);
 
 signals:
     void studyStarted(bool);
@@ -61,8 +64,10 @@ private:
     void MuestraUltimoUltrasonido();
     uint8_t validateCardiacBeat();
 
+    uint8_t ObstetricProtrocol_Validation(QJsonArray *);
     uint8_t CSDProtocol_Validation(QJsonArray *);
     uint8_t PulmonaryProtocol_Validation(QJsonArray *);
+
     QString Protocol_GetValue(QJsonArray *,QString);
     bool Protocol_FindString(QJsonArray *,QString,QString);
     bool PulmonaryProtocol_Checked(QJsonArray *,QString);
@@ -70,9 +75,10 @@ private:
 
     QString id_ci;
 
-    QPushButton * start;
+    QPushButton *start;
+    QPushButton *updateProtocols;
 
-    SlidingStackedWidget * studyForm;
+
     SeriesWidget *_seriesWidget;
 
     studyInfoWidget * studyInfo;

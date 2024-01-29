@@ -78,4 +78,5 @@ bool captureProcess::startRecord(){
 bool captureProcess::stopRecord(){
     //Quit and save video from ffmpeg
     write("q");
+    return true;
 }

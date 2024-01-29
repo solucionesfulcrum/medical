@@ -3,6 +3,8 @@
 
 #include <QtWidgets>
 #include <QNetworkConfigurationManager>
+#include <QEvent>
+#include <QMouseEvent>
 
 #include <queuewidget.h>
 #include <configuration.h>
@@ -10,6 +12,8 @@
 #include <study.h>
 #include <visor.h>
 #include <historical.h>
+#include <info.h>
+
 #include <studyfinished.h>
 #include <studycheck.h>
 #include <checkbandwith.h>
@@ -20,6 +24,8 @@
 #include "entitites/operators.h"
 
 #include "dialog/dialogoperator.h"
+#include "dialog/dialogsite.h"
+
 #include "dialog/myffplay.h"
 
 #include <widgets/battery.h>
@@ -34,34 +40,35 @@
 #include <windows.h>
 #include <shellapi.h>
 
-// Need to link with shell32.lib
-#pragma comment(lib, "shell32.lib")
-#pragma comment(lib, "strmiids")
-
 
 class MainWindow : public QMainWindow
 {
     Q_OBJECT
 
 public:
-    MainWindow(QWidget *parent = 0);
+    MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     //static QGraphicsBlurEffect* effect;
     //static MainWindow *mw;
 
 protected:
-    void mousePressEvent(QMouseEvent *);
-    void resizeEvent(QResizeEvent* event);
-    void closeEvent(QCloseEvent *ev);
+    void mousePressEvent(QMouseEvent *event)        override;
+    void mouseReleaseEvent(QMouseEvent *event)      override;
+    bool eventFilter(QObject *obj, QEvent *event)   override;
 
+    void resizeEvent(QResizeEvent* event) override;
+    void closeEvent(QCloseEvent *ev) override;
 
 
 private slots:
-    void setmenuUS();
-    void setmenuConfig();
-    void setmenuHist();
-    void setmenuOperador();
-    void setmenuHelp();
+    void setmenuUS(void);
+    void setmenuConfig(void);
+    void setmenuHist(void);
+    void setmenuOperador(void);
+    void setmenuHelp(void);
+    void setmenuInfo(void);
+    void setmenuSite(void);
+
     void toggleQueue();
     void setMainWindow();
     void setLogin();
@@ -72,6 +79,9 @@ private slots:
     void closeSystem();
     void queueFinished();
     void setMenuDisabled(bool);
+    void LogoutForTimeout(void);
+    void Slot_Timeout(int);
+
 
 private:
     bool encryptFile(const QString &inputFilePath,const QString &outputFilePath);
@@ -95,8 +105,7 @@ private:
     SlidingStackedWidget * mainWidget;
     QString version;
 
-
-
+    QTimer *TimerInactivity;
 
     checkBandwith *cb;
     operators ope;
@@ -112,17 +121,23 @@ private:
     * menuAddOp,
     * menuHelp,
     * menueQueue,
-    * menuClose;
+    * menuClose,
+    * menuInfo,
+    * menuSite;
+
     QStackedWidget * _main;
 
     studyCheck *_studycheck;
     StudyFinished *pStudyFinished;
 
-    study * _study;
-    visor * _visor;
-    configuration * _configuration;
-    historical * _historical;
-    dialogOperator * _operatores;
+    study           * _study;
+    visor           * _visor;
+    configuration   * _configuration;
+    historical      * _historical;
+    dialogOperator  * _operatores;
+    info            * _info;
+    dialogSite      * _site;
+
 
     QLabel *user;
 

@@ -20,6 +20,7 @@ public:
     QString datetime();
     int serieName();
     QString serieNameValue();
+    QString serieEliminateAccent(QString s);
     QString serieNote();
     bool haveVideo();
     QString getVideoFile();
@@ -31,6 +32,7 @@ public:
     int IDNextSend();
 
     bool updateSerie(QHash<QString, QString> data, QString uid);
+    bool studyFinished(int id_study);
 private:
 
     int _id_serie, _id_study, _sent, _checked, _toqueue, _capture, _serie_name;
