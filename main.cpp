@@ -1,11 +1,93 @@
-#include "mainwindow.h"
 #include <QApplication>
 #include <QtWidgets>
-#include "entitites/operators.h"
 #include <QTranslator>
 #include <QInputDialog>
-
 #include <QLockFile>
+#include <QCryptographicHash>
+
+
+#include "mainwindow.h"
+#include "entitites/operators.h"
+
+bool EncryptFile(const QString &inputFilePath,const QString &outputFilePath)
+{
+    QFile inputFile(inputFilePath);
+    QFile outputFile(outputFilePath);
+
+    if (!inputFile.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "Failed to open input file";
+        return false;
+    }
+
+    if (!outputFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "Failed to open output file";
+        inputFile.close();
+        return false;
+    }
+
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    QByteArray fileData = inputFile.readAll();
+
+    hash.addData(fileData);
+    QByteArray key = hash.result();
+
+    // XOR each byte of the file with the corresponding byte of the key
+    for (int i = 0; i < fileData.size(); ++i)
+    {
+        fileData[i] = fileData[i] ^ key.at(i % key.size());
+    }
+
+    for(int i=0;i<key.length();i++)
+    {
+        fileData.append(key[i]);
+    }
+
+    // Write the encrypted data to the output file
+    outputFile.write(fileData);
+
+    // Close the files
+    inputFile.close();
+    outputFile.close();
+
+    return true;
+}
+
+bool DecryptFile(const QString &inputFilePath, const QString &outputFilePath)
+{
+    QFile inputFile(inputFilePath);
+    QFile outputFile(outputFilePath);
+
+    if (!inputFile.open(QIODevice::ReadOnly)) {
+        qDebug() << "Failed to open input file";
+        return false;
+    }
+
+    if (!outputFile.open(QIODevice::WriteOnly)) {
+        qDebug() << "Failed to open output file";
+        inputFile.close();
+        return false;
+    }
+
+    QByteArray fileData = inputFile.readAll();
+    QByteArray key = fileData.mid(fileData.length()-32,32);
+
+    // XOR each byte of the file with the corresponding byte of the key
+    for (int i = 0; i < fileData.size(); ++i) {
+        fileData[i] = fileData[i] ^ key.at(i % key.size());
+    }
+
+    // Write the decrypted data to the output file
+    outputFile.write(fileData);
+
+    // Close the files
+    inputFile.close();
+    outputFile.close();
+    return true;
+}
+
+
 
 void updateBD(){
 
@@ -64,6 +146,7 @@ int main(int argc, char *argv[])
             return 1;
     }
 
+<<<<<<< Updated upstream
     //seleccionar idiomas
     //---------------------------------------------------------------------
     QTranslator t;
@@ -94,6 +177,38 @@ int main(int argc, char *argv[])
     }
 
     //---------------------------------------------------------------------
+=======
+
+//  Selecting language
+
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("IDIOMA");
+    QString language = settings.value("idioma").toString();
+    language = language.toUpper();
+
+    QTranslator t;
+    t.load(":/language_english.qm");
+
+    if(language=="EN")  a.installTranslator(&t);
+
+
+    QString plaindb = "medicalbox.db";
+    QString encryptdb = "mbox.txt";
+
+    QFile inputFilePlain(plaindb);
+
+    if(!inputFilePlain.exists())
+    {
+        QFile inputFile(encryptdb);
+
+        if(inputFile.exists())
+        {
+            DecryptFile(encryptdb,"medicalbox.db");
+        }
+    }
+
+
+>>>>>>> Stashed changes
 
     QPixmap pixmap(":/icon/res/img/splash.png");
 

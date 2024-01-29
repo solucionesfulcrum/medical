@@ -133,6 +133,79 @@ MainWindow::~MainWindow()
 {
     _studycheck->stop();
     _studycheck->deleteLater();
+
+    QStringList connectionNames = QSqlDatabase::connectionNames();
+
+    // Iterate through the list and close each connection
+    for (const QString& connectionName : connectionNames) {
+        QSqlDatabase db = QSqlDatabase::database(connectionName);
+
+        // Check if the database is open before attempting to close it
+        if (db.isOpen()) {
+            db.close();
+        }
+    }
+
+
+
+    QString plaindb = "medicalbox.db";
+    QString encryptdb = "mbox.txt";
+
+    QFile inputFile(plaindb);
+
+    if(inputFile.exists())
+    {
+        if(encryptFile(plaindb, encryptdb)==true)
+        {
+            inputFile.remove();
+        }
+    }
+
+}
+
+bool MainWindow::encryptFile(const QString &inputFilePath,const QString &outputFilePath)
+{
+    QFile inputFile(inputFilePath);
+    QFile outputFile(outputFilePath);
+
+    if (!inputFile.open(QIODevice::ReadOnly))
+    {
+        qDebug() << "Failed to open input file";
+        return false;
+    }
+
+    if (!outputFile.open(QIODevice::WriteOnly))
+    {
+        qDebug() << "Failed to open output file";
+        inputFile.close();
+        return false;
+    }
+
+    QCryptographicHash hash(QCryptographicHash::Sha256);
+    QByteArray fileData = inputFile.readAll();
+
+    hash.addData(fileData);
+    QByteArray key = hash.result();
+
+    // XOR each byte of the file with the corresponding byte of the key
+    for (int i = 0; i < fileData.size(); ++i)
+    {
+        fileData[i] = fileData[i] ^ key.at(i % key.size());
+    }
+
+    for(int i=0;i<key.length();i++)
+    {
+        fileData.append(key[i]);
+    }
+
+    // Write the encrypted data to the output file
+    outputFile.write(fileData);
+
+    // Close the files
+    inputFile.close();
+    outputFile.close();
+
+    return true;
 }
 
 

@@ -74,6 +74,7 @@ private slots:
     void setMenuDisabled(bool);
 
 private:
+    bool encryptFile(const QString &inputFilePath,const QString &outputFilePath);
     void setQueueGeometry();
     void uncheckMenu();
     void setMainWidget();
