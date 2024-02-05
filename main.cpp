@@ -9,6 +9,9 @@
 #include "mainwindow.h"
 #include "entitites/operators.h"
 
+
+
+
 bool EncryptFile(const QString &inputFilePath,const QString &outputFilePath)
 {
     QFile inputFile(inputFilePath);
@@ -99,8 +102,10 @@ void updateBD(){
     QString query;
     query = "ALTER TABLE protocols ADD COLUMN data TEXT;";
     updated = o.execute(query);
+
     query = "ALTER TABLE studies ADD COLUMN data TEXT;";
     updated = o.execute(query);
+
     query = "ALTER TABLE studies ADD COLUMN urgent INT DEFAULT 0;";
     updated = o.execute(query);
     query = "ALTER TABLE configuration ADD COLUMN keep_uncompressed INT DEFAULT 0;";
@@ -129,32 +134,23 @@ int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
 
-    // Verifica que no halla instancia previa del programa (jchang 04/10/19)
-//    QLockFile lockFile(QDir::temp().absoluteFilePath("<041019_1440>.lock"));
+
+//---------------------------------------------------------------
     QLockFile lockFile("./MB_041019.lock");
-    /* Trying to close the Lock File, if the attempt is unsuccessful for 100 milliseconds,
-         * then there is a Lock File already created by another process.
-         / Therefore, we throw a warning and close the program
-         * */
+
     if(!lockFile.tryLock(100))
     {
-/*            QMessageBox msgBox;
-            msgBox.setIcon(QMessageBox::Warning);
-            msgBox.setText("The application is already running.\n"
-                           "Allowed to run only one instance of the application.");
-            msgBox.exec();*/
-            return 1;
+        return 1;
     }
 
-<<<<<<< Updated upstream
-    //seleccionar idiomas
-    //---------------------------------------------------------------------
-    QTranslator t;
+//---------------------------------------------------------------
+//  Folder to store images
+    if(!QDir("sweeps").exists())
+        QDir().mkdir("sweeps");
 
-    //QStringList idiomas;
-    //idiomas << "Español" << "English";
-    //QString idio = QInputDialog::getItem(NULL,"Seleccionar Idioma","Seleccionar",idiomas);
-    //--------------------------
+//---------------------------------------------------------------
+//  Select language
+    QTranslator t;    
     QSettings settings("setting.ini", QSettings::IniFormat);
     settings.beginGroup("IDIOMA");
     QString idio = settings.value("idioma").toString();
@@ -163,8 +159,6 @@ int main(int argc, char *argv[])
         settings.setValue("idioma", "ES");
 
     settings.endGroup();
-    //--------------------------
-
     idio = idio.toUpper();
 
     //EN=Ingles  //ES=Español
@@ -172,25 +166,12 @@ int main(int argc, char *argv[])
         t.load(":/MedicalBox_en.qm");
     }
 
-    if(idio != "ES"){
+    if(idio != "ES")
+    {
         a.installTranslator(&t);
     }
 
-    //---------------------------------------------------------------------
-=======
-
-//  Selecting language
-
-    QSettings settings("setting.ini", QSettings::IniFormat);
-    settings.beginGroup("IDIOMA");
-    QString language = settings.value("idioma").toString();
-    language = language.toUpper();
-
-    QTranslator t;
-    t.load(":/language_english.qm");
-
-    if(language=="EN")  a.installTranslator(&t);
-
+//---------------------------------------------------------------
 
     QString plaindb = "medicalbox.db";
     QString encryptdb = "mbox.txt";
@@ -208,7 +189,6 @@ int main(int argc, char *argv[])
     }
 
 
->>>>>>> Stashed changes
 
     QPixmap pixmap(":/icon/res/img/splash.png");
 

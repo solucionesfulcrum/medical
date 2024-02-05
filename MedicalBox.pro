@@ -22,6 +22,7 @@ SOURCES += main.cpp\
     sqlite.cpp \
     queuewidget.cpp \
     study.cpp \
+    studyWidget/sweepimage.cpp \
     studyfinished.cpp \
     visor.cpp \
     configuration.cpp \
@@ -75,6 +76,7 @@ HEADERS  += mainwindow.h \
     sqlite.h \
     queuewidget.h \
     study.h \
+    studyWidget/sweepimage.h \
     studyfinished.h \
     visor.h \
     configuration.h \

@@ -12,6 +12,8 @@
 #define state_assigned          "2"
 #define state_diagnosticated    "3"
 
+#define encrypt_database        1
+
 #include <QString>
 #include <QtWidgets>
 #include <QMainWindow>

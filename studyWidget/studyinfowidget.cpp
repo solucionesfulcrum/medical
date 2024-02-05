@@ -27,21 +27,28 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
     studyInfoProtocols->setFixedWidth(230);
     studyInfoProtocols->setFixedHeight(60);
 
-    studyInfoDateTime = new QLabel(studyInfo);
-    studyInfoDateTime->setAlignment(Qt::AlignCenter);
+    //studyInfoDateTime = new QLabel(studyInfo);
+    studyInfoDateTime = new QLabel(tr(""));
     studyInfoDateTime->setObjectName("studyInfoWidgetDatetime");
-    studyInfoReason = new QTextEdit("",studyInfo);
-    studyInfoReason->setEnabled(false);
+    studyInfoDateTime->setAlignment(Qt::AlignCenter);
 
-    studyInfoReason->setFixedWidth(230);    
+
+    studyInfoReason = new QTextEdit("",studyInfo);
+    studyInfoReason->setEnabled(false);    
+    studyInfoReason->setFixedWidth(230);
     studyInfoReason->setFixedHeight(120);
+
+
+    studyInfoPicture = new ImageLabel(this);
+
+    connect(studyInfoPicture,SIGNAL(clicked()),this,SLOT(resizePicture()));
+
 
     QLabel * studyInfoPatientLabel = new QLabel(studyInfo);
     studyInfoPatientLabel->setAlignment(Qt::AlignCenter);
 
     studyInfoPatientLabel->setPixmap(QPixmap(":/icon/res/img/study_info/patient.png"));
     studyInfoPatientLabel->setObjectName("icons");
-    //studyInfoPatientLabel->setFixedSize(80,80);
     studyInfoPatientLabel->setFixedSize(70,70);
 //  CR: 01/02/21
     studyInfoPatientLabel->move(15,40);
@@ -49,13 +56,11 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
 
     studyInfoPatientName->move(80,50);
 
-
     QLabel * studyInfoReasonLabel = new QLabel(studyInfo);
     studyInfoReasonLabel->setAlignment(Qt::AlignCenter);
     studyInfoReasonLabel->setPixmap(QPixmap(":/icon/res/img/study_info/reason.png"));
     studyInfoReasonLabel->move(15,150);
     studyInfoReasonLabel->setObjectName("icons");
-    //studyInfoReasonLabel->setFixedSize(80,80);
     studyInfoReasonLabel->setFixedSize(70,70);
     studyInfoReasonLabel->raise();
 
@@ -66,14 +71,16 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
     studyInfoProtocolsLabel->setPixmap(QPixmap(":/icon/res/img/study_info/protocol.png"));
     studyInfoProtocolsLabel->move(15,250);
     studyInfoProtocolsLabel->setObjectName("icons");
-    //studyInfoProtocolsLabel->setFixedSize(80,80);
     studyInfoProtocolsLabel->setFixedSize(70,70);
     studyInfoProtocolsLabel->raise();
 
     studyInfoReason->move(70,260);
 
-    studyInfoDateTime->move(40,450);
-    studyInfoDateTime->setFixedSize(300,120);
+    //studyInfoDateTime->move(40,450);
+
+    studyInfoPicture->move(30,420);
+    studyInfoPicture->setFixedSize(280,327);
+
 
 }
 
@@ -82,26 +89,66 @@ studyInfoWidget::~studyInfoWidget()
 
 }
 
-void studyInfoWidget::setStudyInfoPatient(QString n, QString l){
+void studyInfoWidget::resizePicture(void)
+{
+    QDialog* zoomedImage = new QDialog(this);    
+    QLabel* zoomedLabel = new QLabel(zoomedImage);
+
+    zoomedImage->setWindowFlags(zoomedImage->windowFlags() & ~Qt::WindowContextHelpButtonHint);
+    zoomedImage->setWindowTitle(tr("  "));
+    zoomedLabel->setPixmap(studyInfoPicture->pixmap()->scaledToWidth(800, Qt::SmoothTransformation));
+    zoomedLabel->setAlignment(Qt::AlignCenter);
+
+    QVBoxLayout* layout = new QVBoxLayout(zoomedImage);
+    layout->addWidget(zoomedLabel);
+
+    zoomedImage->exec();
+}
+
+
+
+void studyInfoWidget::setStudyInfoPatient(QString n, QString l)
+{
     studyInfoPatientName->setText(n+"<br />"+l);
     //studyInfoPatientLastName->setText(l);
 }
 
-void studyInfoWidget::setStudyInfoPatientName(QString s){
+void studyInfoWidget::setStudyInfoPatientName(QString s)
+{
     studyInfoPatientName->setText(s);
 }
 
-void studyInfoWidget::setStudyInfoPatientLastName(QString s){
+void studyInfoWidget::setStudyInfoPatientLastName(QString)
+{
 }
 
-void studyInfoWidget::setStudyInfoProtocols(QString s){
+void studyInfoWidget::setStudyInfoProtocols(QString s)
+{
     studyInfoProtocols->setText(s);
 }
 
-void studyInfoWidget::setStudyInfoReason(QString s){
+void studyInfoWidget::setStudyInfoReason(QString s)
+{
     studyInfoReason->setText(s);
 }
 
-void studyInfoWidget::setStudyInfoDateTime(QString s){
+void studyInfoWidget::setStudyInfoDateTime(QString s)
+{
     studyInfoDateTime->setText(s);
 }
+
+void studyInfoWidget::setSweepPicture(int protocol_id, int sweep)
+{
+    if(protocol_id==0)
+    {
+        studyInfoPicture->clear();
+    }
+    else{
+        QPixmap pixmap;
+        if(pixmap.load("sweeps/"+QString::number(protocol_id)+"/"+QString::number(sweep)))
+        {
+            studyInfoPicture->setPixmap(pixmap.scaledToWidth(280,Qt::SmoothTransformation));
+        }
+    }
+}
+

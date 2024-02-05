@@ -3,6 +3,8 @@
 
 SeriesWidget::SeriesWidget( QWidget *parent) : QWidget(parent)
 {
+    protocol_id = 0;
+
     setAttribute(Qt::WA_DeleteOnClose);
     isCapturing = false;
     poller = new QTimer;
@@ -130,7 +132,7 @@ void SeriesWidget::backButtonSlot()
 
     sendButton->setEnabled(false);
 
-
+    emit changePicture(protocol_id,i);
     _sweepsline->prev();
 
 
@@ -160,7 +162,11 @@ void SeriesWidget::nextButtonSlot()
 
     if(i==j)    return;
 
+    emit changePicture(protocol_id,i+1);
     _sweepsline->next();
+
+
+    //emit changePicture(protocol_id,i);
 
     /*
 
@@ -628,6 +634,8 @@ void SeriesWidget::send(){
         cpt->slideInPrev();
         _sweepsline->next();
 
+        emit changePicture(protocol_id,i+1);
+
 
 
     }
@@ -719,6 +727,9 @@ void SeriesWidget::sendStudy(void){
         data.insert("finishtime",studies::getCurrentDateTime());
         data.insert("state",state_ontransmission);
         _studies.update(data,idStudy);
+
+        emit changePicture(0,0);
+
         if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
         else

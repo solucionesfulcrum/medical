@@ -28,13 +28,18 @@ public:
     bool isCapturingVideo();
     sendbutton * sendButton ;
     bool StudiesFinished;
+    int protocol_id;
+
 
 protected:
     void closeEvent(QCloseEvent *);
+
 signals:
     void finished(bool);
     void sendToQueue(int);
     void finishedStudy(bool);
+    void changePicture(int,int);
+
 private slots:
     void startRecord();
     void stopRecord();

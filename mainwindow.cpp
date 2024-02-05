@@ -50,7 +50,9 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.5.1 (26/08/2023)";
     //version = "2.5.2 (12/11/2023)";
     //version = "2.5.3 (13/12/2023)";
-    version = "2.5.4 (12/01/2024)";
+    //version = "2.5.4 (12/01/2024)";
+    version = "2.5.5 (05/02/2024)";
+
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
@@ -199,6 +201,7 @@ MainWindow::~MainWindow()
     }
 
 
+#if encrypt_database==1
 
     QString plaindb = "medicalbox.db";
     QString encryptdb = "mbox.txt";
@@ -212,6 +215,7 @@ MainWindow::~MainWindow()
             inputFile.remove();
         }
     }
+#endif
 
 }
 

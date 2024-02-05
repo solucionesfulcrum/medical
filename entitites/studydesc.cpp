@@ -143,6 +143,30 @@ void studyDescUpdate::finished(QNetworkReply* pReply){
                     QString name = sweeps.at(y).toObject().value("name").toString();
                     QString id= _cfg.JsonToString(sweeps.at(y).toObject().value("id"));
                     QString protocolid= _cfg.JsonToString(sweeps.at(y).toObject().value("protocol_id"));
+
+                //---------------------------------------------------------------------------------
+                //  CR: 01/02/24
+
+                    if(!QDir("sweeps/"+protocolid+"/").exists())
+                        QDir().mkdir("sweeps/"+protocolid+"/");
+
+
+                    QString base64String = sweeps.at(y).toObject().value("image64").toString();
+
+                    if(!base64String.isEmpty())
+                    {
+                        QByteArray imgBytes = QByteArray::fromBase64(base64String.toUtf8());
+                        QImage img;
+
+                        img.loadFromData(imgBytes);
+
+                        if(img.save("sweeps/"+protocolid+"/"+ QString::number(y+1) + ".jpg", "JPG"))
+                            qDebug()<<"Image saved";
+                        else {
+                            qDebug()<<"Image error save";
+                        }
+                    }
+                //---------------------------------------------------------------------------------
                     dataSweeps.insert("name",name);
                     dataSweeps.insert("id",id);
                     dataSweeps.insert("id_protocols",protocolid);

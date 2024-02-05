@@ -3,6 +3,8 @@
 
 #include <QtWidgets>
 
+#include "sweepimage.h"
+
 class studyInfoWidget : public QWidget
 {
     Q_OBJECT
@@ -16,14 +18,20 @@ public slots:
     void setStudyInfoProtocols(QString);
     void setStudyInfoDateTime(QString);
     void setStudyInfoReason(QString);
+
+    void setSweepPicture(int protocol_id, int sweep);
+    void resizePicture(void);
+
 private:
     QWidget * studyInfo;
     QTextEdit *studyInfoReason;
     QLabel
     * studyInfoPatientName,
     * studyInfoProtocols,
-    * studyInfoDateTime
-    ;
+    * studyInfoDateTime;
+//    * studyInfoPicture
+
+    ImageLabel *studyInfoPicture;
 
 };
 

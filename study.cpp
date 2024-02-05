@@ -14,10 +14,15 @@ study::study( QMedicalBoxWidget *parent) : QMedicalBoxWidget(parent)
     connect(_seriesWidget,SIGNAL(finishedStudy(bool)),this,SLOT(isnewStudy(bool)));
     connect(_seriesWidget,SIGNAL(sendToQueue(int)),this,SLOT(sendToQueue(int)));
 
+
     QPushButton * newStudyButton = new QPushButton(tr("Nuevo Estudio"));
     connect(newStudyButton,SIGNAL(clicked()),this,SLOT(newStudy()));
+
     studyInfo = new studyInfoWidget();
     setForm();
+    connect(_seriesWidget,SIGNAL(changePicture(int,int)),studyInfo,SLOT(setSweepPicture(int,int)));
+
+
     mainLayout->setDirection(QBoxLayout::LeftToRight);
     mainLayout->addWidget(studyForm);
     mainLayout->addWidget(_seriesWidget);
@@ -232,6 +237,13 @@ void study::startStudy(){
             _series.insert(data);
         }
         studyInfo->setStudyInfoReason(_clinicdatawidget->getReason());
+
+//------------------------------------------------------
+//      CR: 04/02/24
+        int id = _studyDesc->getValue();
+        _seriesWidget->protocol_id = id;
+        studyInfo->setSweepPicture(id,1);
+//------------------------------------------------------
 
         studyForm->hide();
         _seriesWidget->setStudy(studyId);
