@@ -225,14 +225,14 @@ QString studies::getStateName(int v){
 
 //  CR: 04/06/23
 //  CR: 26/07/23
-    case -1:    return "Incompleto"; break;
-    case 0:     return "En transmisión"; break;
-    case 1:     return "Enviado"; break;
-    case 2:     return "Asignado"; break;
-    case 3:     return "Diagnosticado"; break;
-    case 4:     return "Descargado"; break;
-    case 7:     return "Desactivado"; break;
-    case 8:     return "Adenda";
+    case -1:    return QObject::tr("Incompleto"); break;
+    case 0:     return QObject::tr("En transmisión"); break;
+    case 1:     return QObject::tr("Enviado"); break;
+    case 2:     return QObject::tr("Asignado"); break;
+    case 3:     return QObject::tr("Diagnosticado"); break;
+    case 4:     return QObject::tr("Descargado"); break;
+    case 7:     return QObject::tr("Desactivado"); break;
+    case 8:     return QObject::tr("Adenda");
 //-------------------------------------------------
     default:    return "";          break;
     }

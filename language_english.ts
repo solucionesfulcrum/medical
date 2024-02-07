@@ -4,115 +4,115 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="mainwindow.cpp" line="263"/>
-        <location filename="mainwindow.cpp" line="268"/>
-        <location filename="mainwindow.cpp" line="273"/>
-        <location filename="mainwindow.cpp" line="685"/>
-        <location filename="mainwindow.cpp" line="690"/>
-        <location filename="mainwindow.cpp" line="695"/>
+        <location filename="mainwindow.cpp" line="340"/>
+        <location filename="mainwindow.cpp" line="345"/>
+        <location filename="mainwindow.cpp" line="350"/>
+        <location filename="mainwindow.cpp" line="762"/>
+        <location filename="mainwindow.cpp" line="767"/>
+        <location filename="mainwindow.cpp" line="772"/>
         <source>Estudios pendientes</source>
         <translation>Pending studies</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="272"/>
-        <location filename="mainwindow.cpp" line="694"/>
+        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="771"/>
         <source>Existen estudios incompletos y sin enviar en los últimos 30 días</source>
         <translation>There are incomplete and unsubmitted studies in the last 30 days</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="295"/>
+        <location filename="mainwindow.cpp" line="372"/>
         <source>Cerrar</source>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="337"/>
+        <location filename="mainwindow.cpp" line="414"/>
         <source>Ecografía</source>
         <translation>Ultrasound</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="343"/>
+        <location filename="mainwindow.cpp" line="420"/>
         <source>Ajustes</source>
         <translation>Settings</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="349"/>
+        <location filename="mainwindow.cpp" line="426"/>
         <source>Historial</source>
         <translation>Records</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="355"/>
+        <location filename="mainwindow.cpp" line="432"/>
         <source>Operadores</source>
         <translation>Users</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="361"/>
+        <location filename="mainwindow.cpp" line="438"/>
         <source>Información</source>
         <translation>Information</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="367"/>
+        <location filename="mainwindow.cpp" line="444"/>
         <source>Tutoriales</source>
         <translation>Tutorials</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="373"/>
+        <location filename="mainwindow.cpp" line="450"/>
         <source>P. Salud</source>
         <translation>Health Post</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="454"/>
+        <location filename="mainwindow.cpp" line="531"/>
         <source>Ver cola</source>
         <translation>See Queue</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="564"/>
+        <location filename="mainwindow.cpp" line="641"/>
         <source>Sincronizando estudios ...</source>
         <translation>Synchronizing studies ...</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="262"/>
-        <location filename="mainwindow.cpp" line="684"/>
+        <location filename="mainwindow.cpp" line="339"/>
+        <location filename="mainwindow.cpp" line="761"/>
         <source>Existen estudios incompletos en los últimos 30 días.</source>
         <translation>There are incomplete studies in the last 30 days.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="267"/>
-        <location filename="mainwindow.cpp" line="689"/>
+        <location filename="mainwindow.cpp" line="344"/>
+        <location filename="mainwindow.cpp" line="766"/>
         <source>Existen estudios sin enviar en los últimos 30 días</source>
         <translation>There are studies not sent in the last 30 days</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="701"/>
+        <location filename="mainwindow.cpp" line="778"/>
         <source>Advertencia</source>
         <translation>Warning</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="701"/>
+        <location filename="mainwindow.cpp" line="778"/>
         <source>Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?</source>
         <translation>There are studies not sent, it is recommended not to close the application and check the internet connection. Do you wish to continue?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="711"/>
+        <location filename="mainwindow.cpp" line="788"/>
         <source>Adquisición en proceso</source>
         <translation>Acquisition in progress</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="711"/>
+        <location filename="mainwindow.cpp" line="788"/>
         <source>Un barrido esta en proceso de adqusición, por favor terminé la adqusición actual, antes de realizar otra acción.</source>
         <translation>One sweep is being acquired, please finish the current sweep before executing another action.</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="799"/>
+        <location filename="mainwindow.cpp" line="876"/>
         <source>Salir</source>
         <translation>Exit</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="799"/>
+        <location filename="mainwindow.cpp" line="876"/>
         <source>¿Está seguro de salir del sistema?</source>
         <translation>Are you sure to exit the system?</translation>
     </message>
     <message>
-        <location filename="mainwindow.cpp" line="815"/>
+        <location filename="mainwindow.cpp" line="892"/>
         <source>Cerrando</source>
         <translation>Closing</translation>
     </message>
@@ -181,24 +181,64 @@
         <translation>Database not exist!</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="84"/>
+        <location filename="main.cpp" line="129"/>
         <source>Base de datos actualizado</source>
         <translation>Database updated</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="84"/>
+        <location filename="main.cpp" line="129"/>
         <source>La base de datos se actualizó con éxito</source>
         <translation>Database  updated successfully</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="195"/>
+        <location filename="main.cpp" line="230"/>
         <source>Verficación de la base de datos</source>
         <translation>Database verification</translation>
     </message>
     <message>
-        <location filename="main.cpp" line="197"/>
+        <location filename="main.cpp" line="232"/>
         <source>Creación de la interfaz</source>
         <translation>System starting</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="228"/>
+        <source>Incompleto</source>
+        <translation>Incomplete</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="229"/>
+        <source>En transmisión</source>
+        <translation>In transmission</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="230"/>
+        <source>Enviado</source>
+        <translation>Sent</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="231"/>
+        <source>Asignado</source>
+        <translation>Assigned</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="232"/>
+        <source>Diagnosticado</source>
+        <translation>Diagnosed</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="233"/>
+        <source>Descargado</source>
+        <translation>Discharged</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="234"/>
+        <source>Desactivado</source>
+        <translation>Disabled</translation>
+    </message>
+    <message>
+        <location filename="entitites/studies.cpp" line="235"/>
+        <source>Adenda</source>
+        <translation>Addendum</translation>
     </message>
 </context>
 <context>
@@ -247,46 +287,46 @@
 <context>
     <name>SeriesWidget</name>
     <message>
-        <location filename="serieswidget.cpp" line="19"/>
+        <location filename="serieswidget.cpp" line="21"/>
         <source>Cerrar</source>
         <oldsource>Cerrar
 estudio</oldsource>
         <translation>Close</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="19"/>
-        <location filename="serieswidget.cpp" line="26"/>
+        <location filename="serieswidget.cpp" line="21"/>
+        <location filename="serieswidget.cpp" line="28"/>
         <source>estudio</source>
         <translation>study</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="26"/>
+        <location filename="serieswidget.cpp" line="28"/>
         <source>Enviar</source>
         <translation>Send</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="91"/>
+        <location filename="serieswidget.cpp" line="93"/>
         <source>Atrás</source>
         <translation>Back</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="98"/>
+        <location filename="serieswidget.cpp" line="100"/>
         <source>Siguiente</source>
         <translation>Next</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="144"/>
-        <location filename="serieswidget.cpp" line="197"/>
-        <location filename="serieswidget.cpp" line="784"/>
+        <location filename="serieswidget.cpp" line="146"/>
+        <location filename="serieswidget.cpp" line="203"/>
+        <location filename="serieswidget.cpp" line="795"/>
         <source>Grabación 
 Finalizada</source>
         <translation>Recording 
 Finished</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="214"/>
-        <location filename="serieswidget.cpp" line="299"/>
-        <location filename="serieswidget.cpp" line="623"/>
+        <location filename="serieswidget.cpp" line="220"/>
+        <location filename="serieswidget.cpp" line="305"/>
+        <location filename="serieswidget.cpp" line="629"/>
         <source>Toca para grabar</source>
         <translation>Touch to record</translation>
     </message>
@@ -304,7 +344,7 @@ adquisición</source>
         <translation type="vanished">recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="340"/>
+        <location filename="serieswidget.cpp" line="346"/>
         <source>Rehacer</source>
         <oldsource>Rehacer
 la captura</oldsource>
@@ -315,8 +355,8 @@ la captura</oldsource>
         <translation type="vanished">the acquisition</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="232"/>
-        <location filename="serieswidget.cpp" line="418"/>
+        <location filename="serieswidget.cpp" line="238"/>
+        <location filename="serieswidget.cpp" line="424"/>
         <source>Pasos
 Terminados</source>
         <oldsource>Paso
@@ -325,87 +365,87 @@ Terminado</oldsource>
 Step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="316"/>
+        <location filename="serieswidget.cpp" line="322"/>
         <source>Siguiente
 Paso</source>
         <translation>Next
 Step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="329"/>
+        <location filename="serieswidget.cpp" line="335"/>
         <source>Visualizar</source>
         <translation>Visualize step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="329"/>
-        <location filename="serieswidget.cpp" line="340"/>
+        <location filename="serieswidget.cpp" line="335"/>
+        <location filename="serieswidget.cpp" line="346"/>
         <source>el paso</source>
         <translation>step</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="386"/>
+        <location filename="serieswidget.cpp" line="392"/>
         <source>Iniciando...</source>
         <translation>Starting...</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="410"/>
+        <location filename="serieswidget.cpp" line="416"/>
         <source>Guardando</source>
         <translation>Saving</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="475"/>
+        <location filename="serieswidget.cpp" line="481"/>
         <source>Problema con la grabación</source>
         <translation>Recording problem</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="480"/>
+        <location filename="serieswidget.cpp" line="486"/>
         <source>Grabación finalizada</source>
         <oldsource>Grabación terminada</oldsource>
         <translation>Recording finished</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="496"/>
-        <location filename="serieswidget.cpp" line="498"/>
+        <location filename="serieswidget.cpp" line="502"/>
+        <location filename="serieswidget.cpp" line="504"/>
         <source>Error de captura</source>
         <translation>Capturing Error</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="499"/>
+        <location filename="serieswidget.cpp" line="505"/>
         <source>No se pudo capturar el barrido&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Verifique que el capturador esta bien connectado.&lt;/li&gt;&lt;li&gt;Contacte su administrador para verificar que el capturador esta bien configurado&lt;/li&gt;&lt;/ul&gt;</source>
         <translation>Sweep could not be captured.&lt;br /&gt;&lt;ul&gt;&lt;li&gt;Please verify that video capture device is connected.&lt;/li&gt;&lt;li&gt; Contact your administrator to check settings.&lt;/li&gt;&lt;/ul&gt;</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="711"/>
+        <location filename="serieswidget.cpp" line="719"/>
         <source>Envio de estudio</source>
         <translation>Study submission</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="711"/>
+        <location filename="serieswidget.cpp" line="719"/>
         <source>¿Esta seguro de enviar el estudio?</source>
         <translation>Are you sure about submitting the study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="722"/>
+        <location filename="serieswidget.cpp" line="733"/>
         <source>¿Nuevo Estudio?</source>
         <translation>New Study?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="722"/>
+        <location filename="serieswidget.cpp" line="733"/>
         <source>¿Empezar un nuevo estudio con el mismo paciente?</source>
         <translation>New study with the same patient?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="751"/>
+        <location filename="serieswidget.cpp" line="762"/>
         <source>Grabación</source>
         <translation>Recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="756"/>
+        <location filename="serieswidget.cpp" line="767"/>
         <source>¿Reiniciar el paso?</source>
         <translation>Redo the step?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="756"/>
+        <location filename="serieswidget.cpp" line="767"/>
         <source>¿Esta seguro de realizar nuevamente el paso?</source>
         <translation>Are you sure to remake the step?</translation>
     </message>
@@ -1675,14 +1715,49 @@ Finished</translation>
     </message>
 </context>
 <context>
+    <name>studies</name>
+    <message>
+        <source>Incompleto</source>
+        <translation type="vanished">Incomplete</translation>
+    </message>
+    <message>
+        <source>En transmisión</source>
+        <translation type="vanished">In transmission</translation>
+    </message>
+    <message>
+        <source>Enviado</source>
+        <translation type="vanished">Sent</translation>
+    </message>
+    <message>
+        <source>Asignado</source>
+        <translation type="vanished">Assigned</translation>
+    </message>
+    <message>
+        <source>Diagnosticado</source>
+        <translation type="vanished">Diagnosed</translation>
+    </message>
+    <message>
+        <source>Descargado</source>
+        <translation type="vanished">Discharged</translation>
+    </message>
+    <message>
+        <source>Desactivado</source>
+        <translation type="vanished">Disabled</translation>
+    </message>
+    <message>
+        <source>Adenda</source>
+        <translation type="vanished">Addendum</translation>
+    </message>
+</context>
+<context>
     <name>study</name>
     <message>
-        <location filename="study.cpp" line="17"/>
+        <location filename="study.cpp" line="18"/>
         <source>Nuevo Estudio</source>
         <translation>New Study</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="59"/>
+        <location filename="study.cpp" line="64"/>
         <source>Iniciar</source>
         <translation>Start</translation>
     </message>
@@ -1692,69 +1767,69 @@ Finished</translation>
         <translation type="vanished">Change \nprotocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="66"/>
+        <location filename="study.cpp" line="71"/>
         <source>Cambiar</source>
         <translation>Change</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="66"/>
+        <location filename="study.cpp" line="71"/>
         <source>de protocolo</source>
         <translation>of Protocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="97"/>
+        <location filename="study.cpp" line="102"/>
         <source>Protocolos</source>
         <translation>Protocols</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="115"/>
+        <location filename="study.cpp" line="120"/>
         <source>Cambiar de paciente</source>
         <translation>Change of patient</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="253"/>
-        <location filename="study.cpp" line="285"/>
-        <location filename="study.cpp" line="290"/>
-        <location filename="study.cpp" line="298"/>
-        <location filename="study.cpp" line="303"/>
+        <location filename="study.cpp" line="265"/>
+        <location filename="study.cpp" line="297"/>
+        <location filename="study.cpp" line="302"/>
+        <location filename="study.cpp" line="310"/>
+        <location filename="study.cpp" line="315"/>
         <source>Protocolo Obstétrico</source>
         <translation>Obstetric Protocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="253"/>
-        <location filename="study.cpp" line="321"/>
-        <location filename="study.cpp" line="376"/>
+        <location filename="study.cpp" line="265"/>
+        <location filename="study.cpp" line="333"/>
+        <location filename="study.cpp" line="388"/>
         <source>Falta completar el motivo del estudio.</source>
         <translation>The reason for the study remains to be completed.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="264"/>
-        <location filename="study.cpp" line="332"/>
-        <location filename="study.cpp" line="387"/>
+        <location filename="study.cpp" line="276"/>
+        <location filename="study.cpp" line="344"/>
+        <location filename="study.cpp" line="399"/>
         <source>Falta completar el nombre de la campaña.</source>
         <translation>The campaign name needs to be completed.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="273"/>
-        <location filename="study.cpp" line="341"/>
-        <location filename="study.cpp" line="395"/>
+        <location filename="study.cpp" line="285"/>
+        <location filename="study.cpp" line="353"/>
+        <location filename="study.cpp" line="407"/>
         <source>Falta seleccionar el puesto de salud.</source>
         <translation>The health post remains to be selected.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="285"/>
+        <location filename="study.cpp" line="297"/>
         <source>Falta seleccionar trimestre.</source>
         <translation>Trimester info is missing.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="290"/>
+        <location filename="study.cpp" line="302"/>
         <source>Fechas no válidas.
 Verifique las fechas FUR y FPP.</source>
         <translation>Invalid dates.
  Check LPD and EDD dates.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="298"/>
+        <location filename="study.cpp" line="310"/>
         <source>La frecuencia cardiaca colocada no es numero.</source>
         <translation>heart rate must be a number.</translation>
     </message>
@@ -1763,189 +1838,189 @@ Verifique las fechas FUR y FPP.</source>
         <translation type="vanished">heart rate number is out of range (1-300).</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="244"/>
+        <location filename="study.cpp" line="256"/>
         <source>Información requerida</source>
         <translation>Required information</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="244"/>
+        <location filename="study.cpp" line="256"/>
         <source>Por favor, completar toda la información requerida.</source>
         <translation>Please complete all required information.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="264"/>
-        <location filename="study.cpp" line="273"/>
-        <location filename="study.cpp" line="280"/>
-        <location filename="study.cpp" line="321"/>
-        <location filename="study.cpp" line="332"/>
-        <location filename="study.cpp" line="341"/>
-        <location filename="study.cpp" line="348"/>
-        <location filename="study.cpp" line="355"/>
-        <location filename="study.cpp" line="361"/>
+        <location filename="study.cpp" line="276"/>
+        <location filename="study.cpp" line="285"/>
+        <location filename="study.cpp" line="292"/>
+        <location filename="study.cpp" line="333"/>
+        <location filename="study.cpp" line="344"/>
+        <location filename="study.cpp" line="353"/>
+        <location filename="study.cpp" line="360"/>
+        <location filename="study.cpp" line="367"/>
+        <location filename="study.cpp" line="373"/>
         <source>Protocolo CSD</source>
         <translation>Right Upper Quadrant Protocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="303"/>
+        <location filename="study.cpp" line="315"/>
         <source>La frecuencia cardiaca esta fuera del rango [30,160].</source>
         <translation>Heart rate is out of range [30,160].</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="355"/>
+        <location filename="study.cpp" line="367"/>
         <source>Se seleccionó Otros en Indicaciones de Examen se debe especificar el valor.</source>
         <translation>If Other was selected in Exam Indications, the value must be specified.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="361"/>
+        <location filename="study.cpp" line="373"/>
         <source>Se seleccionó Cirugías abdominales anteriores se debe especificar el valor.</source>
         <translation>If you selected Previous abdominal surgeries, the value must be specified.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="376"/>
-        <location filename="study.cpp" line="387"/>
-        <location filename="study.cpp" line="395"/>
-        <location filename="study.cpp" line="402"/>
-        <location filename="study.cpp" line="411"/>
-        <location filename="study.cpp" line="431"/>
-        <location filename="study.cpp" line="470"/>
-        <location filename="study.cpp" line="474"/>
-        <location filename="study.cpp" line="477"/>
-        <location filename="study.cpp" line="484"/>
-        <location filename="study.cpp" line="523"/>
-        <location filename="study.cpp" line="526"/>
-        <location filename="study.cpp" line="533"/>
-        <location filename="study.cpp" line="536"/>
-        <location filename="study.cpp" line="543"/>
-        <location filename="study.cpp" line="546"/>
-        <location filename="study.cpp" line="553"/>
-        <location filename="study.cpp" line="556"/>
-        <location filename="study.cpp" line="562"/>
+        <location filename="study.cpp" line="388"/>
+        <location filename="study.cpp" line="399"/>
+        <location filename="study.cpp" line="407"/>
+        <location filename="study.cpp" line="414"/>
+        <location filename="study.cpp" line="423"/>
+        <location filename="study.cpp" line="443"/>
+        <location filename="study.cpp" line="482"/>
+        <location filename="study.cpp" line="486"/>
+        <location filename="study.cpp" line="489"/>
+        <location filename="study.cpp" line="496"/>
+        <location filename="study.cpp" line="535"/>
+        <location filename="study.cpp" line="538"/>
+        <location filename="study.cpp" line="545"/>
+        <location filename="study.cpp" line="548"/>
+        <location filename="study.cpp" line="555"/>
+        <location filename="study.cpp" line="558"/>
         <location filename="study.cpp" line="565"/>
-        <location filename="study.cpp" line="581"/>
-        <location filename="study.cpp" line="586"/>
-        <location filename="study.cpp" line="589"/>
-        <location filename="study.cpp" line="594"/>
+        <location filename="study.cpp" line="568"/>
+        <location filename="study.cpp" line="574"/>
+        <location filename="study.cpp" line="577"/>
+        <location filename="study.cpp" line="593"/>
+        <location filename="study.cpp" line="598"/>
         <location filename="study.cpp" line="601"/>
+        <location filename="study.cpp" line="606"/>
+        <location filename="study.cpp" line="613"/>
         <source>Protocolo Pulmonar</source>
         <translation>Pulmonary Protocol</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="411"/>
+        <location filename="study.cpp" line="423"/>
         <source>Falta seleccionar la fecha de último ultrasonido.</source>
         <translation>You need to select the date of the last ultrasound.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="280"/>
-        <location filename="study.cpp" line="348"/>
-        <location filename="study.cpp" line="402"/>
-        <location filename="study.cpp" line="431"/>
+        <location filename="study.cpp" line="292"/>
+        <location filename="study.cpp" line="360"/>
+        <location filename="study.cpp" line="414"/>
+        <location filename="study.cpp" line="443"/>
         <source>Falta completar domicilio actual.</source>
         <translation>Current address needs to be completed.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="470"/>
+        <location filename="study.cpp" line="482"/>
         <source>Falta seleccionar si ha presentado síntomas.</source>
         <translation>It remains to be selected if you have presented symptoms.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="474"/>
+        <location filename="study.cpp" line="486"/>
         <source>Falta marcar qué síntomas presentó.</source>
         <translation>It remains to be noted what symptoms were presented.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="477"/>
+        <location filename="study.cpp" line="489"/>
         <source>Falta completar otro síntoma.</source>
         <translation>Another symptom is missing.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="484"/>
+        <location filename="study.cpp" line="496"/>
         <source>Falta seleccionar fecha de inicio de síntomas.</source>
         <translation>You need to select the date of onset of symptoms.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="523"/>
+        <location filename="study.cpp" line="535"/>
         <source>Frecuencia cardiaca no válida.</source>
         <translation>Invalid heart rate.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="526"/>
+        <location filename="study.cpp" line="538"/>
         <source>Frecuencia cardiaca debe estar en el rango entre 0 y 300.</source>
         <translation>Heart rate should be in the range between 0 and 300.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="533"/>
+        <location filename="study.cpp" line="545"/>
         <source>Frecuencia respiratoria no válida.</source>
         <translation>Invalid respiratory rate.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="536"/>
+        <location filename="study.cpp" line="548"/>
         <source>Frecuencia respiratoria debe estar en el rango entre 0 y 40.</source>
         <translation>Respiratory rate should be in the range between 0 and 40.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="543"/>
+        <location filename="study.cpp" line="555"/>
         <source>Saturacion de oxigeno no válida.</source>
         <translation>Invalid oxygen saturation.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="546"/>
+        <location filename="study.cpp" line="558"/>
         <source>Saturacion de oxigeno debe estar en el rango entre 0 y 100.</source>
         <translation>Oxygen saturation should be in the range between 0 and 100.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="553"/>
+        <location filename="study.cpp" line="565"/>
         <source>Temperatura del paciente no válida.</source>
         <translation>Invalid patient temperature.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="556"/>
+        <location filename="study.cpp" line="568"/>
         <source>Temperatura del paciente debe estar en el rango entre 25 y 45.</source>
         <translation>Patient&apos;s temperature should be in the range between 25 and 45.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="562"/>
+        <location filename="study.cpp" line="574"/>
         <source>Falta marcar si presenta condiciones de comorbilidad.</source>
         <translation>It remains to be noted if there are comorbid conditions.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="565"/>
+        <location filename="study.cpp" line="577"/>
         <source>Falta completar otra condiciones de comorbilidad.</source>
         <translation>Other comorbid conditions need to be completed.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="581"/>
+        <location filename="study.cpp" line="593"/>
         <source>Falta seleccionar si se vacunó el paciente.</source>
         <translation>It remains to be selected whether the patient was vaccinated.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="586"/>
+        <location filename="study.cpp" line="598"/>
         <source>Falta seleccionar el tipo de vacuna.</source>
         <translation>The type of vaccine remains to be selected.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="589"/>
+        <location filename="study.cpp" line="601"/>
         <source>Falta completar otra vacuna.</source>
         <translation>Another vaccine needs to be completed.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="594"/>
+        <location filename="study.cpp" line="606"/>
         <source>Falta seleccionar la dosis de la vacuna.</source>
         <translation>The dose of the vaccine remains to be selected.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="601"/>
+        <location filename="study.cpp" line="613"/>
         <source>Falta seleccionar fecha de última dosis.</source>
         <translation>You need to select the date of the last dose.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="751"/>
+        <location filename="study.cpp" line="763"/>
         <source>Siguiente
 Paso</source>
         <translation>Next
 Step</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="934"/>
+        <location filename="study.cpp" line="946"/>
         <source>No se encontraron los objetos de último ultrasonido</source>
         <translation>The last ultrasound objects were not found</translation>
     </message>
@@ -1954,49 +2029,49 @@ Step</translation>
         <translation type="vanished">Please complete all required information</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="722"/>
+        <location filename="study.cpp" line="734"/>
         <source>¿Finalizar el estudio?</source>
         <translation>Finish study?</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="722"/>
+        <location filename="study.cpp" line="734"/>
         <source>¿El estudio esta incompleto, esta seguro de finalizarlo?</source>
         <translation>Study is incomplete, are you sure to finish?</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="807"/>
+        <location filename="study.cpp" line="819"/>
         <source>Conexión a internet</source>
         <translation>Internet connection</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="807"/>
+        <location filename="study.cpp" line="819"/>
         <source>NO HAY CONEXION A INTERNET. Revisar la conexión.</source>
         <translation>THERE IS NO INTERNET CONECTION. Check the connection.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="819"/>
-        <location filename="study.cpp" line="826"/>
-        <location filename="study.cpp" line="835"/>
+        <location filename="study.cpp" line="831"/>
+        <location filename="study.cpp" line="838"/>
+        <location filename="study.cpp" line="847"/>
         <source>Consentimiento informado</source>
         <translation>Informed consent</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="819"/>
+        <location filename="study.cpp" line="831"/>
         <source>Su respuesta se tomará como una declaración jurada, &lt;br /&gt;si fuera positiva implica, que culminó con el llenado &lt;br /&gt;del consentimiento informado y que éste ha sido &lt;br /&gt; firmado por el paciente tratado.</source>
         <translation>Your response will be taken as a sworn statement, &lt;br /&gt;if it is positive it implies that it culminated in the &lt;br /&gt;filling out of the informed consent and that it has been &lt;br /&gt; signed by the treated patient.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="826"/>
+        <location filename="study.cpp" line="838"/>
         <source>Para continuar debe completar la firma del consentimiento informado.</source>
         <translation>To continue you must complete the signing of the informed consent.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="835"/>
+        <location filename="study.cpp" line="847"/>
         <source>Código: </source>
         <translation>Code: </translation>
     </message>
     <message>
-        <location filename="study.cpp" line="934"/>
+        <location filename="study.cpp" line="946"/>
         <source>Falta Información</source>
         <translation>Information missing</translation>
     </message>
@@ -2100,6 +2175,14 @@ Step</translation>
     <message>
         <source>Informe</source>
         <translation type="vanished">Report</translation>
+    </message>
+</context>
+<context>
+    <name>studyInfoWidget</name>
+    <message>
+        <location filename="studyWidget/studyinfowidget.cpp" line="98"/>
+        <source>  </source>
+        <translation> </translation>
     </message>
 </context>
 <context>

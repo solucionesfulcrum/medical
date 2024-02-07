@@ -163,7 +163,7 @@ int main(int argc, char *argv[])
 
     //EN=Ingles  //ES=Español
     if (idio == "EN"){
-        t.load(":/MedicalBox_en.qm");
+        t.load(":/language_english.qm");
     }
 
     if(idio != "ES")
