@@ -749,6 +749,8 @@ void SeriesWidget::finishStudy(){
     sendStudyButton->setDisabled(true);
     _captureProcess->kill();
     StudiesFinished = false;
+
+    emit changePicture(0,0);
     emit finished(false);
 }
 
