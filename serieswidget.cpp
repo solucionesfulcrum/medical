@@ -750,7 +750,6 @@ void SeriesWidget::finishStudy(){
     _captureProcess->kill();
     StudiesFinished = false;
 
-    emit changePicture(0,0);
     emit finished(false);
 }
 

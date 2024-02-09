@@ -30,6 +30,9 @@ public:
     bool StudiesFinished;
     int protocol_id;
 
+    sweepsLine * _sweepsline;
+
+
 
 protected:
     void closeEvent(QCloseEvent *);
@@ -70,7 +73,6 @@ private:
     SlidingStackedWidget *cpt;
 
     QTime t;
-    sweepsLine * _sweepsline;
 
     captureButton * _captureButton;
 

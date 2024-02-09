@@ -50,6 +50,9 @@ public slots:
 
 signals:
     void studyStarted(bool);
+    void changePicture(int,int);
+
+
 private slots:
     void protocolSelected();
 

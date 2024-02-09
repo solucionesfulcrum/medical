@@ -697,7 +697,6 @@ void study::loadStudy(int id){
     _protocols.loadData(_study.getValue("id_protocols").toInt());
 
 
-
     //Show information
     studyInfo->setStudyInfoPatient(_patient.getValue("name").toString(),_patient.getValue("last_name").toString());
     _patient_id = _study.id_patient();
@@ -705,7 +704,24 @@ void study::loadStudy(int id){
     studyInfo->setStudyInfoDateTime(studies::datetimetoFormat(_study.datetime(),"dd/MM/yyyy <br /> hh:mm:ss"));
     studyInfo->setStudyInfoReason(_study.reason());
     studyForm->hide();
+/*
+//------------------------------------------------------
+//      CR: 04/02/24
+    int idx = _studyDesc->getValue();
+    _seriesWidget->protocol_id = idx;
+    studyInfo->setSweepPicture(idx,1);
+
+//------------------------------------------------------
+  */
+
     _seriesWidget->setStudy(studyId);
+
+    int protocol_id = _protocols.getValue("id").toInt();
+    _seriesWidget->protocol_id = protocol_id;
+
+    int sweep_id = _seriesWidget->_sweepsline->actual()+1;
+    studyInfo->setSweepPicture(protocol_id,sweep_id);
+
     _seriesWidget->show();
     started = true;
     emit studyStarted(true);
@@ -732,7 +748,11 @@ void study::newStudy(bool b){
         torestart = false;
 
         if (QMessageBox::question(this,tr("¿Finalizar el estudio?"),tr("¿El estudio esta incompleto, esta seguro de finalizarlo?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+        {
+            emit _seriesWidget->changePicture(0,0);
             torestart = true;
+        }
+
     }
     if(torestart){
         studyId = -1;
