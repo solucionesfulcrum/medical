@@ -32,6 +32,10 @@ public:
 
     sweepsLine * _sweepsline;
 
+    QPushButton *backButton,*nextButton;
+    QPushButton *finishStudyButton,*sendStudyButton;
+    captureProcess * _captureProcess;
+
 
 
 protected:
@@ -74,7 +78,6 @@ private:
 
     QTime t;
 
-    captureButton * _captureButton;
 
     studies _studies;
     series _series;
@@ -92,15 +95,14 @@ private:
     *restartButton;
     bool isCapturing;
 
-    QPushButton *backButton,*nextButton;
-    QPushButton *finishStudyButton,*sendStudyButton;
+    captureButton * _captureButton;
+
 
     QLabel * resultLabel;
 
     QString f;
     QTimer *poller;
     QTime _time;
-    captureProcess * _captureProcess;
 };
 
 #endif // SERIESWIDGET_H

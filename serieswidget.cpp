@@ -744,11 +744,7 @@ void SeriesWidget::sendStudy(void){
 //-----------------------------------------------------
 
 void SeriesWidget::finishStudy(){
-    backButton->setDisabled(true);
-    nextButton->setDisabled(true);
-    sendStudyButton->setDisabled(true);
-    _captureProcess->kill();
-    StudiesFinished = false;
+
 
     emit finished(false);
 }

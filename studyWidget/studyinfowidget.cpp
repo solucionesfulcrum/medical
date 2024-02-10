@@ -149,6 +149,10 @@ void studyInfoWidget::setSweepPicture(int protocol_id, int sweep)
         {
             studyInfoPicture->setPixmap(pixmap.scaledToWidth(280,Qt::SmoothTransformation));
         }
+        else
+        {
+            studyInfoPicture->clear();
+        }
     }
 }
 

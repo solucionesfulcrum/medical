@@ -750,6 +750,14 @@ void study::newStudy(bool b){
         if (QMessageBox::question(this,tr("¿Finalizar el estudio?"),tr("¿El estudio esta incompleto, esta seguro de finalizarlo?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
         {
             emit _seriesWidget->changePicture(0,0);
+
+            _seriesWidget->backButton->setDisabled(true);
+             _seriesWidget->nextButton->setDisabled(true);
+             _seriesWidget->sendStudyButton->setDisabled(true);
+             _seriesWidget->_captureProcess->kill();
+             _seriesWidget->StudiesFinished = false;
+
+
             torestart = true;
         }
 
