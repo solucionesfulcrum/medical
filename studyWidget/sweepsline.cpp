@@ -250,7 +250,7 @@ void sweepsLine::setActual(int i)
         QString ss= actSweep->name();
 //------------------------------------------------------------------------------
 //      CR: 19/05/23        
-        title->setText("PASO "+QString::number(i+1)+"\n"+actSweep->name());
+        title->setText(tr("PASO ")+QString::number(i+1)+"\n"+actSweep->name());
 //------------------------------------------------------------------------------
     }
 }

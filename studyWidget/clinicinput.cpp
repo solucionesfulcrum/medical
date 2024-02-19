@@ -120,11 +120,11 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
         // Italo 26/05/2021
         // SIGNAL: Valida si se marca el checkbox de "Cirugías abdominales anteriores"
         // para habilitar el text line de especificación.
-        if (textName == "Historia Médica")
+        if (inputId == "medical_history")
         {
             QCheckBox* cbLast = input->getItem(item.size()-1);
             QString cbText = cbLast->text();
-            if (cbText == "Otras cirugías abdominales anteriores")
+            if (cbText == tr("Otras cirugías abdominales anteriores"))
             {
                 connect(cbLast,SIGNAL(stateChanged(int)),this,SLOT(specificChecked(int)));
             }
@@ -133,11 +133,11 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
         // Italo 16/08/2021
         // SIGNAL: Valida si se marca el checkbox de "Otros"
         // para habilitar el text line de otros.
-        else if (textName == "Indicaciones del examen")
+        else if (inputId == "exam_indicaction")
         {
             QCheckBox* cbLast = input->getItem(item.size()-1);
             QString cbText = cbLast->text();
-            if (cbText == "Otros")
+            if (cbText == tr("Otros"))
             {
                 connect(cbLast,SIGNAL(stateChanged(int)),this,SLOT(otherChecked(int)));
             }
@@ -146,7 +146,7 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
         {
             input->setEnabled(false);
 
-            int i = item.indexOf("Otro síntoma");
+            int i = item.indexOf(tr("Otro síntoma"));
             if (i > -1)
             {
                 QCheckBox *cbOther = input->getItem(i);
@@ -155,14 +155,14 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
         }
         else if (inputId == "cbComorbidity")
         {
-            int i = item.indexOf("Otra cond. de comorbilidad");
+            int i = item.indexOf(tr("Otra cond. de comorbilidad"));
             if (i > -1)
             {
                 QCheckBox *cbOther = input->getItem(i);
                 connect(cbOther,SIGNAL(stateChanged(int)),this,SLOT(otherComorbidityChecked(int)));
             }
 
-            i = item.indexOf("Ninguna");
+            i = item.indexOf(tr("Ninguna"));
             if (i > -1)
             {
                 QCheckBox *cbNon = input->getItem(i);
@@ -267,12 +267,12 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
 
         if (inputId == "txtCovidTestOther" || inputId == "txtSymtomOther" || inputId == "txtVaccineOther" || inputId == "txtComorbidityOther")
             input->setEnabled(false);
-        else if (textName == "Otras cirugías abdominales anteriores(Especificar)")
+        else if (inputId == "txtCirugiaAbdominalAnteriorEspecificar")
         {
             input->setEnabled(false);
             input->setObjectName("Specific");
         }
-        else if (textName == "Otros")
+        else if (inputId == "txtIndicacionesOtros")
         {
             input->setEnabled(false);
             input->setObjectName("Other");
@@ -360,8 +360,8 @@ void clinicInput::caseStatusSelected(const QString &text)
 // según seleccion (si o no) en el campo = "selSymtom"
 void clinicInput::haveSymtomSelected(const QString &text)
 {
-    toggleCheckBox(this->parent(),"Si",text,"cbSymptomKind");
-    toggleCalendar(this->parent(),"Si",text,"dateSymtomStart");
+    toggleCheckBox(this->parent(),tr("Si"),text,"cbSymptomKind");
+    toggleCalendar(this->parent(),tr("Si"),text,"dateSymtomStart");
 }
 
 void clinicInput::toggleCheckBox(QObject *parent, const QString validationVal, const QString currentVal, const QString inputToggle)
@@ -443,7 +443,7 @@ void clinicInput::covidTestSelected(const QString &text)
         {
             cbType->clear();
 
-            if( text == "Si" )  {
+            if( text == tr("Si") )  {
                 cbType->setEnabled(true);
 
                 QDate initialDate = QDate();
@@ -477,7 +477,7 @@ void clinicInput::otherTypeSelected(const QString &text)
         {
             ldOther->clear();
 
-            if( text == "Otros" ) ldOther->setEnabled(true);
+            if( text == tr("Otros") ) ldOther->setEnabled(true);
             else ldOther->setEnabled(false);
 
         }
@@ -545,12 +545,12 @@ void clinicInput::nonComorbidityChecked(int state)
         for (int i = 0; i < cbComorbidity->size(); i++)
         {
             QCheckBox *cb = cbComorbidity->getItem(i);
-            if (cb->text() != "Ninguna" && state == 2)
+            if (cb->text() != tr("Ninguna") && state == 2)
             {
                 cb->setChecked(false);
                 cb->setEnabled(false);
             }
-            else if (cb->text() != "Ninguna") cb->setEnabled(true);
+            else if (cb->text() != tr("Ninguna")) cb->setEnabled(true);
         }
     }
 }
@@ -593,24 +593,24 @@ void clinicInput::buttonChange(int buttonSelected)
 
 void clinicInput::hospitalizedSelected(const QString &text)
 {
-    toggleCalendar(this->parent(),"Si",text,"dateHospitalization");
-    toggleSelect(this->parent(),"Si",text,"selMechanicVentilation");
+    toggleCalendar(this->parent(),tr("Si"),text,"dateHospitalization");
+    toggleSelect(this->parent(),tr("Si"),text,"selMechanicVentilation");
 }
 void clinicInput::vaccinatedSelected(const QString &text)
 {
-    toggleSelect(this->parent(),"Si",text,"selVaccineType");
-    toggleSelect(this->parent(),"Si",text,"selVaccineDose");
-    toggleCalendar(this->parent(),"Si",text,"dateLastDose");
+    toggleSelect(this->parent(),tr("Si"),text,"selVaccineType");
+    toggleSelect(this->parent(),tr("Si"),text,"selVaccineDose");
+    toggleCalendar(this->parent(),tr("Si"),text,"dateLastDose");
 }
 
 void clinicInput::otherVaccineTypeSelected(const QString &text)
 {
-    toggleInput(this->parent(),"Otro",text,"txtVaccineOther");
+    toggleInput(this->parent(),tr("Otro"),text,"txtVaccineOther");
 }
 
 void clinicInput::hadCovidSelected(const QString &text)
 {
-    toggleCalendar(this->parent(),"Si",text,"dateCovidStart");
+    toggleCalendar(this->parent(),tr("Si"),text,"dateCovidStart");
 }
 
 void clinicInput::firstUltrasoundCheck()

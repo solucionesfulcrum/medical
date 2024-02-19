@@ -317,7 +317,7 @@ estudio</oldsource>
     <message>
         <location filename="serieswidget.cpp" line="146"/>
         <location filename="serieswidget.cpp" line="203"/>
-        <location filename="serieswidget.cpp" line="795"/>
+        <location filename="serieswidget.cpp" line="792"/>
         <source>Grabación 
 Finalizada</source>
         <translation>Recording 
@@ -435,17 +435,17 @@ Step</translation>
         <translation>New study with the same patient?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="762"/>
+        <location filename="serieswidget.cpp" line="759"/>
         <source>Grabación</source>
         <translation>Recording</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="767"/>
+        <location filename="serieswidget.cpp" line="764"/>
         <source>¿Reiniciar el paso?</source>
         <translation>Redo the step?</translation>
     </message>
     <message>
-        <location filename="serieswidget.cpp" line="767"/>
+        <location filename="serieswidget.cpp" line="764"/>
         <source>¿Esta seguro de realizar nuevamente el paso?</source>
         <translation>Are you sure to remake the step?</translation>
     </message>
@@ -652,6 +652,52 @@ Step</translation>
         <location filename="studyWidget/clinicinput.cpp" line="55"/>
         <source>Primer Ultrasonido</source>
         <translation>First Ultrasound</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="127"/>
+        <source>Otras cirugías abdominales anteriores</source>
+        <translation>Other abdominal surgeries</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="140"/>
+        <location filename="studyWidget/clinicinput.cpp" line="480"/>
+        <source>Otros</source>
+        <translation>Others</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="149"/>
+        <source>Otro síntoma</source>
+        <translation>Other symptom</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="158"/>
+        <source>Otra cond. de comorbilidad</source>
+        <translation>Other disease</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="165"/>
+        <location filename="studyWidget/clinicinput.cpp" line="548"/>
+        <location filename="studyWidget/clinicinput.cpp" line="553"/>
+        <source>Ninguna</source>
+        <translation>None</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="363"/>
+        <location filename="studyWidget/clinicinput.cpp" line="364"/>
+        <location filename="studyWidget/clinicinput.cpp" line="446"/>
+        <location filename="studyWidget/clinicinput.cpp" line="596"/>
+        <location filename="studyWidget/clinicinput.cpp" line="597"/>
+        <location filename="studyWidget/clinicinput.cpp" line="601"/>
+        <location filename="studyWidget/clinicinput.cpp" line="602"/>
+        <location filename="studyWidget/clinicinput.cpp" line="603"/>
+        <location filename="studyWidget/clinicinput.cpp" line="613"/>
+        <source>Si</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/clinicinput.cpp" line="608"/>
+        <source>Otro</source>
+        <translation>Other</translation>
     </message>
 </context>
 <context>
@@ -1918,14 +1964,35 @@ Verifique las fechas FUR y FPP.</source>
         <translation>Current address needs to be completed.</translation>
     </message>
     <message>
+        <location filename="study.cpp" line="366"/>
+        <source>Otros</source>
+        <translation>Others</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="372"/>
+        <source>Otras cirugías abdominales anteriores</source>
+        <translation>Other abdominal surgeries</translation>
+    </message>
+    <message>
         <location filename="study.cpp" line="482"/>
         <source>Falta seleccionar si ha presentado síntomas.</source>
         <translation>It remains to be selected if you have presented symptoms.</translation>
     </message>
     <message>
+        <location filename="study.cpp" line="484"/>
+        <location filename="study.cpp" line="595"/>
+        <source>Si</source>
+        <translation>Yes</translation>
+    </message>
+    <message>
         <location filename="study.cpp" line="486"/>
         <source>Falta marcar qué síntomas presentó.</source>
         <translation>It remains to be noted what symptoms were presented.</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="488"/>
+        <source>Otro síntoma</source>
+        <translation>Other symptom</translation>
     </message>
     <message>
         <location filename="study.cpp" line="489"/>
@@ -1983,6 +2050,11 @@ Verifique las fechas FUR y FPP.</source>
         <translation>It remains to be noted if there are comorbid conditions.</translation>
     </message>
     <message>
+        <location filename="study.cpp" line="576"/>
+        <source>Otra cond. de comorbilidad</source>
+        <translation>Other disease</translation>
+    </message>
+    <message>
         <location filename="study.cpp" line="577"/>
         <source>Falta completar otra condiciones de comorbilidad.</source>
         <translation>Other comorbid conditions need to be completed.</translation>
@@ -1996,6 +2068,11 @@ Verifique las fechas FUR y FPP.</source>
         <location filename="study.cpp" line="598"/>
         <source>Falta seleccionar el tipo de vacuna.</source>
         <translation>The type of vaccine remains to be selected.</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="600"/>
+        <source>Otro</source>
+        <translation>Other</translation>
     </message>
     <message>
         <location filename="study.cpp" line="601"/>
@@ -2013,14 +2090,14 @@ Verifique las fechas FUR y FPP.</source>
         <translation>You need to select the date of the last dose.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="763"/>
+        <location filename="study.cpp" line="791"/>
         <source>Siguiente
 Paso</source>
         <translation>Next
 Step</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="946"/>
+        <location filename="study.cpp" line="974"/>
         <source>No se encontraron los objetos de último ultrasonido</source>
         <translation>The last ultrasound objects were not found</translation>
     </message>
@@ -2029,49 +2106,49 @@ Step</translation>
         <translation type="vanished">Please complete all required information</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="734"/>
+        <location filename="study.cpp" line="750"/>
         <source>¿Finalizar el estudio?</source>
         <translation>Finish study?</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="734"/>
+        <location filename="study.cpp" line="750"/>
         <source>¿El estudio esta incompleto, esta seguro de finalizarlo?</source>
         <translation>Study is incomplete, are you sure to finish?</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="819"/>
+        <location filename="study.cpp" line="847"/>
         <source>Conexión a internet</source>
         <translation>Internet connection</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="819"/>
+        <location filename="study.cpp" line="847"/>
         <source>NO HAY CONEXION A INTERNET. Revisar la conexión.</source>
         <translation>THERE IS NO INTERNET CONECTION. Check the connection.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="831"/>
-        <location filename="study.cpp" line="838"/>
-        <location filename="study.cpp" line="847"/>
+        <location filename="study.cpp" line="859"/>
+        <location filename="study.cpp" line="866"/>
+        <location filename="study.cpp" line="875"/>
         <source>Consentimiento informado</source>
         <translation>Informed consent</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="831"/>
+        <location filename="study.cpp" line="859"/>
         <source>Su respuesta se tomará como una declaración jurada, &lt;br /&gt;si fuera positiva implica, que culminó con el llenado &lt;br /&gt;del consentimiento informado y que éste ha sido &lt;br /&gt; firmado por el paciente tratado.</source>
         <translation>Your response will be taken as a sworn statement, &lt;br /&gt;if it is positive it implies that it culminated in the &lt;br /&gt;filling out of the informed consent and that it has been &lt;br /&gt; signed by the treated patient.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="838"/>
+        <location filename="study.cpp" line="866"/>
         <source>Para continuar debe completar la firma del consentimiento informado.</source>
         <translation>To continue you must complete the signing of the informed consent.</translation>
     </message>
     <message>
-        <location filename="study.cpp" line="847"/>
+        <location filename="study.cpp" line="875"/>
         <source>Código: </source>
         <translation>Code: </translation>
     </message>
     <message>
-        <location filename="study.cpp" line="946"/>
+        <location filename="study.cpp" line="974"/>
         <source>Falta Información</source>
         <translation>Information missing</translation>
     </message>
@@ -2182,7 +2259,7 @@ Step</translation>
     <message>
         <location filename="studyWidget/studyinfowidget.cpp" line="98"/>
         <source>  </source>
-        <translation> </translation>
+        <translation>  </translation>
     </message>
 </context>
 <context>
@@ -2206,6 +2283,14 @@ Step</translation>
         <location filename="studyWidget/studyprotocols.cpp" line="37"/>
         <source>No cuentas con los permisos suficientes para actualizar protocolos.</source>
         <translation>You do not have sufficient permissions to update protocols.</translation>
+    </message>
+</context>
+<context>
+    <name>sweepsLine</name>
+    <message>
+        <location filename="studyWidget/sweepsline.cpp" line="253"/>
+        <source>PASO </source>
+        <translation>STEP </translation>
     </message>
 </context>
 <context>

@@ -363,13 +363,13 @@ uint8_t study::CSDProtocol_Validation(QJsonArray *jarray){
 
     // Validate Other Selected on Exam Indications
     value = Protocol_GetValue(jarray,"txtIndicacionesOtros");
-    if( (value=="") && (Protocol_FindString(jarray,"exam_indicaction", "Otros")==true) ){
+    if( (value=="") && (Protocol_FindString(jarray,"exam_indicaction", tr("Otros"))==true) ){
         QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Otros en Indicaciones de Examen se debe especificar el valor."),QMessageBox::Ok);
         return 0;
     }
 
     value = Protocol_GetValue(jarray,"txtCirugiaAbdominalAnteriorEspecificar");
-    if( (value=="") && (Protocol_FindString(jarray,"medical_history", "Otras cirugías abdominales anteriores")==true) ){
+    if( (value=="") && (Protocol_FindString(jarray,"medical_history", tr("Otras cirugías abdominales anteriores"))==true) ){
         QMessageBox::information(this,tr("Protocolo CSD"),tr("Se seleccionó Cirugías abdominales anteriores se debe especificar el valor."),QMessageBox::Ok);
         return 0;
     }
@@ -481,11 +481,11 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     if(value == ""){
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si ha presentado síntomas."),QMessageBox::Ok);
         return 0;
-    } else if (value == "Si") {
+    } else if (value == tr("Si")) {
         if(PulmonaryProtocol_Checked(jarray,"cbSymptomKind") == false){
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta marcar qué síntomas presentó."),QMessageBox::Ok);
             return 0;
-        } else if(Protocol_FindString(jarray,"cbSymptomKind", "Otro síntoma") == true && Protocol_GetValue(jarray,"txtSymtomOther") == "") {
+        } else if(Protocol_FindString(jarray,"cbSymptomKind", tr("Otro síntoma")) == true && Protocol_GetValue(jarray,"txtSymtomOther") == "") {
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar otro síntoma."),QMessageBox::Ok);
             return 0;
         }
@@ -573,7 +573,7 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     if (PulmonaryProtocol_Checked(jarray,"cbComorbidity") == false) {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta marcar si presenta condiciones de comorbilidad."),QMessageBox::Ok);
         return 0;
-    } else if(Protocol_FindString(jarray,"cbComorbidity", "Otra cond. de comorbilidad") == true && Protocol_GetValue(jarray,"txtComorbidityOther") == "") {
+    } else if(Protocol_FindString(jarray,"cbComorbidity", tr("Otra cond. de comorbilidad")) == true && Protocol_GetValue(jarray,"txtComorbidityOther") == "") {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar otra condiciones de comorbilidad."),QMessageBox::Ok);
         return 0;
     }
@@ -592,12 +592,12 @@ uint8_t study::PulmonaryProtocol_Validation(QJsonArray *jarray){
     if (value == "") {
         QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar si se vacunó el paciente."),QMessageBox::Ok);
         return 0;
-    } else if (value == "Si") {
+    } else if (value == tr("Si")) {
         QString vaccineType = Protocol_GetValue(jarray,"selVaccineType");
         if (vaccineType == "") {
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta seleccionar el tipo de vacuna."),QMessageBox::Ok);
             return 0;
-        } else if (vaccineType == "Otro" && Protocol_GetValue(jarray,"txtVaccineOther") == "") {
+        } else if (vaccineType == tr("Otro") && Protocol_GetValue(jarray,"txtVaccineOther") == "") {
             QMessageBox::information(this,tr("Protocolo Pulmonar"),tr("Falta completar otra vacuna."),QMessageBox::Ok);
             return 0;
         }
