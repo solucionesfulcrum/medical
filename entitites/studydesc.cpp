@@ -160,7 +160,7 @@ void studyDescUpdate::finished(QNetworkReply* pReply){
 
                         img.loadFromData(imgBytes);
 
-                        if(img.save("sweeps/"+protocolid+"/"+ QString::number(y+1) + ".jpg", "JPG"))
+                        if(img.save("sweeps/"+protocolid+"/"+ QString::number(y+1) + ".bmp", "BMP"))
                             qDebug()<<"Image saved";
                         else {
                             qDebug()<<"Image error save";

@@ -40,6 +40,7 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
 
 
     studyInfoPicture = new ImageLabel(this);
+    Protocol_Id = Sweep = 0;
 
     connect(studyInfoPicture,SIGNAL(clicked()),this,SLOT(resizePicture()));
 
@@ -96,7 +97,19 @@ void studyInfoWidget::resizePicture(void)
 
     zoomedImage->setWindowFlags(zoomedImage->windowFlags() & ~Qt::WindowContextHelpButtonHint);
     zoomedImage->setWindowTitle(tr("  "));
-    zoomedLabel->setPixmap(studyInfoPicture->pixmap()->scaledToWidth(800, Qt::SmoothTransformation));
+
+    QPixmap pixmap;
+
+    if(pixmap.load("sweeps/"+QString::number(Protocol_Id)+"/"+QString::number(Sweep)+".bmp"))
+    {
+        zoomedLabel->setPixmap(pixmap.scaledToWidth(800,Qt::SmoothTransformation));
+    }
+    else
+    {
+        zoomedLabel->clear();
+    }
+
+
     zoomedLabel->setAlignment(Qt::AlignCenter);
 
     QVBoxLayout* layout = new QVBoxLayout(zoomedImage);
@@ -142,10 +155,14 @@ void studyInfoWidget::setSweepPicture(int protocol_id, int sweep)
     if(protocol_id==0)
     {
         studyInfoPicture->clear();
+        Protocol_Id = Sweep = 0;
     }
     else{
         QPixmap pixmap;
-        if(pixmap.load("sweeps/"+QString::number(protocol_id)+"/"+QString::number(sweep)))
+        Protocol_Id = protocol_id;
+        Sweep = sweep;
+
+        if(pixmap.load("sweeps/"+QString::number(protocol_id)+"/"+QString::number(sweep)+".bmp"))
         {
             studyInfoPicture->setPixmap(pixmap.scaledToWidth(280,Qt::SmoothTransformation));
         }

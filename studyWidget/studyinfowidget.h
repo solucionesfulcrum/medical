@@ -32,6 +32,7 @@ private:
 //    * studyInfoPicture
 
     ImageLabel *studyInfoPicture;
+    int Protocol_Id,Sweep;
 
 };
 
