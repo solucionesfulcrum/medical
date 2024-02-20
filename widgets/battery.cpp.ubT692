@@ -1,0 +1,47 @@
+#include "battery.h"
+
+battery::battery(QWidget *parent) : QWidget(parent)
+{
+    QVBoxLayout *v = new QVBoxLayout(this);
+    v->setMargin(0);
+    v->setSpacing(0);
+    setFixedSize(60,60);
+    connect(&poller,SIGNAL(timeout()),this,SLOT(refresh()));
+    pg = new QProgressBar;
+    pg->setObjectName("batteryProgress");
+    pg->setFixedSize(20,30);
+    pg->setRange(0,100);
+    pg->setTextVisible(false);
+    pg->setOrientation(Qt::Vertical);
+
+    v->addWidget(pg);
+
+    // bat = new QLabel("TTT",this);
+    //bat->setFixedSize(60,60);
+    poller.start(30000);
+    refresh();
+
+}
+
+void battery::refresh(){
+    GetSystemPowerStatus(&status);
+    qDebug() << status.ACLineStatus;
+    int p = (int) status.BatteryLifePercent;
+    qDebug() << p;
+    int f = (int) status.BatteryFlag;
+    if(p == 255)
+        pg->setValue(100);
+    else pg->setValue(p);
+
+    qDebug() << pg->value();
+
+    /* switch(f){
+    case 1:  bat->setText("High"); break;
+    case 2: bat->setText("Low"); break;
+    case 3: bat->setText("Med"); break;
+    case 4: bat->setText("Critical"); break;
+    case 8: bat->setText("Charging"); break;
+    case 128: bat->setText("No battery"); break;
+    case 255: bat->setText("?"); break;
+    }*/
+}

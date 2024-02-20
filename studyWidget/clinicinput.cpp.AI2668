@@ -1,0 +1,64 @@
+#include "clinicinput.h"
+
+clinicInput::clinicInput(QJsonObject object, QWidget *parent) : QWidget(parent)
+{
+    QStringList type;
+    type << "text" << "date" << "checkbox" << "number" << "select" << "radiobutton";
+
+    obj = object;
+    QWidget * dt= new QWidget;
+    QHBoxLayout * l = new QHBoxLayout(dt);
+    QLabel * label = new QLabel(obj.value("label").toString());
+    foreach(QJsonValue s, obj.value("items").toArray())
+        item.append(s.toString());
+    foreach(QJsonValue s, obj.value("default").toArray())
+        defaults.append(s.toString());
+    if(defaults.size() == 0)
+        defaults.append("");
+
+    l->addWidget(label);
+
+
+    if(obj.value("type").toString() == "text"){
+        QVkLineEdit *input = new QVkLineEdit;
+        input->setText(defaults.at(0));
+        l->addWidget(input);
+    }
+
+    if(obj.value("type").toString() == "date"){
+        datebox * input = new datebox;
+        if (defaults.at(0) != "")
+        input->setDate(QDate::fromString(defaults.at(0),"dd/MM/yyyy"));
+        l->addWidget(input);
+    }
+
+    if(obj.value("type").toString() == "checkbox"){
+        checkboxes * input = new checkboxes(item,defaults);
+        l->addWidget(input);
+    }
+
+    if(obj.value("type").toString() == "number"){
+        QVkLineEdit *input = new QVkLineEdit;
+        input->setText(defaults.at(0));
+        input->setValidator(new QIntValidator(0, 9999, this));
+        l->addWidget(input);
+    }
+
+    if(obj.value("type").toString() == "select"){
+        TouchComboBox * input = new TouchComboBox();
+        input->setItems(item);
+        if (defaults.at(0) != "")
+        input->setText(defaults.at(0));
+    }
+
+    if(obj.value("type").toString() == "radiobutton"){
+        checkboxes * input = new checkboxes(items,deflt);
+    }
+
+    if(!type.contains(obj.value("type").toString())){
+        QVkLineEdit *input = new QVkLineEdit;
+        input->setText(defaults.at(0));
+        l->addWidget(input);
+    }
+
+}
