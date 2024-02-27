@@ -772,7 +772,7 @@ void study::newStudy(bool b){
 
         patient p;
         p.loadData(_patient_id);        
-        if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+        if(p.sex()==tr("Masculino"))    _studyDesc->loadWithSex('M',p.age());
         else _studyDesc->loadWithSex('X',p.age());
         //_studyDesc->load();
 
@@ -803,7 +803,7 @@ void study::patientLoaded(int s){
 //----------------------------------------------------------------
 //  CR: 24/04/23
     _studyDesc->_patiend_id = s;
-    if(p.sex()=="Masculino")    _studyDesc->loadWithSex('M',p.age());
+    if(p.sex()==tr("Masculino"))    _studyDesc->loadWithSex('M',p.age());
     else _studyDesc->loadWithSex('X',p.age());
 
 //----------------------------------------------------------------

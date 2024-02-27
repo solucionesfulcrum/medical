@@ -43,7 +43,7 @@ void studyProtocols::updated(){
     if(dsc->err == ""){
         patient p;
         p.loadData(_patiend_id);
-        if(p.sex()=="Masculino")    loadWithSex('M',p.age());
+        if(p.sex()==tr("Masculino"))    loadWithSex('M',p.age());
         else loadWithSex('X',p.age());
         dg->close();
     }
@@ -77,13 +77,31 @@ void studyProtocols::loadWithSex(char sex, int age)
         listpt.append("obstetric");
         listpt.append("obstetric protocol");
         QSet<QString> setPt = listpt.toSet();
+
+        QList<QString> listpul; //Se modifico para que acepte cualquier palabra con pulmonar
+        listpul.append("pulmonar");
+        listpul.append("pulmonary");
+        listpul.append("pneumonia");
+        listpul.append("protocolo pulmonar");
+        listpul.append("pulmonary protocol");
+        listpul.append("pneumonia protocol");
+        QSet<QString> setPul = listpul.toSet();
+
+        QList<QString> listCSD; //Se modifico para que acepte cualquier palabra con cuadrante superior derecho
+        listCSD.append("cuadrante superior derecho");
+        listCSD.append("right upper quadrant");
+        listCSD.append("CSD");
+        listCSD.append("protocolo cuadrante superior derecho");
+        listCSD.append("Right upper quadrant protocol");
+        listCSD.append("RUQ protocol");
+        QSet<QString> setCSD = listCSD.toSet();
 //----------------------------------------------------------------------------------------------------
 //      CR: 04/01/23
         if((setPt.contains(protocolType.toLower())==true) && ( (sex == 'M') || (age<9)))    continue;
-        if((protocolType.toLower()=="pulmonar") && (age<1)) continue;
+        if((setPul.contains(protocolType.toLower())==true) && (age<1)) continue;
 
 //      CR: 31/01/23
-        if(((protocolType.toLower()).contains("cuadrante superior derecho")) && (age<18)) continue;
+        if((setCSD.contains(protocolType.toLower())==true) && (age<18)) continue;
 //----------------------------------------------------------------------------------------------------
 
         TouchButton *tb = new TouchButton(protocolType);

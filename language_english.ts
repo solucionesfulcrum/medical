@@ -649,53 +649,53 @@ Step</translation>
 <context>
     <name>clinicInput</name>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="55"/>
+        <location filename="studyWidget/clinicinput.cpp" line="69"/>
         <source>Primer Ultrasonido</source>
         <translation>First Ultrasound</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="127"/>
+        <location filename="studyWidget/clinicinput.cpp" line="141"/>
         <source>Otras cirugías abdominales anteriores</source>
         <translation>Other abdominal surgeries</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="140"/>
-        <location filename="studyWidget/clinicinput.cpp" line="480"/>
+        <location filename="studyWidget/clinicinput.cpp" line="154"/>
+        <location filename="studyWidget/clinicinput.cpp" line="494"/>
         <source>Otros</source>
         <translation>Others</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="149"/>
+        <location filename="studyWidget/clinicinput.cpp" line="163"/>
         <source>Otro síntoma</source>
         <translation>Other symptom</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="158"/>
+        <location filename="studyWidget/clinicinput.cpp" line="172"/>
         <source>Otra cond. de comorbilidad</source>
         <translation>Other disease</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="165"/>
-        <location filename="studyWidget/clinicinput.cpp" line="548"/>
-        <location filename="studyWidget/clinicinput.cpp" line="553"/>
+        <location filename="studyWidget/clinicinput.cpp" line="179"/>
+        <location filename="studyWidget/clinicinput.cpp" line="562"/>
+        <location filename="studyWidget/clinicinput.cpp" line="567"/>
         <source>Ninguna</source>
         <translation>None</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="363"/>
-        <location filename="studyWidget/clinicinput.cpp" line="364"/>
-        <location filename="studyWidget/clinicinput.cpp" line="446"/>
-        <location filename="studyWidget/clinicinput.cpp" line="596"/>
-        <location filename="studyWidget/clinicinput.cpp" line="597"/>
-        <location filename="studyWidget/clinicinput.cpp" line="601"/>
-        <location filename="studyWidget/clinicinput.cpp" line="602"/>
-        <location filename="studyWidget/clinicinput.cpp" line="603"/>
-        <location filename="studyWidget/clinicinput.cpp" line="613"/>
+        <location filename="studyWidget/clinicinput.cpp" line="377"/>
+        <location filename="studyWidget/clinicinput.cpp" line="378"/>
+        <location filename="studyWidget/clinicinput.cpp" line="460"/>
+        <location filename="studyWidget/clinicinput.cpp" line="610"/>
+        <location filename="studyWidget/clinicinput.cpp" line="611"/>
+        <location filename="studyWidget/clinicinput.cpp" line="615"/>
+        <location filename="studyWidget/clinicinput.cpp" line="616"/>
+        <location filename="studyWidget/clinicinput.cpp" line="617"/>
+        <location filename="studyWidget/clinicinput.cpp" line="627"/>
         <source>Si</source>
         <translation>Yes</translation>
     </message>
     <message>
-        <location filename="studyWidget/clinicinput.cpp" line="608"/>
+        <location filename="studyWidget/clinicinput.cpp" line="622"/>
         <source>Otro</source>
         <translation>Other</translation>
     </message>
@@ -1125,12 +1125,12 @@ del video</oldsource>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="203"/>
         <source>Nombre</source>
-        <translation>Name</translation>
+        <translation>Names</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="204"/>
         <source>Apellidos</source>
-        <translation>Lastname</translation>
+        <translation>Lastnames</translation>
     </message>
     <message>
         <source>Fecha de nacimiento</source>
@@ -1164,7 +1164,7 @@ del video</oldsource>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="192"/>
         <source>Apellidos(*)</source>
-        <translation>Surnames(*)</translation>
+        <translation>Lastnames(*)</translation>
     </message>
     <message>
         <location filename="dialog/dialogpatient.cpp" line="193"/>
@@ -2090,6 +2090,12 @@ Verifique las fechas FUR y FPP.</source>
         <translation>You need to select the date of the last dose.</translation>
     </message>
     <message>
+        <location filename="study.cpp" line="775"/>
+        <location filename="study.cpp" line="806"/>
+        <source>Masculino</source>
+        <translation>Male</translation>
+    </message>
+    <message>
         <location filename="study.cpp" line="791"/>
         <source>Siguiente
 Paso</source>
@@ -2257,7 +2263,7 @@ Step</translation>
 <context>
     <name>studyInfoWidget</name>
     <message>
-        <location filename="studyWidget/studyinfowidget.cpp" line="98"/>
+        <location filename="studyWidget/studyinfowidget.cpp" line="99"/>
         <source>  </source>
         <translation>  </translation>
     </message>
@@ -2283,6 +2289,11 @@ Step</translation>
         <location filename="studyWidget/studyprotocols.cpp" line="37"/>
         <source>No cuentas con los permisos suficientes para actualizar protocolos.</source>
         <translation>You do not have sufficient permissions to update protocols.</translation>
+    </message>
+    <message>
+        <location filename="studyWidget/studyprotocols.cpp" line="46"/>
+        <source>Masculino</source>
+        <translation>Male</translation>
     </message>
 </context>
 <context>

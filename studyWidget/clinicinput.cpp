@@ -15,6 +15,11 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
     l->addWidget(label,0,Qt::AlignTop);
     setItemDefaults();
 
+//  LEER IDIOMA PARA SETEAR CALENDAR
+    QSettings settings("setting.ini", QSettings::IniFormat);
+    settings.beginGroup("IDIOMA");
+    QString idio = settings.value("idioma").toString();
+
 //  DATE Input Logic
     if(obj.value("type").toString() == "date")
     {
@@ -25,6 +30,15 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
        QString strFechaUltrasonidoPrevioEn="Previous ultrasound date";          //JB18022020
 
        QCalendarWidget * input = new QCalendarWidget;
+
+//  SET DEL IDIO DEL CALENDARIO
+       if (idio == "ES"){
+           input->setLocale(QLocale::Spanish);
+       }
+       if (idio == "EN"){
+           input->setLocale(QLocale::English);
+       }
+
        input->setMinimumDate(QDate(1900, 1, 1));
        input->setMaximumDate(QDate(3000, 1, 1));
 
