@@ -1872,7 +1872,7 @@ Finished</translation>
         <source>Fechas no válidas.
 Verifique las fechas FUR y FPP.</source>
         <translation>Invalid dates.
- Check LPD and EDD dates.</translation>
+ Check LMP and EDD dates.</translation>
     </message>
     <message>
         <location filename="study.cpp" line="310"/>
@@ -2101,6 +2101,16 @@ Verifique las fechas FUR y FPP.</source>
 Paso</source>
         <translation>Next
 Step</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="895"/>
+        <source>FUR</source>
+        <translation>LMP</translation>
+    </message>
+    <message>
+        <location filename="study.cpp" line="903"/>
+        <source>FPP</source>
+        <translation>EDD</translation>
     </message>
     <message>
         <location filename="study.cpp" line="974"/>

@@ -892,7 +892,7 @@ bool study::Falta_FUR_o_FPP(){
 
     datos=_clinicdatawidget->getJson();
 
-    pos=datos.indexOf("FUR");
+    pos=datos.indexOf(tr("FUR"));
     if (pos<1) return false;
     pos=datos.indexOf("values",pos);
     if (pos<1) return false;
@@ -900,7 +900,7 @@ bool study::Falta_FUR_o_FPP(){
     fecha=datos.mid(pos+1,10);
     if (fecha==now.toString("dd/MM/yyyy")) return true;
 
-    pos=datos.indexOf("FPP");
+    pos=datos.indexOf(tr("FPP"));
     if (pos<1) return false;
     pos=datos.indexOf("values",pos);
     if (pos<1) return false;
