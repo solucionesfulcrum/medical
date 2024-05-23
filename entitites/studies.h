@@ -43,6 +43,9 @@ public:
     QString operatorName();
     QString getPatientIdFromUID(QString);
 
+    int getAI_Flag(void);
+
+
 private:
     QString _uid, _datetime, _desc, _reason;
     int _id_patient, _id_doctor;

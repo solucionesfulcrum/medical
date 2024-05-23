@@ -251,10 +251,13 @@ void study::startStudy(){
         started = true;
         emit studyStarted(true);
 
+//      CR: 02/05/24
+        studyInfo->enableSweepPicture = true;
 
     }
     else QMessageBox::information(this,tr("Información requerida"),tr("Por favor, completar toda la información requerida."));
     start->setEnabled(true);
+
 }
 
 uint8_t study::ObstetricProtrocol_Validation(QJsonArray *jarray)
@@ -742,28 +745,63 @@ void study::isnewStudy(bool b){
 //---------------------------------------------------
 }
 
+// CR: 15/05/24
+
 void study::newStudy(bool b){
+
     bool torestart = true;
+
     if (started){
+
         torestart = false;
 
+        /*
         if (QMessageBox::question(this,tr("¿Finalizar el estudio?"),tr("¿El estudio esta incompleto, esta seguro de finalizarlo?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
         {
             emit _seriesWidget->changePicture(0,0);
 
             _seriesWidget->backButton->setDisabled(true);
-             _seriesWidget->nextButton->setDisabled(true);
-             _seriesWidget->sendStudyButton->setDisabled(true);
-             _seriesWidget->_captureProcess->kill();
-             _seriesWidget->StudiesFinished = false;
+            _seriesWidget->nextButton->setDisabled(true);
+            _seriesWidget->sendStudyButton->setDisabled(true);
+            _seriesWidget->_captureProcess->kill();
+            _seriesWidget->StudiesFinished = false;
 
+            studyInfo->enableSweepPicture = false;
 
             torestart = true;
+        }*/
+
+        if (QMessageBox::question(this,tr("Finalizar el estudio"),tr("¿Desea eliminar el estudio?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+        {
+
+            if(studies::deleteStudy(studyId)){
+                QMessageBox::information(this,tr("Finalizar estudio"),tr("El estudio se ha borrado correctamente"));
+            }
+
+            else{
+                QMessageBox::warning(this,tr("Finalizar estudio"),tr("El estudio no se ha podido borrar, por favor reinicie el sistema para poder borrarlo"));
+            }
         }
 
+        emit _seriesWidget->changePicture(0,0);
+
+        _seriesWidget->backButton->setDisabled(true);
+        _seriesWidget->nextButton->setDisabled(true);
+        _seriesWidget->sendStudyButton->setDisabled(true);
+        _seriesWidget->_captureProcess->kill();
+        _seriesWidget->StudiesFinished = false;
+
+        studyInfo->enableSweepPicture = false;
+
+        torestart = true;
     }
+
+
+
     if(torestart){
+
         studyId = -1;
+
         if(!b){
             _patient_id = -1;
             studyInfo->setStudyInfoPatient("","");
@@ -877,7 +915,8 @@ void study::protocolSelected(){
     start->setEnabled(true);
     _clinicdatawidget->setProtocols(_studyDesc->getValue());        
     studyInfo->setStudyInfoProtocols(_studyDesc->text());           
-    studyForm->slideInNext();    
+    studyForm->slideInNext();
+
 }
 
 void study::Slot_Consent(bool state)

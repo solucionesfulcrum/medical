@@ -127,7 +127,21 @@ void historical::setSearchBox(){
     layout->addWidget(protocols);
     layout->addSpacing(15);
     layout->addWidget(searchbutton,1,Qt::AlignCenter);
+
+
+//  CR: 26/04/24
+//--------------------------------------------------
     setDate(dateItem.at(3));
+//--------------------------------------------------
+    /*from->setEnabled(false);
+    to->setEnabled(false);
+    QDate now(2024,3,4);
+    QDate dt(2024,3,1);
+    to->setDate(now);
+    from->setDate(dt);
+*/
+
+//--------------------------------------------------
 
 }
 
@@ -148,7 +162,6 @@ void historical::ResetOptions(void)
     date->setText(dateItem.at(3));
     protocols->setText(tr("Todos"));
     name->setText("");
-
 }
 //-------------------------------------------------------
 void historical::timeout(void)

@@ -372,7 +372,98 @@ void studyInfo::dl(qint64  ,qint64 ){
     // qDebug() << "Download: " << a << n;
 }
 
+//--------------------------------------------------------------------------------
+// CR: 02/05/24
+studyAIDiagnotics::studyAIDiagnotics(int id,QDialog *parent) : QDialog(parent)
+{
+    setWindowFlags( Qt::Tool |  Qt::FramelessWindowHint );
+    setModal(true);
 
+    QGridLayout *layout = new QGridLayout(this);
+
+    QPushButton *buttonClose = new QPushButton(tr("Cerrar"));
+    buttonClose->setObjectName("redButton");
+    connect(buttonClose,SIGNAL(clicked()),this,SLOT(close()));
+
+    QLabel *label_wiOverlay = new QLabel;
+    QLabel *label_woOverlay = new QLabel;
+    QLabel *label_fetus = new QLabel;
+
+    QImage *img_wiOverlay = new QImage;
+    QImage *img_woOverlay = new QImage;
+    QImage *img_fetus = new QImage;
+
+    _studies.loadData(id);
+
+    QString str = _studies.getValue("AI_INFO").toString();
+    QStringList strList = str.split(",");
+
+    QGridLayout *labelLayout = new QGridLayout(this);
+    QList<QLabel*> labelDescription,labelResult;
+
+    int i,n = strList.count()/2;
+
+    for(i=0;i<n;i++){
+        labelDescription << new QLabel(strList[2*i] + ":");
+        labelResult << new QLabel(strList[2*i+1]);
+    }
+
+    for(i=0;i<n;i++){
+        labelLayout->addWidget(labelDescription.at(i),i,0,1,1);
+        labelLayout->addWidget(labelResult.at(i),i,1,1,1);
+    }
+
+
+    QGroupBox *groupBoxLabels = new QGroupBox;
+    groupBoxLabels->setObjectName("AIstudyBox");
+    groupBoxLabels->setTitle(tr("Diagnóstico AI"));
+    groupBoxLabels->setFixedWidth(500);
+
+    groupBoxLabels->setLayout(labelLayout);
+
+    QString imgString = _studies.getValue("IMG_WI_OVERLAY").toString();
+    if(!imgString.isEmpty())
+    {
+        QByteArray imgBytes = QByteArray::fromBase64(imgString.toUtf8());
+        img_wiOverlay->loadFromData(imgBytes);
+        label_wiOverlay->setPixmap((QPixmap::fromImage(*img_wiOverlay)).scaledToWidth(640,Qt::SmoothTransformation));
+    }
+
+    imgString = _studies.getValue("IMG_WO_OVERLAY").toString();
+    if(!imgString.isEmpty())
+    {
+        QByteArray imgBytes = QByteArray::fromBase64(imgString.toUtf8());
+        img_woOverlay->loadFromData(imgBytes);
+        label_woOverlay->setPixmap(QPixmap::fromImage(*img_woOverlay));
+        label_woOverlay->setPixmap((QPixmap::fromImage(*img_woOverlay)).scaledToWidth(640,Qt::SmoothTransformation));
+    }
+
+    imgString = _studies.getValue("IMG_FETUS").toString();
+    if(!imgString.isEmpty())
+    {
+        QByteArray imgBytes = QByteArray::fromBase64(imgString.toUtf8());
+        img_fetus->loadFromData(imgBytes);
+        label_fetus->setPixmap(QPixmap::fromImage(*img_fetus));
+        label_fetus->setPixmap((QPixmap::fromImage(*img_fetus)).scaledToWidth(640,Qt::SmoothTransformation));
+    }
+
+    layout->addWidget(groupBoxLabels,0,0,4,4);
+    layout->addWidget(label_woOverlay,0,4,4,4);
+    layout->addWidget(label_wiOverlay,4,4,4,4);
+    layout->addWidget(label_fetus,4,0,3,4);
+
+    layout->addWidget(buttonClose,7,0,1,2);
+
+    this->setLayout(layout);
+
+}
+
+void studyAIDiagnotics::closeEvent(QCloseEvent *)
+{
+    accesor::stopEffect();
+}
+
+//--------------------------------------------------------------------------------
 
 QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
 {
@@ -399,20 +490,28 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
 
 
 
-    QMenu * studyMenu = new QMenu();
+    QMenu * studyMenu = new QMenu();    
     studyMenu->setWindowFlags(studyMenu->windowFlags() | Qt::NoDropShadowWindowHint);
+
     QAction * showStudy = new QAction(tr("Ver información"));
     connect(showStudy,SIGNAL(triggered()),this, SLOT(openInfo()));
-
     studyMenu->addAction(showStudy);
+
     QAction * restartStudy = new QAction(tr("Continuar el estudio"));
     connect(restartStudy,SIGNAL(triggered()),this, SLOT(loadStudy()));
-
     studyMenu->addAction(restartStudy);
+
     QAction * deleteStudy = new QAction(tr("Borrar el estudio"));
     connect(deleteStudy,SIGNAL(triggered()),this, SLOT(deleteStudy()));
-
     studyMenu->addAction(deleteStudy);
+
+    if(_studies.getAI_Flag()==1)
+    {
+        QAction * aiDiagnostic = new QAction(tr("Diagnóstico AI"));
+        connect(aiDiagnostic,SIGNAL(triggered()),this, SLOT(loadAIDiagnostic()));
+        studyMenu->addAction(aiDiagnostic);
+    }
+
     studyMenu->setObjectName("studyMenu");
 
     QLabel * statutLabel = new QLabel(_studies.getState());
@@ -481,7 +580,7 @@ QHistWidget::QHistWidget(int id, QWidget *parent) : QWidget(parent)
     gd->setColumnStretch(3,5);
 }
 
-void QHistWidget::mouseReleaseEvent(QMouseEvent * event){
+void QHistWidget::mouseReleaseEvent(QMouseEvent *){
 }
 
 QHistWidget::~QHistWidget()
@@ -499,16 +598,25 @@ void QHistWidget::deleteStudy(){
     }
 }
 
-void QHistWidget::loadStudy(){
+void QHistWidget::loadStudy(void)
+{
     emit loadStudyId(sid);
 }
 
 
-void QHistWidget::openInfo()
+void QHistWidget::openInfo(void)
 {
     studyInfo *dg = new studyInfo(sid);
     dg->show();
 }
+
+void QHistWidget::loadAIDiagnostic(void)
+{
+    studyAIDiagnotics *dg = new studyAIDiagnotics(sid);
+    dg->show();
+
+}
+
 
 
 
