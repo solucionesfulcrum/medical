@@ -83,8 +83,6 @@
         <file>res/img/view.png</file>
         <file>res/img/menu/IconLocationWhite.png</file>
         <file>res/img/menu/IconLocationBlue.png</file>
-        <file>res/img/logow_old.png</file>
-        <file>res/img/splash_old.png</file>
     </qresource>
     <qresource prefix="/qss">
         <file>style.qss</file>

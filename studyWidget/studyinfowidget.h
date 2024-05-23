@@ -11,6 +11,7 @@ class studyInfoWidget : public QWidget
 public:
     studyInfoWidget(QWidget *parent = 0);
     ~studyInfoWidget();
+    bool enableSweepPicture;
 public slots:
     void setStudyInfoPatientName(QString);
     void setStudyInfoPatient(QString, QString);

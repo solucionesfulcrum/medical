@@ -15,7 +15,8 @@ void saveJson::run(){
     QJsonObject rootObject = itemDoc.object();
     QJsonObject json_studies = rootObject.value("studies").toObject();
 
-    foreach(QString s, json_studies.keys()){
+    foreach(QString s, json_studies.keys())
+    {
         QJsonObject study = json_studies.value(s).toObject();
         QHash<QString, QString> data;
         QHash<QString, QString> patient_data;
@@ -23,7 +24,8 @@ void saveJson::run(){
         //29-11-2023 Se recupera el ID del paciente para actualizar cuando hubo modificacion en la plataforma web
         QString patient_id = _studies.getPatientIdFromUID(s);
         QString modify_patient = _cfg.JsonToString(study.value("modify_patient"));
-        if ( modify_patient == "1" ){
+        if ( modify_patient == "1" )
+        {
             patient_data.insert("idp",study.value("patient_id").toString());
             patient_data.insert("name",study.value("patient_first_name").toString());
             patient_data.insert("last_name",study.value("patient_second_name").toString());
@@ -44,14 +46,60 @@ void saveJson::run(){
             _patient.updatePatient(patient_data,patient_id);
         }
 
+
+    // CR: 27/07/24
+    //---------------------------------------------------------------------
+    //  CR: 21/04/24
+        if(study.value("AI_Flag")==1)
+        {
+            /*
+            QJsonObject jsonObject;
+            QJsonArray jsonArray;
+
+            jsonObject.insert("HC",study.value("HC").toString());
+            jsonObject.insert("BPD",study.value("BPD").toString());
+            jsonObject.insert("Placenta",study.value("Placenta").toString());
+            jsonObject.insert("Cabeza",study.value("Cabeza").toString());
+            jsonObject.insert("Edad",QString::number(study.value("Edad").toDouble()));
+            jsonArray.append(jsonObject);
+            QJsonDocument jsonDoc(jsonArray);
+            data.insert("AI_INFO",QString(jsonDoc.toJson()));
+            */
+
+            QStringList strList;
+
+            strList << tr("CIRCUFERENCIA DE CABEZA") << study.value("HC").toString();
+            strList << tr("DIÁMETRO BIPARIETAL") << study.value("BPD").toString();
+            strList << tr("PLACENTA") << study.value("Placenta").toString();
+            strList << tr("CABEZA") << study.value("Cabeza").toString();
+            strList << tr("EDAD GESTACIONAL") << QString::number(study.value("Edad").toDouble());
+
+            QHash<QString,QString> d;
+            d.insert("AI_Flag","1");
+            data.insert("AI_INFO",strList.join(","));
+
+            QString img = study.value("Imagen_sin_overlay").toString();
+            if(!img.isEmpty())  d.insert("IMG_WO_OVERLAY",img);
+
+            img = study.value("Imagen_overlay").toString();
+            if(!img.isEmpty())  d.insert("IMG_WI_OVERLAY",img);
+
+            img = study.value("Imagen_feto").toString();
+            if(!img.isEmpty())  d.insert("IMG_FETUS",img);
+
+            _studies.updateStudy(d,s);
+
+//            quint64 n = _studies.datetime().toULongLong();
+//            QDateTime dt = QDateTime::fromSecsSinceEpoch(n);
+
+        }
+
+    //---------------------------------------------------------------------
+
         QString status = _cfg.JsonToString(study.value("status"));
+
     //-------------------------------------------------------------------------
     //  CR:11/06/23
-        /*if(status == "0")
-            data.insert("state",state_incomplete);
-        else
-            data.insert("state",status);*/
-
         if((status>="1" && status <"5")|| (status=="8") || (status=="7") )
             data.insert("state",status);
     //-------------------------------------------------------------------------

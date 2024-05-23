@@ -15,10 +15,12 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
     l->addWidget(label,0,Qt::AlignTop);
     setItemDefaults();
 
+
 //  LEER IDIOMA PARA SETEAR CALENDAR
     QSettings settings("setting.ini", QSettings::IniFormat);
     settings.beginGroup("IDIOMA");
     QString idio = settings.value("idioma").toString();
+
 
 //  DATE Input Logic
     if(obj.value("type").toString() == "date")
@@ -42,9 +44,11 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
        input->setMinimumDate(QDate(1900, 1, 1));
        input->setMaximumDate(QDate(3000, 1, 1));
 
-       if(textName == "FPP" || textName == "EDD")
+       //if(textName == "FPP" || textName == "EDD")
+       //23-05-2024 EGV: Se usa el name del campo
+       if(inputId == "fpp")
        {
-          if (textName == "FPP") l->setObjectName("fppParent");
+          l->setObjectName("fppParent");
 
           QObject* p = this->parent();
           QCalendarWidget* fur = p->findChild<QCalendarWidget*>("FUR");
@@ -91,7 +95,9 @@ clinicInput::clinicInput(QJsonObject object,QButtonGroup *g, QRadioButton *w, QW
 
 
 
-       else if(textName == "FUR" || textName == "LMP")
+       /*else if(textName == "FUR" || textName == "LMP")*/
+       //23-05-2024 EGV: Se usa el name del campo
+       else if(inputId == "fur")
        {
                input->setMaximumDate(QDate::currentDate());// JB20200120 Validacion  FUR debe ser menor o igual a la fecha actual.
                input->setObjectName("FUR");

@@ -242,7 +242,8 @@ QWidget#StudyHist{background:#ECEDED; border:1px solid #272727;}
 QWidget#studyBox{}
 QWidget#studyBox QLabel{padding:15px 0px; font-size:14px;}
 
-
+QWidget#AIstudyBox{}
+QWidget#AIstudyBox QLabel{padding:12px 0px; font-size:24px;}
 
 /*Study Set*/
 QWidget#StudyComponents{}

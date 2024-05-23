@@ -78,6 +78,20 @@ private :
 };
 
 
+class studyAIDiagnotics : public QDialog
+{
+    Q_OBJECT
+public:
+    explicit studyAIDiagnotics(int id, QDialog *parent = 0);
+
+protected:
+    void closeEvent(QCloseEvent *event);
+
+private:
+    studies _studies;
+
+};
+
 class QHistWidget : public QWidget
 {
     Q_OBJECT
@@ -93,9 +107,10 @@ protected:
     void mouseReleaseEvent(QMouseEvent *);
 
 private slots:
-    void openInfo();
-    void loadStudy();
-    void deleteStudy();
+    void openInfo(void);
+    void loadStudy(void);
+    void deleteStudy(void);
+    void loadAIDiagnostic(void);
 
 private :
     QPushButton * getInfo;

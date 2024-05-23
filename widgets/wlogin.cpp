@@ -18,7 +18,8 @@ WLogin::WLogin(QWidget *parent) : QWidget(parent)
     logo->setObjectName("block");
     logo->setAlignment(Qt::AlignCenter);
 
-//  29/02/2024 SE MODIFICA ANCHO A 420 PARA AÑADIR NUEVO LOGO MEDICALINT
+
+    //29/02/2024 SE MODIFICA ANCHO A 420 PARA AÑADIR NUEVO LOGO MEDICALINT
     _width = 420;
     //_width = 500;
     _y = 340;

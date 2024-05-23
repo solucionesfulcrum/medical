@@ -124,6 +124,17 @@ void updateBD(){
     updated = o.execute(query);
     query = "ALTER TABLE patients ADD COLUMN weight REAL;";
     updated = o.execute(query);
+//  CR: 21/04/24 (Add AI diagnostic)
+    query = "ALTER TABLE studies ADD COLUMN AI_Flag INT DEFAULT 0";
+    updated = o.execute(query);
+    query = "ALTER TABLE studies ADD COLUMN AI_INFO TEXT";
+    updated = o.execute(query);
+    query = "ALTER TABLE studies ADD COLUMN IMG_WI_OVERLAY TEXT";
+    updated = o.execute(query);
+    query = "ALTER TABLE studies ADD COLUMN IMG_WO_OVERLAY TEXT";
+    updated = o.execute(query);
+    query = "ALTER TABLE studies ADD COLUMN IMG_FETUS TEXT";
+    updated = o.execute(query);
     qDebug() << "BDD was updated " << updated;
     if(updated)
         QMessageBox::information(NULL,QObject::tr("Base de datos actualizado"),QObject::tr("La base de datos se actualizó con éxito"));

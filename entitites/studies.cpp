@@ -20,7 +20,12 @@ studies::studies() : entities(){
          << "ConsentimientoInformado"
          << "new_report"
          << "study_state"
-         << "campaign";
+         << "campaign"
+         << "AI_Flag"
+         << "AI_INFO"
+         << "IMG_WI_OVERLAY"
+         << "IMG_WO_OVERLAY"
+         << "IMG_FETUS";
 }
 
 studies::~studies(){
@@ -302,6 +307,10 @@ QString studies::getPatientIdFromUID(QString uid){
     else return "";
 }
 
-
+// CR: 21/04/24
+int studies::getAI_Flag(void)
+{
+    return getValue("AI_Flag").toInt();
+}
 
 

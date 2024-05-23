@@ -81,7 +81,7 @@ studyInfoWidget::studyInfoWidget(QWidget * parent) : QWidget(parent)
 
     studyInfoPicture->move(30,420);
     studyInfoPicture->setFixedSize(280,327);
-
+    enableSweepPicture = false;
 
 }
 
@@ -92,6 +92,8 @@ studyInfoWidget::~studyInfoWidget()
 
 void studyInfoWidget::resizePicture(void)
 {
+
+    if(enableSweepPicture==false)   return;
     QDialog* zoomedImage = new QDialog(this);    
     QLabel* zoomedLabel = new QLabel(zoomedImage);
 

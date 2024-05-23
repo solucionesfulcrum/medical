@@ -3,7 +3,7 @@
 clinicDataWidget::clinicDataWidget(QWidget *parent) : QWidget(parent)
 {
     //Reason
-    QLabel * reasonIcon = new QLabel(tr("Motivo: "));
+    QLabel * reasonIcon = new QLabel(tr("Motivo ") + "(*)");
     QFont reasonFont = reasonIcon->font();
     reasonFont.setPointSize(10);
 

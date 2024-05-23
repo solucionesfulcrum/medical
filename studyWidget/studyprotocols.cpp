@@ -102,6 +102,7 @@ void studyProtocols::loadWithSex(char sex, int age)
 
 //      CR: 31/01/23
         if((setCSD.contains(protocolType.toLower())==true) && (age<18)) continue;
+
 //----------------------------------------------------------------------------------------------------
 
         TouchButton *tb = new TouchButton(protocolType);
