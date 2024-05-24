@@ -444,13 +444,14 @@ studyAIDiagnotics::studyAIDiagnotics(int id,QDialog *parent) : QDialog(parent)
         QByteArray imgBytes = QByteArray::fromBase64(imgString.toUtf8());
         img_fetus->loadFromData(imgBytes);
         label_fetus->setPixmap(QPixmap::fromImage(*img_fetus));
-        label_fetus->setPixmap((QPixmap::fromImage(*img_fetus)).scaledToWidth(640,Qt::SmoothTransformation));
+        //label_fetus->setPixmap((QPixmap::fromImage(*img_fetus)).scaledToWidth(480,Qt::SmoothTransformation));
+        label_fetus->setPixmap((QPixmap::fromImage(*img_fetus)).scaledToHeight(320,Qt::SmoothTransformation));
     }
 
     layout->addWidget(groupBoxLabels,0,0,4,4);
     layout->addWidget(label_woOverlay,0,4,4,4);
     layout->addWidget(label_wiOverlay,4,4,4,4);
-    layout->addWidget(label_fetus,4,0,3,4);
+    layout->addWidget(label_fetus,4,0,3,4,Qt::AlignCenter);
 
     layout->addWidget(buttonClose,7,0,1,2);
 

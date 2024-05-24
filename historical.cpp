@@ -130,18 +130,18 @@ void historical::setSearchBox(){
     setDate(dateItem.at(3));
 
 
-//  CR: 26/04/24
+//  CR: 23/05/24
 //--------------------------------------------------
     setDate(dateItem.at(3));
 //--------------------------------------------------
-    /*from->setEnabled(false);
+/*
+    from->setEnabled(false);
     to->setEnabled(false);
     QDate now(2024,3,4);
     QDate dt(2024,3,1);
     to->setDate(now);
     from->setDate(dt);
-*/
-
+    */
 //--------------------------------------------------
 
 }

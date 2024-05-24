@@ -772,7 +772,16 @@ void study::newStudy(bool b){
             torestart = true;
         }*/
 
-        if (QMessageBox::question(this,tr("Finalizar el estudio"),tr("¿Desea eliminar el estudio?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+
+        QMessageBox msgbox;
+        msgbox.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
+        msgbox.setWindowTitle("Finalizar estudio");
+        msgbox.setInformativeText("¿Desea eliminar el estudio?");
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+
+        int res = msgbox.exec();
+
+        if(res==QMessageBox::Yes)
         {
 
             if(studies::deleteStudy(studyId)){
@@ -783,18 +792,19 @@ void study::newStudy(bool b){
                 QMessageBox::warning(this,tr("Finalizar estudio"),tr("El estudio no se ha podido borrar, por favor reinicie el sistema para poder borrarlo"));
             }
         }
+        else{
+            emit _seriesWidget->changePicture(0,0);
 
-        emit _seriesWidget->changePicture(0,0);
+            _seriesWidget->backButton->setDisabled(true);
+            _seriesWidget->nextButton->setDisabled(true);
+            _seriesWidget->sendStudyButton->setDisabled(true);
+            _seriesWidget->_captureProcess->kill();
+            _seriesWidget->StudiesFinished = false;
 
-        _seriesWidget->backButton->setDisabled(true);
-        _seriesWidget->nextButton->setDisabled(true);
-        _seriesWidget->sendStudyButton->setDisabled(true);
-        _seriesWidget->_captureProcess->kill();
-        _seriesWidget->StudiesFinished = false;
+            studyInfo->enableSweepPicture = false;
 
-        studyInfo->enableSweepPicture = false;
-
-        torestart = true;
+            torestart = true;
+        }
     }
 
 

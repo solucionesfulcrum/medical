@@ -18,6 +18,7 @@
 #include <serieswidget.h>
 #include <studyfinished.h>
 #include <include.h>
+#include <QApplication>
 
 #include <entitites/operators.h>
 #include <studyWidget/studyprotocols.h>
