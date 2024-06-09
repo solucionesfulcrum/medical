@@ -725,6 +725,8 @@ void study::loadStudy(int id){
     int sweep_id = _seriesWidget->_sweepsline->actual()+1;
     studyInfo->setSweepPicture(protocol_id,sweep_id);
 
+    studyInfo->enableSweepPicture = true;
+
     _seriesWidget->show();
     started = true;
     emit studyStarted(true);
@@ -777,15 +779,43 @@ void study::newStudy(bool b){
         msgbox.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
         msgbox.setWindowTitle("Finalizar estudio");
         msgbox.setInformativeText("¿Desea eliminar el estudio?");
-        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);        
+        msgbox.setStyleSheet("QLabel{min-width:350 px;max-height:150; font-size: 16px;}");
+
 
         int res = msgbox.exec();
 
         if(res==QMessageBox::Yes)
         {
+            if(studies::deleteStudy(studyId))
+            {
+                QMessageBox::information(this,tr("Finalizar estudio"),tr("El estudio se ha borrado correctamente"));
+                torestart = true;
+            }
+            else{
+                QMessageBox::warning(this,tr("Finalizar estudio"),tr("El estudio no se ha podido borrar, por favor reinicie el sistema para poder borrarlo"));
+            }
+        }
+
+        emit _seriesWidget->changePicture(0,0);
+
+        _seriesWidget->backButton->setDisabled(true);
+        _seriesWidget->nextButton->setDisabled(true);
+        _seriesWidget->sendStudyButton->setDisabled(true);
+        _seriesWidget->_captureProcess->kill();
+        _seriesWidget->StudiesFinished = false;
+
+        studyInfo->enableSweepPicture = false;
+
+        torestart = true;
+
+        /*
+        if(res==QMessageBox::Yes)
+        {
 
             if(studies::deleteStudy(studyId)){
                 QMessageBox::information(this,tr("Finalizar estudio"),tr("El estudio se ha borrado correctamente"));
+                torestart = true;
             }
 
             else{
@@ -805,6 +835,9 @@ void study::newStudy(bool b){
 
             torestart = true;
         }
+        */
+
+
     }
 
 
