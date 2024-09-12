@@ -54,7 +54,10 @@ MainWindow::MainWindow(QWidget *parent)
     //version = "2.5.5 (20/02/2024)";
     //version = "2.5.6 (02/05/2024)";
     //version = "2.5.7 (23/05/2024)";
-    version = "2.5.8 (28/05/2024)";
+    //version = "2.5.8 (28/05/2024)";
+    //version = "2.5.9 (11/06/2024)";
+    //version = "2.6.0 (13/06/2024)";
+    version = "2.6.1 (12/09/2024)";
 
     QGraphicsColorizeEffect* effect = new QGraphicsColorizeEffect;
     setGraphicsEffect(effect);
@@ -776,8 +779,19 @@ void MainWindow::logout()
 
 //---------------------------------------------------------------------------------------------
 //  CR: 20/01/21
-    if(_queue->_series.listeIDtoQueue().count()!=0){
-        if(QMessageBox::question(this,tr("Advertencia"),tr("Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::No) return;
+    if(_queue->_series.listeIDtoQueue().count()!=0){        
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Advertencia"));
+        msgBox.setText(tr("Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?"));
+        // Cambiar el texto de los botones
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgBox.setButtonText(QMessageBox::No, tr("No"));
+        msgBox.setIcon(QMessageBox::Question);
+        if (msgBox.exec() == QMessageBox::No) {
+            return;
+        }
+        //if(QMessageBox::question(this,tr("Advertencia"),tr("Existen estudios pendientes de envio, se recomienda no cerrar la aplicación y/o revisar la conexión a internet. ¿Desea continuar?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::No) return;
     }
 //---------------------------------------------------------------------------------------------
 
@@ -875,7 +889,16 @@ void MainWindow::wifiConfig(){
 
 void MainWindow::closeSystem(){
 
-    if(QMessageBox::question(this,tr("Salir"),tr("¿Está seguro de salir del sistema?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Salir"));
+    msgBox.setText(tr("¿Está seguro de salir del sistema?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setButtonText(QMessageBox::No, tr("No"));
+    msgBox.setIcon(QMessageBox::Question);
+    //if(QMessageBox::question(this,tr("Salir"),tr("¿Está seguro de salir del sistema?"), QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes){
+    if (msgBox.exec() == QMessageBox::Yes) {
         _queue->stop();
         //qDebug() << "Kill Capture process if running";
         captureProcess::_captureProcess->killProcess();
@@ -895,6 +918,7 @@ void MainWindow::closeSystem(){
             stopDiag->show();
         }
     }
+
 
 }
 

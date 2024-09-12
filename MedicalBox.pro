@@ -127,9 +127,11 @@ RESOURCES += \
 
 DISTFILES += \
     language_english.ts \
+    language_spanish.ts \
     style.qss
 
-TRANSLATIONS += language_english.ts
+TRANSLATIONS += language_english.ts \
+    language_spanish.ts
 
 #INCLUDEPATH += D:/library/medisecure/include
 #DEPENDPATH += D:/library/medisecure/include

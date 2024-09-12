@@ -58,10 +58,18 @@ bool captureProcessWidget::isDevice(){
 }
 
 void captureProcessWidget::killProcess(){
-    if(captureProcess::_captureProcess->isRunning()){
-        if(QMessageBox::question(this,tr("Detener el proceso"), tr("Desea detener el proceso de captura"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+    if(captureProcess::_captureProcess->isRunning()){        
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Detener el proceso"));
+        msgBox.setText(tr("Desea detener el proceso de captura"));
+        // Cambiar el texto de los botones
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgBox.setButtonText(QMessageBox::No, tr("No"));
+        msgBox.setIcon(QMessageBox::Question);
+        //if(QMessageBox::question(this,tr("Detener el proceso"), tr("Desea detener el proceso de captura"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+        if (msgBox.exec() == QMessageBox::Yes)
             captureProcess::_captureProcess->killProcess();
-
     }
 }
 

@@ -409,15 +409,32 @@ void Queue::run(){
                 emit isCompressed(i);
 
                 if (!QFile::exists(video_c) || !QFile::exists(meta_c)){
-                    //Ciframiento
+
                     QFile::copy(meta,meta_c);
                     QFile::copy(video_cpr,video_c);
-                    Medisecure _medisecure;
 
+                    /* Se modifica encriptado por nuevo MediSecure.exe hecho en python 2024-09-12*/
+                    /*
+                    Medisecure _medisecure;
                     _medisecure.setFile(meta_c);
                     int medisecure_meta_c = _medisecure.start();
                     _medisecure.setFile(video_c);
                     int medisecure_video_c = _medisecure.start();
+                    */
+                    //Ciframiento Metadata
+                    QProcess * encrypt_meta = new QProcess;
+                    QString encrypt_string = "MediSecure -c "+meta_c+"";
+                    encrypt_meta->start(encrypt_string);
+                    qDebug() << "Start Encrypt" << encrypt_string;
+                    qDebug() << "Result:" << encrypt_meta->waitForFinished(60000);
+                    delete encrypt_meta;
+                    //Ciframiento Video
+                    QProcess * encrypt_video = new QProcess;
+                    encrypt_string = "MediSecure -c "+video_c+"";
+                    encrypt_video->start(encrypt_string);
+                    qDebug() << "Start Encrypt" << encrypt_string;
+                    qDebug() << "Result:" << encrypt_video->waitForFinished(60000);
+                    delete encrypt_video;
 
                     QFile errfile("HTTPres.txt");
                     if (errfile.open(QIODevice::WriteOnly | QIODevice::Text | QIODevice::Append))
@@ -425,9 +442,9 @@ void Queue::run(){
                         QDateTime datetime;
                         QTextStream out(&errfile);
                         out  <<  "\n"
-                             << "DateTime: " + datetime.currentDateTime().toString() +  "\n"
-                             <<  "MD-meta-C: " + QString::number(medisecure_meta_c) + "\n"
-                             <<  "MD-video-C: " + QString::number(medisecure_video_c) + "\n";
+                             << "DateTime: " + datetime.currentDateTime().toString() +  "\n";
+                             //<<  "MD-meta-C: " + QString::number(medisecure_meta_c) + "\n"
+                             //<<  "MD-video-C: " + QString::number(medisecure_video_c) + "\n";
                         errfile.close();
                     }
 

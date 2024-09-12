@@ -716,7 +716,16 @@ void SeriesWidget::send(){
 // CR: 23/01/23
 void SeriesWidget::sendStudy(void){
 
-    if (QMessageBox::question(this,tr("Envio de estudio"),tr("¿Esta seguro de enviar el estudio?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Envio de estudio"));
+    msgBox.setText(tr("¿Esta seguro de enviar el estudio?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setButtonText(QMessageBox::No, tr("No"));
+    msgBox.setIcon(QMessageBox::Question);
+    if (msgBox.exec() == QMessageBox::Yes)
+    //if (QMessageBox::question(this,tr("Envio de estudio"),tr("¿Esta seguro de enviar el estudio?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
     {        
         for(uint8_t i=0;i<_sweepsline->sweepsSize();i++){
             int id = _sweepsline->getActual(i);
@@ -730,7 +739,16 @@ void SeriesWidget::sendStudy(void){
 
         emit changePicture(0,0);
 
-        if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+        QMessageBox msgBox2;
+        msgBox2.setWindowTitle(tr("¿Nuevo Estudio?"));
+        msgBox2.setText(tr("¿Empezar un nuevo estudio con el mismo paciente?"));
+        // Cambiar el texto de los botones
+        msgBox2.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox2.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgBox2.setButtonText(QMessageBox::No, tr("No"));
+        msgBox2.setIcon(QMessageBox::Question);
+        if (msgBox2.exec() == QMessageBox::Yes)
+        //if (QMessageBox::question(this,tr("¿Nuevo Estudio?"),tr("¿Empezar un nuevo estudio con el mismo paciente?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
             emit finishedStudy(true);
         else
             emit finishedStudy(false);
@@ -761,7 +779,17 @@ void SeriesWidget::refreshCaptureTime(){
 }
 
 void SeriesWidget::restartSerie(){
-    if (QMessageBox::question(this,tr("¿Reiniciar el paso?"),tr("¿Esta seguro de realizar nuevamente el paso?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("¿Reiniciar el paso?"));
+    msgBox.setText(tr("¿Esta seguro de realizar nuevamente el paso?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setButtonText(QMessageBox::No, tr("No"));
+    msgBox.setIcon(QMessageBox::Question);
+    if (msgBox.exec() == QMessageBox::Yes)
+    //if (QMessageBox::question(this,tr("¿Reiniciar el paso?"),tr("¿Esta seguro de realizar nuevamente el paso?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes)
     {        
         backButton->setDisabled(true);
         nextButton->setDisabled(true);

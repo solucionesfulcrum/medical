@@ -187,7 +187,14 @@ void clinicDataWidget::confirmReason(int buttonId){
         trainning->setChecked(false);
     }
 
-
-    QMessageBox::information(this,tr("Motivo"),tr("¿Está seguro del motivo o motivos selecionados?"),QMessageBox::Yes);
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Motivo"));
+    msgBox.setText(tr("¿Está seguro del motivo o motivos selecionados?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setIcon(QMessageBox::Information);
+    msgBox.exec();
+    //QMessageBox::information(this,tr("Motivo"),tr("¿Está seguro del motivo o motivos selecionados?"),QMessageBox::Yes);
 }
 

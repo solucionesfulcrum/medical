@@ -175,12 +175,16 @@ int main(int argc, char *argv[])
     //EN=Ingles  //ES=Español
     if (idio == "EN"){
         t.load(":/language_english.qm");
+    }else if (idio == "ES") {
+        t.load(":/language_spanish.qm");
     }
-
+    a.installTranslator(&t);
+    /*
     if(idio != "ES")
     {
         a.installTranslator(&t);
     }
+    */
 
 //---------------------------------------------------------------
 
@@ -223,13 +227,14 @@ int main(int argc, char *argv[])
     a.installTranslator(&qtTranslator);
     */
 
-
+    /*
     QTranslator qtbaseTranslator;
     qtbaseTranslator.load(":/qtbase_es.qm");
     if(idio == "ES"){
         //qtbaseTranslator.load("qtbase_es.qm");
         a.installTranslator(&qtbaseTranslator);
     }
+    */
 
 
     Q_INIT_RESOURCE(res);

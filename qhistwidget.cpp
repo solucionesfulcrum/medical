@@ -590,7 +590,17 @@ QHistWidget::~QHistWidget()
 }
 
 void QHistWidget::deleteStudy(){
-    if(QMessageBox::question(this,tr("¿Seguro?"),tr("¿Esta seguro de borrar el estudio?"),QMessageBox::Yes,QMessageBox::No))
+
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("¿Seguro?"));
+    msgBox.setText(tr("¿Esta seguro de borrar el estudio?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setButtonText(QMessageBox::No, tr("No"));
+    msgBox.setIcon(QMessageBox::Question);
+    //if(QMessageBox::question(this,tr("¿Seguro?"),tr("¿Esta seguro de borrar el estudio?"),QMessageBox::Yes,QMessageBox::No))
+    if (msgBox.exec() == QMessageBox::Yes)
     {
         if(studies::deleteStudy(sid))
             emit deletedStudy(this);

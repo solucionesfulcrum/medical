@@ -517,10 +517,22 @@ void dialogPatient::savePatient(){
         return;
     }
 
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Atención"));
+    msgBox.setText(tr("¿Esta seguro que la información ingresada concuerda con el DNI del paciente?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Save | QMessageBox::Cancel);
+    msgBox.setButtonText(QMessageBox::Save, tr("Guardar"));
+    msgBox.setButtonText(QMessageBox::Cancel, tr("Cancelar"));
+    msgBox.setIcon(QMessageBox::Question);
+    if (msgBox.exec() == QMessageBox::Cancel) return;
+
+    /*
     QMessageBox::StandardButton res = QMessageBox::question(this,tr("Atención"), tr("¿Esta seguro que la información ingresada concuerda con el DNI del paciente?"),
                           QMessageBox::Save|QMessageBox::Cancel,QMessageBox::Save);
 
     if (res == QMessageBox::Cancel) return;
+    */
 
     QHash<QString,QString> d;
     d.insert("name",n);

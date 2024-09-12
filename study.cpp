@@ -777,12 +777,13 @@ void study::newStudy(bool b){
 
         QMessageBox msgbox;
         msgbox.setWindowFlags(Qt::CustomizeWindowHint | Qt::WindowTitleHint);
-        msgbox.setWindowTitle("Finalizar estudio");
-        msgbox.setInformativeText("¿Desea eliminar el estudio?");
-        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);        
-        msgbox.setStyleSheet("QLabel{min-width:350 px;max-height:150; font-size: 16px;}");
-
-
+        msgbox.setWindowTitle(tr("Finalizar estudio"));
+        msgbox.setText(tr("¿Desea eliminar el estudio?"));
+        msgbox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgbox.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgbox.setButtonText(QMessageBox::No, tr("No"));
+        msgbox.setIcon(QMessageBox::Question);
+        msgbox.setStyleSheet("QLabel{font-size: 16px;qproperty-alignment: AlignTop;}");
         int res = msgbox.exec();
 
         if(res==QMessageBox::Yes)
@@ -939,13 +940,28 @@ void study::protocolSelected(){
 
     if(ConsentState)
     {
+
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Consentimiento informado"));
+        msgBox.setText(tr("Su respuesta se tomará como una declaración jurada, <br />"
+                  "si fuera positiva implica, que culminó con el llenado <br />"
+                  "del consentimiento informado y que éste ha sido <br />"
+                  " firmado por el paciente tratado."));
+        // Cambiar el texto de los botones
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgBox.setButtonText(QMessageBox::No, tr("No"));
+        msgBox.setIcon(QMessageBox::Warning);
+        /*
         int r = QMessageBox::warning(this,tr("Consentimiento informado"),tr(
                                             "Su respuesta se tomará como una declaración jurada, <br />"
                                             "si fuera positiva implica, que culminó con el llenado <br />"
                                             "del consentimiento informado y que éste ha sido <br />"
                                             " firmado por el paciente tratado."),QMessageBox::Yes|QMessageBox::No);
-
         if(r==QMessageBox::No){
+        */
+        if (msgBox.exec() == QMessageBox::No)
+        {
             QMessageBox::information(this,tr("Consentimiento informado"),tr("Para continuar debe completar la firma del consentimiento informado."),QMessageBox::Ok);
             studyForm->slideInPrev();
             return;

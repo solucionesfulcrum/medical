@@ -239,10 +239,15 @@ void dialogSite::selectUser(int a)
 
 void dialogSite::eliminateLocation(int id)
 {
-    if(QMessageBox::question(this,tr("Eliminar puestos de salud"),
-    tr("¿Está seguro de eliminar este puesto de salud?"),
-    QMessageBox::Yes, QMessageBox::No) == QMessageBox::Yes)
-    {
+    QMessageBox msgBox;
+    msgBox.setWindowTitle(tr("Eliminar puestos de salud"));
+    msgBox.setText(tr("¿Está seguro de eliminar este puesto de salud?"));
+    // Cambiar el texto de los botones
+    msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+    msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+    msgBox.setButtonText(QMessageBox::No, tr("No"));
+    msgBox.setIcon(QMessageBox::Question);
+    if (msgBox.exec() == QMessageBox::Yes) {
         p.eliminateSite(id);
         refresh("");
     }

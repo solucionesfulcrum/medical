@@ -552,7 +552,17 @@ void configuration::cleanStudies(){
 
     QStringList todel = _studies.getPending();
     if(todel.size()> 0){
-        if( QMessageBox::question(this,tr("Borrar"),tr("¿Esta seguro de borrar los ")+ QString::number(todel.size())+tr(" estudios pendientes?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes ){
+        QMessageBox msgBox;
+        msgBox.setWindowTitle(tr("Borrar"));
+        msgBox.setText(tr("¿Está seguro de borrar los ") + QString::number(todel.size()) + tr(" estudios pendientes?"));
+        // Cambiar el texto de los botones
+        msgBox.setStandardButtons(QMessageBox::Yes | QMessageBox::No);
+        msgBox.setButtonText(QMessageBox::Yes, tr("Sí"));
+        msgBox.setButtonText(QMessageBox::No, tr("No"));
+        msgBox.setIcon(QMessageBox::Question);
+        //if( QMessageBox::question(this,tr("Borrar"),tr("¿Esta seguro de borrar los ")+ QString::number(todel.size())+tr(" estudios pendientes?"),QMessageBox::Yes,QMessageBox::No) == QMessageBox::Yes ){
+        if (msgBox.exec() == QMessageBox::Yes) {
+            //qDebug()<<"Ingresó a borrar estudios";
             cleaner *_cleaner = new cleaner;
             cleanButton->setEnabled(false);
             connect(_cleaner,SIGNAL(finished()),_cleaner,SLOT(deleteLater()));
