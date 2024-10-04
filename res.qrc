@@ -1,0 +1,93 @@
+<RCC>
+    <qresource prefix="/icon">
+        <file>res/img/loginBg.png</file>
+        <file>res/img/logow.png</file>
+        <file>res/img/loading.gif</file>
+        <file>res/img/clean.png</file>
+        <file>res/img/list.png</file>
+        <file>res/img/listst.png</file>
+        <file>res/img/checked.png</file>
+        <file>res/img/arrowleft.png</file>
+        <file>res/img/arrowright.png</file>
+        <file>res/img/mediaplayer.png</file>
+        <file>res/img/edit.png</file>
+        <file>res/img/patient.png</file>
+        <file>res/img/calendar.png</file>
+        <file>res/img/close.png</file>
+        <file>res/img/useradd.png</file>
+        <file>res/img/userEdit.png</file>
+        <file>res/img/nextone.png</file>
+        <file>res/img/loguser.png</file>
+        <file>res/img/logpass.png</file>
+        <file>res/img/loglist.png</file>
+        <file>res/img/patients.png</file>
+        <file>res/img/checklist.png</file>
+        <file>res/img/searchs.png</file>
+        <file>res/img/cancel.png</file>
+        <file>res/img/patientID.png</file>
+        <file>res/img/capture_button/play.png</file>
+        <file>res/img/capture_button/close.png</file>
+        <file>res/img/capture_button/undo.png</file>
+        <file>res/img/study_info/patient.png</file>
+        <file>res/img/study_info/protocol.png</file>
+        <file>res/img/study_info/reason.png</file>
+        <file>res/img/header/logout.png</file>
+        <file>res/img/header/operator.png</file>
+        <file>res/img/header.png</file>
+        <file>res/img/footer/load.png</file>
+        <file>res/img/footer/net.png</file>
+        <file>res/img/footer/wifi.png</file>
+        <file>res/img/footer/queue.png</file>
+        <file>res/img/footer/band.png</file>
+        <file>res/img/footer/disk.png</file>
+        <file>res/img/footer/capture.png</file>
+        <file>res/img/footer/plug.png</file>
+
+        <file>res/img/series/capture.png</file>
+        <file>res/img/series/confirmed.png</file>
+        <file>res/img/series/queue.png</file>
+        <file>res/img/series/sent.png</file>
+        <file>res/img/battery.png</file>
+        <file>res/img/Check.png</file>
+        <file>res/img/radio.png</file>
+        <file>res/img/search.png</file>
+        <file>res/img/search_white.png</file>
+        <file>res/img/form/save.png</file>
+        <file>res/img/form/cancel.png</file>
+        <file>res/img/form/checkbox_out.png</file>
+        <file>res/img/form/checkbox_hover.png</file>
+        <file>res/img/form/adduser.png</file>
+        <file>res/img/form/edit.png</file>
+        <file>res/img/visor/play.png</file>
+        <file>res/img/visor/pause.png</file>
+
+
+
+        <file>res/img/menu/iconMenu_01.png</file>
+        <file>res/img/menu/iconMenu_02.png</file>
+        <file>res/img/menu/iconMenu_03.png</file>
+        <file>res/img/menu/iconMenu_04.png</file>
+        <file>res/img/menu/iconMenu_05.png</file>
+        <file>res/img/menu/iconMenuBlue_01.png</file>
+        <file>res/img/menu/iconMenuBlue_02.png</file>
+        <file>res/img/menu/iconMenuBlue_03.png</file>
+        <file>res/img/menu/iconMenuBlue_04.png</file>
+        <file>res/img/menu/iconMenuBlue_05.png</file>
+        <file>res/img/exit.png</file>
+        <file>res/img/keyboard/backspace.png</file>
+        <file>res/img/keyboard/remove.png</file>
+        <file>res/img/player_play.png</file>
+        <file>res/img/reload.png</file>
+        <file>res/img/link.png</file>
+        <file>res/img/reported.png</file>
+        <file>res/img/splash.png</file>
+
+    </qresource>
+    <qresource prefix="/qss">
+        <file>style.qss</file>
+    </qresource>
+    <qresource prefix="/fonts">
+        <file>res/font/Barrio-Regular.ttf</file>
+        <file>res/font/Soft-Elegance.ttf</file>
+    </qresource>
+</RCC>
